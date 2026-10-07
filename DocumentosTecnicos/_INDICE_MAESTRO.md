@@ -4,7 +4,7 @@
 
 | Ruta | Tipo | Versión | Estado | Producto | Padre | Dependencias |
 |---|---|---|---|---|---|---|
-| `marco-general/marco-general-proyecto.md` | marco | 0.1 | revision | v1.0 | — | — |
+| `marco-general/marco-general-proyecto.md` | marco | 0.2 | revision | v1.0 | — | — |
 | `identidad/sistema-de-diseno.md` | transversal | — | pendiente | v1.0 | marco-general | marco-general |
 | `contenido/modelo-contenido-panel.md` | componente | — | pendiente | v1.0 | marco-general | marco-general |
 | `portafolio/galeria-colecciones.md` | componente | — | pendiente | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
@@ -17,7 +17,7 @@
 ## Árbol
 
 ```
-marco-general/marco-general-proyecto.md        [revision 0.1]
+marco-general/marco-general-proyecto.md        [revision 0.2]
 ├── identidad/sistema-de-diseno.md             [pendiente]
 ├── contenido/modelo-contenido-panel.md        [pendiente]
 ├── portafolio/galeria-colecciones.md          [pendiente]
@@ -34,9 +34,10 @@ marco-general/marco-general-proyecto.md        [revision 0.1]
 | Id | Tarea | Bloquea | Estado | Creada |
 |---|---|---|---|---|
 | T-001 | Crear el repositorio privado RodDiazT/Web_RodDiaz en GitHub y dar acceso a la app de Claude | marco-general | abierta | 2026-10-07 |
-| T-002 | Crear contraseña de aplicación de Gmail para avisos de consulta | consulta-copia | abierta | 2026-10-07 |
+| T-002 | Crear cuenta gratis en Resend con rodrigodiaztapia@gmail.com y generar clave de API | consulta-copia | abierta | 2026-10-07 |
 | T-003 | Crear cuenta gratis de Cloudflare y activar Web Analytics | seo-analitica | abierta | 2026-10-07 |
 | T-004 | Confirmar plan o crédito vigente de Railway y activar alerta de uso | despliegue | abierta | 2026-10-07 |
+| T-008 | Crear cliente OAuth de Google Cloud para el inicio de sesión del panel | modelo-contenido-panel | abierta | 2026-10-07 |
 
 ### Contenido
 | Id | Tarea | Bloquea | Estado | Creada |
@@ -57,7 +58,7 @@ marco-general/marco-general-proyecto.md        [revision 0.1]
 {
   "esquema": "1.1",
   "proyecto": "Fotos de Rod (Web_RodDiaz)",
-  "actualizado": "2026-10-07T18:30-03:00",
+  "actualizado": "2026-10-07T18:45-03:00",
   "fases": [
     {
       "id": "v1.0",
@@ -86,7 +87,7 @@ marco-general/marco-general-proyecto.md        [revision 0.1]
       "dependencias": [],
       "fase": "v1.0",
       "estado": "revision",
-      "version": "0.1",
+      "version": "0.2",
       "actualizado": "2026-10-07",
       "notas": ""
     },
@@ -241,7 +242,7 @@ marco-general/marco-general-proyecto.md        [revision 0.1]
     },
     {
       "id": "T-002",
-      "titulo": "Crear contraseña de aplicación de Gmail para avisos de consulta",
+      "titulo": "Crear cuenta gratis en Resend con rodrigodiaztapia@gmail.com y generar clave de API",
       "categoria": "desarrollo",
       "origen": "marco-general",
       "bloquea": [
@@ -310,6 +311,18 @@ marco-general/marco-general-proyecto.md        [revision 0.1]
       "estado": "abierta",
       "creada": "2026-10-07",
       "cerrada": null
+    },
+    {
+      "id": "T-008",
+      "titulo": "Crear cliente OAuth de Google Cloud para el inicio de sesión del panel",
+      "categoria": "desarrollo",
+      "origen": "marco-general",
+      "bloquea": [
+        "modelo-contenido-panel"
+      ],
+      "estado": "abierta",
+      "creada": "2026-10-07",
+      "cerrada": null
     }
   ]
 }
@@ -321,3 +334,4 @@ marco-general/marco-general-proyecto.md        [revision 0.1]
 | Fecha | Cambio |
 |---|---|
 | 2026-10-07 | Creación del índice. Marco general en revisión (0.1); 8 documentos identificados; tareas T-001 a T-007. |
+| 2026-10-07 | Marco general 0.2: acceso con Google, aviso por Resend; T-002 redefinida; nueva T-008. |

@@ -4,7 +4,7 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/marco-general/marco-general-proyecto.md` |
 | Tipo | Marco general |
-| Versión | 0.1 |
+| Versión | 0.2 |
 | Estado | En revisión |
 | Fecha | 2026-10-07 |
 | Padre | — |
@@ -69,11 +69,15 @@ Mientras la v2 no se active, los componentes de la v1 se diseñan para **no bloq
 
 | Actor | Quién es | Puede | No puede |
 |---|---|---|---|
-| **Administrador** | Rod. Es el único usuario del panel. | Todo en el panel `/admin`: crear, editar, publicar y despublicar fotos y demás contenido, y ver, responder y borrar consultas. | — |
+| **Administrador** | Rod. Es el único usuario del panel. Entra con su cuenta de Google `rodrigodiaztapia@gmail.com`. | Todo en el panel `/admin`: crear, editar, publicar y despublicar fotos y demás contenido, y ver, responder y borrar consultas. | — |
 | **Visitante** | Persona anónima. No hay registro de visitantes. | Ver lo publicado, navegar y filtrar. | Acceder al panel. Ver contenido despublicado. Descargar versiones de alta resolución, porque no existen en el sitio. |
 | **Interesado** | Visitante que envía una consulta. | Enviar consultas. Ejercer sus derechos sobre sus datos por correo (§7). | Ver otras consultas. Tener una cuenta. |
 
-**Regla:** existe un solo `Usuario` en el sistema, Rod. El panel no permite crear otros usuarios en la v1. La colección `Usuario` queda con creación bloqueada después del primer usuario.
+**Regla:** existe un solo `Usuario` en el sistema, Rod. El panel no permite crear otros usuarios en la v1.
+
+**Acceso al panel:** el panel se abre **solo con Google (OAuth)**. Únicamente se acepta el correo de la lista permitida, `rodrigodiaztapia@gmail.com`, definida en una variable de entorno y no en el código. No hay inicio de sesión con contraseña. Si Google no estuviera disponible, la recuperación se hace con un script de mantenimiento ejecutado en Railway, que `plataforma/despliegue.md` documenta.
+
+El inicio de sesión con Google **no sirve para enviar correos**. Enviar correo desde Gmail exige otro permiso (`gmail.send`), que para una app no verificada por Google es frágil. Por eso el aviso usa Resend (§6.6).
 
 ## 4. Flujo central y principios de UX/UI
 
@@ -130,7 +134,7 @@ Estos son los **nombres oficiales**. En el código van sin tildes, con el domini
 | `TipoPapel` | Papel de impresión del catálogo global. | `nombre`, `descripcion` breve (por ejemplo "Algodón mate, textura suave"), `activo`. |
 | `Pagina` | Página editable: "Sobre mí", "Contacto" y páginas libres. | `titulo`, `slug`, `contenido` (bloques), `imagen` (opcional), `estado`, campos SEO. |
 | `Consulta` | Solicitud de un interesado por una o más copias. | `nombre`, `correo`, `telefono` (opcional), `mensaje`, `fotos` (relación con `Foto`, una o más), `formatoPreferido` y `papelPreferido` (opcionales), `estado` (`nueva`, `respondida`, `cerrada`, `spam`), `avisoEnviado` (booleano), `intentosAviso`, `ultimaActividad`, `eliminarDespuesDe` (calculado), `notasInternas`. |
-| `Usuario` | Cuenta del panel. Solo existe Rod. | `correo`, `contrasena` (gestionada por Payload). |
+| `Usuario` | Cuenta del panel. Solo existe Rod. | `correo`, `nombre`, `proveedorAcceso` (`google`), `idGoogle`, `ultimoAcceso`. |
 | `AjustesSitio` (global Payload) | Datos del sitio que no van en el código. | `nombreSitio` ("Fotos de Rod"), `descripcion`, `correoContacto`, `correoAviso`, `redes` (Instagram, etc.), `fotoPortada` (relación con `Foto`, opcional), textos de la llamada a consulta y aviso de derechos de autor. |
 
 Relaciones clave:
@@ -196,7 +200,7 @@ Carpetas de dominio documental confirmadas: `identidad/`, `contenido/`, `portafo
 ### 6.5 Rendimiento y seguridad
 
 - **Rendimiento:** LCP menor a 2,5 s en móvil 4G, CLS menor a 0,1 y página de ficha menor a 300 KB en la primera carga (sin contar la foto). Las páginas públicas se generan de forma estática o con revalidación al publicar.
-- **Seguridad:** panel en `/admin` con la autenticación de Payload, contraseña robusta y bloqueo tras intentos fallidos. Secretos (base de datos, Gmail, clave de Payload) solo en variables de entorno de Railway, nunca en el repositorio. HTTPS obligatorio. Cabeceras de seguridad básicas (CSP, `X-Frame-Options`, `Referrer-Policy`). Las versiones de imagen se sirven desde la ruta de medios de Payload, sin listado de directorios.
+- **Seguridad:** panel en `/admin` con acceso solo por Google OAuth y lista permitida de un correo (§3). Secretos (base de datos, cliente OAuth de Google, clave de Resend, clave de Payload) solo en variables de entorno de Railway, nunca en el repositorio. HTTPS obligatorio. Cabeceras de seguridad básicas (CSP, `X-Frame-Options`, `Referrer-Policy`). Las versiones de imagen se sirven desde la ruta de medios de Payload, sin listado de directorios.
 
 ### 6.6 Stack
 
@@ -205,7 +209,8 @@ Carpetas de dominio documental confirmadas: `identidad/`, `contenido/`, `portafo
 | Aplicación | **Next.js + TypeScript con Payload CMS 3**, en un solo servicio | Payload 3 vive dentro de la app Next.js: panel, colecciones, medios y páginas se definen en código y quedan versionados en el repo. | WordPress, por el diseño limitado por temas, la mantención de plugins y la configuración fuera del repo. Construir el panel desde cero, porque serían semanas reinventando un CMS. |
 | Base de datos | **PostgreSQL** en Railway | Adaptador oficial de Payload y servicio administrado en la misma cuenta. | SQLite: más simple, pero frágil con despliegues y volúmenes. |
 | Imágenes | **Volumen de Railway** montado en la app, procesado con `sharp` | Menos piezas: no se suma ningún servicio de almacenamiento y el tamaño es acotado, porque solo se guardan versiones web. | Bucket S3 o R2: otra cuenta y otra configuración, sin necesidad con este volumen de fotos. |
-| Correo de aviso | **Gmail SMTP** con contraseña de aplicación (adaptador nodemailer de Payload) | Rod ya tiene Gmail, sin costo y sin servicios nuevos. El volumen esperado está muy por debajo del límite diario de Gmail. | Resend: más robusto, pero es otra cuenta. |
+| Correo de aviso | **Resend, plan gratis** (adaptador de Payload por API HTTP), enviando desde el remitente de prueba de Resend a la cuenta de Rod | No requiere la contraseña de Gmail ni un dominio propio, y su plan gratis cubre de sobra el volumen esperado. Usa API HTTP y no SMTP, que Railway restringe en algunos planes. Al comprar el dominio se verifica para enviar desde una dirección propia. | Gmail SMTP: exige la contraseña de aplicación de Rod. Gmail API con OAuth: un token frágil en apps no verificadas. Telegram: queda para v1.x. |
+| Autenticación del panel | **Google OAuth** con estrategia propia de Payload (Auth.js o plugin OAuth), con lista permitida de un correo | Sin contraseñas que mantener. Rod ya usa esa cuenta. Gratis. | Usuario y contraseña de Payload: funciona, pero es una credencial más. |
 | Analítica | **Cloudflare Web Analytics** | Gratis, sin cookies (no requiere banner), una línea de código y sin mantención. La misma cuenta servirá para el DNS del dominio. | Umami autoalojado: consume recursos de Railway y requiere mantención. GA4: usa cookies, exige consentimiento y pesa más. |
 | Hosting | **Cuenta Railway existente de Rod** | Costo hundido. | Vercel: separaría la app del volumen y la base de datos. |
 | Dominio | Subdominio de Railway en la v1. Dominio propio en v1.x. | Costo cero en la v1. | — |
@@ -223,7 +228,7 @@ Carpetas de dominio documental confirmadas: `identidad/`, `contenido/`, `portafo
 - **Responsable:** Rod. Correo de contacto para ejercer derechos: el de `AjustesSitio.correoContacto`.
 - **Conservación:** 12 meses desde la última actividad, y luego borrado automático (§6.2.8).
 - **Derechos (acceso, rectificación, supresión, oposición):** por correo a Rod, que los ejecuta desde el panel. El documento `consultas/consulta-copia.md` define el procedimiento.
-- **Terceros:** Railway (hosting y base de datos), Google (Gmail, para el aviso a Rod; los datos viajan en el correo) y Cloudflare (analítica sin datos personales ni cookies). La política de privacidad los menciona.
+- **Terceros:** Railway (hosting y base de datos), Resend (envío del aviso a Rod; los datos de la consulta viajan en el correo), Google (inicio de sesión de Rod en el panel; no recibe datos de interesados) y Cloudflare (analítica sin datos personales ni cookies). La política de privacidad los menciona.
 - **Política de privacidad:** es una `Pagina` obligatoria antes del lanzamiento.
 
 ### 7.2 Metadatos de las fotos
@@ -294,7 +299,7 @@ Los documentos 1 y 2 quedan desbloqueados en paralelo al aprobar el marco. Se re
 
 | Id | Riesgo | Prob. | Impacto | Mitigación |
 |---|---|---|---|---|
-| R-01 | El correo de Gmail cae en spam o falla la contraseña de aplicación. | Media | Medio | Se guarda primero, se reintenta y se marca "aviso pendiente" en el panel. Telegram queda en v1.x. |
+| R-01 | El aviso de Resend cae en spam o falla el servicio. | Media | Medio | Se guarda primero, se reintenta y se marca "aviso pendiente" en el panel. Telegram queda en v1.x. |
 | R-02 | El consumo de Railway supera el plan o crédito vigente y genera costo. | Baja | Medio | Solo se guardan versiones web, un solo servicio de app y alerta de uso en Railway (T-004). |
 | R-03 | Pérdida del volumen o de la base de datos. | Baja | Alto | Respaldo periódico de la base de datos y del volumen, a definir en `plataforma/despliegue.md`. Rod tiene los originales. |
 | R-04 | Copia no autorizada por captura de pantalla. | Alta | Bajo | Tope de 2048 px y aviso de derechos. Se asume como riesgo aceptado. |
@@ -315,7 +320,8 @@ Los documentos 1 y 2 quedan desbloqueados en paralelo al aprobar el marco. Se re
 | Id | Categoría | Tarea | Bloquea |
 |---|---|---|---|
 | T-001 | desarrollo | Crear el repositorio privado `RodDiazT/Web_RodDiaz` en GitHub y dar acceso a la app de Claude. | Todo (subir documentos) |
-| T-002 | desarrollo | Crear una contraseña de aplicación de Gmail para los avisos de consulta. | Implementación del doc 5 |
+| T-002 | desarrollo | Crear una cuenta gratis en Resend con `rodrigodiaztapia@gmail.com` y generar una clave de API (la cargas tú en Railway; yo no manejo claves). | Implementación del doc 5 |
+| T-008 | desarrollo | Crear en Google Cloud un cliente OAuth (gratis) para el inicio de sesión del panel. Te guío paso a paso cuando toque implementarlo. | Implementación del doc 2 |
 | T-003 | desarrollo | Crear una cuenta gratis de Cloudflare y activar Web Analytics. | Implementación del doc 7 |
 | T-004 | desarrollo | Confirmar el plan o crédito vigente de Railway y activar la alerta de uso. | Doc 8 |
 | T-005 | contenido | Seleccionar al menos 12 fotos de lanzamiento con título, lugar y fecha. | Lanzamiento |
@@ -326,4 +332,5 @@ Los documentos 1 y 2 quedan desbloqueados en paralelo al aprobar el marco. Se re
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 0.2 | 2026-10-07 | El panel usa acceso solo con Google (`rodrigodiaztapia@gmail.com`). El aviso por correo cambia de Gmail SMTP a Resend gratis, porque Rod no entrega su contraseña de Gmail. Se agrega T-008 y se redefine T-002. |
 | 0.1 | 2026-10-07 | Borrador inicial. Decisiones de Rod: Característica como etiqueta transversal, v2 por decisión de Rod con indicador de consultas en el panel, sin marca de agua, analítica lo más simple posible (Cloudflare Web Analytics), aviso por Gmail, conservación de consultas por 12 meses, nombre del sitio "Fotos de Rod". |
