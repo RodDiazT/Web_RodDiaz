@@ -9,7 +9,7 @@ Proyecto iniciado. Se creó la estructura documental y el borrador del marco gen
 v1.0: portafolio con consulta 1:1.
 
 ## Stack y recursos confirmados
-- Repositorio: GitHub `RodDiazT/web_roddiaz` (privado), rama `main`.
+- Repositorio: GitHub `RodDiazT/Web_RodDiaz` (privado), rama `main`.
 - Railway: workspace "roddiazt's Projects" en plan Pro (verificado el 2026-10-07); el proyecto del sitio aún no se crea.
 - Stack propuesto (pendiente de aprobar el marco): Next.js + Payload CMS 3 + PostgreSQL en Railway, imágenes en volumen con `sharp`, acceso al panel con Google. En la v1.0 no hay aviso por correo ni analítica.
 - Tablero: https://claude.ai/artifact/So8RmLvWvY4EkLEBNbVdcd
