@@ -4,8 +4,8 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/marco-general/marco-general-proyecto.md` |
 | Tipo | Marco general |
-| Versión | 0.3 |
-| Estado | En revisión |
+| Versión | 1.0 |
+| Estado | Aprobado |
 | Fecha | 2026-10-07 |
 | Padre | — |
 | Dependencias | — |
@@ -328,6 +328,7 @@ Los documentos 1 y 2 quedan desbloqueados en paralelo al aprobar el marco. Se re
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.0 | 2026-10-07 | Aprobado por Rod. |
 | 0.3 | 2026-10-07 | Por decisión de Rod se eliminan de la v1.0 el aviso por correo (Resend) y la analítica (Cloudflare); ambos pasan a v1.x. Las consultas nuevas se avisan solo en el panel. El doc 7 pasa a `plataforma/seo.md`. Se verifica que el workspace de Railway está en plan Pro. T-001 hecha; T-002 y T-003 descartadas; T-004 redefinida. |
 | 0.2 | 2026-10-07 | El panel usa acceso solo con Google (`rodrigodiaztapia@gmail.com`). El aviso por correo cambia de Gmail SMTP a Resend gratis, porque Rod no entrega su contraseña de Gmail. Se agrega T-008 y se redefine T-002. Se verifica en la documentación de Railway que el SMTP saliente requiere el plan Pro. |
 | 0.1 | 2026-10-07 | Borrador inicial. Decisiones de Rod: Característica como etiqueta transversal, v2 por decisión de Rod con indicador de consultas en el panel, sin marca de agua, analítica lo más simple posible (Cloudflare Web Analytics), aviso por Gmail, conservación de consultas por 12 meses, nombre del sitio "Fotos de Rod". |
