@@ -4,27 +4,27 @@
 
 | Ruta | Tipo | Versión | Estado | Producto | Padre | Dependencias |
 |---|---|---|---|---|---|---|
-| `marco-general/marco-general-proyecto.md` | marco | 0.2 | revision | v1.0 | — | — |
+| `marco-general/marco-general-proyecto.md` | marco | 0.3 | revision | v1.0 | — | — |
 | `identidad/sistema-de-diseno.md` | transversal | — | pendiente | v1.0 | marco-general | marco-general |
 | `contenido/modelo-contenido-panel.md` | componente | — | pendiente | v1.0 | marco-general | marco-general |
 | `portafolio/galeria-colecciones.md` | componente | — | pendiente | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `portafolio/ficha-foto.md` | componente | — | pendiente | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
 | `consultas/consulta-copia.md` | componente | — | pendiente | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
 | `paginas/paginas.md` | componente | — | pendiente | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
-| `plataforma/seo-analitica.md` | transversal | — | pendiente | v1.0 | marco-general | galeria-colecciones, ficha-foto, paginas |
+| `plataforma/seo.md` | transversal | — | pendiente | v1.0 | marco-general | galeria-colecciones, ficha-foto, paginas |
 | `plataforma/despliegue.md` | transversal | — | pendiente | v1.0 | marco-general | modelo-contenido-panel |
 
 ## Árbol
 
 ```
-marco-general/marco-general-proyecto.md        [revision 0.2]
+marco-general/marco-general-proyecto.md        [revision 0.3]
 ├── identidad/sistema-de-diseno.md             [pendiente]
 ├── contenido/modelo-contenido-panel.md        [pendiente]
 ├── portafolio/galeria-colecciones.md          [pendiente]
 ├── portafolio/ficha-foto.md                   [pendiente]
 ├── consultas/consulta-copia.md                [pendiente]
 ├── paginas/paginas.md                         [pendiente]
-├── plataforma/seo-analitica.md                [pendiente]
+├── plataforma/seo.md                          [pendiente]
 └── plataforma/despliegue.md                   [pendiente]
 ```
 
@@ -33,10 +33,10 @@ marco-general/marco-general-proyecto.md        [revision 0.2]
 ### Desarrollo
 | Id | Tarea | Bloquea | Estado | Creada |
 |---|---|---|---|---|
-| T-001 | Crear el repositorio privado RodDiazT/Web_RodDiaz en GitHub y dar acceso a la app de Claude | marco-general | abierta | 2026-10-07 |
-| T-002 | Crear cuenta gratis en Resend con rodrigodiaztapia@gmail.com y generar clave de API | consulta-copia | abierta | 2026-10-07 |
-| T-003 | Crear cuenta gratis de Cloudflare y activar Web Analytics | seo-analitica | abierta | 2026-10-07 |
-| T-004 | Confirmar plan o crédito vigente de Railway y activar alerta de uso | despliegue | abierta | 2026-10-07 |
+| T-001 | Crear el repositorio privado RodDiazT/Web_RodDiaz en GitHub y dar acceso a la app de Claude | — | hecha (2026-10-07) | 2026-10-07 |
+| T-002 | Crear cuenta gratis en Resend con rodrigodiaztapia@gmail.com y generar clave de API | consulta-copia | descartada (2026-10-07) | 2026-10-07 |
+| T-003 | Crear cuenta gratis de Cloudflare y activar Web Analytics | seo | descartada (2026-10-07) | 2026-10-07 |
+| T-004 | Revisar en la facturación de Railway el consumo actual y fijar un límite de gasto mensual (plan Pro confirmado) | despliegue | abierta | 2026-10-07 |
 | T-008 | Crear cliente OAuth de Google Cloud para el inicio de sesión del panel | modelo-contenido-panel | abierta | 2026-10-07 |
 
 ### Contenido
@@ -58,7 +58,7 @@ marco-general/marco-general-proyecto.md        [revision 0.2]
 {
   "esquema": "1.1",
   "proyecto": "Fotos de Rod (Web_RodDiaz)",
-  "actualizado": "2026-10-07T18:45-03:00",
+  "actualizado": "2026-10-07T18:40-03:00",
   "fases": [
     {
       "id": "v1.0",
@@ -87,7 +87,7 @@ marco-general/marco-general-proyecto.md        [revision 0.2]
       "dependencias": [],
       "fase": "v1.0",
       "estado": "revision",
-      "version": "0.2",
+      "version": "0.3",
       "actualizado": "2026-10-07",
       "notas": ""
     },
@@ -161,7 +161,7 @@ marco-general/marco-general-proyecto.md        [revision 0.2]
     {
       "id": "consulta-copia",
       "ruta": "consultas/consulta-copia.md",
-      "titulo": "Consulta de copia y avisos",
+      "titulo": "Consulta de copia y gestión de consultas",
       "tipo": "componente",
       "dominio": "consultas",
       "padre": "marco-general",
@@ -193,9 +193,9 @@ marco-general/marco-general-proyecto.md        [revision 0.2]
       "notas": ""
     },
     {
-      "id": "seo-analitica",
-      "ruta": "plataforma/seo-analitica.md",
-      "titulo": "SEO y analítica",
+      "id": "seo",
+      "ruta": "plataforma/seo.md",
+      "titulo": "SEO",
       "tipo": "transversal",
       "dominio": "plataforma",
       "padre": "marco-general",
@@ -233,12 +233,10 @@ marco-general/marco-general-proyecto.md        [revision 0.2]
       "titulo": "Crear el repositorio privado RodDiazT/Web_RodDiaz en GitHub y dar acceso a la app de Claude",
       "categoria": "desarrollo",
       "origen": "marco-general",
-      "bloquea": [
-        "marco-general"
-      ],
-      "estado": "abierta",
+      "bloquea": [],
+      "estado": "hecha",
       "creada": "2026-10-07",
-      "cerrada": null
+      "cerrada": "2026-10-07"
     },
     {
       "id": "T-002",
@@ -248,9 +246,10 @@ marco-general/marco-general-proyecto.md        [revision 0.2]
       "bloquea": [
         "consulta-copia"
       ],
-      "estado": "abierta",
+      "estado": "descartada",
       "creada": "2026-10-07",
-      "cerrada": null
+      "cerrada": "2026-10-07",
+      "notas": "Rod elimina de la v1.0 el aviso por correo y la analítica"
     },
     {
       "id": "T-003",
@@ -258,15 +257,16 @@ marco-general/marco-general-proyecto.md        [revision 0.2]
       "categoria": "desarrollo",
       "origen": "marco-general",
       "bloquea": [
-        "seo-analitica"
+        "seo"
       ],
-      "estado": "abierta",
+      "estado": "descartada",
       "creada": "2026-10-07",
-      "cerrada": null
+      "cerrada": "2026-10-07",
+      "notas": "Rod elimina de la v1.0 el aviso por correo y la analítica"
     },
     {
       "id": "T-004",
-      "titulo": "Confirmar plan o crédito vigente de Railway y activar alerta de uso",
+      "titulo": "Revisar en la facturación de Railway el consumo actual y fijar un límite de gasto mensual (plan Pro confirmado)",
       "categoria": "desarrollo",
       "origen": "marco-general",
       "bloquea": [
@@ -335,3 +335,4 @@ marco-general/marco-general-proyecto.md        [revision 0.2]
 |---|---|
 | 2026-10-07 | Creación del índice. Marco general en revisión (0.1); 8 documentos identificados; tareas T-001 a T-007. |
 | 2026-10-07 | Marco general 0.2: acceso con Google, aviso por Resend; T-002 redefinida; nueva T-008. |
+| 2026-10-07 | Marco general 0.3: se eliminan de la v1.0 el aviso por correo y la analítica; `seo-analitica` pasa a `seo`. T-001 hecha; T-002 y T-003 descartadas; T-004 redefinida. |
