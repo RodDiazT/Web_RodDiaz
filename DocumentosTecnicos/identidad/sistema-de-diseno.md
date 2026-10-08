@@ -4,8 +4,8 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/identidad/sistema-de-diseno.md` |
 | Tipo | Transversal |
-| Versión | 0.2 |
-| Estado | En revisión |
+| Versión | 1.0 |
+| Estado | Aprobado |
 | Fecha | 2026-10-07 |
 | Padre | `DocumentosTecnicos/marco-general/marco-general-proyecto.md` |
 | Dependencias | `marco-general` |
@@ -496,7 +496,7 @@ Para Claude Code, después del paso 2 del plan del marco (§9.2, modelo de conte
 - D-01 del marco (modal o página para la consulta) se decide en `consultas/consulta-copia.md`. `Dialogo` queda listo para ambos casos.
 - La barra fija inferior en la ficha móvil, si se quiere, la decide `portafolio/ficha-foto.md`.
 
-**Cambios al marco general.** Al aprobar este documento, en el mismo commit, el marco pasa a 1.1. Es un cambio menor, sin cambios de alcance ni de contratos:
+**Cambios al marco general.** Aplicados al aprobar este documento: el marco pasó a 1.1. Es un cambio menor, sin cambios de alcance ni de contratos:
 
 1. `AjustesSitio.nombreSitio` pasa a "Rod Díaz", y el título del documento y las menciones a "Fotos de Rod" se actualizan.
 2. Se agrega `logo` a `AjustesSitio` y `filete` a `Foto` (§6.1).
@@ -517,5 +517,6 @@ Para Claude Code, después del paso 2 del plan del marco (§9.2, modelo de conte
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.0 | 2026-10-07 | Aprobado por Rod. El marco general pasa a 1.1 con los cambios de §11. |
 | 0.2 | 2026-10-07 | Revisión UX/UI con un agente independiente y con las guías de diseño de interfaces y movimiento. Decisiones de Rod: ficha con columna lateral para verticales y cuadradas; visor a pantalla completa en la v1.0; "Rod Díaz" como nombre único (`nombreSitio`, se elimina `nombreMarca`); chip activo con contorno y ✓; filete activable por foto; favicon con monograma "RD". Se agregan: perfil ICC sRGB incrustado, fundido sin dependencia de JavaScript, patrones de ficha, portada y estado vacío, componentes `Visor`, `NavegacionFotos`, `Retorno`, `TarjetaColeccion`, `Esqueleto`, `PlantillaEstado` y `MenuMovil` sobre `Dialogo`, tokens de capas, encabezado `sticky` con umbrales, Cormorant 500 hasta 48 px, interletrado según tamaño, reglas de móvil (zoom, zonas seguras, `tap-highlight`, `touch-action`, `theme-color`, bloqueo de scroll en iOS) y criterios de aceptación 9 a 21. Se listan los cambios al marco 1.1. |
 | 0.1 | 2026-10-07 | Borrador inicial. Decisiones de Rod: serif editorial + sans (Cormorant Garamond + Manrope, elegido sobre un prototipo), wordmark "Rod Díaz" configurable a logo, grafito neutro sin acento, foto con aire en la ficha, encabezado que se oculta al bajar y vuelve al subir, y controles con radio de 8 px. |
