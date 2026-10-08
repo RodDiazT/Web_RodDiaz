@@ -5,7 +5,7 @@
 | Ruta | Tipo | Versión | Estado | Producto | Padre | Dependencias |
 |---|---|---|---|---|---|---|
 | `marco-general/marco-general-proyecto.md` | marco | 1.0 | aprobado | v1.0 | — | — |
-| `identidad/sistema-de-diseno.md` | transversal | — | pendiente | v1.0 | marco-general | marco-general |
+| `identidad/sistema-de-diseno.md` | transversal | 0.1 | revision | v1.0 | marco-general | marco-general |
 | `contenido/modelo-contenido-panel.md` | componente | — | pendiente | v1.0 | marco-general | marco-general |
 | `portafolio/galeria-colecciones.md` | componente | — | pendiente | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `portafolio/ficha-foto.md` | componente | — | pendiente | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
@@ -18,7 +18,7 @@
 
 ```
 marco-general/marco-general-proyecto.md        [aprobado 1.0]
-├── identidad/sistema-de-diseno.md             [pendiente]
+├── identidad/sistema-de-diseno.md             [revision 0.1]
 ├── contenido/modelo-contenido-panel.md        [pendiente]
 ├── portafolio/galeria-colecciones.md          [pendiente]
 ├── portafolio/ficha-foto.md                   [pendiente]
@@ -58,7 +58,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.0]
 {
   "esquema": "1.1",
   "proyecto": "Fotos de Rod (Web_RodDiaz)",
-  "actualizado": "2026-10-07T18:35-03:00",
+  "actualizado": "2026-10-07T21:40-03:00",
   "fases": [
     {
       "id": "v1.0",
@@ -102,8 +102,8 @@ marco-general/marco-general-proyecto.md        [aprobado 1.0]
         "marco-general"
       ],
       "fase": "v1.0",
-      "estado": "pendiente",
-      "version": null,
+      "estado": "revision",
+      "version": "0.1",
       "actualizado": "2026-10-07",
       "notas": ""
     },
@@ -337,3 +337,4 @@ marco-general/marco-general-proyecto.md        [aprobado 1.0]
 | 2026-10-07 | Marco general 0.2: acceso con Google, aviso por Resend; T-002 redefinida; nueva T-008. |
 | 2026-10-07 | Marco general 0.3: se eliminan de la v1.0 el aviso por correo y la analítica; `seo-analitica` pasa a `seo`. T-001 hecha; T-002 y T-003 descartadas; T-004 redefinida. |
 | 2026-10-07 | Marco general aprobado (1.0). Quedan desbloqueados `sistema-de-diseno` y `modelo-contenido-panel`. |
+| 2026-10-07 | Sistema de diseño en revisión (0.1): Cormorant Garamond + Manrope, grafito neutro sin acento, marca "Rod Díaz" configurable a logo. |
