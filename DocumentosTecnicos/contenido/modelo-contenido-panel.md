@@ -4,11 +4,11 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/contenido/modelo-contenido-panel.md` |
 | Tipo | Componente |
-| Versión | 0.1 |
-| Estado | En revisión |
+| Versión | 1.0 |
+| Estado | Aprobado |
 | Fecha | 2026-10-13 |
 | Padre | `marco-general/marco-general-proyecto.md` |
-| Dependencias | `marco-general/marco-general-proyecto.md` (1.1); considera `identidad/sistema-de-diseno.md` (1.0) para `logo`, `filete` y perfil ICC |
+| Dependencias | `marco-general/marco-general-proyecto.md` (1.2, que incorpora los cambios del §7); considera `identidad/sistema-de-diseno.md` (1.0) para `logo`, `filete` y perfil ICC |
 | Versión del producto | v1.0 |
 
 ## Índice
@@ -496,4 +496,5 @@ Para Claude Code, después del paso 1 del plan del marco (§9.2: base del proyec
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.0 | 2026-10-13 | Aprobado por Rod. El marco general pasa a 1.2 con los cambios del §7. |
 | 0.1 | 2026-10-13 | Borrador inicial, conversado por voz con Rod. Decisiones: una colección por foto (obligatoria para publicar) y características transversales; colecciones de dos niveles con fotos propias en la madre y `visibleSola` en las hijas; borrador y publicación para fotos y colecciones; `lugar` libre; fecha de captura del EXIF o manual; solo distancia focal, apertura y velocidad (sin cámara, lente ni GPS); todo lo automático es editable; catálogo de formatos por proporción con papeles por formato; fotos de vitrina sin copia; carga masiva con edición en bloque; solo JPG en sRGB; acceso con un solo correo de Google y registro de intentos rechazados; páginas simples. Nuevas entidades `Medio` e `IntentoAcceso`. Cambios al marco listados en §7. |

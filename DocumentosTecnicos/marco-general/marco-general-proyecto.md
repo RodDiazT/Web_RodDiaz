@@ -4,9 +4,9 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/marco-general/marco-general-proyecto.md` |
 | Tipo | Marco general |
-| Versión | 1.1 |
+| Versión | 1.2 |
 | Estado | Aprobado |
-| Fecha | 2026-10-07 |
+| Fecha | 2026-10-13 |
 | Padre | — |
 | Dependencias | — |
 | Versión del producto | v1.0 (define también v1.x y v2) |
@@ -91,7 +91,7 @@ Administración de contenido ──► Galería y colecciones ──► Ficha de
 
 1. **La foto es la protagonista.** Fondo oscuro, casi negro, y no negro puro. Poco texto, sin ruido visual. La interfaz se retira.
 2. **Los primeros segundos.** En la portada el visitante ve una foto de gran impacto y, de inmediato, el camino a más fotos. Cada componente visible responde: qué ve primero, si lo maravilla, si quiere seguir, si encuentra fotos fácilmente y si entiende que puede pedir una copia.
-3. **La copia es evidente sin ser comercial.** En cada ficha hay una llamada clara y cálida, por ejemplo "Pedir una copia". No hay lenguaje de tienda ni precios.
+3. **La copia es evidente sin ser comercial.** En cada ficha que ofrece copia hay una llamada clara y cálida, por ejemplo "Pedir una copia". No hay lenguaje de tienda ni precios.
 4. **El escritorio es el máximo potencial y el móvil es impecable.** El escritorio aprovecha fotos grandes y composición. En móvil el sitio funciona perfecto, incluido el navegador interno de Instagram, que suele tener poca memoria y no tener sesión.
 5. **Carga rápida y progresiva.** Formatos AVIF y WebP, `srcset` por tamaño, carga diferida, marcador de color o desenfoque mientras carga, y dimensiones reservadas para evitar saltos de diseño.
 6. **Navegación evidente.** Colecciones, filtro por características y un acceso a "todas las fotos". No hay más de dos clics desde la portada a cualquier ficha.
@@ -110,11 +110,11 @@ Cada componente resuelve los suyos. Estos aplican a todo el proyecto y aquí se 
 | Caso | Regla transversal |
 |---|---|
 | Fotos verticales, horizontales, cuadradas y panorámicas mezcladas | Ninguna vista recorta la foto en la ficha. En la grilla se permite un recorte solo si el documento de galería lo define, y siempre se muestra la foto completa al abrirla. La proporción se calcula al subir (§6.2). |
-| Original muy pesado (45 MP o más), TIFF, HEIC o RAW | Se aceptan JPEG, PNG, WebP y TIFF hasta 60 MB. HEIC y RAW se rechazan con un mensaje claro ("Exporta la foto como JPEG"). |
+| Original muy pesado (45 MP o más), TIFF, HEIC o RAW | Solo se acepta JPEG hasta 60 MB, validado por su firma de bytes. Todo lo demás (RAW, TIFF, HEIC, PNG, WebP) se rechaza con un mensaje claro ("Exporta la foto como JPG desde Lightroom"). |
 | Perfil de color distinto de sRGB (Adobe RGB, Display P3) | Siempre se convierte a sRGB al generar las versiones web. |
 | EXIF ausente, incompleto o con GPS | Los datos técnicos se precargan si existen y quedan editables. **Todas** las versiones publicadas se generan sin metadatos, salvo el perfil de color ICC sRGB (§7.2). |
 | Foto despublicada con consultas o enlaces compartidos | Las consultas se conservan con su referencia. El enlace público muestra una página amable: "Esta foto ya no está disponible", con acceso a la galería. No se muestra un 404 seco. |
-| Eliminar una colección, característica, formato o papel con fotos asociadas | No se borra en duro mientras tenga fotos asociadas. El panel avisa cuántas fotos tiene y ofrece desasociarlas. Al renombrar se conserva el `slug` anterior como redirección. |
+| Eliminar una colección, característica, formato o papel con fotos asociadas | No se borra en duro mientras tenga fotos asociadas. El panel avisa cuántas fotos tiene y ofrece desasociarlas (en una colección, moverlas a otra, porque la colección de una foto es obligatoria; en un formato o papel, desactivarlo). Al renombrar se conserva el `slug` anterior como redirección. |
 | Rod no se entera de una consulta nueva | Como en la v1 no hay aviso por correo, el panel muestra al entrar un contador de consultas `nueva` y las destaca en la lista (§6.2.7). El riesgo se acepta (R-01) hasta el aviso de la v1.x. |
 | Sitio recién lanzado con pocas fotos | El lanzamiento exige al menos 12 fotos publicadas (tarea T-005). La portada no muestra colecciones vacías. |
 | Navegador interno de Instagram o conexión lenta | Primera carga liviana: la foto de portada tiene una versión de 1200 px como máximo en móvil y no se carga JavaScript pesado. |
@@ -127,23 +127,26 @@ Estos son los **nombres oficiales**. En el código van sin tildes, con el domini
 
 | Entidad (colección Payload) | Qué es | Campos principales |
 |---|---|---|
-| `Foto` | Obra publicada. Es una colección *upload*: guarda solo las versiones web, nunca el original (§6.2). | `titulo` (obligatorio, máx. 120), `slug` (único), `lugar` (obligatorio), `fecha` (obligatoria; fecha de la toma), `historia` (opcional, texto enriquecido), `textoAlternativo` (opcional; si falta se usa `titulo`), `datosTecnicos` (grupo opcional: cámara, lente, distancia focal, apertura, velocidad, ISO, cada uno con su propio interruptor `visible`), `proporcion` (calculada: `3:2`, `4:5`, `1:1`, `16:9`, `panoramica`… y el valor decimal), `ancho` y `alto` (px de la versión mayor), `colorDominante` (para el marcador de carga), `colecciones` (relación con `Coleccion`, varias), `caracteristicas` (relación con `Caracteristica`, varias), `formatos` (relación con `FormatoImpresion`, varias, filtrada por proporción compatible), `papeles` (relación con `TipoPapel`, varias), `estado` (`borrador`, `publicada`, `despublicada`), `destacada` (booleano, para la portada), `huella` (hash del archivo, para detectar duplicados), `filete` (booleano; borde fino para fotos muy oscuras, ver `identidad/sistema-de-diseno.md`). |
-| `Coleccion` | Serie o proyecto que agrupa fotos. | `nombre`, `slug`, `descripcion` (opcional), `portada` (relación con `Foto`), `orden` (lista ordenada de `Foto`), `estado` (`publicada`, `oculta`), `slugsAnteriores`. |
+| `Foto` | Obra publicada. Es una colección *upload*: guarda solo las versiones web, nunca el original (§6.2). | `titulo` (máx. 120), `slug` (único), `slugsAnteriores`, `lugar`, `fecha` (día de la toma), `historia` (opcional, texto enriquecido), `textoAlternativo` (opcional; si falta se usa `titulo`), `datosTecnicos` (grupo opcional: `distanciaFocal`, `apertura`, `velocidad`; precargados del EXIF y editables; sin cámara, lente ni ISO), `coleccion` (relación con **una** `Coleccion`), `orden` (posición en su colección), `caracteristicas` (relación con `Caracteristica`, varias), `proporcion` (calculada: etiqueta `3:2`, `4:5`, `1:1`, `16:9`… o personalizada, valor decimal, orientación y marca de edición manual), `ancho` y `alto` (px de la versión mayor), `colorDominante`, `formatos` (relación con `FormatoImpresion`, varias, solo de proporción compatible), `estado` (`borrador`, `publicada`, `despublicada`), `publicadaEn`, `destacada`, `huella`, `posibleDuplicado`, `filete` (ver `identidad/sistema-de-diseno.md`). `titulo`, `lugar`, `fecha` y `coleccion` son obligatorios para publicar. Detalle en `contenido/modelo-contenido-panel.md`. |
+| `Coleccion` | Agrupación por lugar o salida, con dos niveles como máximo (madre e hija). | `nombre`, `slug`, `slugsAnteriores`, `descripcion` (opcional), `padre` (relación con una `Coleccion` sin padre, opcional), `visibleSola` (hijas: si es falso, solo alimenta a la madre), `orden` (entre hermanas), `portada` (relación con `Foto`), `estado` (`borrador`, `publicada`). Una madre puede tener fotos propias y sub-colecciones, y su vista agrega ambas. |
 | `Caracteristica` | Etiqueta transversal que sirve de filtro, por ejemplo "Blanco y negro", "Paisaje", "Nocturna" o "Araucanía". | `nombre`, `slug`, `slugsAnteriores`. |
-| `FormatoImpresion` | Tamaño de copia disponible, del catálogo global. | `nombre` (por ejemplo "30 × 45 cm"), `anchoCm`, `altoCm`, `proporcion` (calculada), `activo`. |
-| `TipoPapel` | Papel de impresión del catálogo global. | `nombre`, `descripcion` breve (por ejemplo "Algodón mate, textura suave"), `activo`. |
-| `Pagina` | Página editable: "Sobre mí", "Contacto" y páginas libres. | `titulo`, `slug`, `contenido` (bloques), `imagen` (opcional), `estado`, campos SEO. |
+| `FormatoImpresion` | Tamaño de copia disponible, del catálogo global; vale para ambas orientaciones. | `ladoCortoCm`, `ladoLargoCm`, `nombre` (calculado, por ejemplo "30 × 45 cm"), `proporcion` (calculada), `papeles` (relación con `TipoPapel`, al menos uno), `activo`, `orden`. |
+| `TipoPapel` | Papel de impresión del catálogo global, asociado a cada formato. | `nombre`, `descripcion` breve (por ejemplo "Algodón mate, textura suave"), `activo`. |
+| `Pagina` | Página editable: "Sobre mí", "Contacto", privacidad, condiciones. | `titulo`, `slug`, `contenido` (texto enriquecido en la v1.0; bloques en v1.x), `imagen` (relación con `Medio`, opcional), `estado`, campos SEO. |
 | `Consulta` | Solicitud de un interesado por una o más copias. | `nombre`, `correo`, `telefono` (opcional), `mensaje`, `fotos` (relación con `Foto`, una o más), `formatoPreferido` y `papelPreferido` (opcionales), `estado` (`nueva`, `respondida`, `cerrada`, `spam`), `ultimaActividad`, `eliminarDespuesDe` (calculado), `notasInternas`. |
 | `Usuario` | Cuenta del panel. Solo existe Rod. | `correo`, `nombre`, `proveedorAcceso` (`google`), `idGoogle`, `ultimoAcceso`. |
-| `AjustesSitio` (global Payload) | Datos del sitio que no van en el código. | `nombreSitio` ("Rod Díaz"; también es el texto de la marca), `logo` (upload opcional, SVG o PNG; reemplaza al wordmark), `descripcion`, `correoContacto`, `redes` (Instagram, etc.), `fotoPortada` (relación con `Foto`, opcional), textos de la llamada a consulta y aviso de derechos de autor. |
+| `Medio` | Imagen auxiliar que no es obra: logo y foto de perfil. No aparece en galerías ni se consulta. | `archivo` (JPEG, PNG o SVG según el uso), `textoAlternativo`, `uso` (`logo`, `pagina`). |
+| `IntentoAcceso` | Registro de un intento rechazado de entrar al panel. | `correo`, `fecha`, `motivo`. Se borra a los 90 días. |
+| `AjustesSitio` (global Payload) | Datos del sitio que no van en el código. | `nombreSitio` ("Rod Díaz"; también es el texto de la marca), `logo` (relación con `Medio`, opcional, SVG o PNG; reemplaza al wordmark), `descripcion`, `correoContacto`, `redes` (Instagram, etc.), `fotoPortada` (relación con `Foto`, opcional), textos de la llamada a consulta, texto opcional para fotos de vitrina (`textoVitrina`) y aviso de derechos de autor. |
 
 Relaciones clave:
 
-- Una `Foto` pertenece a cero o más `Coleccion` y tiene cero o más `Caracteristica`.
-- Una `Foto` ofrece cero o más `FormatoImpresion` (solo los de proporción compatible) y cero o más `TipoPapel`.
+- Una `Foto` pertenece a **una** `Coleccion` (obligatoria para publicar) y tiene cero o más `Caracteristica`. Una `Coleccion` puede tener una `Coleccion` padre (dos niveles como máximo).
+- Una `Foto` ofrece cero o más `FormatoImpresion` (solo los de proporción compatible). Cada `FormatoImpresion` tiene uno o más `TipoPapel`: si hay varios, el interesado elige; si hay uno, se le informa.
+- Una `Foto` sin formatos ofrecibles es **de vitrina**: se publica y no ofrece copia.
 - Una `Consulta` referencia una o más `Foto`.
 
-`FormatoImpresion` y `TipoPapel` se modelan como catálogos independientes asociados por foto, para que en la v2 puedan convertirse en las variantes de producto (formato × papel) sin migrar datos.
+`FormatoImpresion` y `TipoPapel` se modelan como catálogos independientes (el papel asociado al formato y el formato a la foto), para que en la v2 la combinación foto × formato × papel pueda convertirse en variante de producto sin migrar datos.
 
 ### 6.2 Reglas de negocio transversales
 
@@ -151,9 +154,9 @@ Relaciones clave:
    *Alternativa descartada:* guardar el original en un directorio privado del volumen. Ocupa espacio con costo, abre la puerta a una fuga y el sitio no lo necesita.
 2. **Versiones web.** Se generan versiones de 480, 1200 y **2048 px como tope en el lado largo**, en AVIF y WebP, con fallback JPEG de 1200 px. Todas van en sRGB, con el perfil ICC sRGB incrustado y sin ningún otro metadato. 2048 px equivale a unos 17 cm de lado largo a 300 ppp, insuficiente para una copia de calidad. Ese tope es la protección efectiva de la obra.
 3. **Captura y descarga.** Se disuade la descarga: sin menú contextual sobre la foto, sin arrastre y sin URL a un archivo grande, porque no existe. **No se promete** bloquear las capturas de pantalla, porque en la web no es posible. No se usa marca de agua.
-4. **Proporción y formatos.** La proporción se calcula del ancho y alto en píxeles y se normaliza a la proporción estándar más cercana con ±2 % de tolerancia. Una foto solo puede ofrecer formatos cuya proporción sea compatible dentro de esa tolerancia. Si Rod intenta asociar uno incompatible, el panel lo impide con un mensaje. Una foto sin formatos se puede publicar, y su ficha dice "Tamaños a pedido".
-5. **Publicación.** Solo se ven en público las `Foto` con `estado = publicada`. Una `Coleccion` sin fotos publicadas no se muestra.
-6. **Duplicados.** Al subir una foto cuya `huella` ya existe, el panel avisa y pide confirmación.
+4. **Proporción y formatos.** La proporción se calcula del ancho y alto en píxeles y se normaliza a la proporción estándar más cercana con ±2 % de tolerancia. Una foto solo puede ofrecer formatos cuya proporción sea compatible dentro de esa tolerancia. Si Rod intenta asociar uno incompatible, el panel lo impide con un mensaje. Al subir, la foto recibe como sugerencia los formatos activos compatibles. Una foto sin formatos ofrecibles se puede publicar como **vitrina**: su ficha no ofrece copia.
+5. **Publicación.** Solo se ven en público las `Foto` con `estado = publicada` cuya `Coleccion` (y su madre, si la tiene) está `publicada`. Una `Coleccion` sin fotos visibles no se muestra. La regla completa está en `contenido/modelo-contenido-panel.md` §5.2.5.
+6. **Duplicados.** Al subir una foto cuya `huella` ya existe, se crea igual y el panel avisa en ella con un enlace a la existente; Rod decide cuál borra.
 7. **Consultas: se guardan y se ven en el panel.** La consulta se guarda en la base de datos antes de responder "recibida" al interesado; si no se pudo guardar, el formulario lo dice y conserva lo escrito. En la v1 no se envía aviso por correo. El panel muestra el número de consultas `nueva` en su portada y en el menú. Cuando se agregue un aviso externo en la v1.x, se mantendrá la regla: se guarda primero y se avisa después, de modo que una falla del aviso nunca pierde una consulta.
 8. **Conservación de consultas.** Se conservan **12 meses desde `ultimaActividad`**. Un proceso diario borra las vencidas. Las marcadas `spam` se borran a los 30 días.
 9. **Antispam (v1).** Campo trampa oculto, tiempo mínimo de llenado (3 s), límite de 5 consultas por hora por IP y validación del formato del correo. No se usa captcha en la v1. Turnstile queda como opción v1.x.
@@ -187,7 +190,7 @@ Web_RodDiaz/
     ├── app/
     │   ├── (sitio)/             # rutas públicas
     │   └── (payload)/           # panel y API de Payload
-    ├── colecciones/             # Foto.ts, Coleccion.ts, Caracteristica.ts, FormatoImpresion.ts, TipoPapel.ts, Pagina.ts, Consulta.ts, Usuario.ts
+    ├── colecciones/             # Foto.ts, Coleccion.ts, Caracteristica.ts, FormatoImpresion.ts, TipoPapel.ts, Pagina.ts, Medio.ts, Consulta.ts, Usuario.ts, IntentoAcceso.ts
     ├── globales/                # AjustesSitio.ts
     ├── componentes/             # UI del sitio público
     ├── lib/                     # imagenes (sharp), proporcion, antispam
@@ -228,7 +231,8 @@ Carpetas de dominio documental confirmadas: `identidad/`, `contenido/`, `portafo
 - **Responsable:** Rod. Correo de contacto para ejercer derechos: el de `AjustesSitio.correoContacto`.
 - **Conservación:** 12 meses desde la última actividad, y luego borrado automático (§6.2.8).
 - **Derechos (acceso, rectificación, supresión, oposición):** por correo a Rod, que los ejecuta desde el panel. El documento `consultas/consulta-copia.md` define el procedimiento.
-- **Terceros:** Railway (hosting y base de datos) y Google (inicio de sesión de Rod en el panel; no recibe datos de interesados). La política de privacidad los menciona.
+- **Terceros:** Railway (hosting y base de datos) y Google (inicio de sesión de Rod en el panel; no recibe datos de interesados).
+- **Intentos de acceso al panel:** se registra el correo y la fecha de los intentos rechazados, por seguridad, durante 90 días (`contenido/modelo-contenido-panel.md` §6). La política de privacidad los menciona.
 - **Política de privacidad:** es una `Pagina` obligatoria antes del lanzamiento.
 
 ### 7.2 Metadatos de las fotos
@@ -330,6 +334,7 @@ Los documentos 1 y 2 quedan desbloqueados en paralelo al aprobar el marco. Se re
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.2 | 2026-10-13 | Cambios al aprobar `contenido/modelo-contenido-panel.md` 1.0: una sola `Coleccion` por `Foto` (obligatoria para publicar) y jerarquía de dos niveles (`padre`, `visibleSola`, `orden`, estado `borrador`/`publicada`); `datosTecnicos` reducido a distancia focal, apertura y velocidad; `FormatoImpresion` por lado corto × lado largo con `papeles`; se elimina `Foto.papeles`; fotos de vitrina sin copia en lugar de "Tamaños a pedido"; solo JPEG; nuevas entidades `Medio` e `IntentoAcceso`; `Foto.slugsAnteriores`, `publicadaEn` y `posibleDuplicado`; `AjustesSitio.textoVitrina`; duplicados con aviso posterior. |
 | 1.1 | 2026-10-07 | Cambios menores al aprobar `identidad/sistema-de-diseno.md` 1.0: nombre del sitio "Rod Díaz"; campos `AjustesSitio.logo` y `Foto.filete`; se conserva el perfil ICC sRGB en las versiones web; visor a pantalla completa en la ficha (v1.0). |
 | 1.0 | 2026-10-07 | Aprobado por Rod. |
 | 0.3 | 2026-10-07 | Por decisión de Rod se eliminan de la v1.0 el aviso por correo (Resend) y la analítica (Cloudflare); ambos pasan a v1.x. Las consultas nuevas se avisan solo en el panel. El doc 7 pasa a `plataforma/seo.md`. Se verifica que el workspace de Railway está en plan Pro. T-001 hecha; T-002 y T-003 descartadas; T-004 redefinida. |

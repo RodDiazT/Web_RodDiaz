@@ -4,9 +4,9 @@
 
 | Ruta | Tipo | Versión | Estado | Producto | Padre | Dependencias |
 |---|---|---|---|---|---|---|
-| `marco-general/marco-general-proyecto.md` | marco | 1.1 | aprobado | v1.0 | — | — |
+| `marco-general/marco-general-proyecto.md` | marco | 1.2 | aprobado | v1.0 | — | — |
 | `identidad/sistema-de-diseno.md` | transversal | 1.0 | aprobado | v1.0 | marco-general | marco-general |
-| `contenido/modelo-contenido-panel.md` | componente | 0.1 | revision | v1.0 | marco-general | marco-general |
+| `contenido/modelo-contenido-panel.md` | componente | 1.0 | aprobado | v1.0 | marco-general | marco-general |
 | `portafolio/galeria-colecciones.md` | componente | — | pendiente | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `portafolio/ficha-foto.md` | componente | — | pendiente | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
 | `consultas/consulta-copia.md` | componente | — | pendiente | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
@@ -17,9 +17,9 @@
 ## Árbol
 
 ```
-marco-general/marco-general-proyecto.md        [aprobado 1.1]
+marco-general/marco-general-proyecto.md        [aprobado 1.2]
 ├── identidad/sistema-de-diseno.md             [aprobado 1.0]
-├── contenido/modelo-contenido-panel.md        [revision 0.1]
+├── contenido/modelo-contenido-panel.md        [aprobado 1.0]
 ├── portafolio/galeria-colecciones.md          [pendiente]
 ├── portafolio/ficha-foto.md                   [pendiente]
 ├── consultas/consulta-copia.md                [pendiente]
@@ -58,7 +58,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.1]
 {
   "esquema": "1.1",
   "proyecto": "Rod Díaz (Web_RodDiaz)",
-  "actualizado": "2026-10-13T15:50-03:00",
+  "actualizado": "2026-10-13T16:05-03:00",
   "fases": [
     {
       "id": "v1.0",
@@ -87,9 +87,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.1]
       "dependencias": [],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.1",
-      "actualizado": "2026-10-07",
-      "notas": "1.1: nombre \"Rod Díaz\", logo, filete, perfil ICC, visor (desde sistema-de-diseno)."
+      "version": "1.2",
+      "actualizado": "2026-10-13",
+      "notas": "1.2: una colección por foto con jerarquía de dos niveles, papeles por formato, vitrina, solo JPEG, Medio e IntentoAcceso (desde modelo-contenido-panel)."
     },
     {
       "id": "sistema-de-diseno",
@@ -118,10 +118,10 @@ marco-general/marco-general-proyecto.md        [aprobado 1.1]
         "marco-general"
       ],
       "fase": "v1.0",
-      "estado": "revision",
-      "version": "0.1",
+      "estado": "aprobado",
+      "version": "1.0",
       "actualizado": "2026-10-13",
-      "notas": "Borrador conversado por voz con Rod."
+      "notas": "Marco pasa a 1.2 con sus cambios (§7). Implementación requiere T-006 y T-008."
     },
     {
       "id": "galeria-colecciones",
@@ -341,3 +341,4 @@ marco-general/marco-general-proyecto.md        [aprobado 1.1]
 | 2026-10-07 | Sistema de diseño 0.2 tras revisión UX/UI: columna lateral en ficha, visor, "Rod Díaz" como nombre único, filete por foto, favicon RD, perfil ICC sRGB. |
 | 2026-10-07 | Sistema de diseño aprobado (1.0). Marco general pasa a 1.1. Siguiente: `modelo-contenido-panel`. |
 | 2026-10-13 | Modelo de contenido y panel en revisión (0.1): una colección por foto con jerarquía de dos niveles, papeles por formato, fotos de vitrina, solo JPG, registro de intentos de acceso. |
+| 2026-10-13 | Modelo de contenido y panel aprobado (1.0). Marco general pasa a 1.2. Quedan desbloqueados `galeria-colecciones`, `paginas` y `despliegue`. |
