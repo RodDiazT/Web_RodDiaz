@@ -6,7 +6,7 @@
 |---|---|---|---|---|---|---|
 | `marco-general/marco-general-proyecto.md` | marco | 1.1 | aprobado | v1.0 | — | — |
 | `identidad/sistema-de-diseno.md` | transversal | 1.0 | aprobado | v1.0 | marco-general | marco-general |
-| `contenido/modelo-contenido-panel.md` | componente | — | pendiente | v1.0 | marco-general | marco-general |
+| `contenido/modelo-contenido-panel.md` | componente | 0.1 | revision | v1.0 | marco-general | marco-general |
 | `portafolio/galeria-colecciones.md` | componente | — | pendiente | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `portafolio/ficha-foto.md` | componente | — | pendiente | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
 | `consultas/consulta-copia.md` | componente | — | pendiente | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
@@ -19,7 +19,7 @@
 ```
 marco-general/marco-general-proyecto.md        [aprobado 1.1]
 ├── identidad/sistema-de-diseno.md             [aprobado 1.0]
-├── contenido/modelo-contenido-panel.md        [pendiente]
+├── contenido/modelo-contenido-panel.md        [revision 0.1]
 ├── portafolio/galeria-colecciones.md          [pendiente]
 ├── portafolio/ficha-foto.md                   [pendiente]
 ├── consultas/consulta-copia.md                [pendiente]
@@ -58,7 +58,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.1]
 {
   "esquema": "1.1",
   "proyecto": "Rod Díaz (Web_RodDiaz)",
-  "actualizado": "2026-10-07T21:45-03:00",
+  "actualizado": "2026-10-13T15:50-03:00",
   "fases": [
     {
       "id": "v1.0",
@@ -118,10 +118,10 @@ marco-general/marco-general-proyecto.md        [aprobado 1.1]
         "marco-general"
       ],
       "fase": "v1.0",
-      "estado": "pendiente",
-      "version": null,
-      "actualizado": "2026-10-07",
-      "notas": ""
+      "estado": "revision",
+      "version": "0.1",
+      "actualizado": "2026-10-13",
+      "notas": "Borrador conversado por voz con Rod."
     },
     {
       "id": "galeria-colecciones",
@@ -340,3 +340,4 @@ marco-general/marco-general-proyecto.md        [aprobado 1.1]
 | 2026-10-07 | Sistema de diseño en revisión (0.1): Cormorant Garamond + Manrope, grafito neutro sin acento, marca "Rod Díaz" configurable a logo. |
 | 2026-10-07 | Sistema de diseño 0.2 tras revisión UX/UI: columna lateral en ficha, visor, "Rod Díaz" como nombre único, filete por foto, favicon RD, perfil ICC sRGB. |
 | 2026-10-07 | Sistema de diseño aprobado (1.0). Marco general pasa a 1.1. Siguiente: `modelo-contenido-panel`. |
+| 2026-10-13 | Modelo de contenido y panel en revisión (0.1): una colección por foto con jerarquía de dos niveles, papeles por formato, fotos de vitrina, solo JPG, registro de intentos de acceso. |
