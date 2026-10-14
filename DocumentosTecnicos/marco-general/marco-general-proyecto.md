@@ -4,7 +4,7 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/marco-general/marco-general-proyecto.md` |
 | Tipo | Marco general |
-| Versión | 1.6 |
+| Versión | 1.7 |
 | Estado | Aprobado |
 | Fecha | 2026-10-14 |
 | Padre | — |
@@ -127,7 +127,7 @@ Estos son los **nombres oficiales**. En el código van sin tildes, con el domini
 
 | Entidad (colección Payload) | Qué es | Campos principales |
 |---|---|---|
-| `Foto` | Obra publicada. Es una colección *upload*: guarda solo las versiones web, nunca el original (§6.2). | `titulo` (máx. 120), `slug` (único), `slugsAnteriores`, `lugar`, `fecha` (día de la toma), `historia` (opcional, texto enriquecido), `textoAlternativo` (opcional; si falta se usa `titulo`), `datosTecnicos` (grupo opcional: `distanciaFocal`, `apertura`, `velocidad`; precargados del EXIF y editables; sin cámara, lente ni ISO), `coleccion` (relación con **una** `Coleccion`), `orden` (posición en su colección), `caracteristicas` (relación con `Caracteristica`, varias), `proporcion` (calculada: etiqueta `3:2`, `4:5`, `1:1`, `16:9`… o personalizada, valor decimal, orientación y marca de edición manual), `ancho` y `alto` (px de la versión mayor), `colorDominante`, `formatos` (relación con `FormatoImpresion`, varias, solo de proporción compatible), `estado` (`borrador`, `publicada`, `despublicada`), `publicadaEn`, `destacada`, `fijada` y `ordenFijada` (primero en `/fotos`, en el orden de Rod), punto focal (`focalX`, `focalY`, para el recorte de tarjetas de colección), `huella`, `posibleDuplicado`, `filete` (ver `identidad/sistema-de-diseno.md`). `titulo`, `lugar`, `fecha` y `coleccion` son obligatorios para publicar. Detalle en `contenido/modelo-contenido-panel.md`. |
+| `Foto` | Obra publicada. Es una colección *upload*: guarda solo las versiones web, nunca el original (§6.2). | `titulo` (máx. 120), `slug` (único), `slugsAnteriores`, `lugar`, `fecha` (día de la toma), `historia` (opcional, texto enriquecido), `textoAlternativo` (opcional; si falta se usa `titulo`), `datosTecnicos` (grupo opcional: `distanciaFocal`, `apertura`, `velocidad`; precargados del EXIF y editables; sin cámara, lente ni ISO), `coleccion` (relación con **una** `Coleccion`), `orden` (posición en su colección), `caracteristicas` (relación con `Caracteristica`, varias), `proporcion` (calculada: etiqueta `3:2`, `4:5`, `1:1`, `16:9`… o personalizada, valor decimal, orientación y marca de edición manual), `ancho` y `alto` (px de la versión mayor), `colorDominante`, `formatos` (relación con `FormatoImpresion`, varias, solo de proporción compatible), `estado` (`borrador`, `publicada`, `despublicada`), `publicadaEn`, `destacada`, `fijada` y `ordenFijada` (primero en `/fotos`, en el orden de Rod), punto focal (`focalX`, `focalY`, para el recorte de tarjetas de colección), `huella`, `posibleDuplicado`, `filete` (ver `identidad/sistema-de-diseno.md`), `seo.descripcion` (opcional; si falta, se arma sola según `plataforma/seo.md`). `titulo`, `lugar`, `fecha` y `coleccion` son obligatorios para publicar. Detalle en `contenido/modelo-contenido-panel.md`. |
 | `Coleccion` | Agrupación por lugar o salida, con dos niveles como máximo (madre e hija). | `nombre`, `slug`, `slugsAnteriores`, `descripcion` (opcional), `padre` (relación con una `Coleccion` sin padre, opcional), `visibleSola` (hijas: si es falso, solo alimenta a la madre), `orden` (entre hermanas), `portada` (relación con `Foto`), `estado` (`borrador`, `publicada`). Una madre puede tener fotos propias y sub-colecciones, y su vista agrega ambas. |
 | `Caracteristica` | Etiqueta transversal que sirve de filtro, por ejemplo "Blanco y negro", "Paisaje", "Nocturna" o "Araucanía". | `nombre`, `slug`, `slugsAnteriores`. |
 | `FormatoImpresion` | Tamaño de copia disponible, del catálogo global; vale para ambas orientaciones. | `ladoCortoCm`, `ladoLargoCm`, `nombre` (calculado, por ejemplo "30 × 45 cm"), `proporcion` (calculada), `papeles` (relación con `TipoPapel`, al menos uno), `activo`, `orden`. |
@@ -138,7 +138,7 @@ Estos son los **nombres oficiales**. En el código van sin tildes, con el domini
 | `Usuario` | Cuenta del panel. Solo existe Rod. | `correo`, `nombre`, `proveedorAcceso` (`google`), `idGoogle`, `ultimoAcceso`. |
 | `Medio` | Imagen auxiliar que no es obra: logo y foto de perfil. No aparece en galerías ni se consulta. | `archivo` (JPEG, PNG o SVG según el uso), `textoAlternativo`, `uso` (`logo`, `pagina`). |
 | `IntentoAcceso` | Registro de un intento rechazado de entrar al panel. | `correo`, `fecha`, `motivo`. Se borra a los 90 días. |
-| `AjustesSitio` (global Payload) | Datos del sitio que no van en el código. | `nombreSitio` ("Rod Díaz"; también es el texto de la marca), `logo` (relación con `Medio`, opcional, SVG o PNG; reemplaza al wordmark), `descripcion`, `correoContacto`, `redes` (Instagram, etc.), `fotoPortada` (relación con `Foto`, opcional), textos de la llamada a consulta, texto opcional para fotos de vitrina (`textoVitrina`), aviso de derechos de autor y los textos de la consulta (`textoIntroConsulta`, `textoConsultaRecibida`, `textoConsentimiento`, `textoPromociones`, `plantillaRespuesta`, `plantillaNovedades`). |
+| `AjustesSitio` (global Payload) | Datos del sitio que no van en el código. | `nombreSitio` ("Rod Díaz"; también es el texto de la marca), `logo` (relación con `Medio`, opcional, SVG o PNG; reemplaza al wordmark), `descripcion`, `correoContacto`, `redes` (Instagram, etc.), `fotoPortada` (relación con `Foto`, opcional), textos de la llamada a consulta, texto opcional para fotos de vitrina (`textoVitrina`), aviso de derechos de autor y los textos de la consulta (`textoIntroConsulta`, `textoConsultaRecibida`, `textoConsentimiento`, `textoPromociones`, `plantillaRespuesta`, `plantillaNovedades`) y, en la pestaña SEO, `seo.tituloPortada`, `seo.verificacionGoogle` y `seo.robotsExcluidos` (`plataforma/seo.md` §5.1). `descripcion` tiene máx. 160 caracteres. |
 
 Relaciones clave:
 
@@ -180,7 +180,8 @@ Relaciones clave:
 | `/sobre-mi`, `/contacto`, `/[slug]` | Páginas. `/privacidad`, `/condiciones` y las páginas libres van por `/[slug]`; las rutas del sitio están reservadas como `slug` (`paginas/paginas.md`). |
 | `/admin` | Panel Payload, solo para Rod. |
 | `/api/...` | API de Payload y endpoint de envío de consultas. |
-| `/sitemap.xml`, `/robots.txt` | SEO. |
+| `/sitemap.xml`, `/robots.txt` | SEO, generados según `plataforma/seo.md` §5.2.9 y §5.2.10. |
+| `GET /og/foto/[slug]`, `GET /og/medio/[id]` | Imagen de vista previa de 1200 × 630 para redes (`plataforma/seo.md` §5.2.6). |
 
 Los contratos detallados (campos del formulario, respuestas y errores) los define cada documento de componente.
 
@@ -208,6 +209,7 @@ Carpetas de dominio documental confirmadas: `identidad/`, `contenido/`, `portafo
 ### 6.5 Rendimiento y seguridad
 
 - **Rendimiento:** LCP menor a 2,5 s en móvil 4G, CLS menor a 0,1 y página de ficha menor a 300 KB en la primera carga (sin contar la foto). Las páginas públicas se generan de forma estática o con revalidación al publicar.
+- **URL base:** `URL_SITIO` (variable de entorno) es la base de canónicas, sitemap y vista previa; toda petición con otro host responde 301 a ella (`plataforma/seo.md` §5.2.4).
 - **Seguridad:** panel en `/admin` con acceso solo por Google OAuth y lista permitida de un correo (§3). Secretos (base de datos, cliente OAuth de Google, clave de Payload) solo en variables de entorno de Railway, nunca en el repositorio. HTTPS obligatorio. Cabeceras de seguridad básicas (CSP, `X-Frame-Options`, `Referrer-Policy`). Las versiones de imagen se sirven desde la ruta de medios de Payload, sin listado de directorios.
 
 ### 6.6 Stack
@@ -221,7 +223,8 @@ Carpetas de dominio documental confirmadas: `identidad/`, `contenido/`, `portafo
 | Autenticación del panel | **Google OAuth** con estrategia propia de Payload (Auth.js o plugin OAuth), con lista permitida de un correo | Sin contraseñas que mantener. Rod ya usa esa cuenta. Gratis. | Usuario y contraseña de Payload: funciona, pero es una credencial más. |
 | Analítica | **No se incluye en la v1.0.** Pasa a v1.x. | Rod la valora, pero no es crucial para lanzar, y prefiere no sumar cuentas. | Cloudflare Web Analytics: descartado por Rod en la v1. |
 | Hosting | **Cuenta Railway existente de Rod, workspace en plan Pro** (verificado el 2026-10-07) | Costo hundido de la suscripción. El plan Pro incluye respaldos de volúmenes. | Vercel: separaría la app del volumen y la base de datos. |
-| Dominio | Subdominio de Railway en la v1. Dominio propio en v1.x. | Costo cero en la v1. | — |
+| Dominio | Subdominio de Railway en la v1, indexado desde el lanzamiento. Dominio propio en v1.x. | Costo cero en la v1. | — |
+| Buscadores | **Google Search Console** (gratis, con la cuenta de Google de Rod, sin script en el sitio). | Muestra búsquedas, indexación y errores sin analítica ni cookies. | Esperar a la v1.x: el sitio quedaría sin visibilidad de cómo lo encuentra Google. |
 
 **Costo incremental de la v1:** ninguna suscripción ni servicio nuevo. En Railway, el uso (CPU, RAM, disco, egreso) se cobra según consumo, así que el sitio suma un consumo pequeño a la cuenta de Rod. Ese monto se estima y acota en `plataforma/despliegue.md`, que fija además un límite de gasto (riesgo R-02, tarea T-004).
 
@@ -296,6 +299,7 @@ Los documentos 1 y 2 quedan desbloqueados en paralelo al aprobar el marco. Se re
 |---|---|
 | Consultas por mes y respondidas por mes (indicador de la v2) | Panel (resumen en `Consulta`) |
 | Velocidad (LCP, CLS) | Lighthouse y PageSpeed Insights, gratis y sin instalar nada |
+| Búsquedas en Google (impresiones y clics) | Google Search Console (`plataforma/seo.md` §5.2.11) |
 | Visitas y origen | No se mide en la v1.0 (v1.x) |
 
 **Criterios de aceptación de este documento**
@@ -334,11 +338,14 @@ Los documentos 1 y 2 quedan desbloqueados en paralelo al aprobar el marco. Se re
 | T-005 | contenido | Seleccionar al menos 12 fotos de lanzamiento con título, lugar y fecha. | Lanzamiento |
 | T-006 | contenido | Definir el catálogo inicial de tamaños (cm) y tipos de papel. | Implementación del doc 2 |
 | T-007 | contenido | Escribir el texto de "Sobre mí" y elegir una foto de perfil. | Doc 6 |
+| T-010 | desarrollo | Verificar el sitio en Google Search Console y enviar el sitemap (al lanzar). | — |
+| T-011 | contenido | Escribir la descripción del sitio (máx. 160 caracteres). | Lanzamiento |
 
 ## 13. Control de cambios
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.7 | 2026-10-14 | Cambio menor al aprobar `plataforma/seo.md` 1.0: `Foto.seo.descripcion` y pestaña SEO de `AjustesSitio` (§6.1); rutas `/og/…` (§6.3); `URL_SITIO` con host único (§6.5); Search Console en el stack (§6.6) y en métricas (§10); T-010 y T-011 (§12). |
 | 1.6 | 2026-10-14 | Cambio menor al aprobar `paginas/paginas.md` 1.0: `Pagina` con `slugsAnteriores` y `contenidoActualizadoEn` y protección de las páginas reservadas (§6.1); `/privacidad`, `/condiciones` y libres por `/[slug]` con rutas reservadas (§6.3). |
 | 1.5 | 2026-10-14 | Cambios al aprobar `consultas/consulta-copia.md` 1.0: `Consulta` con `items` (0 a 5), `ciudad`, `tipo`, `respondidaEn`, consentimiento y campos técnicos; consulta general sin foto; entidad nueva `Suscriptor` para novedades con casilla opcional (§6.1, §7.1); textos de consulta en `AjustesSitio`; `/consulta` como página y `GET /datos/fotos-consultables` (§6.3); Gmail como tercero; art. 28 B de la Ley 19.496 para promociones (§7.5); D-01 resuelta. |
 | 1.4 | 2026-10-14 | Cambio menor al aprobar `portafolio/ficha-foto.md` 1.0: §6.3 agrega `GET /datos/contexto` y el destino `/consulta?foto=<slug>&formato=<id>`. |

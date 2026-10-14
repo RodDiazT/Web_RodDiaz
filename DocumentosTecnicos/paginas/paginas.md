@@ -4,7 +4,7 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/paginas/paginas.md` |
 | Tipo | Componente |
-| Versión | 1.0 |
+| Versión | 1.1 |
 | Estado | Aprobado |
 | Fecha | 2026-10-14 |
 | Padre | `marco-general/marco-general-proyecto.md` |
@@ -148,7 +148,7 @@ Plantilla de lectura (`PlantillaTexto`), la misma para páginas libres:
 
 ### 3.4 Páginas libres (`/[slug]`)
 
-Usan la misma `PlantillaTexto` sin la línea "Actualizada el…" (solo la llevan las legales). Si tienen `imagen`, se muestra arriba del contenido en `MarcoFoto` modo `ficha`, máx. 70 vh. No aparecen en el menú, el pie ni el mapa del sitio, salvo que `plataforma/seo.md` decida incluirlas en el mapa.
+Usan la misma `PlantillaTexto` sin la línea "Actualizada el…" (solo la llevan las legales). Si tienen `imagen`, se muestra arriba del contenido en `MarcoFoto` modo `ficha`, máx. 70 vh. No aparecen en el menú ni en el pie. Sí entran al mapa del sitio (`plataforma/seo.md` §5.2.3).
 
 ### 3.5 Estados de la interfaz
 
@@ -194,7 +194,7 @@ Usan la misma `PlantillaTexto` sin la línea "Actualizada el…" (solo la llevan
 | Rod escribe `{correo}` en otra página | Funciona igual en cualquier `Pagina`. |
 | Rod intenta borrar una página reservada | El panel lo impide: "Esta página es parte del sitio y no se puede borrar. Puedes dejarla en borrador." (salvo `privacidad`, §5.2.3). |
 | Rod cambia el `slug` de una página reservada | El campo es de solo lectura en las reservadas. |
-| Página libre con `slug` igual a una ruta del sitio (`fotos`, `colecciones`, `consulta`, `admin`, `api`, `datos`, `sobre-mi`, `contacto`, `privacidad`, `condiciones`, `sitemap.xml`, `robots.txt`, `guia-estilo`) | Validación: "Ese nombre ya lo usa el sitio. Elige otro." |
+| Página libre con `slug` igual a una ruta del sitio (`fotos`, `colecciones`, `consulta`, `admin`, `api`, `datos`, `sobre-mi`, `contacto`, `privacidad`, `condiciones`, `sitemap.xml`, `robots.txt`, `guia-estilo`, `og`) | Validación: "Ese nombre ya lo usa el sitio. Elige otro." |
 | Rod renombra una página libre ya compartida | Se guarda el `slug` anterior en `slugsAnteriores` y la URL vieja redirige con 308, como en las demás entidades (marco §5). |
 | Página libre en borrador con enlaces compartidos | 404 con `PlantillaEstado`. |
 | Título largo o con caracteres especiales | `titulo` máx. 80 caracteres; se ajusta en varias líneas con `text-wrap: balance`. El `slug` se genera sin tildes ni signos. |
@@ -363,6 +363,7 @@ No hay código previo. Cambios a documentos aprobados que se aplican al aprobar 
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.1 | 2026-10-14 | Cambio menor al aprobar `plataforma/seo.md` 1.0: `og` es ruta reservada y las páginas libres publicadas entran al mapa del sitio. |
 | 1.0 | 2026-10-14 | Aprobado por Rod. El marco general pasa a 1.6, el modelo de contenido a 1.3 y la consulta de copia a 1.1 con los cambios del §7. |
 | 0.1 | 2026-10-14 | Borrador inicial. Decisiones de Rod: Contacto como página breve con botón "Escríbeme" hacia `/consulta`; Sobre mí con foto de perfil, texto, 6 destacadas y "Escríbeme"; textos legales completos en la semilla; páginas libres en `/[slug]` sin menú; Contacto sin correo visible. Ley 21.719 y Ley 19.628 reverificadas el 2026-10-14; plazo de respuesta de 2 días hábiles. |
 

@@ -4,7 +4,7 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/contenido/modelo-contenido-panel.md` |
 | Tipo | Componente |
-| Versión | 1.3 |
+| Versión | 1.4 |
 | Estado | Aprobado |
 | Fecha | 2026-10-14 |
 | Padre | `marco-general/marco-general-proyecto.md` |
@@ -197,6 +197,7 @@ Nombres oficiales del marco §6.1, sin tildes en el código. Las etiquetas del p
 | `fecha` | fecha (solo día) | Precargada de `DateTimeOriginal` del EXIF. Obligatoria para publicar. |
 | `historia` | texto enriquecido (Lexical, sin imágenes) | Opcional. |
 | `textoAlternativo` | texto | Opcional. Si falta, se usa `titulo`. |
+| `seo` | grupo: `descripcion` (texto, máx. 160, opcional) | "Descripción para buscadores (opcional)". Si está vacío, la descripción se arma sola; el panel la muestra como marcador de posición (`plataforma/seo.md` §5.2.2). |
 | `datosTecnicos` ◆ | grupo: `distanciaFocal` (número, mm), `apertura` (número, f), `velocidad` (texto normalizado, por ejemplo "1/250 s") | Precargados del EXIF, editables y borrables. Un campo vacío no se muestra. **No existen** campos de cámara, lente ni ISO. |
 | `coleccion` ◆ | relación con `Coleccion`, **una**, indexada | Obligatoria para publicar. |
 | `orden` ◆ | número | Posición dentro de su colección. Se asigna al final al llegar y se cambia arrastrando. |
@@ -277,7 +278,7 @@ Imágenes auxiliares que **no son obra**: el logo y la foto de perfil. No aparec
 
 #### `AjustesSitio` (global)
 
-Como en el marco: `nombreSitio` ("Rod Díaz"), `logo` (relación con `Medio`, opcional), `descripcion`, `correoContacto`, `redes` (lista de `red`, que puede ser `instagram` u `otra`, más `url`), `fotoPortada` (relación con `Foto`, opcional), `textoLlamadaCopia` (por defecto "Pedir una copia"), `textoDerechos`, `textoVitrina` ◆ (opcional; texto breve que la ficha puede mostrar en fotos sin copia) y los textos de la consulta `textoIntroConsulta`, `textoConsultaRecibida`, `textoConsentimiento`, `textoPromociones`, `plantillaRespuesta` y `plantillaNovedades` (valores por defecto en `consultas/consulta-copia.md` §5.1), en una pestaña *Consultas* de Ajustes del sitio. El logo se previsualiza sobre `#151515` (sistema de diseño).
+Como en el marco: `nombreSitio` ("Rod Díaz"), `logo` (relación con `Medio`, opcional), `descripcion`, `correoContacto`, `redes` (lista de `red`, que puede ser `instagram` u `otra`, más `url`), `fotoPortada` (relación con `Foto`, opcional), `textoLlamadaCopia` (por defecto "Pedir una copia"), `textoDerechos`, `textoVitrina` ◆ (opcional; texto breve que la ficha puede mostrar en fotos sin copia) y los textos de la consulta `textoIntroConsulta`, `textoConsultaRecibida`, `textoConsentimiento`, `textoPromociones`, `plantillaRespuesta` y `plantillaNovedades` (valores por defecto en `consultas/consulta-copia.md` §5.1), en una pestaña *Consultas* de Ajustes del sitio. El logo se previsualiza sobre `#151515` (sistema de diseño). `descripcion` tiene máx. 160 caracteres. Una pestaña *SEO* agrega `seo.tituloPortada`, `seo.verificacionGoogle` y `seo.robotsExcluidos`, con las validaciones de `plataforma/seo.md` §4 y §5.1.
 
 #### `Usuario` (colección *auth*)
 
@@ -322,7 +323,7 @@ Solo lectura en el panel, salvo borrar. No se guarda IP, nombre ni foto de la cu
 9. **Jerarquía:** dos niveles como máximo (§4). La validación corre en el servidor (*hook* `beforeValidate`), no solo en la interfaz.
 10. **Acceso:** solo entran los correos de la variable de entorno `CORREOS_ADMIN` (hoy `rodrigodiaztapia@gmail.com`; marco §3). Un correo rechazado genera un `IntentoAcceso` (como máximo uno por correo por hora) y no crea `Usuario`.
 11. **Borrado programado:** la tarea diaria del marco (`tareas/`) también borra los `IntentoAcceso` de más de 90 días.
-12. **Revalidación:** al publicar, despublicar, editar o borrar una `Foto`, `Coleccion`, `Caracteristica`, `FormatoImpresion`, `TipoPapel`, `Pagina` o `AjustesSitio`, se revalidan las rutas públicas afectadas (*hooks* `afterChange` y `afterDelete` con `revalidatePath`/`revalidateTag`).
+12. **Revalidación:** al publicar, despublicar, editar o borrar una `Foto`, `Coleccion`, `Caracteristica`, `FormatoImpresion`, `TipoPapel`, `Pagina` o `AjustesSitio`, se revalidan las rutas públicas afectadas (*hooks* `afterChange` y `afterDelete` con `revalidatePath`/`revalidateTag`), incluidas `/sitemap.xml`, `/robots.txt` y las imágenes `/og/…` por sus etiquetas (`plataforma/seo.md` §5.2.6 y §5.2.9).
 
 ### 5.3 Interfaces
 
@@ -502,6 +503,7 @@ Para Claude Code, después del paso 1 del plan del marco (§9.2: base del proyec
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.4 | 2026-10-14 | Cambio menor al aprobar `plataforma/seo.md` 1.0: `Foto.seo.descripcion`, pestaña SEO de `AjustesSitio`, máx. 160 en `descripcion` y revalidación de sitemap, robots y vistas previas. |
 | 1.3 | 2026-10-14 | Cambio menor al aprobar `paginas/paginas.md` 1.0: `Pagina` con `slugsAnteriores`, `contenidoActualizadoEn`, `reservada` y validaciones de protección; la semilla usa los textos de `paginas` (§3.2 y Anexos A y B). |
 | 1.2 | 2026-10-14 | Cambio menor al aprobar `consultas/consulta-copia.md` 1.0: tarjetas del dashboard, grupo Consultas con Suscriptores y textos de consulta en `AjustesSitio`. |
 | 1.1 | 2026-10-14 | Cambio menor al aprobar `portafolio/galeria-colecciones.md` 1.0: `Foto.fijada`, `Foto.ordenFijada` y punto focal (`focalPoint: true`, `crop: false`); lista "Fijadas" ordenable; ayudas de `destacada`, `fijada` y `Coleccion.portada`; índices; funciones de datos de galería en `lib/contenido.ts`. |

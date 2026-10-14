@@ -4,27 +4,27 @@
 
 | Ruta | Tipo | Versión | Estado | Producto | Padre | Dependencias |
 |---|---|---|---|---|---|---|
-| `marco-general/marco-general-proyecto.md` | marco | 1.6 | aprobado | v1.0 | — | — |
+| `marco-general/marco-general-proyecto.md` | marco | 1.7 | aprobado | v1.0 | — | — |
 | `identidad/sistema-de-diseno.md` | transversal | 1.0 | aprobado | v1.0 | marco-general | marco-general |
-| `contenido/modelo-contenido-panel.md` | componente | 1.3 | aprobado | v1.0 | marco-general | marco-general |
+| `contenido/modelo-contenido-panel.md` | componente | 1.4 | aprobado | v1.0 | marco-general | marco-general |
 | `portafolio/galeria-colecciones.md` | componente | 1.1 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `portafolio/ficha-foto.md` | componente | 1.1 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
-| `consultas/consulta-copia.md` | componente | 1.1 | aprobado | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
-| `paginas/paginas.md` | componente | 1.0 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
-| `plataforma/seo.md` | transversal | 0.1 | revision | v1.0 | marco-general | galeria-colecciones, ficha-foto, paginas |
+| `consultas/consulta-copia.md` | componente | 1.2 | aprobado | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
+| `paginas/paginas.md` | componente | 1.1 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
+| `plataforma/seo.md` | transversal | 1.0 | aprobado | v1.0 | marco-general | galeria-colecciones, ficha-foto, paginas |
 | `plataforma/despliegue.md` | transversal | — | pendiente | v1.0 | marco-general | modelo-contenido-panel |
 
 ## Árbol
 
 ```
-marco-general/marco-general-proyecto.md        [aprobado 1.6]
+marco-general/marco-general-proyecto.md        [aprobado 1.7]
 ├── identidad/sistema-de-diseno.md             [aprobado 1.0]
-├── contenido/modelo-contenido-panel.md        [aprobado 1.3]
+├── contenido/modelo-contenido-panel.md        [aprobado 1.4]
 ├── portafolio/galeria-colecciones.md          [aprobado 1.1]
 ├── portafolio/ficha-foto.md                   [aprobado 1.1]
-├── consultas/consulta-copia.md                [aprobado 1.1]
-├── paginas/paginas.md                         [aprobado 1.0]
-├── plataforma/seo.md                          [revision 0.1]
+├── consultas/consulta-copia.md                [aprobado 1.2]
+├── paginas/paginas.md                         [aprobado 1.1]
+├── plataforma/seo.md                          [aprobado 1.0]
 └── plataforma/despliegue.md                   [pendiente]
 ```
 
@@ -38,6 +38,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.6]
 | T-003 | Crear cuenta gratis de Cloudflare y activar Web Analytics | seo | descartada (2026-10-07) | 2026-10-07 |
 | T-004 | Revisar en la facturación de Railway el consumo actual y fijar un límite de gasto mensual (plan Pro confirmado) | despliegue | abierta | 2026-10-07 |
 | T-008 | Crear cliente OAuth de Google Cloud para el inicio de sesión del panel | modelo-contenido-panel | abierta | 2026-10-07 |
+| T-010 | Verificar el sitio en Google Search Console y enviar el sitemap (al lanzar) | — | abierta | 2026-10-14 |
 
 ### Contenido
 | Id | Tarea | Bloquea | Estado | Creada |
@@ -46,6 +47,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.6]
 | T-006 | Definir catálogo inicial de tamaños (cm) y tipos de papel | modelo-contenido-panel | abierta | 2026-10-07 |
 | T-007 | Escribir el texto de Sobre mí y elegir foto de perfil | paginas | abierta | 2026-10-07 |
 | T-009 | Elegir la foto de portada, marcar al menos 6 destacadas, revisar portada y punto focal de cada colección y fijar fotos (opcional) | despliegue | abierta | 2026-10-14 |
+| T-011 | Escribir la descripción del sitio en Ajustes (máx. 160 caracteres: qué fotografías y dónde) | despliegue | abierta | 2026-10-14 |
 
 ### Negocio
 | Id | Tarea | Bloquea | Estado | Creada |
@@ -59,7 +61,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.6]
 {
   "esquema": "1.1",
   "proyecto": "Rod Díaz (Web_RodDiaz)",
-  "actualizado": "2026-10-14T14:30-03:00",
+  "actualizado": "2026-10-14T13:05-03:00",
   "fases": [
     {
       "id": "v1.0",
@@ -88,9 +90,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.6]
       "dependencias": [],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.6",
+      "version": "1.7",
       "actualizado": "2026-10-14",
-      "notas": "1.6: Pagina con slugsAnteriores, contenidoActualizadoEn y protección de reservadas; rutas por /[slug] (desde paginas)."
+      "notas": "1.7: Foto.seo.descripcion, pestaña SEO de AjustesSitio, rutas /og, URL_SITIO, Search Console (desde seo)."
     },
     {
       "id": "sistema-de-diseno",
@@ -120,9 +122,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.6]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.3",
+      "version": "1.4",
       "actualizado": "2026-10-14",
-      "notas": "1.3: Pagina con slugsAnteriores, contenidoActualizadoEn, reservada y semilla de textos (desde paginas). Implementación requiere T-006 y T-008."
+      "notas": "1.4: Foto.seo.descripcion, pestaña SEO y revalidación de sitemap, robots y /og (desde seo). Implementación requiere T-006 y T-008."
     },
     {
       "id": "galeria-colecciones",
@@ -172,9 +174,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.6]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.1",
+      "version": "1.2",
       "actualizado": "2026-10-14",
-      "notas": "1.1: versionPolitica desde Pagina.contenidoActualizadoEn (desde paginas)."
+      "notas": "1.2: origen licencia (desde seo)."
     },
     {
       "id": "paginas",
@@ -189,9 +191,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.6]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.0",
+      "version": "1.1",
       "actualizado": "2026-10-14",
-      "notas": "Aprobado. Marco pasa a 1.6, modelo-contenido-panel a 1.3 y consulta-copia a 1.1 (§7). Lanzamiento requiere T-007."
+      "notas": "1.1: og reservada y páginas libres en el sitemap (desde seo). Lanzamiento requiere T-007."
     },
     {
       "id": "seo",
@@ -206,10 +208,10 @@ marco-general/marco-general-proyecto.md        [aprobado 1.6]
         "paginas"
       ],
       "fase": "v1.0",
-      "estado": "revision",
-      "version": "0.1",
+      "estado": "aprobado",
+      "version": "1.0",
       "actualizado": "2026-10-14",
-      "notas": "Borrador 0.1: indexación desde el subdominio con URL_SITIO, lienzo OG con foto completa y marca, licencia en Google Imágenes, Search Console, robots de IA (búsqueda sí, entrenamiento no). Al aprobar: marco 1.7, modelo 1.4, consulta 1.2, páginas 1.1; T-010 y T-011."
+      "notas": "Aprobado. Marco pasa a 1.7, modelo 1.4, consulta 1.2 y páginas 1.1 (§7). Nacen T-010 y T-011."
     },
     {
       "id": "despliegue",
@@ -336,6 +338,28 @@ marco-general/marco-general-proyecto.md        [aprobado 1.6]
       "estado": "abierta",
       "creada": "2026-10-14",
       "cerrada": null
+    },
+    {
+      "id": "T-010",
+      "titulo": "Verificar el sitio en Google Search Console y enviar el sitemap (al lanzar)",
+      "categoria": "desarrollo",
+      "origen": "seo",
+      "bloquea": [],
+      "estado": "abierta",
+      "creada": "2026-10-14",
+      "cerrada": null
+    },
+    {
+      "id": "T-011",
+      "titulo": "Escribir la descripción del sitio en Ajustes (máx. 160 caracteres: qué fotografías y dónde)",
+      "categoria": "contenido",
+      "origen": "seo",
+      "bloquea": [
+        "despliegue"
+      ],
+      "estado": "abierta",
+      "creada": "2026-10-14",
+      "cerrada": null
     }
   ]
 }
@@ -365,3 +389,4 @@ marco-general/marco-general-proyecto.md        [aprobado 1.6]
 | 2026-10-14 | Páginas en revisión (0.1): Contacto con botón a la consulta general y sin correo visible, Sobre mí con destacadas, política de privacidad y condiciones completas en la semilla, páginas libres sin menú. Ley 21.719 reverificada. |
 | 2026-10-14 | Páginas aprobado (1.0). Marco general pasa a 1.6, modelo de contenido a 1.3 y consulta de copia a 1.1. Sin tareas nuevas. Siguientes desbloqueados: `seo` y `despliegue`. |
 | 2026-10-14 | SEO en revisión (0.1): indexar desde el subdominio con host único, vista previa con foto completa y marca, títulos con lugar, descripción automática editable, etiqueta "Con licencia", Search Console, características indexables, robots de IA de búsqueda sí y de entrenamiento no. |
+| 2026-10-14 | SEO aprobado (1.0). Marco general pasa a 1.7, modelo de contenido a 1.4, consulta de copia a 1.2 y páginas a 1.1. Nuevas T-010 (desarrollo) y T-011 (contenido). Siguiente: `despliegue`. |

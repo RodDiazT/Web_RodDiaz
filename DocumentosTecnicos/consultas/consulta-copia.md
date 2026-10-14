@@ -4,7 +4,7 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/consultas/consulta-copia.md` |
 | Tipo | Componente |
-| Versión | 1.1 |
+| Versión | 1.2 |
 | Estado | Aprobado |
 | Fecha | 2026-10-14 |
 | Padre | `marco-general/marco-general-proyecto.md` (1.5) |
@@ -246,7 +246,7 @@ Abrir una consulta no cambia su estado: sigue `nueva` hasta que Rod la marca. *O
 | `consentimientoEn` | fecha | **Nuevo.** Instante en que se envió con la casilla obligatoria marcada. Obligatorio. Solo lectura. |
 | `aceptaPromociones` | casilla | **Nuevo.** Si marcó la casilla de novedades. Solo lectura. |
 | `versionPolitica` | fecha | **Nuevo.** `contenidoActualizadoEn` de la `Pagina` de privacidad al momento del envío (`paginas/paginas.md` §5.2.7). Solo lectura. |
-| `origen` | selección (`ficha`, `visor`, `general`) | **Nuevo.** De dónde llegó (parámetro `origen` de la URL; por defecto `general` sin foto y `ficha` con foto). Solo lectura. Sirve para entender el uso, sin analítica. |
+| `origen` | selección (`ficha`, `visor`, `general`, `licencia`) | **Nuevo.** De dónde llegó (parámetro `origen` de la URL; por defecto `general` sin foto y `ficha` con foto). `licencia` llega desde la etiqueta "Con licencia" de Google Imágenes y el panel lo muestra como "Licencia (Google Imágenes)" (`plataforma/seo.md` §5.2.8). Solo lectura. Sirve para entender el uso, sin analítica. |
 | `claveEnvio` | texto | **Nuevo.** Clave de idempotencia (UUID). Única. Oculta en el panel. |
 
 **`ItemConsulta`** (campos del arreglo `items`):
@@ -326,7 +326,7 @@ No guarda teléfono, ciudad ni mensaje. La baja **borra** el registro (§5.2.13)
 | `GET /datos/fotos-consultables` (nueva) | Manejador de ruta con caché por etiquetas (`fotos`, `colecciones`) | Lista para el buscador. |
 | `/admin/collections/consultas` | Panel Payload | Lista, vistas y detalle (§3.7). |
 
-**Contrato de la URL de entrada** (heredado de `ficha-foto` §5.2.9, ampliado): `/consulta?foto=<slug>&formato=<id>&origen=<ficha|visor>`, todos opcionales. La ficha y el visor agregan `origen` (cambio menor a `ficha-foto`, §7).
+**Contrato de la URL de entrada** (heredado de `ficha-foto` §5.2.9, ampliado): `/consulta?foto=<slug>&formato=<id>&origen=<ficha|visor|licencia>`, todos opcionales. La ficha y el visor agregan `origen` (cambio menor a `ficha-foto`, §7).
 
 **Contrato de `enviarConsulta`** (campos del formulario):
 
@@ -543,6 +543,7 @@ No nacen tareas nuevas: los textos tienen valores por defecto. Para lanzar sigue
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.2 | 2026-10-14 | Cambio menor al aprobar `plataforma/seo.md` 1.0: `origen` acepta `licencia`. |
 | 1.1 | 2026-10-14 | Cambio menor al aprobar `paginas/paginas.md` 1.0: `versionPolitica` se toma de `Pagina.contenidoActualizadoEn`. |
 | 1.0 | 2026-10-14 | Aprobado por Rod. D-C1 a D-C3 con sus valores por defecto. El marco general pasa a 1.5, el modelo de contenido a 1.2 y la ficha a 1.1 con los cambios del §11. |
 | 0.2 | 2026-10-14 | Pedido de Rod: la casilla obligatoria dice que acepta ser contactado por los medios que indicó; se agrega una segunda casilla **opcional y sin marcar** para novedades y promociones, con la entidad nueva `Suscriptor` (hasta la baja), lista y "Copiar correos" en el panel, baja y lo que debe decir la política. Se verifica el art. 28 B de la Ley 19.496. |
