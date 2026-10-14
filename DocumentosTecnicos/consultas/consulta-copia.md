@@ -4,7 +4,7 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/consultas/consulta-copia.md` |
 | Tipo | Componente |
-| Versión | 1.0 |
+| Versión | 1.1 |
 | Estado | Aprobado |
 | Fecha | 2026-10-14 |
 | Padre | `marco-general/marco-general-proyecto.md` (1.5) |
@@ -245,7 +245,7 @@ Abrir una consulta no cambia su estado: sigue `nueva` hasta que Rod la marca. *O
 | `notasInternas` | área de texto | Opcional, solo panel. |
 | `consentimientoEn` | fecha | **Nuevo.** Instante en que se envió con la casilla obligatoria marcada. Obligatorio. Solo lectura. |
 | `aceptaPromociones` | casilla | **Nuevo.** Si marcó la casilla de novedades. Solo lectura. |
-| `versionPolitica` | fecha | **Nuevo.** `updatedAt` de la `Pagina` de privacidad al momento del envío. Solo lectura. |
+| `versionPolitica` | fecha | **Nuevo.** `contenidoActualizadoEn` de la `Pagina` de privacidad al momento del envío (`paginas/paginas.md` §5.2.7). Solo lectura. |
 | `origen` | selección (`ficha`, `visor`, `general`) | **Nuevo.** De dónde llegó (parámetro `origen` de la URL; por defecto `general` sin foto y `ficha` con foto). Solo lectura. Sirve para entender el uso, sin analítica. |
 | `claveEnvio` | texto | **Nuevo.** Clave de idempotencia (UUID). Única. Oculta en el panel. |
 
@@ -268,7 +268,7 @@ No se guardan IP, agente de usuario ni identificadores del navegador en la `Cons
 | `nombre` | texto | Copiado de la consulta. |
 | `correo` | correo | Obligatorio, en minúsculas, **único**. |
 | `consentimientoEn` | fecha | Instante del consentimiento (el último, si lo renovó). Solo lectura. |
-| `versionPolitica` | fecha | `updatedAt` de la política de privacidad al consentir. Solo lectura. |
+| `versionPolitica` | fecha | `contenidoActualizadoEn` de la política de privacidad al consentir. Solo lectura. |
 | `origen` | relación con `Consulta` | La consulta donde marcó la casilla; queda vacía cuando la consulta se borra. |
 
 No guarda teléfono, ciudad ni mensaje. La baja **borra** el registro (§5.2.13).
@@ -543,6 +543,7 @@ No nacen tareas nuevas: los textos tienen valores por defecto. Para lanzar sigue
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.1 | 2026-10-14 | Cambio menor al aprobar `paginas/paginas.md` 1.0: `versionPolitica` se toma de `Pagina.contenidoActualizadoEn`. |
 | 1.0 | 2026-10-14 | Aprobado por Rod. D-C1 a D-C3 con sus valores por defecto. El marco general pasa a 1.5, el modelo de contenido a 1.2 y la ficha a 1.1 con los cambios del §11. |
 | 0.2 | 2026-10-14 | Pedido de Rod: la casilla obligatoria dice que acepta ser contactado por los medios que indicó; se agrega una segunda casilla **opcional y sin marcar** para novedades y promociones, con la entidad nueva `Suscriptor` (hasta la baja), lista y "Copiar correos" en el panel, baja y lo que debe decir la política. Se verifica el art. 28 B de la Ley 19.496. |
 | 0.1 | 2026-10-14 | Borrador inicial. Decisiones de Rod: formulario en página propia (D-01); hasta 5 fotos con "Agregar otra foto" y buscador; nombre y correo obligatorios, teléfono, ciudad y mensaje opcionales; texto de recepción editable en el panel; responder con borrador en Gmail y marcar a mano; consulta general sin foto; consentimiento con casilla obligatoria. Ley 21.719 reverificada el 2026-10-14. Revisión con las guías de diseño de interfaces (validación al salir del campo, botón nunca deshabilitado, celebración breve en el éxito, casos de datos extremos). |

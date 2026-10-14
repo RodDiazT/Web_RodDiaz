@@ -4,8 +4,8 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/paginas/paginas.md` |
 | Tipo | Componente |
-| Versión | 0.1 |
-| Estado | En revisión |
+| Versión | 1.0 |
+| Estado | Aprobado |
 | Fecha | 2026-10-14 |
 | Padre | `marco-general/marco-general-proyecto.md` |
 | Dependencias | `identidad/sistema-de-diseno.md`, `contenido/modelo-contenido-panel.md` |
@@ -363,6 +363,7 @@ No hay código previo. Cambios a documentos aprobados que se aplican al aprobar 
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.0 | 2026-10-14 | Aprobado por Rod. El marco general pasa a 1.6, el modelo de contenido a 1.3 y la consulta de copia a 1.1 con los cambios del §7. |
 | 0.1 | 2026-10-14 | Borrador inicial. Decisiones de Rod: Contacto como página breve con botón "Escríbeme" hacia `/consulta`; Sobre mí con foto de perfil, texto, 6 destacadas y "Escríbeme"; textos legales completos en la semilla; páginas libres en `/[slug]` sin menú; Contacto sin correo visible. Ley 21.719 y Ley 19.628 reverificadas el 2026-10-14; plazo de respuesta de 2 días hábiles. |
 
 ---

@@ -4,7 +4,7 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/contenido/modelo-contenido-panel.md` |
 | Tipo | Componente |
-| Versión | 1.2 |
+| Versión | 1.3 |
 | Estado | Aprobado |
 | Fecha | 2026-10-14 |
 | Padre | `marco-general/marco-general-proyecto.md` |
@@ -267,6 +267,9 @@ Sin cambios respecto del marco: `nombre` (único), `descripcion` (máx. 120), `a
 | `imagen` | relación con `Medio`, opcional | Por ejemplo, la foto de perfil en "Sobre mí". |
 | `estado` | `borrador`, `publicada` | — |
 | `seo` | grupo: `descripcion` (máx. 160) | El resto lo define `plataforma/seo.md`. |
+| `slugsAnteriores` ◇ | lista de texto, solo lectura | Páginas libres renombradas; la URL anterior redirige con 308. |
+| `contenidoActualizadoEn` ◇ | fecha y hora (UTC), solo lectura | Último cambio de `titulo` o `contenido` (no de `estado`). Fecha visible de las legales y `versionPolitica` de las consultas. |
+| `reservada` ◇ | casilla calculada | Verdadera en las cuatro reservadas: no se borran, su `slug` es de solo lectura y `privacidad` exige `correoContacto` para publicarse y no vuelve a borrador. Libres: `slug` distinto de las rutas del sitio. Detalle en `paginas/paginas.md` §5. |
 
 #### `Medio` ◆ (colección *upload* nueva)
 
@@ -499,6 +502,7 @@ Para Claude Code, después del paso 1 del plan del marco (§9.2: base del proyec
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.3 | 2026-10-14 | Cambio menor al aprobar `paginas/paginas.md` 1.0: `Pagina` con `slugsAnteriores`, `contenidoActualizadoEn`, `reservada` y validaciones de protección; la semilla usa los textos de `paginas` (§3.2 y Anexos A y B). |
 | 1.2 | 2026-10-14 | Cambio menor al aprobar `consultas/consulta-copia.md` 1.0: tarjetas del dashboard, grupo Consultas con Suscriptores y textos de consulta en `AjustesSitio`. |
 | 1.1 | 2026-10-14 | Cambio menor al aprobar `portafolio/galeria-colecciones.md` 1.0: `Foto.fijada`, `Foto.ordenFijada` y punto focal (`focalPoint: true`, `crop: false`); lista "Fijadas" ordenable; ayudas de `destacada`, `fijada` y `Coleccion.portada`; índices; funciones de datos de galería en `lib/contenido.ts`. |
 | 1.0 | 2026-10-13 | Aprobado por Rod. El marco general pasa a 1.2 con los cambios del §7. |

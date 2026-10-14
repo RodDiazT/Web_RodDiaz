@@ -4,7 +4,7 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/marco-general/marco-general-proyecto.md` |
 | Tipo | Marco general |
-| Versión | 1.5 |
+| Versión | 1.6 |
 | Estado | Aprobado |
 | Fecha | 2026-10-14 |
 | Padre | — |
@@ -132,7 +132,7 @@ Estos son los **nombres oficiales**. En el código van sin tildes, con el domini
 | `Caracteristica` | Etiqueta transversal que sirve de filtro, por ejemplo "Blanco y negro", "Paisaje", "Nocturna" o "Araucanía". | `nombre`, `slug`, `slugsAnteriores`. |
 | `FormatoImpresion` | Tamaño de copia disponible, del catálogo global; vale para ambas orientaciones. | `ladoCortoCm`, `ladoLargoCm`, `nombre` (calculado, por ejemplo "30 × 45 cm"), `proporcion` (calculada), `papeles` (relación con `TipoPapel`, al menos uno), `activo`, `orden`. |
 | `TipoPapel` | Papel de impresión del catálogo global, asociado a cada formato. | `nombre`, `descripcion` breve (por ejemplo "Algodón mate, textura suave"), `activo`. |
-| `Pagina` | Página editable: "Sobre mí", "Contacto", privacidad, condiciones. | `titulo`, `slug`, `contenido` (texto enriquecido en la v1.0; bloques en v1.x), `imagen` (relación con `Medio`, opcional), `estado`, campos SEO. |
+| `Pagina` | Página editable: "Sobre mí", "Contacto", privacidad, condiciones. | `titulo`, `slug`, `contenido` (texto enriquecido en la v1.0; bloques en v1.x), `imagen` (relación con `Medio`, opcional), `estado`, campos SEO, `slugsAnteriores` (páginas libres) y `contenidoActualizadoEn` (fecha del último cambio de texto). Las cuatro reservadas (`sobre-mi`, `contacto`, `privacidad`, `condiciones`) no se borran ni cambian de `slug`, y la política publicada no vuelve a borrador (`paginas/paginas.md`). |
 | `Consulta` | Solicitud de un interesado por una o más copias, o mensaje general sin foto. | `nombre`, `correo`, `telefono` (opcional), `ciudad` (opcional), `mensaje` (opcional), `items` (0 a 5 `ItemConsulta`: `foto`, `tituloFoto`, `slugFoto`, `formato` y `papel` opcionales), `tipo` (`copia`, `general`), `estado` (`nueva`, `respondida`, `cerrada`, `spam`), `respondidaEn`, `ultimaActividad`, `eliminarDespuesDe` (calculado), `notasInternas`, `consentimientoEn`, `versionPolitica`, `aceptaPromociones`, `origen`, `claveEnvio`. Detalle en `consultas/consulta-copia.md`. |
 | `Suscriptor` | Persona que aceptó, con una casilla opcional, recibir novedades y promociones. | `nombre`, `correo` (único), `consentimientoEn`, `versionPolitica`, `origen` (relación con `Consulta`). Se conserva hasta la baja. |
 | `Usuario` | Cuenta del panel. Solo existe Rod. | `correo`, `nombre`, `proveedorAcceso` (`google`), `idGoogle`, `ultimoAcceso`. |
@@ -177,7 +177,7 @@ Relaciones clave:
 | `GET /datos/contexto` | Lista del contexto de una foto para la navegación y el visor (`portafolio/ficha-foto.md` §5.3). |
 | `/consulta?foto=<slug>&formato=<id>&origen=<ficha\|visor>` | Formulario de consulta en página propia (todos los parámetros opcionales; sin foto es una consulta general). Lo define `consultas/consulta-copia.md`. |
 | `GET /datos/fotos-consultables` | Fotos que ofrecen copia, para el buscador del formulario (`consultas/consulta-copia.md` §5.3). |
-| `/sobre-mi`, `/contacto`, `/[slug]` | Páginas. |
+| `/sobre-mi`, `/contacto`, `/[slug]` | Páginas. `/privacidad`, `/condiciones` y las páginas libres van por `/[slug]`; las rutas del sitio están reservadas como `slug` (`paginas/paginas.md`). |
 | `/admin` | Panel Payload, solo para Rod. |
 | `/api/...` | API de Payload y endpoint de envío de consultas. |
 | `/sitemap.xml`, `/robots.txt` | SEO. |
@@ -339,6 +339,7 @@ Los documentos 1 y 2 quedan desbloqueados en paralelo al aprobar el marco. Se re
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.6 | 2026-10-14 | Cambio menor al aprobar `paginas/paginas.md` 1.0: `Pagina` con `slugsAnteriores` y `contenidoActualizadoEn` y protección de las páginas reservadas (§6.1); `/privacidad`, `/condiciones` y libres por `/[slug]` con rutas reservadas (§6.3). |
 | 1.5 | 2026-10-14 | Cambios al aprobar `consultas/consulta-copia.md` 1.0: `Consulta` con `items` (0 a 5), `ciudad`, `tipo`, `respondidaEn`, consentimiento y campos técnicos; consulta general sin foto; entidad nueva `Suscriptor` para novedades con casilla opcional (§6.1, §7.1); textos de consulta en `AjustesSitio`; `/consulta` como página y `GET /datos/fotos-consultables` (§6.3); Gmail como tercero; art. 28 B de la Ley 19.496 para promociones (§7.5); D-01 resuelta. |
 | 1.4 | 2026-10-14 | Cambio menor al aprobar `portafolio/ficha-foto.md` 1.0: §6.3 agrega `GET /datos/contexto` y el destino `/consulta?foto=<slug>&formato=<id>`. |
 | 1.3 | 2026-10-14 | Cambios menores al aprobar `portafolio/galeria-colecciones.md` 1.0: las grillas de fotos no recortan (filas justificadas) y solo las tarjetas de colección recortan a 4:5 con punto focal (§5); `Foto.fijada`, `Foto.ordenFijada` y punto focal (§6.1); rutas `/colecciones`, `?pagina=`, filtro en colecciones y `GET /datos/fotos` (§6.3). |
