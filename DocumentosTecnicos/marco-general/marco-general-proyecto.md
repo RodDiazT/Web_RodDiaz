@@ -4,7 +4,7 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/marco-general/marco-general-proyecto.md` |
 | Tipo | Marco general |
-| Versión | 1.4 |
+| Versión | 1.5 |
 | Estado | Aprobado |
 | Fecha | 2026-10-14 |
 | Padre | — |
@@ -133,18 +133,19 @@ Estos son los **nombres oficiales**. En el código van sin tildes, con el domini
 | `FormatoImpresion` | Tamaño de copia disponible, del catálogo global; vale para ambas orientaciones. | `ladoCortoCm`, `ladoLargoCm`, `nombre` (calculado, por ejemplo "30 × 45 cm"), `proporcion` (calculada), `papeles` (relación con `TipoPapel`, al menos uno), `activo`, `orden`. |
 | `TipoPapel` | Papel de impresión del catálogo global, asociado a cada formato. | `nombre`, `descripcion` breve (por ejemplo "Algodón mate, textura suave"), `activo`. |
 | `Pagina` | Página editable: "Sobre mí", "Contacto", privacidad, condiciones. | `titulo`, `slug`, `contenido` (texto enriquecido en la v1.0; bloques en v1.x), `imagen` (relación con `Medio`, opcional), `estado`, campos SEO. |
-| `Consulta` | Solicitud de un interesado por una o más copias. | `nombre`, `correo`, `telefono` (opcional), `mensaje`, `fotos` (relación con `Foto`, una o más), `formatoPreferido` y `papelPreferido` (opcionales), `estado` (`nueva`, `respondida`, `cerrada`, `spam`), `ultimaActividad`, `eliminarDespuesDe` (calculado), `notasInternas`. |
+| `Consulta` | Solicitud de un interesado por una o más copias, o mensaje general sin foto. | `nombre`, `correo`, `telefono` (opcional), `ciudad` (opcional), `mensaje` (opcional), `items` (0 a 5 `ItemConsulta`: `foto`, `tituloFoto`, `slugFoto`, `formato` y `papel` opcionales), `tipo` (`copia`, `general`), `estado` (`nueva`, `respondida`, `cerrada`, `spam`), `respondidaEn`, `ultimaActividad`, `eliminarDespuesDe` (calculado), `notasInternas`, `consentimientoEn`, `versionPolitica`, `aceptaPromociones`, `origen`, `claveEnvio`. Detalle en `consultas/consulta-copia.md`. |
+| `Suscriptor` | Persona que aceptó, con una casilla opcional, recibir novedades y promociones. | `nombre`, `correo` (único), `consentimientoEn`, `versionPolitica`, `origen` (relación con `Consulta`). Se conserva hasta la baja. |
 | `Usuario` | Cuenta del panel. Solo existe Rod. | `correo`, `nombre`, `proveedorAcceso` (`google`), `idGoogle`, `ultimoAcceso`. |
 | `Medio` | Imagen auxiliar que no es obra: logo y foto de perfil. No aparece en galerías ni se consulta. | `archivo` (JPEG, PNG o SVG según el uso), `textoAlternativo`, `uso` (`logo`, `pagina`). |
 | `IntentoAcceso` | Registro de un intento rechazado de entrar al panel. | `correo`, `fecha`, `motivo`. Se borra a los 90 días. |
-| `AjustesSitio` (global Payload) | Datos del sitio que no van en el código. | `nombreSitio` ("Rod Díaz"; también es el texto de la marca), `logo` (relación con `Medio`, opcional, SVG o PNG; reemplaza al wordmark), `descripcion`, `correoContacto`, `redes` (Instagram, etc.), `fotoPortada` (relación con `Foto`, opcional), textos de la llamada a consulta, texto opcional para fotos de vitrina (`textoVitrina`) y aviso de derechos de autor. |
+| `AjustesSitio` (global Payload) | Datos del sitio que no van en el código. | `nombreSitio` ("Rod Díaz"; también es el texto de la marca), `logo` (relación con `Medio`, opcional, SVG o PNG; reemplaza al wordmark), `descripcion`, `correoContacto`, `redes` (Instagram, etc.), `fotoPortada` (relación con `Foto`, opcional), textos de la llamada a consulta, texto opcional para fotos de vitrina (`textoVitrina`), aviso de derechos de autor y los textos de la consulta (`textoIntroConsulta`, `textoConsultaRecibida`, `textoConsentimiento`, `textoPromociones`, `plantillaRespuesta`, `plantillaNovedades`). |
 
 Relaciones clave:
 
 - Una `Foto` pertenece a **una** `Coleccion` (obligatoria para publicar) y tiene cero o más `Caracteristica`. Una `Coleccion` puede tener una `Coleccion` padre (dos niveles como máximo).
 - Una `Foto` ofrece cero o más `FormatoImpresion` (solo los de proporción compatible). Cada `FormatoImpresion` tiene uno o más `TipoPapel`: si hay varios, el interesado elige; si hay uno, se le informa.
 - Una `Foto` sin formatos ofrecibles es **de vitrina**: se publica y no ofrece copia.
-- Una `Consulta` referencia una o más `Foto`.
+- Una `Consulta` referencia cero o más `Foto` (cero = consulta general), hasta cinco. Un `Suscriptor` nace de una `Consulta` con la casilla de novedades marcada y la sobrevive.
 
 `FormatoImpresion` y `TipoPapel` se modelan como catálogos independientes (el papel asociado al formato y el formato a la foto), para que en la v2 la combinación foto × formato × papel pueda convertirse en variante de producto sin migrar datos.
 
@@ -174,7 +175,8 @@ Relaciones clave:
 | `GET /datos/fotos` | Siguiente página de fotos para el scroll infinito (`portafolio/galeria-colecciones.md` §5.3). |
 | `/fotos/[slug]` | Ficha de foto con la llamada a "Pedir una copia". Lee el contexto `?coleccion=` y `?caracteristica=` en el navegador (`portafolio/ficha-foto.md` §5.2.2). |
 | `GET /datos/contexto` | Lista del contexto de una foto para la navegación y el visor (`portafolio/ficha-foto.md` §5.3). |
-| `/consulta?foto=<slug>&formato=<id>` (o modal en la ficha) | Formulario de consulta. La ficha enlaza a esta URL (`formato` opcional); modal o página se define en `consultas/consulta-copia.md`. |
+| `/consulta?foto=<slug>&formato=<id>&origen=<ficha\|visor>` | Formulario de consulta en página propia (todos los parámetros opcionales; sin foto es una consulta general). Lo define `consultas/consulta-copia.md`. |
+| `GET /datos/fotos-consultables` | Fotos que ofrecen copia, para el buscador del formulario (`consultas/consulta-copia.md` §5.3). |
 | `/sobre-mi`, `/contacto`, `/[slug]` | Páginas. |
 | `/admin` | Panel Payload, solo para Rod. |
 | `/api/...` | API de Payload y endpoint de envío de consultas. |
@@ -193,7 +195,7 @@ Web_RodDiaz/
     ├── app/
     │   ├── (sitio)/             # rutas públicas
     │   └── (payload)/           # panel y API de Payload
-    ├── colecciones/             # Foto.ts, Coleccion.ts, Caracteristica.ts, FormatoImpresion.ts, TipoPapel.ts, Pagina.ts, Medio.ts, Consulta.ts, Usuario.ts, IntentoAcceso.ts
+    ├── colecciones/             # Foto.ts, Coleccion.ts, Caracteristica.ts, FormatoImpresion.ts, TipoPapel.ts, Pagina.ts, Medio.ts, Consulta.ts, Suscriptor.ts, Usuario.ts, IntentoAcceso.ts
     ├── globales/                # AjustesSitio.ts
     ├── componentes/             # UI del sitio público
     ├── lib/                     # imagenes (sharp), proporcion, antispam
@@ -228,13 +230,13 @@ Carpetas de dominio documental confirmadas: `identidad/`, `contenido/`, `portafo
 ### 7.1 Datos personales de los interesados
 
 - **Normativa:** Ley 19.628 (vigente) y **Ley 21.719**, con entrada en vigencia el **1 de diciembre de 2026**. El 1 de septiembre de 2026 ingresó un proyecto (Boletín N° 18.623-07) para postergarla al 1 de diciembre de 2027. Aún no es ley y sigue en tramitación (fuente: [Alerta legal Cariola, septiembre 2026](https://www.cariola.cl/app/uploads/2026/09/Alerta-legal_-2septiembre.pdf), consultada el 2026-10-07). **El sitio se diseña para cumplir la Ley 21.719 desde el lanzamiento**, sin importar la prórroga. Esta fecha se reverifica en cada componente que trate datos personales.
-- **Datos:** nombre, correo, teléfono (opcional) y mensaje. Son los mínimos para responder.
-- **Finalidad:** responder la consulta por una copia. No se usan para marketing ni se agregan a listas.
+- **Datos:** nombre, correo, teléfono (opcional), ciudad (opcional, para estimar el envío) y mensaje (opcional). Son los mínimos para responder.
+- **Finalidades:** (1) responder la consulta, contactando por los medios que el interesado indicó; (2) solo con una segunda casilla **opcional y sin marcar**, enviar novedades y promociones (`Suscriptor`: nombre y correo, hasta la baja). La consulta nunca depende de aceptar la segunda.
 - **Base de licitud:** consentimiento del interesado al enviar el formulario, con un texto breve y un enlace a la política de privacidad.
 - **Responsable:** Rod. Correo de contacto para ejercer derechos: el de `AjustesSitio.correoContacto`.
-- **Conservación:** 12 meses desde la última actividad, y luego borrado automático (§6.2.8).
+- **Conservación:** consultas, 12 meses desde la última actividad, y luego borrado automático (§6.2.8); suscriptores, hasta la baja.
 - **Derechos (acceso, rectificación, supresión, oposición):** por correo a Rod, que los ejecuta desde el panel. El documento `consultas/consulta-copia.md` define el procedimiento.
-- **Terceros:** Railway (hosting y base de datos) y Google (inicio de sesión de Rod en el panel; no recibe datos de interesados).
+- **Terceros:** Railway (hosting y base de datos) y Google (inicio de sesión de Rod en el panel, y Gmail, desde donde Rod responde consultas y envía novedades).
 - **Intentos de acceso al panel:** se registra el correo y la fecha de los intentos rechazados, por seguridad, durante 90 días (`contenido/modelo-contenido-panel.md` §6). La política de privacidad los menciona.
 - **Política de privacidad:** es una `Pagina` obligatoria antes del lanzamiento.
 
@@ -252,7 +254,7 @@ La v1 no usa cookies de rastreo, por lo que no requiere banner. Si un componente
 
 ### 7.5 Consumo y tributario
 
-Fuera de alcance mientras la venta sea 1:1. Se revisa al activar la v2.
+Fuera de alcance mientras la venta sea 1:1. Se revisa al activar la v2. **Excepción:** los correos de novedades y promociones cumplen el art. 28 B de la Ley 19.496 (forma expedita de pedir la suspensión, y no se envían desde que se pide, también vía "No Molestar" del Sernac); ver `consultas/consulta-copia.md` §5.2.13.
 
 ## 8. Elementos obsoletos
 
@@ -319,7 +321,7 @@ Los documentos 1 y 2 quedan desbloqueados en paralelo al aprobar el marco. Se re
 
 **Decisiones abiertas (no bloquean los documentos 1 y 2)**
 
-- D-01. ¿El formulario de consulta va en un modal dentro de la ficha o en una página propia? Se decide en `consultas/consulta-copia.md`.
+- D-01 (resuelta en `consultas/consulta-copia.md` 1.0): el formulario va en una página propia.
 - D-02. Política de respaldo (frecuencia). El plan Pro de Railway incluye respaldos de volumen. Se decide en `plataforma/despliegue.md`.
 
 **Tareas del dueño**
@@ -337,6 +339,7 @@ Los documentos 1 y 2 quedan desbloqueados en paralelo al aprobar el marco. Se re
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.5 | 2026-10-14 | Cambios al aprobar `consultas/consulta-copia.md` 1.0: `Consulta` con `items` (0 a 5), `ciudad`, `tipo`, `respondidaEn`, consentimiento y campos técnicos; consulta general sin foto; entidad nueva `Suscriptor` para novedades con casilla opcional (§6.1, §7.1); textos de consulta en `AjustesSitio`; `/consulta` como página y `GET /datos/fotos-consultables` (§6.3); Gmail como tercero; art. 28 B de la Ley 19.496 para promociones (§7.5); D-01 resuelta. |
 | 1.4 | 2026-10-14 | Cambio menor al aprobar `portafolio/ficha-foto.md` 1.0: §6.3 agrega `GET /datos/contexto` y el destino `/consulta?foto=<slug>&formato=<id>`. |
 | 1.3 | 2026-10-14 | Cambios menores al aprobar `portafolio/galeria-colecciones.md` 1.0: las grillas de fotos no recortan (filas justificadas) y solo las tarjetas de colección recortan a 4:5 con punto focal (§5); `Foto.fijada`, `Foto.ordenFijada` y punto focal (§6.1); rutas `/colecciones`, `?pagina=`, filtro en colecciones y `GET /datos/fotos` (§6.3). |
 | 1.2 | 2026-10-13 | Cambios al aprobar `contenido/modelo-contenido-panel.md` 1.0: una sola `Coleccion` por `Foto` (obligatoria para publicar) y jerarquía de dos niveles (`padre`, `visibleSola`, `orden`, estado `borrador`/`publicada`); `datosTecnicos` reducido a distancia focal, apertura y velocidad; `FormatoImpresion` por lado corto × lado largo con `papeles`; se elimina `Foto.papeles`; fotos de vitrina sin copia en lugar de "Tamaños a pedido"; solo JPEG; nuevas entidades `Medio` e `IntentoAcceso`; `Foto.slugsAnteriores`, `publicadaEn` y `posibleDuplicado`; `AjustesSitio.textoVitrina`; duplicados con aviso posterior. |

@@ -4,7 +4,7 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/contenido/modelo-contenido-panel.md` |
 | Tipo | Componente |
-| Versión | 1.1 |
+| Versión | 1.2 |
 | Estado | Aprobado |
 | Fecha | 2026-10-14 |
 | Padre | `marco-general/marco-general-proyecto.md` |
@@ -98,7 +98,7 @@ El panel usa el tema oscuro estándar de Payload y su interfaz en español (`ide
 
 Reemplaza la portada por defecto de Payload con tarjetas simples, en este orden:
 
-1. **Consultas nuevas** (número y enlace). La tarjeta la llena `consultas/consulta-copia.md`; este documento solo reserva el espacio.
+1. **Consultas nuevas** (número, la más antigua sin responder y enlace) y **Consultas por mes** (12 meses, recibidas y respondidas, y total de suscriptores). Las define `consultas/consulta-copia.md` §3.7.
 2. **Fotos en borrador** (número), con un enlace a la lista "Por completar", que muestra las que no cumplen los mínimos y qué les falta.
 3. **Accesos rechazados** de los últimos 30 días (número y el último correo). Si no hay, la tarjeta no se muestra.
 4. Accesos directos: *Subir fotos*, *Colecciones*, *Ajustes del sitio*.
@@ -274,7 +274,7 @@ Imágenes auxiliares que **no son obra**: el logo y la foto de perfil. No aparec
 
 #### `AjustesSitio` (global)
 
-Como en el marco: `nombreSitio` ("Rod Díaz"), `logo` (relación con `Medio`, opcional), `descripcion`, `correoContacto`, `redes` (lista de `red`, que puede ser `instagram` u `otra`, más `url`), `fotoPortada` (relación con `Foto`, opcional), `textoLlamadaCopia` (por defecto "Pedir una copia"), `textoDerechos` y `textoVitrina` ◆ (opcional; texto breve que la ficha puede mostrar en fotos sin copia). El logo se previsualiza sobre `#151515` (sistema de diseño).
+Como en el marco: `nombreSitio` ("Rod Díaz"), `logo` (relación con `Medio`, opcional), `descripcion`, `correoContacto`, `redes` (lista de `red`, que puede ser `instagram` u `otra`, más `url`), `fotoPortada` (relación con `Foto`, opcional), `textoLlamadaCopia` (por defecto "Pedir una copia"), `textoDerechos`, `textoVitrina` ◆ (opcional; texto breve que la ficha puede mostrar en fotos sin copia) y los textos de la consulta `textoIntroConsulta`, `textoConsultaRecibida`, `textoConsentimiento`, `textoPromociones`, `plantillaRespuesta` y `plantillaNovedades` (valores por defecto en `consultas/consulta-copia.md` §5.1), en una pestaña *Consultas* de Ajustes del sitio. El logo se previsualiza sobre `#151515` (sistema de diseño).
 
 #### `Usuario` (colección *auth*)
 
@@ -325,7 +325,7 @@ Solo lectura en el panel, salvo borrar. No se guarda IP, nombre ni foto de la cu
 
 | Interfaz | Detalle |
 |---|---|
-| `/admin` | Panel Payload en español con grupos de navegación: **Obra** (Fotos, Colecciones, Características), **Catálogo de copias** (Formatos de impresión, Tipos de papel), **Consultas** (de `consulta-copia`), **Sitio** (Páginas, Medios, Ajustes del sitio), **Seguridad** (Intentos de acceso; `Usuario` oculto). |
+| `/admin` | Panel Payload en español con grupos de navegación: **Obra** (Fotos, Colecciones, Características), **Catálogo de copias** (Formatos de impresión, Tipos de papel), **Consultas** (Consultas y Suscriptores a novedades, de `consulta-copia`), **Sitio** (Páginas, Medios, Ajustes del sitio), **Seguridad** (Intentos de acceso; `Usuario` oculto). |
 | `/admin` (dashboard) | Componente propio que reemplaza la portada (§3.4). |
 | Inicio de sesión | Botón "Entrar con Google" en `/admin/login`. Callback OAuth en la ruta que defina la librería elegida (§5.6). Las respuestas de rechazo usan un mensaje genérico. |
 | API de Payload `/api/...` | Lectura pública solo de lo visible: el control de acceso `read` de `Foto`, `Coleccion`, `Pagina` aplica §5.2.5 para usuarios anónimos. `IntentoAcceso`, `Usuario` y los borradores solo los lee Rod. Escritura solo para Rod. |
@@ -499,6 +499,7 @@ Para Claude Code, después del paso 1 del plan del marco (§9.2: base del proyec
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.2 | 2026-10-14 | Cambio menor al aprobar `consultas/consulta-copia.md` 1.0: tarjetas del dashboard, grupo Consultas con Suscriptores y textos de consulta en `AjustesSitio`. |
 | 1.1 | 2026-10-14 | Cambio menor al aprobar `portafolio/galeria-colecciones.md` 1.0: `Foto.fijada`, `Foto.ordenFijada` y punto focal (`focalPoint: true`, `crop: false`); lista "Fijadas" ordenable; ayudas de `destacada`, `fijada` y `Coleccion.portada`; índices; funciones de datos de galería en `lib/contenido.ts`. |
 | 1.0 | 2026-10-13 | Aprobado por Rod. El marco general pasa a 1.2 con los cambios del §7. |
 | 0.1 | 2026-10-13 | Borrador inicial, conversado por voz con Rod. Decisiones: una colección por foto (obligatoria para publicar) y características transversales; colecciones de dos niveles con fotos propias en la madre y `visibleSola` en las hijas; borrador y publicación para fotos y colecciones; `lugar` libre; fecha de captura del EXIF o manual; solo distancia focal, apertura y velocidad (sin cámara, lente ni GPS); todo lo automático es editable; catálogo de formatos por proporción con papeles por formato; fotos de vitrina sin copia; carga masiva con edición en bloque; solo JPG en sRGB; acceso con un solo correo de Google y registro de intentos rechazados; páginas simples. Nuevas entidades `Medio` e `IntentoAcceso`. Cambios al marco listados en §7. |

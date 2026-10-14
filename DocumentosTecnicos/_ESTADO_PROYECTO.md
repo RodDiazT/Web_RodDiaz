@@ -3,7 +3,7 @@
 Actualizado: 2026-10-14
 
 ## Resumen
-Marco general (1.4), sistema de diseño (1.0), modelo de contenido y panel (1.1), galería y colecciones (1.1) y ficha de foto (1.0) aprobados. La ficha muestra la foto completa con su título, lugar, mes y año, un resumen de copias con desplegable de tamaños y papeles (elección opcional que pasa a la consulta), "Pedir una copia" (también en el visor y en una barra móvil que aparece al pasar el botón), historia plegable, etiquetas, datos técnicos, compartir y "Más de <colección>". Siguiente desbloqueado: consulta de copia (además de páginas y despliegue).
+Marco general (1.5), sistema de diseño (1.0), modelo de contenido y panel (1.2), galería y colecciones (1.1), ficha de foto (1.1) y consulta de copia (1.0) aprobados. El flujo central queda completo en documentos: portada → galería → ficha → `/consulta` (página propia, hasta 5 fotos, consulta general, casilla obligatoria de privacidad y contacto, casilla opcional de novedades) → panel (nuevas, respuesta con borrador en Gmail, indicador mensual, suscriptores). Siguiente desbloqueado: páginas (también despliegue).
 
 ## Versión en curso
 v1.0: portafolio con consulta 1:1.
@@ -16,9 +16,12 @@ v1.0: portafolio con consulta 1:1.
 - Imágenes: solo JPG hasta 60 MB; EXIF leído con `exifr` (solo fecha, distancia focal, apertura y velocidad).
 - Galería: filas justificadas en CSS puro, scroll infinito con `IntersectionObserver` y punto focal nativo de Payload; sin dependencias nuevas.
 - Ficha: `<details>` nativo, `IntersectionObserver`, Web Share y Clipboard API; contexto resuelto en el navegador con `GET /datos/contexto`; sin dependencias nuevas.
+- Consultas: Server Action con mejora progresiva, antispam sin captcha (trampa, firma de tiempo, límite por IP en memoria), respuesta desde Gmail, borrado diario con la cola de trabajos de Payload; sin servicios nuevos.
 - Tablero: https://claude.ai/artifact/So8RmLvWvY4EkLEBNbVdcd
 
 ## Documentos aprobados recientes
+- Consulta de copia y gestión de consultas, versión 1.0 (2026-10-14).
+- Marco general 1.5, modelo de contenido 1.2 y ficha 1.1 (2026-10-14): `Consulta` con ítems, `Suscriptor`, textos de consulta, `/datos/fotos-consultables`.
 - Ficha de foto, versión 1.0 (2026-10-14).
 - Marco general 1.4 y galería 1.1 (2026-10-14): `GET /datos/contexto`, enlace `/consulta?foto=&formato=` y contexto con filtro desde una colección.
 - Galería y colecciones, versión 1.0 (2026-10-14).
@@ -33,8 +36,8 @@ v1.0: portafolio con consulta 1:1.
 - Ninguno.
 
 ## Próximos pasos
-1. Consulta de copia y gestión de consultas (`consultas/consulta-copia.md`): debe aceptar `/consulta?foto=<slug>&formato=<id>`, mostrar el tamaño preseleccionado y decidir modal o página (D-01).
-2. En paralelo, desbloqueados: páginas (`paginas/paginas.md`) y despliegue (`plataforma/despliegue.md`).
+1. Páginas (`paginas/paginas.md`): Sobre mí, Contacto (enlaza a `/consulta` sin foto), política de privacidad (con lo que fija `consulta-copia` §6) y condiciones.
+2. En paralelo, desbloqueado: despliegue (`plataforma/despliegue.md`).
 3. Rod: catálogo de tamaños y papeles (T-006) y cliente OAuth de Google (T-008) antes de implementar el panel.
 
 ## Control de cambios
@@ -48,3 +51,4 @@ v1.0: portafolio con consulta 1:1.
 | 2026-10-13 | Modelo de contenido y panel aprobado (1.0); marco general 1.2. |
 | 2026-10-14 | Galería y colecciones aprobado (1.0); marco general 1.3; modelo de contenido 1.1; T-009. |
 | 2026-10-14 | Ficha de foto aprobada (1.0); marco general 1.4; galería 1.1. |
+| 2026-10-14 | Consulta de copia aprobada (1.0); marco general 1.5; modelo de contenido 1.2; ficha 1.1. |

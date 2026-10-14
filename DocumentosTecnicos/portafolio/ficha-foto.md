@@ -4,7 +4,7 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/portafolio/ficha-foto.md` |
 | Tipo | Componente |
-| Versión | 1.0 |
+| Versión | 1.1 |
 | Estado | Aprobado |
 | Fecha | 2026-10-14 |
 | Padre | `marco-general/marco-general-proyecto.md` (1.4, que incorpora los cambios del §11) |
@@ -257,7 +257,7 @@ Resuelve el riesgo SD-08: sin color de acento, la llamada podría pasar inadvert
 6. **Fecha visible.** Mes y año de `Foto.fecha` en America/Santiago, en minúsculas: "marzo de 2025" (`Intl.DateTimeFormat('es-CL', { month: 'long', year: 'numeric', timeZone: 'America/Santiago' })`). En el HTML va en un `<time datetime="2025-03-14">`.
 7. **Datos técnicos visibles.** En este orden y formato: distancia focal "35 mm", apertura "f/8" (con coma si tiene decimal: "f/5,6"), velocidad tal como está normalizada ("1/250 s"). Separados por " · ". Solo los que tienen valor.
 8. **"Más de".** Colección de la foto o, si es una hija con `visibleSola = false`, su madre. Hasta 6 fotos visibles distintas de la actual, en orden circular desde la siguiente a la actual. La sección se titula "Más de <nombre>".
-9. **Contrato con la consulta.** El destino de "Pedir una copia" es `/consulta?foto=<slug>` y, si hay un formato elegido o la foto tiene un solo formato, `&formato=<id de FormatoImpresion>`. `consultas/consulta-copia.md` decide si se abre como modal o página (D-01) y puede interceptar el enlace, pero debe aceptar esta URL, validar `formato` contra los formatos ofrecidos por esa foto e ignorarlo si no corresponde. El papel no viaja en la URL: si el formato tiene un solo papel, la consulta lo informa; si tiene varios, se elige ahí.
+9. **Contrato con la consulta.** El destino de "Pedir una copia" es `/consulta?foto=<slug>` y, si hay un formato elegido o la foto tiene un solo formato, `&formato=<id de FormatoImpresion>`, más `&origen=ficha` (o `&origen=visor` desde el visor). `consultas/consulta-copia.md` decide si se abre como modal o página (D-01) y puede interceptar el enlace, pero debe aceptar esta URL, validar `formato` contra los formatos ofrecidos por esa foto e ignorarlo si no corresponde. El papel no viaja en la URL: si el formato tiene un solo papel, la consulta lo informa; si tiene varios, se elige ahí.
 10. **Datos, no código.** El texto del botón y el de vitrina salen de `AjustesSitio`. Los rótulos de interfaz ("Tamaños y papeles", "Elige un tamaño (opcional)", "Quitar", "Leer más", "Leer menos", "Compartir", "Enlace copiado", "Copia este enlace", "Más de", "Ver la colección", "Volver a", "Esta foto ya no está disponible" y su texto) son parte del código, como en el sistema de diseño §5.4.
 
 ### 5.3 Interfaces
@@ -466,5 +466,6 @@ No nacen tareas nuevas. Para lanzar, siguen abiertas T-005 (fotos de lanzamiento
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.1 | 2026-10-14 | Cambio menor al aprobar `consultas/consulta-copia.md` 1.0: el enlace a la consulta agrega `origen=ficha` u `origen=visor` (§5.2.9). |
 | 1.0 | 2026-10-14 | Aprobado por Rod. D-F1 y D-F2 quedan con sus valores por defecto. El marco general pasa a 1.4 y la galería a 1.1 con los cambios del §11. |
 | 0.1 | 2026-10-14 | Borrador inicial. Decisiones de Rod: tamaños con resumen de una línea y desplegable; elección de tamaño opcional que se lleva a la consulta; barra fija móvil que aparece al pasar el botón; fecha en mes y año; historia plegada con "Leer más"; características como enlaces; datos técnicos en una línea discreta; botón compartir nativo; "Más de <colección>" bajo la ficha; vitrina con `textoVitrina` o nada; "Pedir una copia" en el visor. Revisión con las guías de diseño de interfaces (transiciones interrumpibles, salida más rápida que la entrada, sin animar acciones de teclado). |

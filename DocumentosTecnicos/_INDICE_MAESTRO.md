@@ -4,12 +4,12 @@
 
 | Ruta | Tipo | Versión | Estado | Producto | Padre | Dependencias |
 |---|---|---|---|---|---|---|
-| `marco-general/marco-general-proyecto.md` | marco | 1.4 | aprobado | v1.0 | — | — |
+| `marco-general/marco-general-proyecto.md` | marco | 1.5 | aprobado | v1.0 | — | — |
 | `identidad/sistema-de-diseno.md` | transversal | 1.0 | aprobado | v1.0 | marco-general | marco-general |
-| `contenido/modelo-contenido-panel.md` | componente | 1.1 | aprobado | v1.0 | marco-general | marco-general |
+| `contenido/modelo-contenido-panel.md` | componente | 1.2 | aprobado | v1.0 | marco-general | marco-general |
 | `portafolio/galeria-colecciones.md` | componente | 1.1 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
-| `portafolio/ficha-foto.md` | componente | 1.0 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
-| `consultas/consulta-copia.md` | componente | 0.2 | revision | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
+| `portafolio/ficha-foto.md` | componente | 1.1 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
+| `consultas/consulta-copia.md` | componente | 1.0 | aprobado | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
 | `paginas/paginas.md` | componente | — | pendiente | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `plataforma/seo.md` | transversal | — | pendiente | v1.0 | marco-general | galeria-colecciones, ficha-foto, paginas |
 | `plataforma/despliegue.md` | transversal | — | pendiente | v1.0 | marco-general | modelo-contenido-panel |
@@ -17,12 +17,12 @@
 ## Árbol
 
 ```
-marco-general/marco-general-proyecto.md        [aprobado 1.4]
+marco-general/marco-general-proyecto.md        [aprobado 1.5]
 ├── identidad/sistema-de-diseno.md             [aprobado 1.0]
-├── contenido/modelo-contenido-panel.md        [aprobado 1.1]
+├── contenido/modelo-contenido-panel.md        [aprobado 1.2]
 ├── portafolio/galeria-colecciones.md          [aprobado 1.1]
-├── portafolio/ficha-foto.md                   [aprobado 1.0]
-├── consultas/consulta-copia.md                [revision 0.2]
+├── portafolio/ficha-foto.md                   [aprobado 1.1]
+├── consultas/consulta-copia.md                [aprobado 1.0]
 ├── paginas/paginas.md                         [pendiente]
 ├── plataforma/seo.md                          [pendiente]
 └── plataforma/despliegue.md                   [pendiente]
@@ -59,7 +59,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.4]
 {
   "esquema": "1.1",
   "proyecto": "Rod Díaz (Web_RodDiaz)",
-  "actualizado": "2026-10-14T12:45-03:00",
+  "actualizado": "2026-10-14T12:35-03:00",
   "fases": [
     {
       "id": "v1.0",
@@ -88,9 +88,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.4]
       "dependencias": [],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.4",
+      "version": "1.5",
       "actualizado": "2026-10-14",
-      "notas": "1.4: GET /datos/contexto y destino /consulta?foto=&formato= (desde ficha-foto)."
+      "notas": "1.5: Consulta con items y consulta general, entidad Suscriptor, textos de consulta, /consulta página, /datos/fotos-consultables, art. 28 B (desde consulta-copia)."
     },
     {
       "id": "sistema-de-diseno",
@@ -120,9 +120,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.4]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.1",
+      "version": "1.2",
       "actualizado": "2026-10-14",
-      "notas": "1.1: fijadas, punto focal y funciones de galería (desde galeria-colecciones). Implementación requiere T-006 y T-008."
+      "notas": "1.2: dashboard de consultas, grupo Consultas con Suscriptores y textos en AjustesSitio (desde consulta-copia). Implementación requiere T-006 y T-008."
     },
     {
       "id": "galeria-colecciones",
@@ -155,9 +155,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.4]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.0",
+      "version": "1.1",
       "actualizado": "2026-10-14",
-      "notas": "Marco pasa a 1.4 y galeria-colecciones a 1.1 (§11). Desbloquea consulta-copia."
+      "notas": "1.1: enlace a la consulta con origen (desde consulta-copia)."
     },
     {
       "id": "consulta-copia",
@@ -171,10 +171,10 @@ marco-general/marco-general-proyecto.md        [aprobado 1.4]
         "ficha-foto"
       ],
       "fase": "v1.0",
-      "estado": "revision",
-      "version": "0.2",
+      "estado": "aprobado",
+      "version": "1.0",
       "actualizado": "2026-10-14",
-      "notas": "Al aprobar: marco 1.5 (Consulta.items, consulta general, nueva entidad Suscriptor con casilla opcional de novedades, art. 28 B Ley 19.496, AjustesSitio, /consulta página, /datos/fotos-consultables), modelo-contenido-panel 1.2 (dashboard) y ficha-foto 1.1 (origen)."
+      "notas": "Marco pasa a 1.5, modelo-contenido-panel a 1.2 y ficha-foto a 1.1 (§11)."
     },
     {
       "id": "paginas",
@@ -361,3 +361,4 @@ marco-general/marco-general-proyecto.md        [aprobado 1.4]
 | 2026-10-14 | Ficha de foto aprobada (1.0). Marco general pasa a 1.4 y galería a 1.1. Sin tareas nuevas. Queda desbloqueado `consulta-copia`. |
 | 2026-10-14 | Consulta de copia en revisión (0.1): página propia, hasta 5 fotos con buscador, ciudad opcional, consulta general, casilla de consentimiento, respuesta con borrador en Gmail, indicador mensual en el dashboard. |
 | 2026-10-14 | Consulta de copia 0.2: casilla obligatoria incluye ser contactado por los medios indicados; casilla opcional de novedades y promociones con la entidad `Suscriptor`. |
+| 2026-10-14 | Consulta de copia aprobada (1.0). Marco general pasa a 1.5, modelo de contenido a 1.2 y ficha a 1.1. Siguiente: `paginas` (también desbloqueado `despliegue`). |

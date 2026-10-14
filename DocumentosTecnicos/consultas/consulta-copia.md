@@ -4,11 +4,11 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/consultas/consulta-copia.md` |
 | Tipo | Componente |
-| Versión | 0.2 |
-| Estado | En revisión |
+| Versión | 1.0 |
+| Estado | Aprobado |
 | Fecha | 2026-10-14 |
-| Padre | `marco-general/marco-general-proyecto.md` (1.4) |
-| Dependencias | `contenido/modelo-contenido-panel.md` (1.1), `portafolio/ficha-foto.md` (1.0); usa `identidad/sistema-de-diseno.md` (1.0) |
+| Padre | `marco-general/marco-general-proyecto.md` (1.5) |
+| Dependencias | `contenido/modelo-contenido-panel.md` (1.2), `portafolio/ficha-foto.md` (1.1); usa `identidad/sistema-de-diseno.md` (1.0) |
 | Versión del producto | v1.0 |
 
 ## Índice
@@ -516,11 +516,11 @@ Para Claude Code, en el paso 5 del plan del marco (§9.2), después de la ficha.
 
 ## 11. Decisiones abiertas y tareas del dueño
 
-**Decisiones abiertas** (no bloquean la implementación; tienen valor por defecto)
+**Decisiones** (resueltas al aprobar con su valor por defecto)
 
-- **D-C1.** Máximo de fotos por consulta: 5 por defecto. ¿Te sirve?
-- **D-C2.** Al descargar los datos de un correo (derecho de acceso), ¿se incluyen tus notas internas? Por defecto **no** se incluyen, salvo que contengan datos que el interesado te dio; si la ley lo exige al redactar la política, se cambia.
-- **D-C3.** Texto por defecto de `textoIntroConsulta`, `textoConsultaRecibida`, `textoConsentimiento` y `plantillaRespuesta`: se pueden editar en el panel en cualquier momento.
+- **D-C1 (resuelta).** Máximo de 5 fotos por consulta.
+- **D-C2 (resuelta).** La descarga de datos de un correo no incluye las notas internas, salvo que contengan datos que el interesado entregó; se revisa al redactar la política de privacidad.
+- **D-C3 (resuelta).** Se usan los textos por defecto del §5.1; Rod los edita en el panel cuando quiera.
 
 **Propuestas** (fuera de alcance; no se construyen sin tu aprobación)
 
@@ -543,5 +543,6 @@ No nacen tareas nuevas: los textos tienen valores por defecto. Para lanzar sigue
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.0 | 2026-10-14 | Aprobado por Rod. D-C1 a D-C3 con sus valores por defecto. El marco general pasa a 1.5, el modelo de contenido a 1.2 y la ficha a 1.1 con los cambios del §11. |
 | 0.2 | 2026-10-14 | Pedido de Rod: la casilla obligatoria dice que acepta ser contactado por los medios que indicó; se agrega una segunda casilla **opcional y sin marcar** para novedades y promociones, con la entidad nueva `Suscriptor` (hasta la baja), lista y "Copiar correos" en el panel, baja y lo que debe decir la política. Se verifica el art. 28 B de la Ley 19.496. |
 | 0.1 | 2026-10-14 | Borrador inicial. Decisiones de Rod: formulario en página propia (D-01); hasta 5 fotos con "Agregar otra foto" y buscador; nombre y correo obligatorios, teléfono, ciudad y mensaje opcionales; texto de recepción editable en el panel; responder con borrador en Gmail y marcar a mano; consulta general sin foto; consentimiento con casilla obligatoria. Ley 21.719 reverificada el 2026-10-14. Revisión con las guías de diseño de interfaces (validación al salir del campo, botón nunca deshabilitado, celebración breve en el éxito, casos de datos extremos). |
