@@ -13,6 +13,7 @@ out/
 
 # Payload
 .payload/
+medios/
 
 # Logs
 npm-debug.log*

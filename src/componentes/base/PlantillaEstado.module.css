@@ -1,0 +1,31 @@
+.contenedor {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-4);
+  max-width: var(--ancho-max-lectura);
+  padding: var(--esp-8) 0;
+}
+
+.titulo {
+  font: var(--titulo-md);
+  margin: 0;
+  color: var(--color-texto);
+}
+
+.texto {
+  font: var(--texto-base);
+  color: var(--color-texto-secundario);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.accion {
+  margin-top: var(--esp-2);
+}
+
+.fotoContainer {
+  margin-top: var(--esp-6);
+  width: 100%;
+  max-width: 480px;
+}

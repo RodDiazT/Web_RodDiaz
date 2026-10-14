@@ -1,0 +1,19 @@
+.saltar {
+  position: absolute;
+  top: var(--esp-4);
+  left: var(--esp-4);
+  z-index: 100;
+  padding: var(--esp-3) var(--esp-5);
+  background-color: var(--color-accion);
+  color: var(--color-accion-texto);
+  font: var(--texto-sm);
+  font-weight: 500;
+  border-radius: var(--radio-control);
+  text-decoration: none;
+  transform: translateY(-200%);
+  transition: transform var(--dur-rapida) var(--curva-salida);
+}
+
+.saltar:focus-visible {
+  transform: translateY(0);
+}

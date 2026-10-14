@@ -1,11 +1,22 @@
 import type { GlobalConfig } from 'payload'
+import { revalidarRutasSeguras } from '../lib/revalidacion'
 
 export const AjustesSitio: GlobalConfig = {
   slug: 'ajustes-sitio',
   label: 'Ajustes del sitio',
+  admin: {
+    group: 'Sitio',
+  },
   access: {
     read: () => true,
     update: ({ req: { user } }) => Boolean(user),
+  },
+  hooks: {
+    afterChange: [
+      () => {
+        revalidarRutasSeguras(['/', '/sitemap.xml', '/robots.txt'], ['ajustes'])
+      },
+    ],
   },
   fields: [
     {
@@ -22,20 +33,41 @@ export const AjustesSitio: GlobalConfig = {
               label: 'Nombre del sitio / Marca',
             },
             {
+              name: 'logo',
+              type: 'relationship',
+              relationTo: 'medios',
+              label: 'Logotipo institucional (opcional)',
+              admin: {
+                description: 'Archivo SVG o PNG. Reemplaza el texto de la marca en la cabecera.',
+              },
+            },
+            {
+              name: 'fotoPortada',
+              type: 'relationship',
+              relationTo: 'fotos',
+              label: 'Fotografía principal de portada',
+              admin: {
+                description:
+                  'Foto que recibe al visitante a gran impacto. Si no se selecciona, se usará la primera foto destacada o la más reciente.',
+              },
+            },
+            {
               name: 'descripcion',
               type: 'textarea',
               maxLength: 160,
               label: 'Descripción del sitio',
               admin: {
-                description: 'Máximo 160 caracteres. Describe la temática y ubicaciones de la obra para buscadores.',
+                description: 'Máximo 160 caracteres. Describe qué fotografías y dónde para buscadores.',
               },
             },
             {
               name: 'correoContacto',
               type: 'email',
-              defaultValue: 'rodrigodiaztapia@gmail.com',
               required: true,
               label: 'Correo de contacto principal',
+              admin: {
+                description: 'Dirección oficial para responder consultas y solicitudes de derechos de autor.',
+              },
             },
             {
               name: 'redes',
@@ -76,6 +108,9 @@ export const AjustesSitio: GlobalConfig = {
               name: 'textoVitrina',
               type: 'text',
               label: 'Texto explicativo para fotos de vitrina (opcional)',
+              admin: {
+                description: 'Mensaje que se muestra en fichas de fotografías que no ofrecen copia impresa.',
+              },
             },
           ],
         },
@@ -86,25 +121,45 @@ export const AjustesSitio: GlobalConfig = {
               name: 'textoIntroConsulta',
               type: 'textarea',
               label: 'Texto de introducción al formulario',
-              defaultValue: 'Cada copia se imprime artesanalmente en taller sobre papeles Fine Art 100% algodón o baritados con tintas minerales de conservación. Deja tus datos y te responderé a la brevedad con la disponibilidad y detalles.',
+              defaultValue:
+                'Cada copia se imprime artesanalmente en taller sobre papeles Fine Art 100% algodón o baritados con tintas minerales de conservación. Deja tus datos y te responderé a la brevedad con la disponibilidad y detalles.',
             },
             {
               name: 'textoConsultaRecibida',
               type: 'textarea',
               label: 'Mensaje de confirmación de envío',
-              defaultValue: 'Gracias por tu interés en mi obra. He recibido tu consulta y te responderé directamente a tu correo.',
+              defaultValue:
+                'Gracias por tu interés en mi obra. He recibido tu consulta y te responderé directamente a tu correo.',
             },
             {
               name: 'textoConsentimiento',
               type: 'textarea',
               label: 'Texto de consentimiento obligatorio (Ley 21.719)',
-              defaultValue: 'Acepto ser contactado por los medios indicados para responder a esta consulta, conforme a la política de privacidad.',
+              defaultValue:
+                'Acepto ser contactado por los medios indicados para responder a esta consulta, conforme a la política de privacidad.',
             },
             {
               name: 'textoPromociones',
               type: 'textarea',
               label: 'Texto de suscripción opcional a novedades',
               defaultValue: 'Deseo recibir ocasionalmente novedades de nuevas expediciones y ediciones.',
+            },
+            {
+              name: 'plantillaRespuesta',
+              type: 'textarea',
+              label: 'Plantilla de respuesta rápida a consultas',
+              admin: {
+                description:
+                  'Borrador predefinido para agilizar la respuesta 1:1 desde Gmail con los datos de tiraje y despacho.',
+              },
+            },
+            {
+              name: 'plantillaNovedades',
+              type: 'textarea',
+              label: 'Plantilla de novedades para suscriptores',
+              admin: {
+                description: 'Estructura base para envíos de correo con nuevas colecciones.',
+              },
             },
           ],
         },

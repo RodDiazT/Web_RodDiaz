@@ -1,9 +1,23 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import React from 'react'
+import '@/estilos/tokens.css'
+import '@/estilos/base.css'
+import { cormorant, manrope } from './fuentes'
+import { SaltarContenido } from '@/componentes/base/SaltarContenido'
+import { Encabezado } from '@/componentes/base/Encabezado'
+import { Pie } from '@/componentes/base/Pie'
 
 export const metadata: Metadata = {
-  title: 'Rod Díaz — Fotografía',
-  description: 'Portafolio fotográfico y catálogo de copias Fine Art de Rod Díaz.',
+  title: 'Rod Díaz — Fotografía Fine Art',
+  description: 'Portafolio fotográfico y copias Fine Art impresas en taller propio de Rod Díaz.',
+}
+
+export const viewport: Viewport = {
+  themeColor: '#151515',
+  colorScheme: 'dark',
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
 }
 
 export default function RootLayout({
@@ -12,19 +26,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="es">
-      <body
-        style={{
-          backgroundColor: '#0d0e11',
-          color: '#f3f4f6',
-          margin: 0,
-          minHeight: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-        }}
-      >
-        {children}
+    <html lang="es" className={`${cormorant.variable} ${manrope.variable}`}>
+      <body>
+        <SaltarContenido />
+        <Encabezado />
+        <main id="contenido-principal" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+          {children}
+        </main>
+        <Pie />
       </body>
     </html>
   )

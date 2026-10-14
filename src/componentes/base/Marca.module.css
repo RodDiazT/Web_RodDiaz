@@ -1,0 +1,28 @@
+.marca {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--color-texto);
+  font: var(--titulo-sm);
+  letter-spacing: 0.01em;
+  font-variant-numeric: lining-nums;
+  transition: opacity var(--dur-rapida) var(--curva-salida);
+}
+
+.marca:hover {
+  opacity: 0.85;
+}
+
+.logo {
+  height: 28px;
+  width: auto;
+  max-width: 200px;
+  object-fit: contain;
+  display: block;
+}
+
+@media (min-width: 1024px) {
+  .logo {
+    height: 32px;
+  }
+}

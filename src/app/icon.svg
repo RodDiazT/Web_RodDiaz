@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <rect width="32" height="32" fill="#151515" />
+  <text
+    x="50%"
+    y="56%"
+    dominant-baseline="middle"
+    text-anchor="middle"
+    font-family="'Cormorant Garamond', Georgia, serif"
+    font-size="18"
+    font-weight="500"
+    letter-spacing="-0.02em"
+    fill="#ECECEC"
+  >RD</text>
+</svg>

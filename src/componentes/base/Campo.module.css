@@ -1,0 +1,72 @@
+.grupo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+  width: 100%;
+}
+
+.etiqueta {
+  font: var(--texto-sm);
+  color: var(--color-texto);
+}
+
+.opcional {
+  font: var(--texto-xs);
+  color: var(--color-texto-terciario);
+  margin-left: var(--esp-1);
+}
+
+.control {
+  min-height: 48px;
+  padding: 0 var(--esp-4);
+  background-color: var(--color-superficie);
+  color: var(--color-texto);
+  border: var(--borde-control) solid var(--color-linea-control);
+  border-radius: var(--radio-control);
+  font: var(--texto-base);
+  font-size: 16px; /* Evita zoom automático involuntario en iOS Safari */
+  outline: none;
+  transition:
+    border-color var(--dur-rapida) var(--curva-salida),
+    background-color var(--dur-rapida) var(--curva-salida);
+}
+
+.control:focus {
+  border-color: var(--color-texto);
+}
+
+.area {
+  min-height: 120px;
+  padding: var(--esp-3) var(--esp-4);
+  resize: vertical;
+}
+
+.controlError {
+  border-color: var(--color-error) !important;
+}
+
+.ayuda {
+  font: var(--texto-xs);
+  color: var(--color-texto-terciario);
+}
+
+.mensajeError {
+  font: var(--texto-xs);
+  color: var(--color-error);
+}
+
+.grupoCasilla {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--esp-3);
+  cursor: pointer;
+}
+
+.casilla {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  accent-color: var(--color-texto);
+  cursor: pointer;
+}

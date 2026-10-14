@@ -1,0 +1,54 @@
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--esp-1);
+  min-height: 36px;
+  padding: var(--esp-1) var(--esp-3);
+  font: var(--texto-sm);
+  color: var(--color-texto-secundario);
+  background-color: transparent;
+  border: var(--borde-control) solid var(--color-linea-control);
+  border-radius: var(--radio-control);
+  text-decoration: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  position: relative;
+  transition:
+    background-color var(--dur-rapida) var(--curva-salida),
+    border-color var(--dur-rapida) var(--curva-salida),
+    color var(--dur-rapida) var(--curva-salida),
+    transform var(--dur-presion) var(--curva-salida);
+}
+
+/* Área táctil mínima de 44px mediante pseudo-elemento invisible */
+.chip::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 44px;
+  min-height: 44px;
+  width: 100%;
+  height: 100%;
+}
+
+.chip:active {
+  transform: scale(0.97);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .chip:hover {
+    background-color: var(--color-superficie-alta);
+    border-color: var(--color-linea-control-hover);
+    color: var(--color-texto);
+  }
+}
+
+/* Activo: contorno y texto blanco con tilde ✓, sin relleno claro (O-4) */
+.activo {
+  border-color: var(--color-texto);
+  color: var(--color-texto);
+}

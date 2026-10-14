@@ -1,0 +1,50 @@
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+  text-decoration: none;
+  color: var(--color-texto);
+  border-radius: var(--radio-control);
+  touch-action: manipulation;
+  transition: transform var(--dur-presion) var(--curva-salida);
+}
+
+.tarjeta:active {
+  transform: scale(0.97);
+}
+
+.tarjeta:focus-visible {
+  outline: 2px solid var(--color-foco);
+  outline-offset: 4px;
+}
+
+.portadaWrapper {
+  aspect-ratio: 4 / 5;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--color-superficie);
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-1);
+}
+
+.nombre {
+  font: var(--titulo-sm);
+  color: var(--color-texto);
+  margin: 0;
+  transition: opacity var(--dur-rapida) var(--curva-salida);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tarjeta:hover .nombre {
+    opacity: 0.85;
+  }
+}
+
+.conteo {
+  font: var(--texto-sm);
+  color: var(--color-texto-secundario);
+}

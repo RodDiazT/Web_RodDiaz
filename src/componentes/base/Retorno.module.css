@@ -1,0 +1,15 @@
+.retorno {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-2);
+  font: var(--texto-sm);
+  color: var(--color-texto-secundario);
+  text-decoration: none;
+  min-height: 44px;
+  touch-action: manipulation;
+  transition: color var(--dur-rapida) var(--curva-salida);
+}
+
+.retorno:hover {
+  color: var(--color-texto);
+}

@@ -67,15 +67,40 @@ export interface Config {
   };
   blocks: {};
   collections: {
+    fotos: Foto;
+    colecciones: Coleccione;
+    caracteristicas: Caracteristica;
+    'formatos-impresion': FormatosImpresion;
+    'tipos-papel': TiposPapel;
+    paginas: Pagina;
+    medios: Medio;
+    consultas: Consulta;
+    suscriptores: Suscriptore;
     usuarios: Usuario;
+    'intentos-acceso': IntentosAcceso;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    colecciones: {
+      fotos: 'fotos';
+      hijas: 'colecciones';
+    };
+  };
   collectionsSelect: {
+    fotos: FotosSelect<false> | FotosSelect<true>;
+    colecciones: ColeccionesSelect<false> | ColeccionesSelect<true>;
+    caracteristicas: CaracteristicasSelect<false> | CaracteristicasSelect<true>;
+    'formatos-impresion': FormatosImpresionSelect<false> | FormatosImpresionSelect<true>;
+    'tipos-papel': TiposPapelSelect<false> | TiposPapelSelect<true>;
+    paginas: PaginasSelect<false> | PaginasSelect<true>;
+    medios: MediosSelect<false> | MediosSelect<true>;
+    consultas: ConsultasSelect<false> | ConsultasSelect<true>;
+    suscriptores: SuscriptoresSelect<false> | SuscriptoresSelect<true>;
     usuarios: UsuariosSelect<false> | UsuariosSelect<true>;
+    'intentos-acceso': IntentosAccesoSelect<false> | IntentosAccesoSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -121,12 +146,490 @@ export interface UsuarioAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "fotos".
+ */
+export interface Foto {
+  id: number;
+  /**
+   * Obligatorio para publicar. Máximo 120 caracteres.
+   */
+  titulo?: string | null;
+  /**
+   * Se genera del título mientras no se publique. Tras publicar solo cambia si se edita manualmente.
+   */
+  slug?: string | null;
+  slugsAnteriores?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Ubicación geográfica visible (ej. Parque Nacional Conguillío, Araucanía). Obligatorio para publicar.
+   */
+  lugar?: string | null;
+  /**
+   * Precargada de la captura EXIF o ingresada a mano. Obligatoria para publicar.
+   */
+  fecha?: string | null;
+  /**
+   * Cada foto pertenece a una única colección. Obligatoria para publicar.
+   */
+  coleccion?: (number | null) | Coleccione;
+  /**
+   * Determina la posición en la grilla de la colección.
+   */
+  orden?: number | null;
+  /**
+   * Etiquetas temáticas como Blanco y negro, Paisaje, Nocturna, etc.
+   */
+  caracteristicas?: (number | Caracteristica)[] | null;
+  /**
+   * Selecciona los tamaños disponibles para esta obra. Si no se asocia ningún formato, la foto se publica como vitrina (sin botón de pedir copia).
+   */
+  formatos?: (number | FormatosImpresion)[] | null;
+  /**
+   * Texto editorial sobre el momento, expedición o significado de la fotografía.
+   */
+  historia?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Si se deja vacío, se utilizará automáticamente el título de la foto.
+   */
+  textoAlternativo?: string | null;
+  /**
+   * Trazabilidad privada para ubicar el master RAW en Lightroom al momento de imprimir en taller.
+   */
+  nombreArchivoOriginal?: string | null;
+  datosTecnicos?: {
+    distanciaFocal?: number | null;
+    apertura?: number | null;
+    /**
+     * Ejemplo: 1/250 s, 2 s
+     */
+    velocidad?: string | null;
+  };
+  proporcion?: {
+    etiqueta?: string | null;
+    valor?: number | null;
+    orientacion?: ('horizontal' | 'vertical' | 'cuadrada') | null;
+    manual?: boolean | null;
+  };
+  estado: 'borrador' | 'publicada' | 'despublicada';
+  destacada?: boolean | null;
+  /**
+   * Úsalo en fotos muy oscuras que se pierden con el fondo oscuro.
+   */
+  filete?: boolean | null;
+  fijada?: boolean | null;
+  ordenFijada?: number | null;
+  /**
+   * Fecha y hora en que se publicó por primera vez.
+   */
+  publicadaEn?: string | null;
+  ancho?: number | null;
+  alto?: number | null;
+  colorDominante?: string | null;
+  /**
+   * SHA-256 del archivo subido.
+   */
+  huella?: string | null;
+  /**
+   * Aviso si esta foto tiene el mismo contenido que otra subida previamente.
+   */
+  posibleDuplicado?: (number | null) | Foto;
+  faltantes?: string | null;
+  seo?: {
+    /**
+     * Máximo 160 caracteres. Si se deja en blanco, se generará automáticamente a partir del título, lugar y año.
+     */
+    descripcion?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    pequena_avif?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    pequena_webp?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    mediana_avif?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    mediana_webp?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    mediana_jpg?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    grande_avif?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    grande_webp?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "colecciones".
+ */
+export interface Coleccione {
+  id: number;
+  nombre: string;
+  slug: string;
+  descripcion?: string | null;
+  /**
+   * Déjalo vacío si es una colección principal. Selecciona una madre si es una sub-colección hija.
+   */
+  padre?: (number | null) | Coleccione;
+  /**
+   * Solo aplica si tiene colección madre. Si se desmarca, no tiene página propia y sus fotos se muestran agregadas en la madre y en Todas las fotos.
+   */
+  visibleSola?: boolean | null;
+  /**
+   * Determina la posición en la grilla y en el listado de colecciones.
+   */
+  orden?: number | null;
+  /**
+   * En las tarjetas, la portada se ve recortada en formato vertical 4:5. Marca el punto focal en la foto para elegir el centro.
+   */
+  portada?: (number | null) | Foto;
+  estado: 'borrador' | 'publicada';
+  slugsAnteriores?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Fotos pertenecientes a esta colección.
+   */
+  fotos?: {
+    docs?: (number | Foto)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  /**
+   * Sub-colecciones hijas pertenecientes a esta colección madre.
+   */
+  hijas?: {
+    docs?: (number | Coleccione)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "caracteristicas".
+ */
+export interface Caracteristica {
+  id: number;
+  /**
+   * Etiqueta transversal para filtrar obras (ej. Blanco y negro, Paisaje, Nocturna, Araucanía).
+   */
+  nombre: string;
+  /**
+   * Se genera automáticamente sin tildes ni caracteres especiales.
+   */
+  slug: string;
+  slugsAnteriores?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "formatos-impresion".
+ */
+export interface FormatosImpresion {
+  id: number;
+  nombre: string;
+  /**
+   * Medida del lado menor en centímetros (ej. 30, 40, 50).
+   */
+  ladoCortoCm: number;
+  /**
+   * Medida del lado mayor en centímetros (ej. 45, 60, 75).
+   */
+  ladoLargoCm: number;
+  /**
+   * Margen mínimo alrededor de la imagen viva para firma autógrafa a lápiz grafito y enmarcado con paspartú de conservación.
+   */
+  margenMinimoCm: number;
+  /**
+   * Selecciona al menos un papel del catálogo disponible para este tamaño.
+   */
+  papeles: (number | TiposPapel)[];
+  activo?: boolean | null;
+  /**
+   * Menor número se muestra primero (ej. orden por tamaño).
+   */
+  orden?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tipos-papel".
+ */
+export interface TiposPapel {
+  id: number;
+  /**
+   * Ejemplo: Hahnemühle Photo Rag 308, Canson Platine Fibre Rag.
+   */
+  nombre: string;
+  /**
+   * Hahnemühle, Canson Infinity, Canon, etc.
+   */
+  fabricante?: string | null;
+  base: 'algodon' | 'baritado' | 'celulosa';
+  acabado: 'mate_liso' | 'mate_texturado' | 'satinado_lustre' | 'brillo_baritado';
+  /**
+   * Gramaje en gramos por metro cuadrado (ej. 308, 310, 350).
+   */
+  gramajeGsm?: number | null;
+  libreDeAcido?: boolean | null;
+  /**
+   * Máximo 160 caracteres. Explica al interesado la sensación táctil y visual.
+   */
+  descripcion?: string | null;
+  activo?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "paginas".
+ */
+export interface Pagina {
+  id: number;
+  titulo: string;
+  /**
+   * Identificador URL. En páginas reservadas (sobre-mi, contacto, privacidad, condiciones) es fijo.
+   */
+  slug: string;
+  contenido: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  imagen?: (number | null) | Medio;
+  estado: 'borrador' | 'publicada';
+  /**
+   * Fecha de la última modificación editorial de título o texto.
+   */
+  contenidoActualizadoEn?: string | null;
+  slugsAnteriores?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  seo?: {
+    descripcion?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Imágenes auxiliares institucionales que no son obra: logotipo y foto de perfil. No aparecen en galerías ni catálogos de copias.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "medios".
+ */
+export interface Medio {
+  id: number;
+  uso: 'logo' | 'pagina';
+  /**
+   * Descripción de la imagen para lectores de pantalla. Si es el logo, se usa la marca del sitio.
+   */
+  textoAlternativo?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    pequena?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    mediana?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "consultas".
+ */
+export interface Consulta {
+  id: number;
+  nombre: string;
+  correo: string;
+  telefono?: string | null;
+  ciudad?: string | null;
+  mensaje?: string | null;
+  tipo: 'copia' | 'general';
+  estado: 'nueva' | 'respondida' | 'cerrada' | 'spam';
+  items?:
+    | {
+        foto?: (number | null) | Foto;
+        tituloFoto?: string | null;
+        slugFoto?: string | null;
+        formato?: (number | null) | FormatosImpresion;
+        papel?: (number | null) | TiposPapel;
+        /**
+         * Preserva las medidas y nombre tal como se solicitaron ante futuros cambios de catálogo.
+         */
+        nombreFormatoSnapshot?: string | null;
+        /**
+         * Preserva el tipo de papel tal como se solicitó ante futuros cambios de catálogo.
+         */
+        nombrePapelSnapshot?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  respondidaEn?: string | null;
+  ultimaActividad?: string | null;
+  /**
+   * 12 meses desde la última actividad (o 30 días si es marcada como spam).
+   */
+  eliminarDespuesDe?: string | null;
+  notasInternas?: string | null;
+  consentimientoEn: string;
+  versionPolitica?: string | null;
+  aceptaPromociones?: boolean | null;
+  origen?: string | null;
+  claveEnvio?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Personas que marcaron voluntariamente la casilla opcional para recibir novedades de nuevas expediciones y obras.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "suscriptores".
+ */
+export interface Suscriptore {
+  id: number;
+  nombre: string;
+  correo: string;
+  consentimientoEn: string;
+  versionPolitica?: string | null;
+  origen?: (number | null) | Consulta;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "usuarios".
  */
 export interface Usuario {
   id: number;
   nombre: string;
-  correo: string;
   proveedorAcceso?: ('google' | 'local') | null;
   idGoogle?: string | null;
   ultimoAcceso?: string | null;
@@ -153,6 +656,20 @@ export interface Usuario {
   collection: 'usuarios';
 }
 /**
+ * Registro de seguridad de intentos de inicio de sesión no autorizados en el panel. Se conservan durante 90 días conforme al marco normativo.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "intentos-acceso".
+ */
+export interface IntentosAcceso {
+  id: number;
+  correo: string;
+  fecha: string;
+  motivo: 'correo_no_autorizado' | 'error_proveedor';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -175,10 +692,51 @@ export interface PayloadKv {
  */
 export interface PayloadLockedDocument {
   id: number;
-  document?: {
-    relationTo: 'usuarios';
-    value: number | Usuario;
-  } | null;
+  document?:
+    | ({
+        relationTo: 'fotos';
+        value: number | Foto;
+      } | null)
+    | ({
+        relationTo: 'colecciones';
+        value: number | Coleccione;
+      } | null)
+    | ({
+        relationTo: 'caracteristicas';
+        value: number | Caracteristica;
+      } | null)
+    | ({
+        relationTo: 'formatos-impresion';
+        value: number | FormatosImpresion;
+      } | null)
+    | ({
+        relationTo: 'tipos-papel';
+        value: number | TiposPapel;
+      } | null)
+    | ({
+        relationTo: 'paginas';
+        value: number | Pagina;
+      } | null)
+    | ({
+        relationTo: 'medios';
+        value: number | Medio;
+      } | null)
+    | ({
+        relationTo: 'consultas';
+        value: number | Consulta;
+      } | null)
+    | ({
+        relationTo: 'suscriptores';
+        value: number | Suscriptore;
+      } | null)
+    | ({
+        relationTo: 'usuarios';
+        value: number | Usuario;
+      } | null)
+    | ({
+        relationTo: 'intentos-acceso';
+        value: number | IntentosAcceso;
+      } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'usuarios';
@@ -223,11 +781,318 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "fotos_select".
+ */
+export interface FotosSelect<T extends boolean = true> {
+  titulo?: T;
+  slug?: T;
+  slugsAnteriores?: T;
+  lugar?: T;
+  fecha?: T;
+  coleccion?: T;
+  orden?: T;
+  caracteristicas?: T;
+  formatos?: T;
+  historia?: T;
+  textoAlternativo?: T;
+  nombreArchivoOriginal?: T;
+  datosTecnicos?:
+    | T
+    | {
+        distanciaFocal?: T;
+        apertura?: T;
+        velocidad?: T;
+      };
+  proporcion?:
+    | T
+    | {
+        etiqueta?: T;
+        valor?: T;
+        orientacion?: T;
+        manual?: T;
+      };
+  estado?: T;
+  destacada?: T;
+  filete?: T;
+  fijada?: T;
+  ordenFijada?: T;
+  publicadaEn?: T;
+  ancho?: T;
+  alto?: T;
+  colorDominante?: T;
+  huella?: T;
+  posibleDuplicado?: T;
+  faltantes?: T;
+  seo?:
+    | T
+    | {
+        descripcion?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+  sizes?:
+    | T
+    | {
+        pequena_avif?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        pequena_webp?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        mediana_avif?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        mediana_webp?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        mediana_jpg?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        grande_avif?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        grande_webp?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "colecciones_select".
+ */
+export interface ColeccionesSelect<T extends boolean = true> {
+  nombre?: T;
+  slug?: T;
+  descripcion?: T;
+  padre?: T;
+  visibleSola?: T;
+  orden?: T;
+  portada?: T;
+  estado?: T;
+  slugsAnteriores?: T;
+  fotos?: T;
+  hijas?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "caracteristicas_select".
+ */
+export interface CaracteristicasSelect<T extends boolean = true> {
+  nombre?: T;
+  slug?: T;
+  slugsAnteriores?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "formatos-impresion_select".
+ */
+export interface FormatosImpresionSelect<T extends boolean = true> {
+  nombre?: T;
+  ladoCortoCm?: T;
+  ladoLargoCm?: T;
+  margenMinimoCm?: T;
+  papeles?: T;
+  activo?: T;
+  orden?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tipos-papel_select".
+ */
+export interface TiposPapelSelect<T extends boolean = true> {
+  nombre?: T;
+  fabricante?: T;
+  base?: T;
+  acabado?: T;
+  gramajeGsm?: T;
+  libreDeAcido?: T;
+  descripcion?: T;
+  activo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "paginas_select".
+ */
+export interface PaginasSelect<T extends boolean = true> {
+  titulo?: T;
+  slug?: T;
+  contenido?: T;
+  imagen?: T;
+  estado?: T;
+  contenidoActualizadoEn?: T;
+  slugsAnteriores?: T;
+  seo?:
+    | T
+    | {
+        descripcion?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "medios_select".
+ */
+export interface MediosSelect<T extends boolean = true> {
+  uso?: T;
+  textoAlternativo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+  sizes?:
+    | T
+    | {
+        pequena?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        mediana?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "consultas_select".
+ */
+export interface ConsultasSelect<T extends boolean = true> {
+  nombre?: T;
+  correo?: T;
+  telefono?: T;
+  ciudad?: T;
+  mensaje?: T;
+  tipo?: T;
+  estado?: T;
+  items?:
+    | T
+    | {
+        foto?: T;
+        tituloFoto?: T;
+        slugFoto?: T;
+        formato?: T;
+        papel?: T;
+        nombreFormatoSnapshot?: T;
+        nombrePapelSnapshot?: T;
+        id?: T;
+      };
+  respondidaEn?: T;
+  ultimaActividad?: T;
+  eliminarDespuesDe?: T;
+  notasInternas?: T;
+  consentimientoEn?: T;
+  versionPolitica?: T;
+  aceptaPromociones?: T;
+  origen?: T;
+  claveEnvio?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "suscriptores_select".
+ */
+export interface SuscriptoresSelect<T extends boolean = true> {
+  nombre?: T;
+  correo?: T;
+  consentimientoEn?: T;
+  versionPolitica?: T;
+  origen?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "usuarios_select".
  */
 export interface UsuariosSelect<T extends boolean = true> {
   nombre?: T;
-  correo?: T;
   proveedorAcceso?: T;
   idGoogle?: T;
   ultimoAcceso?: T;
@@ -250,6 +1115,17 @@ export interface UsuariosSelect<T extends boolean = true> {
         createdAt?: T;
         expiresAt?: T;
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "intentos-acceso_select".
+ */
+export interface IntentosAccesoSelect<T extends boolean = true> {
+  correo?: T;
+  fecha?: T;
+  motivo?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -299,9 +1175,20 @@ export interface AjustesSitio {
   id: number;
   nombreSitio: string;
   /**
-   * Máximo 160 caracteres. Describe la temática y ubicaciones de la obra para buscadores.
+   * Archivo SVG o PNG. Reemplaza el texto de la marca en la cabecera.
+   */
+  logo?: (number | null) | Medio;
+  /**
+   * Foto que recibe al visitante a gran impacto. Si no se selecciona, se usará la primera foto destacada o la más reciente.
+   */
+  fotoPortada?: (number | null) | Foto;
+  /**
+   * Máximo 160 caracteres. Describe qué fotografías y dónde para buscadores.
    */
   descripcion?: string | null;
+  /**
+   * Dirección oficial para responder consultas y solicitudes de derechos de autor.
+   */
   correoContacto: string;
   redes?:
     | {
@@ -312,11 +1199,22 @@ export interface AjustesSitio {
     | null;
   textoLlamadaCopia?: string | null;
   textoDerechos?: string | null;
+  /**
+   * Mensaje que se muestra en fichas de fotografías que no ofrecen copia impresa.
+   */
   textoVitrina?: string | null;
   textoIntroConsulta?: string | null;
   textoConsultaRecibida?: string | null;
   textoConsentimiento?: string | null;
   textoPromociones?: string | null;
+  /**
+   * Borrador predefinido para agilizar la respuesta 1:1 desde Gmail con los datos de tiraje y despacho.
+   */
+  plantillaRespuesta?: string | null;
+  /**
+   * Estructura base para envíos de correo con nuevas colecciones.
+   */
+  plantillaNovedades?: string | null;
   /**
    * Por defecto: "Rod Díaz — Fotografía Fine Art".
    */
@@ -342,6 +1240,8 @@ export interface AjustesSitio {
  */
 export interface AjustesSitioSelect<T extends boolean = true> {
   nombreSitio?: T;
+  logo?: T;
+  fotoPortada?: T;
   descripcion?: T;
   correoContacto?: T;
   redes?:
@@ -358,6 +1258,8 @@ export interface AjustesSitioSelect<T extends boolean = true> {
   textoConsultaRecibida?: T;
   textoConsentimiento?: T;
   textoPromociones?: T;
+  plantillaRespuesta?: T;
+  plantillaNovedades?: T;
   tituloPortada?: T;
   verificacionGoogle?: T;
   robotsExcluidos?: T;

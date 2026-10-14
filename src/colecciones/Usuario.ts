@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { esCorreoAutorizado } from '../lib/acceso'
 
 export const Usuario: CollectionConfig = {
   slug: 'usuarios',
@@ -7,21 +8,20 @@ export const Usuario: CollectionConfig = {
     plural: 'Usuarios',
   },
   auth: {
-    // Permite acceso mediante sesiones autenticadas
     verify: false,
     maxLoginAttempts: 5,
     lockTime: 1000 * 60 * 15, // 15 minutos
   },
   admin: {
     useAsTitle: 'nombre',
-    defaultColumns: ['nombre', 'correo', 'ultimoAcceso'],
-    hidden: ({ user }) => user?.email !== 'rodrigodiaztapia@gmail.com',
+    // Oculto de la navegación según modelo §5.3 (un solo usuario administrador)
+    hidden: true,
   },
   access: {
-    // Solo el usuario administrador puede acceder a la gestión de usuarios
+    // Solo el usuario administrador autorizado puede acceder
     create: () => false, // No se crean usuarios nuevos en v1.0 (marco §3)
-    read: ({ req: { user } }) => Boolean(user),
-    update: ({ req: { user } }) => Boolean(user),
+    read: ({ req: { user } }) => Boolean(user && esCorreoAutorizado(user.email)),
+    update: ({ req: { user } }) => Boolean(user && esCorreoAutorizado(user.email)),
     delete: () => false,
   },
   fields: [
@@ -30,13 +30,6 @@ export const Usuario: CollectionConfig = {
       type: 'text',
       required: true,
       label: 'Nombre completo',
-    },
-    {
-      name: 'correo',
-      type: 'email',
-      required: true,
-      unique: true,
-      label: 'Correo electrónico',
     },
     {
       name: 'proveedorAcceso',

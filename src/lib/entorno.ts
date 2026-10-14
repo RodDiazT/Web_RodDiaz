@@ -27,15 +27,25 @@ export const entorno = {
   get URL_SITIO(): string {
     return obtenerVariable('URL_SITIO')
   },
-  get ENTORNO(): 'pruebas' | 'production' {
-    const val = obtenerVariable('ENTORNO', false) || 'pruebas'
-    if (val !== 'pruebas' && val !== 'production') {
-      return 'pruebas'
+  get ENTORNO(): 'pruebas' | 'produccion' {
+    const val = (obtenerVariable('ENTORNO', false) || 'pruebas').toLowerCase()
+    if (val === 'production' || val === 'produccion') {
+      return 'produccion'
     }
-    return val
+    return 'pruebas'
   },
-  get CORREO_ADMIN(): string {
-    return obtenerVariable('CORREO_ADMIN', false) || 'rodrigodiaztapia@gmail.com'
+  get CORREOS_ADMIN(): string {
+    return obtenerVariable('CORREOS_ADMIN', false) || obtenerVariable('CORREO_ADMIN', false) || 'rodrigodiaztapia@gmail.com'
+  },
+  get listaCorreosAdmin(): string[] {
+    return this.CORREOS_ADMIN.split(',').map((c) => c.trim().toLowerCase()).filter(Boolean)
+  },
+  get RUTA_MEDIOS(): string {
+    return obtenerVariable('RUTA_MEDIOS', false) || './medios'
+  },
+  get TAREAS_AUTOMATICAS(): boolean {
+    const val = obtenerVariable('TAREAS_AUTOMATICAS', false)
+    return val === 'true' || val === '1'
   },
   get GOOGLE_CLIENT_ID(): string | undefined {
     const val = obtenerVariable('GOOGLE_CLIENT_ID', false)
@@ -54,7 +64,7 @@ export const entorno = {
     return val || undefined
   },
   get esProduccion(): boolean {
-    return this.ENTORNO === 'production'
+    return this.ENTORNO === 'produccion'
   },
   get esPruebas(): boolean {
     return this.ENTORNO === 'pruebas'

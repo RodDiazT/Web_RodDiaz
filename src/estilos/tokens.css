@@ -1,0 +1,112 @@
+/**
+ * Tokens de diseño oficiales — Web_RodDiaz (v1.0)
+ * Especificado en DocumentosTecnicos/identidad/sistema-de-diseno.md (§5.2).
+ */
+
+:root {
+  /* ==========================================================================
+     Colores (§5.2.1) - Paleta neutra grafito, sin color de acento
+     ========================================================================== */
+  --color-fondo: #151515;
+  --color-superficie: #1C1C1C;
+  --color-superficie-alta: #242424;
+  --color-linea: #2A2A2A;
+  --color-linea-control: #6B6B6B;
+  --color-linea-control-hover: #757575;
+  --color-texto: #ECECEC;
+  --color-texto-secundario: #A3A3A3;
+  --color-texto-terciario: #8C8C8C;
+  --color-accion: #ECECEC;
+  --color-accion-hover: #FFFFFF;
+  --color-accion-texto: #151515;
+  --color-foco: #ECECEC;
+  --color-filete: rgba(236, 236, 236, 0.12);
+  --color-error: #E58B8B;
+  --color-exito: #9CC9A4;
+
+  /* ==========================================================================
+     Tipografía (§5.2.2) - Cormorant Garamond (títulos) + Manrope (lectura/UI)
+     ========================================================================== */
+  --font-serif: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  --font-sans: var(--font-manrope), 'Manrope', system-ui, -apple-system, sans-serif;
+
+  /* Escala de texto */
+  --texto-xs: 400 13px/1.5 var(--font-sans);
+  --texto-sm: 400 14px/1.5 var(--font-sans);
+  --texto-base: 400 16px/1.6 var(--font-sans);
+  --texto-lectura: 400 17px/1.7 var(--font-sans);
+
+  /* Escala de títulos */
+  --titulo-sm: 500 24px/1.2 var(--font-serif);
+  --titulo-md: 500 clamp(28px, 3vw, 36px)/1.15 var(--font-serif);
+  --titulo-lg: 500 clamp(32px, 4vw, 48px)/1.1 var(--font-serif);
+  --titulo-xl: 400 clamp(40px, 5vw, 64px)/1.05 var(--font-serif);
+
+  /* ==========================================================================
+     Espaciado (§5.2.3) - Múltiplos de 4px
+     ========================================================================== */
+  --esp-1: 4px;
+  --esp-2: 8px;
+  --esp-3: 12px;
+  --esp-4: 16px;
+  --esp-5: 24px;
+  --esp-6: 32px;
+  --esp-7: 48px;
+  --esp-8: 64px;
+  --esp-9: 96px;
+  --esp-10: 128px;
+
+  /* Disposición y dimensiones */
+  --margen: 16px;
+  --alto-encabezado: 56px;
+  --ancho-max-contenido: 1600px;
+  --ancho-max-lectura: 65ch;
+
+  /* ==========================================================================
+     Forma (§5.2.4)
+     ========================================================================== */
+  --radio-control: 8px;
+  --radio-foto: 0px;
+  --borde-control: 1px;
+
+  /* ==========================================================================
+     Capas (§5.2.5)
+     ========================================================================== */
+  --capa-encabezado: 10;
+  --capa-menu: 20;
+  --capa-dialogo: 30;
+  --capa-visor: 40;
+
+  /* ==========================================================================
+     Movimiento (§5.2.6)
+     ========================================================================== */
+  --dur-rapida: 150ms;
+  --dur-presion: 120ms;
+  --dur-base: 200ms;
+  --dur-apertura: 250ms;
+  --dur-foto: 300ms;
+
+  --curva-salida: cubic-bezier(0.23, 1, 0.32, 1);
+  --curva-movimiento: cubic-bezier(0.77, 0, 0.175, 1);
+  --curva-cajon: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* Adaptación responsive de márgenes y cabecera según puntos de quiebre */
+@media (min-width: 640px) {
+  :root {
+    --margen: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --margen: 48px;
+    --alto-encabezado: 72px;
+  }
+}
+
+@media (min-width: 1440px) {
+  :root {
+    --margen: 64px;
+  }
+}

@@ -1,0 +1,20 @@
+.esqueleto {
+  background-color: var(--color-superficie);
+  display: block;
+  width: 100%;
+}
+
+.foto {
+  border-radius: var(--radio-foto);
+}
+
+.linea {
+  height: 16px;
+  border-radius: var(--radio-control);
+  margin-bottom: var(--esp-2);
+}
+
+.linea:last-child {
+  margin-bottom: 0;
+  width: 70%;
+}

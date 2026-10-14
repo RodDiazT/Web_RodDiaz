@@ -1,58 +1,54 @@
 import React from 'react'
-import Link from 'next/link'
+import { Boton } from '@/componentes/base/Boton'
 
 export default function PaginaInicio() {
+  const esDesarrollo = process.env.NODE_ENV !== 'production'
+
   return (
-    <main
+    <section
       style={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        minHeight: '100vh',
-        padding: '2rem',
+        flex: 1,
+        padding: 'var(--esp-8) var(--margen)',
         textAlign: 'center',
+        maxWidth: 'var(--ancho-max-contenido)',
+        margin: '0 auto',
       }}
     >
       <h1
         style={{
-          fontSize: '2.5rem',
-          fontWeight: 400,
-          letterSpacing: '0.05em',
-          margin: '0 0 1rem 0',
-          color: '#ffffff',
+          font: 'var(--titulo-xl)',
+          margin: '0 0 var(--esp-3) 0',
+          color: 'var(--color-texto)',
         }}
       >
         Rod Díaz
       </h1>
+
       <p
         style={{
-          fontSize: '1.1rem',
-          color: 'rgba(255, 255, 255, 0.7)',
-          maxWidth: '36rem',
-          lineHeight: 1.6,
-          margin: '0 0 2rem 0',
+          font: 'var(--texto-lectura)',
+          color: 'var(--color-texto-secundario)',
+          maxWidth: '38rem',
+          margin: '0 0 var(--esp-6) 0',
         }}
       >
-        Portafolio fotográfico Fine Art con impresión artesanal en taller propio sobre papeles de algodón y baritados.
+        Portafolio fotográfico Fine Art con impresión artesanal en taller propio sobre papeles 100% algodón y baritados.
       </p>
-      <div style={{ display: 'flex', gap: '1rem' }}>
-        <Link
-          href="/admin"
-          style={{
-            color: '#0d0e11',
-            backgroundColor: '#ffffff',
-            padding: '0.75rem 1.5rem',
-            borderRadius: '4px',
-            textDecoration: 'none',
-            fontSize: '0.9rem',
-            fontWeight: 500,
-            transition: 'opacity 0.2s ease',
-          }}
-        >
+
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--esp-4)', justifyContent: 'center' }}>
+        <Boton variante="primario" href="/admin">
           Panel de administración
-        </Link>
+        </Boton>
+        {esDesarrollo && (
+          <Boton variante="secundario" href="/guia-estilo">
+            Ver guía de estilo
+          </Boton>
+        )}
       </div>
-    </main>
+    </section>
   )
 }

@@ -31,9 +31,9 @@ Podemos construir todo el sistema con valores semilla (*seeds*), variables opcio
 
 ```mermaid
 flowchart TD
-    E1["Etapa 1: Base Técnica y Entorno\nNext.js + Payload 3 + Postgres (COMPLETADA ✅)"] --> E2["Etapa 2: Modelo de Contenido\nColecciones, Sharp, EXIF, Seeds (EN CURSO 🚀)"]
-    E2 --> E3["Etapa 3: Sistema de Diseño\nTokens CSS, Tipografías, UI Base"]
-    E3 --> E4["Etapa 4: Portafolio Público\nGalería 3:2, Visor 2.5x, Ficha Fine Art"]
+    E1["Etapa 1: Base Técnica y Entorno\nNext.js + Payload 3 + Postgres (COMPLETADA ✅)"] --> E2["Etapa 2: Modelo de Contenido\nColecciones, Sharp, EXIF, Seeds (AUDITADA Y CORREGIDA ✅)"]
+    E2 --> E3["Etapa 3: Sistema de Diseño\nTokens CSS, Tipografías, UI Base (COMPLETADA ✅)"]
+    E3 --> E4["Etapa 4: Portafolio Público\nGalería 3:2, Visor 2.5x, Ficha Fine Art (SIGUIENTE 🚀)"]
     E4 --> E5["Etapa 5: Consultas 1:1\nFormulario, Antispam 1.8s, Telegram"]
     E2 --> E6["Etapa 6: Páginas Editoriales\nSobre mí, Contacto, Ley 21.719"]
     E4 --> E7["Etapa 7: SEO y Open Graph\nLienzo Vertical Blur, Sitemap, JSON-LD"]
@@ -44,44 +44,50 @@ flowchart TD
 
 ---
 
-### Etapa 1: Base Técnica del Proyecto y Entorno (COMPLETADA ✅)
+### Etapa 1: Base Técnica del Proyecto y Entorno (COMPLETADA Y REVISADA ✅)
 - **Objetivo:** Inicializar la arquitectura en Next.js con Payload CMS 3 en la estructura oficial de carpetas y desplegar en Railway con base de datos PostgreSQL.
 - **Estado:**
   - Proyecto en Railway `web-roddiaz` creado en US East (Virginia).
   - Base de datos PostgreSQL aprovisionada con volumen y red interna.
   - Servicio `sitio` desplegado en Railway en `https://sitio-production-7f52.up.railway.app`.
-  - Endpoint `GET /api/salud` respondiendo HTTP 200 con verificación activa a Postgres.
+  - Endpoint `GET /api/salud` respondiendo HTTP 200 `{ estado: 'ok' }` con verificación activa a Postgres (timeout 2s) y lectura en volumen de medios.
+  - Cabeceras de seguridad activas en `next.config.mjs` (X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy).
   - Panel `/admin` operativo y respondiendo HTTP 200.
   - Compilación sin base de datos verificada con Next.js 15.2.9 y Payload CMS 3.90.2.
 
 ---
 
-### Etapa 2: Modelo de Datos y Colecciones Payload (EN CURSO 🚀)
+### Etapa 2: Modelo de Datos y Colecciones Payload (COMPLETADA ✅)
 - **Objetivo:** Codificar las entidades del dominio respetando los nombres oficiales (sin tildes, términos de dominio en español) y el procesamiento de fotos Fine Art.
-- **Colecciones a implementar:**
+- **Colecciones implementadas:**
   - `Foto`: upload con hook en `sharp` (versiones 480, 1200 y 2048 px en AVIF/WebP + fallback JPG, conversión a sRGB preservando perfil ICC, descarte de EXIF/GPS, cálculo automático de relación de aspecto 3:2/orientación, punto focal, campo privado `nombreArchivoOriginal`).
-  - `Coleccion`: árbol de 2 niveles (madre/hija), slug histórico, portada con punto focal.
-  - `Caracteristica`: etiquetas de filtrado transversal.
-  - `FormatoImpresion`: medidas en cm (`ladoCortoCm`, `ladoLargoCm`), `margenMinimoCm` (default 2.0 cm) y relación con papeles.
-  - `TipoPapel`: catálogo Fine Art enriquecido (`base`, `acabado`, `gramajeGsm`, `libreDeAcido`, fabricante).
+  - `Coleccion`: árbol de 2 niveles (madre/hija), slug histórico, portada con punto focal, joins con fotos e hijas.
+  - `Caracteristica`: etiquetas de filtrado transversal con slugs automáticos y slugs históricos.
+  - `FormatoImpresion`: medidas en cm (`ladoCortoCm`, `ladoLargoCm`), `margenMinimoCm` (default 2.0 cm), relación con papeles y bloqueo de edición de medidas si tiene fotos asociadas.
+  - `TipoPapel`: catálogo Fine Art enriquecido (`base`, `acabado`, `gramajeGsm`, `libreDeAcido`, fabricante) y protección contra borrado en cascada.
   - `Pagina`: textos con editor Lexical, protección de slugs reservados (`sobre-mi`, `contacto`, `privacidad`, `condiciones`), campo `contenidoActualizadoEn`.
   - `Consulta` y `Suscriptor`: esquema con snapshots inmutables (`nombreFormatoSnapshot`, `nombrePapelSnapshot`), estados, consentimientos Ley 21.719.
-  - `Medio`, `IntentoAcceso` y actualización de `Usuario` y `AjustesSitio`.
-- **Tareas adicionales:**
-  - Script de semilla (*seed*) con formatos, papeles y páginas iniciales.
-  - Generación de la primera migración en `src/migraciones/`.
-- **Criterio de aceptación:** Subida de foto procesa imágenes correctamente sin fuga de metadatos sensibles; todas las colecciones son navegables en `/admin`.
+  - `Medio`, `IntentoAcceso`, actualización de `Usuario` (oculto en admin, acceso restringido) y `AjustesSitio` (logo, fotoPortada, plantillas de correo).
+- **Librerías y utilidades implementadas en `src/lib/`:**
+  - `slug.ts`, `proporcion.ts`, `exif.ts`, `imagenes.ts`, `visibilidad.ts`, `contenido.ts`, `acceso.ts`.
+  - Suite de 14 pruebas unitarias en `src/lib/*.test.ts` pasando al 100%.
+- **Tareas adicionales completadas:**
+  - Script de semilla (*seed*) en `src/semilla/semilla.ts` y CLI `scripts/semilla.ts`.
+  - Script de recuperación de acceso en `scripts/recuperar-acceso.ts` y ruta `/admin/recuperar`.
+- **Criterio de aceptación cumplido:** Compilación de Next.js y tipados de Payload al 100% en verde; subida de foto con pipeline Sharp blindado; entidades oficiales registradas.
 
 ---
 
-### Etapa 3: Identidad Visual y Sistema de Diseño
+### Etapa 3: Identidad Visual y Sistema de Diseño (COMPLETADA ✅)
 - **Objetivo:** Implementar la capa visual aprobada en [`sistema-de-diseno.md`](file:///Users/roddiaz/projects/DesarrolloWeb/DocumentosTecnicos/identidad/sistema-de-diseno.md).
-- **Tareas clave:**
-  - Configuración de fuentes locales mediante `next/font`: *Cormorant Garamond* (títulos/editorial) y *Manrope* (lectura/interfaz).
-  - Tokens CSS (variables nativas): escala de grises neutros y grafito (`--color-fondo: #0d0e11`, etc., sin negro puro), espaciados, filetes de fotos (`--borde-foto: 1px solid rgba(255,255,255,0.08)`).
-  - Componentes base reutilizables: `Contenedor`, `Boton`, `Dialog` nativo (`<dialog>`), `FileteFoto`.
-  - Reglas de accesibilidad: contrastes AA, áreas táctiles ≥ 44 px, respeto estricto a `prefers-reduced-motion` y transiciones suaves (150–300 ms).
-- **Criterio de aceptación:** Componentes base probados en aislamiento con fidelidad a las especificaciones.
+- **Tareas completadas:**
+  - Configuración de fuentes locales mediante `next/font`: *Cormorant Garamond* (títulos/editorial) y *Manrope* (lectura/interfaz) con licencia OFL en el repositorio.
+  - Tokens CSS (variables nativas en `:root`): paleta grafito neutra (`--color-fondo: #151515`, etc.), espaciados en múltiplos de 4px, filetes de conservación Fine Art, capas y curvas de movimiento.
+  - Estilos base (`base.css`): normalización, `color-scheme: dark`, foco accesible con doble anillo, scrollbar sobria y disuasión de descarga en imágenes.
+  - Monograma "RD" en `src/app/icon.svg`.
+  - Componentes base modulares: `SaltarContenido`, `Marca`, `Boton`, `Dialogo` nativo `<dialog>`, `MenuMovil` (100dvh), `Encabezado` ocultable, `Pie`, `ChipFiltro`, `Campo`, `Aviso`, `Esqueleto` (sin CLS), `MarcoFoto` (picture AVIF/WebP, filete), `Retorno`, `PlantillaEstado`, `NavegacionFotos`, `TarjetaColeccion` (ratio 4:5), `DisposicionFicha` (lateral vs franja inferior) y `Visor` a pantalla completa con navegación táctil y doble toque (*double-tap zoom* 2.5x).
+  - Catálogo interactivo aislado en `/guia-estilo` (protegido contra producción con 404).
+- **Criterio de aceptación cumplido:** 100% de componentes base construidos y probados en aislamiento sin dependencias externas pesadas; `next build` exitoso.
 
 ---
 
