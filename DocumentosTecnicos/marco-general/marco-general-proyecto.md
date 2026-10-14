@@ -4,9 +4,9 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/marco-general/marco-general-proyecto.md` |
 | Tipo | Marco general |
-| Versión | 1.2 |
+| Versión | 1.3 |
 | Estado | Aprobado |
-| Fecha | 2026-10-13 |
+| Fecha | 2026-10-14 |
 | Padre | — |
 | Dependencias | — |
 | Versión del producto | v1.0 (define también v1.x y v2) |
@@ -109,7 +109,7 @@ Cada componente resuelve los suyos. Estos aplican a todo el proyecto y aquí se 
 
 | Caso | Regla transversal |
 |---|---|
-| Fotos verticales, horizontales, cuadradas y panorámicas mezcladas | Ninguna vista recorta la foto en la ficha. En la grilla se permite un recorte solo si el documento de galería lo define, y siempre se muestra la foto completa al abrirla. La proporción se calcula al subir (§6.2). |
+| Fotos verticales, horizontales, cuadradas y panorámicas mezcladas | Ninguna vista recorta la foto: la ficha, el visor y las grillas de fotos (filas justificadas) la muestran completa. La única excepción es la foto de una tarjeta de colección, recortada a 4:5 y centrada en el punto focal que marca Rod (`portafolio/galeria-colecciones.md`). La proporción se calcula al subir (§6.2). |
 | Original muy pesado (45 MP o más), TIFF, HEIC o RAW | Solo se acepta JPEG hasta 60 MB, validado por su firma de bytes. Todo lo demás (RAW, TIFF, HEIC, PNG, WebP) se rechaza con un mensaje claro ("Exporta la foto como JPG desde Lightroom"). |
 | Perfil de color distinto de sRGB (Adobe RGB, Display P3) | Siempre se convierte a sRGB al generar las versiones web. |
 | EXIF ausente, incompleto o con GPS | Los datos técnicos se precargan si existen y quedan editables. **Todas** las versiones publicadas se generan sin metadatos, salvo el perfil de color ICC sRGB (§7.2). |
@@ -127,7 +127,7 @@ Estos son los **nombres oficiales**. En el código van sin tildes, con el domini
 
 | Entidad (colección Payload) | Qué es | Campos principales |
 |---|---|---|
-| `Foto` | Obra publicada. Es una colección *upload*: guarda solo las versiones web, nunca el original (§6.2). | `titulo` (máx. 120), `slug` (único), `slugsAnteriores`, `lugar`, `fecha` (día de la toma), `historia` (opcional, texto enriquecido), `textoAlternativo` (opcional; si falta se usa `titulo`), `datosTecnicos` (grupo opcional: `distanciaFocal`, `apertura`, `velocidad`; precargados del EXIF y editables; sin cámara, lente ni ISO), `coleccion` (relación con **una** `Coleccion`), `orden` (posición en su colección), `caracteristicas` (relación con `Caracteristica`, varias), `proporcion` (calculada: etiqueta `3:2`, `4:5`, `1:1`, `16:9`… o personalizada, valor decimal, orientación y marca de edición manual), `ancho` y `alto` (px de la versión mayor), `colorDominante`, `formatos` (relación con `FormatoImpresion`, varias, solo de proporción compatible), `estado` (`borrador`, `publicada`, `despublicada`), `publicadaEn`, `destacada`, `huella`, `posibleDuplicado`, `filete` (ver `identidad/sistema-de-diseno.md`). `titulo`, `lugar`, `fecha` y `coleccion` son obligatorios para publicar. Detalle en `contenido/modelo-contenido-panel.md`. |
+| `Foto` | Obra publicada. Es una colección *upload*: guarda solo las versiones web, nunca el original (§6.2). | `titulo` (máx. 120), `slug` (único), `slugsAnteriores`, `lugar`, `fecha` (día de la toma), `historia` (opcional, texto enriquecido), `textoAlternativo` (opcional; si falta se usa `titulo`), `datosTecnicos` (grupo opcional: `distanciaFocal`, `apertura`, `velocidad`; precargados del EXIF y editables; sin cámara, lente ni ISO), `coleccion` (relación con **una** `Coleccion`), `orden` (posición en su colección), `caracteristicas` (relación con `Caracteristica`, varias), `proporcion` (calculada: etiqueta `3:2`, `4:5`, `1:1`, `16:9`… o personalizada, valor decimal, orientación y marca de edición manual), `ancho` y `alto` (px de la versión mayor), `colorDominante`, `formatos` (relación con `FormatoImpresion`, varias, solo de proporción compatible), `estado` (`borrador`, `publicada`, `despublicada`), `publicadaEn`, `destacada`, `fijada` y `ordenFijada` (primero en `/fotos`, en el orden de Rod), punto focal (`focalX`, `focalY`, para el recorte de tarjetas de colección), `huella`, `posibleDuplicado`, `filete` (ver `identidad/sistema-de-diseno.md`). `titulo`, `lugar`, `fecha` y `coleccion` son obligatorios para publicar. Detalle en `contenido/modelo-contenido-panel.md`. |
 | `Coleccion` | Agrupación por lugar o salida, con dos niveles como máximo (madre e hija). | `nombre`, `slug`, `slugsAnteriores`, `descripcion` (opcional), `padre` (relación con una `Coleccion` sin padre, opcional), `visibleSola` (hijas: si es falso, solo alimenta a la madre), `orden` (entre hermanas), `portada` (relación con `Foto`), `estado` (`borrador`, `publicada`). Una madre puede tener fotos propias y sub-colecciones, y su vista agrega ambas. |
 | `Caracteristica` | Etiqueta transversal que sirve de filtro, por ejemplo "Blanco y negro", "Paisaje", "Nocturna" o "Araucanía". | `nombre`, `slug`, `slugsAnteriores`. |
 | `FormatoImpresion` | Tamaño de copia disponible, del catálogo global; vale para ambas orientaciones. | `ladoCortoCm`, `ladoLargoCm`, `nombre` (calculado, por ejemplo "30 × 45 cm"), `proporcion` (calculada), `papeles` (relación con `TipoPapel`, al menos uno), `activo`, `orden`. |
@@ -167,9 +167,11 @@ Relaciones clave:
 
 | Ruta | Qué muestra |
 |---|---|
-| `/` | Portada: foto destacada, colecciones y acceso a todas las fotos. |
-| `/fotos` | Todas las fotos publicadas, con filtro por `Caracteristica` (`?caracteristica=<slug>`). |
-| `/colecciones/[slug]` | Una colección, en el orden definido por Rod. |
+| `/` | Portada: foto de portada, colecciones, destacadas y acceso a todas las fotos. |
+| `/colecciones` | Todas las colecciones madre, en el orden de Rod. |
+| `/fotos` | Todas las fotos publicadas, con filtro por `Caracteristica` (`?caracteristica=<slug>`) y página siguiente (`?pagina=N`). |
+| `/colecciones/[slug]` | Una colección, en el orden definido por Rod, con los mismos parámetros que `/fotos`. |
+| `GET /datos/fotos` | Siguiente página de fotos para el scroll infinito (`portafolio/galeria-colecciones.md` §5.3). |
 | `/fotos/[slug]` | Ficha de foto con la llamada a "Pedir una copia". |
 | `/consulta` (o modal en la ficha) | Formulario de consulta. Se define en su documento. |
 | `/sobre-mi`, `/contacto`, `/[slug]` | Páginas. |
@@ -334,6 +336,7 @@ Los documentos 1 y 2 quedan desbloqueados en paralelo al aprobar el marco. Se re
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.3 | 2026-10-14 | Cambios menores al aprobar `portafolio/galeria-colecciones.md` 1.0: las grillas de fotos no recortan (filas justificadas) y solo las tarjetas de colección recortan a 4:5 con punto focal (§5); `Foto.fijada`, `Foto.ordenFijada` y punto focal (§6.1); rutas `/colecciones`, `?pagina=`, filtro en colecciones y `GET /datos/fotos` (§6.3). |
 | 1.2 | 2026-10-13 | Cambios al aprobar `contenido/modelo-contenido-panel.md` 1.0: una sola `Coleccion` por `Foto` (obligatoria para publicar) y jerarquía de dos niveles (`padre`, `visibleSola`, `orden`, estado `borrador`/`publicada`); `datosTecnicos` reducido a distancia focal, apertura y velocidad; `FormatoImpresion` por lado corto × lado largo con `papeles`; se elimina `Foto.papeles`; fotos de vitrina sin copia en lugar de "Tamaños a pedido"; solo JPEG; nuevas entidades `Medio` e `IntentoAcceso`; `Foto.slugsAnteriores`, `publicadaEn` y `posibleDuplicado`; `AjustesSitio.textoVitrina`; duplicados con aviso posterior. |
 | 1.1 | 2026-10-07 | Cambios menores al aprobar `identidad/sistema-de-diseno.md` 1.0: nombre del sitio "Rod Díaz"; campos `AjustesSitio.logo` y `Foto.filete`; se conserva el perfil ICC sRGB en las versiones web; visor a pantalla completa en la ficha (v1.0). |
 | 1.0 | 2026-10-07 | Aprobado por Rod. |

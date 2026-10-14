@@ -1,9 +1,9 @@
 # Estado del proyecto — Rod Díaz
 
-Actualizado: 2026-10-13
+Actualizado: 2026-10-14
 
 ## Resumen
-Marco general (1.2), sistema de diseño (1.0) y modelo de contenido y panel (1.0) aprobados. Cada foto vive en una sola colección (colecciones de dos niveles), las características son etiquetas transversales, los papeles van por formato y una foto puede ser solo de vitrina. Rod sube lotes de JPG y edita en bloque; todo nace en borrador. Siguientes desbloqueados: galería y colecciones, páginas, y despliegue.
+Marco general (1.3), sistema de diseño (1.0), modelo de contenido y panel (1.1) y galería y colecciones (1.0) aprobados. Las grillas usan filas justificadas sin recorte; solo las tarjetas de colección se recortan a 4:5 con punto focal. La portada muestra una foto fija, las colecciones y las destacadas; `/fotos` pone primero las fotos fijadas y luego las más recientes, con scroll infinito. Siguiente desbloqueado: ficha de foto (además de páginas y despliegue).
 
 ## Versión en curso
 v1.0: portafolio con consulta 1:1.
@@ -14,9 +14,12 @@ v1.0: portafolio con consulta 1:1.
 - Stack aprobado en el marco: Next.js + Payload CMS 3 + PostgreSQL en Railway, imágenes en volumen con `sharp`, acceso al panel con Google. En la v1.0 no hay aviso por correo ni analítica.
 - Sistema de diseño: CSS Modules + tokens CSS, fuentes autoalojadas con `next/font` (sin conexión a Google), íconos SVG propios, `<dialog>` nativo. Versiones web en sRGB con perfil ICC.
 - Imágenes: solo JPG hasta 60 MB; EXIF leído con `exifr` (solo fecha, distancia focal, apertura y velocidad).
+- Galería: filas justificadas en CSS puro, scroll infinito con `IntersectionObserver` y punto focal nativo de Payload; sin dependencias nuevas.
 - Tablero: https://claude.ai/artifact/So8RmLvWvY4EkLEBNbVdcd
 
 ## Documentos aprobados recientes
+- Galería y colecciones, versión 1.0 (2026-10-14).
+- Marco general 1.3 y modelo de contenido 1.1 (2026-10-14): fijadas, punto focal, `/colecciones` y `/datos/fotos`.
 - Modelo de contenido y panel de administración, versión 1.0 (2026-10-13).
 - Marco general 1.2 (2026-10-13): una colección por foto con jerarquía, papeles por formato, vitrina, solo JPG, `Medio` e `IntentoAcceso`.
 - Identidad visual y sistema de diseño, versión 1.0 (2026-10-07).
@@ -27,7 +30,7 @@ v1.0: portafolio con consulta 1:1.
 - Ninguno.
 
 ## Próximos pasos
-1. Galería y colecciones (`portafolio/galeria-colecciones.md`): define cómo se ve la vista de una colección madre.
+1. Ficha de foto (`portafolio/ficha-foto.md`): usa el contexto `?coleccion=` y `?caracteristica=` que entrega la galería.
 2. En paralelo, desbloqueados: páginas (`paginas/paginas.md`) y despliegue (`plataforma/despliegue.md`).
 3. Rod: catálogo de tamaños y papeles (T-006) y cliente OAuth de Google (T-008) antes de implementar el panel.
 
@@ -40,3 +43,4 @@ v1.0: portafolio con consulta 1:1.
 | 2026-10-07 | Marco general aprobado (1.0). |
 | 2026-10-07 | Sistema de diseño aprobado (1.0); marco general 1.1. |
 | 2026-10-13 | Modelo de contenido y panel aprobado (1.0); marco general 1.2. |
+| 2026-10-14 | Galería y colecciones aprobado (1.0); marco general 1.3; modelo de contenido 1.1; T-009. |

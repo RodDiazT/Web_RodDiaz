@@ -4,11 +4,11 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/portafolio/galeria-colecciones.md` |
 | Tipo | Componente |
-| Versión | 0.1 |
-| Estado | En revisión |
+| Versión | 1.0 |
+| Estado | Aprobado |
 | Fecha | 2026-10-14 |
-| Padre | `marco-general/marco-general-proyecto.md` (1.2) |
-| Dependencias | `identidad/sistema-de-diseno.md` (1.0), `contenido/modelo-contenido-panel.md` (1.0) |
+| Padre | `marco-general/marco-general-proyecto.md` (1.3, que incorpora los cambios del §11) |
+| Dependencias | `identidad/sistema-de-diseno.md` (1.0), `contenido/modelo-contenido-panel.md` (1.1) |
 | Versión del producto | v1.0 |
 
 ## Índice
@@ -241,7 +241,7 @@ En tableta se usan filas de 260 px, tarjetas en 2 columnas y chips como en móvi
 
 ### 5.1 Modelo de datos
 
-Campos que este componente agrega a `Foto` (los implementa `modelo-contenido-panel`, que pasa a 1.1, y el marco los incorpora en 1.3, §11):
+Campos que este componente agrega a `Foto` (los implementa `modelo-contenido-panel` 1.1 y el marco los incorpora en 1.3, §11):
 
 | Entidad | Campo | Tipo | Regla |
 |---|---|---|---|
@@ -446,22 +446,23 @@ Para Claude Code, en el paso 4 del plan del marco (§9.2), después del modelo d
 - `portafolio/ficha-foto.md`: cómo usa el contexto `?coleccion=` y `?caracteristica=` para "Anterior/Siguiente" y el `Visor`, y qué hace si el contexto ya no contiene la foto.
 - `plataforma/seo.md`: canonical de las fichas sin parámetros, indexación de `?pagina=` y `?caracteristica=`, y títulos de `/colecciones` y `/fotos`.
 
-**Cambios al marco general** (pasaría a 1.3, cambio menor sin cambio de alcance), aplicados al aprobar este documento:
+**Cambios al marco general.** Aplicados al aprobar este documento: el marco pasó a 1.3 (cambio menor, sin cambio de alcance).
 
 1. §5: las grillas de fotos usan filas justificadas y no recortan; solo las tarjetas de colección recortan a 4:5 con punto focal.
 2. §6.1 `Foto`: se agregan `fijada`, `ordenFijada` y el punto focal.
 3. §6.3: se agregan `/colecciones`, `?caracteristica=` en colecciones, `?pagina=` y `GET /datos/fotos`.
 
-**Cambios a `contenido/modelo-contenido-panel.md`** (pasaría a 1.1, cambio menor), aplicados al aprobar: campos de §5.1, la lista "Fijadas" ordenable, las ayudas de `fijada` y `Coleccion.portada`, `focalPoint: true` y `crop: false` en `Foto`, y las funciones de §5.3 en `lib/contenido.ts`.
+**Cambios a `contenido/modelo-contenido-panel.md`.** Aplicados al aprobar: pasó a 1.1 (cambio menor) con los campos de §5.1, la lista "Fijadas" ordenable, las ayudas de `fijada` y `Coleccion.portada`, `focalPoint: true` y `crop: false` en `Foto`, y las funciones de §5.3 en `lib/contenido.ts`.
 
 **Tareas del dueño**
 
 | Id | Categoría | Tarea | Bloquea |
 |---|---|---|---|
-| T-009 (nueva) | contenido | Al cargar las fotos de lanzamiento: elegir la foto de portada del sitio, marcar al menos 6 destacadas, elegir la portada de cada colección y revisar su punto focal, y fijar las fotos que quieras primero en Todas las fotos (opcional). | Lanzamiento (`despliegue`) |
+| T-009 | contenido | Al cargar las fotos de lanzamiento: elegir la foto de portada del sitio, marcar al menos 6 destacadas, elegir la portada de cada colección y revisar su punto focal, y fijar las fotos que quieras primero en Todas las fotos (opcional). | Lanzamiento (`despliegue`) |
 
 ## 12. Control de cambios
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.0 | 2026-10-14 | Aprobado por Rod. El marco general pasa a 1.3 y el modelo de contenido a 1.1 con los cambios del §11; nace T-009. |
 | 0.1 | 2026-10-14 | Borrador inicial. Decisiones de Rod: filas justificadas sin recorte; portada con foto fija elegida por Rod, luego colecciones y destacadas; madre agrupada por secciones de hijas; `/fotos` por publicación más reciente con fotos fijadas arriba en su orden; título y lugar solo al pasar el mouse; scroll infinito; página `/colecciones` en el encabezado; filtro por característica en `/fotos` y en cada colección; la invitación a pedir copia vive solo en la ficha; tarjetas de colección recortadas a 4:5 con punto focal. |

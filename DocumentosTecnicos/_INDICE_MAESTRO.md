@@ -4,10 +4,10 @@
 
 | Ruta | Tipo | Versión | Estado | Producto | Padre | Dependencias |
 |---|---|---|---|---|---|---|
-| `marco-general/marco-general-proyecto.md` | marco | 1.2 | aprobado | v1.0 | — | — |
+| `marco-general/marco-general-proyecto.md` | marco | 1.3 | aprobado | v1.0 | — | — |
 | `identidad/sistema-de-diseno.md` | transversal | 1.0 | aprobado | v1.0 | marco-general | marco-general |
-| `contenido/modelo-contenido-panel.md` | componente | 1.0 | aprobado | v1.0 | marco-general | marco-general |
-| `portafolio/galeria-colecciones.md` | componente | 0.1 | revision | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
+| `contenido/modelo-contenido-panel.md` | componente | 1.1 | aprobado | v1.0 | marco-general | marco-general |
+| `portafolio/galeria-colecciones.md` | componente | 1.0 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `portafolio/ficha-foto.md` | componente | — | pendiente | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
 | `consultas/consulta-copia.md` | componente | — | pendiente | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
 | `paginas/paginas.md` | componente | — | pendiente | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
@@ -17,10 +17,10 @@
 ## Árbol
 
 ```
-marco-general/marco-general-proyecto.md        [aprobado 1.2]
+marco-general/marco-general-proyecto.md        [aprobado 1.3]
 ├── identidad/sistema-de-diseno.md             [aprobado 1.0]
-├── contenido/modelo-contenido-panel.md        [aprobado 1.0]
-├── portafolio/galeria-colecciones.md          [revision 0.1]
+├── contenido/modelo-contenido-panel.md        [aprobado 1.1]
+├── portafolio/galeria-colecciones.md          [aprobado 1.0]
 ├── portafolio/ficha-foto.md                   [pendiente]
 ├── consultas/consulta-copia.md                [pendiente]
 ├── paginas/paginas.md                         [pendiente]
@@ -45,6 +45,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.2]
 | T-005 | Seleccionar al menos 12 fotos de lanzamiento con título, lugar y fecha | despliegue | abierta | 2026-10-07 |
 | T-006 | Definir catálogo inicial de tamaños (cm) y tipos de papel | modelo-contenido-panel | abierta | 2026-10-07 |
 | T-007 | Escribir el texto de Sobre mí y elegir foto de perfil | paginas | abierta | 2026-10-07 |
+| T-009 | Elegir la foto de portada, marcar al menos 6 destacadas, revisar portada y punto focal de cada colección y fijar fotos (opcional) | despliegue | abierta | 2026-10-14 |
 
 ### Negocio
 | Id | Tarea | Bloquea | Estado | Creada |
@@ -58,7 +59,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.2]
 {
   "esquema": "1.1",
   "proyecto": "Rod Díaz (Web_RodDiaz)",
-  "actualizado": "2026-10-14T12:30-03:00",
+  "actualizado": "2026-10-14T11:30-03:00",
   "fases": [
     {
       "id": "v1.0",
@@ -87,9 +88,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.2]
       "dependencias": [],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.2",
-      "actualizado": "2026-10-13",
-      "notas": "1.2: una colección por foto con jerarquía de dos niveles, papeles por formato, vitrina, solo JPEG, Medio e IntentoAcceso (desde modelo-contenido-panel)."
+      "version": "1.3",
+      "actualizado": "2026-10-14",
+      "notas": "1.3: grillas sin recorte (tarjetas 4:5 con punto focal), Foto.fijada/ordenFijada/punto focal, rutas /colecciones y /datos/fotos (desde galeria-colecciones)."
     },
     {
       "id": "sistema-de-diseno",
@@ -119,9 +120,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.2]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.0",
-      "actualizado": "2026-10-13",
-      "notas": "Marco pasa a 1.2 con sus cambios (§7). Implementación requiere T-006 y T-008."
+      "version": "1.1",
+      "actualizado": "2026-10-14",
+      "notas": "1.1: fijadas, punto focal y funciones de galería (desde galeria-colecciones). Implementación requiere T-006 y T-008."
     },
     {
       "id": "galeria-colecciones",
@@ -135,10 +136,10 @@ marco-general/marco-general-proyecto.md        [aprobado 1.2]
         "modelo-contenido-panel"
       ],
       "fase": "v1.0",
-      "estado": "revision",
-      "version": "0.1",
+      "estado": "aprobado",
+      "version": "1.0",
       "actualizado": "2026-10-14",
-      "notas": "0.1: filas justificadas, fijadas en /fotos, scroll infinito, /colecciones, recorte 4:5 con punto focal. Al aprobar: marco 1.3, modelo-contenido-panel 1.1 y tarea T-009 (contenido)."
+      "notas": "Marco pasa a 1.3 y modelo-contenido-panel a 1.1 (§11). Desbloquea ficha-foto."
     },
     {
       "id": "ficha-foto",
@@ -323,6 +324,18 @@ marco-general/marco-general-proyecto.md        [aprobado 1.2]
       "estado": "abierta",
       "creada": "2026-10-07",
       "cerrada": null
+    },
+    {
+      "id": "T-009",
+      "titulo": "Elegir la foto de portada, marcar al menos 6 destacadas, revisar portada y punto focal de cada colección y fijar fotos (opcional)",
+      "categoria": "contenido",
+      "origen": "galeria-colecciones",
+      "bloquea": [
+        "despliegue"
+      ],
+      "estado": "abierta",
+      "creada": "2026-10-14",
+      "cerrada": null
     }
   ]
 }
@@ -343,3 +356,4 @@ marco-general/marco-general-proyecto.md        [aprobado 1.2]
 | 2026-10-13 | Modelo de contenido y panel en revisión (0.1): una colección por foto con jerarquía de dos niveles, papeles por formato, fotos de vitrina, solo JPG, registro de intentos de acceso. |
 | 2026-10-13 | Modelo de contenido y panel aprobado (1.0). Marco general pasa a 1.2. Quedan desbloqueados `galeria-colecciones`, `paginas` y `despliegue`. |
 | 2026-10-14 | Galería y colecciones en revisión (0.1): filas justificadas sin recorte, fijadas en /fotos, scroll infinito, página /colecciones, filtro también en colecciones, recorte 4:5 de tarjetas con punto focal. |
+| 2026-10-14 | Galería y colecciones aprobado (1.0). Marco general pasa a 1.3 y modelo de contenido a 1.1. Nueva T-009 (contenido). Queda desbloqueado `ficha-foto`. |

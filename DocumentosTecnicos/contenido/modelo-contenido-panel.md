@@ -4,11 +4,11 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/contenido/modelo-contenido-panel.md` |
 | Tipo | Componente |
-| Versión | 1.0 |
+| Versión | 1.1 |
 | Estado | Aprobado |
-| Fecha | 2026-10-13 |
+| Fecha | 2026-10-14 |
 | Padre | `marco-general/marco-general-proyecto.md` |
-| Dependencias | `marco-general/marco-general-proyecto.md` (1.2, que incorpora los cambios del §7); considera `identidad/sistema-de-diseno.md` (1.0) para `logo`, `filete` y perfil ICC |
+| Dependencias | `marco-general/marco-general-proyecto.md` (1.3; la 1.2 incorporó los cambios del §7); considera `identidad/sistema-de-diseno.md` (1.0) para `logo`, `filete` y perfil ICC |
 | Versión del producto | v1.0 |
 
 ## Índice
@@ -184,7 +184,7 @@ El panel se usa sobre todo en escritorio. La carga masiva, la edición en bloque
 
 ### 5.1 Modelo de datos
 
-Nombres oficiales del marco §6.1, sin tildes en el código. Las etiquetas del panel van en español con tilde ("Colección", "Características (etiquetas)"). **Marcados con ◆** los campos que cambian respecto del marco 1.1 (se incorporan en el marco 1.2).
+Nombres oficiales del marco §6.1, sin tildes en el código. Las etiquetas del panel van en español con tilde ("Colección", "Características (etiquetas)"). **Marcados con ◆** los campos que cambian respecto del marco 1.1 (se incorporan en el marco 1.2). **Marcados con ◇** los agregados en la versión 1.1 de este documento, desde `portafolio/galeria-colecciones.md` (marco 1.3).
 
 #### `Foto` (colección *upload*)
 
@@ -206,7 +206,10 @@ Nombres oficiales del marco §6.1, sin tildes en el código. Las etiquetas del p
 | ~~`papeles`~~ ◆ | — | **Se elimina.** Los papeles salen del formato (`FormatoImpresion.papeles`). |
 | `estado` | `borrador`, `publicada`, `despublicada` | Nace en `borrador`. |
 | `publicadaEn` ◆ | fecha y hora (UTC), solo lectura | Primera vez que pasó a `publicada`. Distingue "despublicada" (página amable) de "nunca publicada" (404). |
-| `destacada` | booleano | Para la portada. |
+| `destacada` | booleano | Para la portada. Ayuda: "Aparece en la portada". |
+| `fijada` ◇ | booleano, `false` | Ayuda: "Aparece primero en Todas las fotos". |
+| `ordenFijada` ◇ | número, opcional | Orden entre las fijadas; se asigna al final al fijar, se cambia arrastrando en la lista filtrada "Fijadas" y se vacía al desfijar. |
+| `focalX`, `focalY` ◇ | punto focal nativo de Payload (`focalPoint: true`, `crop: false`) | 0 a 100, por defecto 50 / 50. Solo para el recorte 4:5 de las tarjetas de colección (`portafolio/galeria-colecciones.md` §5.2.4). No genera archivos. |
 | `filete` | booleano, `false` | Ayuda: "Úsalo en fotos muy oscuras que se pierden en el fondo". |
 | `ancho`, `alto` | número (px), solo lectura | De la versión mayor generada. |
 | `colorDominante` | texto (hex), solo lectura | Para el marcador de carga. |
@@ -215,7 +218,7 @@ Nombres oficiales del marco §6.1, sin tildes en el código. Las etiquetas del p
 | `faltantes` ◆ | campo virtual (no se guarda) | Lista de datos mínimos faltantes, para la columna "Por completar". |
 | versiones (`sizes`) | gestionadas por Payload | `480`, `1200` y `2048` px de lado largo, en AVIF y WebP, más `1200` en JPEG (marco §6.2.2). El archivo principal también queda reducido a 2048 px. |
 
-Columnas de la lista: miniatura, título (o nombre de archivo), colección, estado, fecha y "Por completar".
+Columnas de la lista: miniatura, título (o nombre de archivo), colección, estado, fecha y "Por completar". ◇ Lista filtrada "Fijadas", ordenable por arrastre sobre `ordenFijada`.
 
 #### `Coleccion`
 
@@ -227,7 +230,7 @@ Columnas de la lista: miniatura, título (o nombre de archivo), colección, esta
 | `padre` ◆ | relación con `Coleccion`, una, opcional | Solo puede apuntar a una colección sin `padre`. Una colección con hijas no puede tener `padre`. |
 | `visibleSola` ◆ | booleano, `true` | Solo aplica a hijas. Si es `false`, la hija no se lista y sus fotos se ven solo dentro de la madre y en `/fotos`. |
 | `orden` ◆ | número | Posición entre sus hermanas (las hijas de una madre, o las madres de la portada). Se cambia arrastrando. |
-| `portada` | relación con `Foto` | Opcional. Debe pertenecer a la colección o a una hija. Si falta, se usa la primera foto visible. |
+| `portada` | relación con `Foto` | Opcional. Debe pertenecer a la colección o a una hija. Si falta, se usa la primera foto visible. Ayuda ◇: "En las tarjetas, la portada se ve recortada en formato vertical 4:5. Marca el punto focal en la foto para elegir el centro." |
 | `estado` ◆ | `borrador`, `publicada` | Reemplaza `publicada`/`oculta`. Nace en `borrador`. |
 | `fotos` ◆ | campo *join* (inverso de `Foto.coleccion`), solo lectura | Para ver y ordenar las fotos desde la colección. |
 | `hijas` ◆ | campo *join* (inverso de `padre`), solo lectura | Para ver y ordenar las sub-colecciones. |
@@ -289,7 +292,7 @@ Solo lectura en el panel, salvo borrar. No se guarda IP, nombre ni foto de la cu
 
 #### Índices
 
-`Foto.slug` (único), `Foto.coleccion` + `Foto.orden`, `Foto.estado`, `Foto.huella`, `Coleccion.slug` (único), `Coleccion.padre`, `Caracteristica.slug` (único), `IntentoAcceso.fecha`.
+`Foto.slug` (único), `Foto.coleccion` + `Foto.orden`, `Foto.estado` + `Foto.publicadaEn` ◇, `Foto.fijada` + `Foto.ordenFijada` ◇, `Foto.huella`, `Coleccion.slug` (único), `Coleccion.padre`, `Caracteristica.slug` (único), `IntentoAcceso.fecha`.
 
 ### 5.2 Reglas de negocio específicas
 
@@ -326,7 +329,7 @@ Solo lectura en el panel, salvo borrar. No se guarda IP, nombre ni foto de la cu
 | `/admin` (dashboard) | Componente propio que reemplaza la portada (§3.4). |
 | Inicio de sesión | Botón "Entrar con Google" en `/admin/login`. Callback OAuth en la ruta que defina la librería elegida (§5.6). Las respuestas de rechazo usan un mensaje genérico. |
 | API de Payload `/api/...` | Lectura pública solo de lo visible: el control de acceso `read` de `Foto`, `Coleccion`, `Pagina` aplica §5.2.5 para usuarios anónimos. `IntentoAcceso`, `Usuario` y los borradores solo los lee Rod. Escritura solo para Rod. |
-| Funciones de datos para el sitio | `lib/contenido.ts` expone a los componentes públicos: `fotosVisibles(filtro)`, `fotoPorSlug(slug)` (devuelve `{foto}`, `{redirigirA}`, `{noDisponible}` o `null`), `coleccionesListadas()`, `coleccionPorSlug(slug)`, `formatosOfrecidos(foto)` (con orientación y papeles) y `ajustes()`. Los documentos de galería, ficha y páginas consumen estas funciones. |
+| Funciones de datos para el sitio | `lib/contenido.ts` expone a los componentes públicos: `fotosVisibles(filtro)`, `fotoPorSlug(slug)` (devuelve `{foto}`, `{redirigirA}`, `{noDisponible}` o `null`), `coleccionesListadas()`, `coleccionPorSlug(slug)`, `formatosOfrecidos(foto)` (con orientación y papeles) y `ajustes()`. ◇ Se suman las funciones de paginación y vistas de `portafolio/galeria-colecciones.md` §5.3. Los documentos de galería, ficha y páginas consumen estas funciones. |
 
 ### 5.4 Componentes y estructura de código
 
@@ -496,5 +499,6 @@ Para Claude Code, después del paso 1 del plan del marco (§9.2: base del proyec
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.1 | 2026-10-14 | Cambio menor al aprobar `portafolio/galeria-colecciones.md` 1.0: `Foto.fijada`, `Foto.ordenFijada` y punto focal (`focalPoint: true`, `crop: false`); lista "Fijadas" ordenable; ayudas de `destacada`, `fijada` y `Coleccion.portada`; índices; funciones de datos de galería en `lib/contenido.ts`. |
 | 1.0 | 2026-10-13 | Aprobado por Rod. El marco general pasa a 1.2 con los cambios del §7. |
 | 0.1 | 2026-10-13 | Borrador inicial, conversado por voz con Rod. Decisiones: una colección por foto (obligatoria para publicar) y características transversales; colecciones de dos niveles con fotos propias en la madre y `visibleSola` en las hijas; borrador y publicación para fotos y colecciones; `lugar` libre; fecha de captura del EXIF o manual; solo distancia focal, apertura y velocidad (sin cámara, lente ni GPS); todo lo automático es editable; catálogo de formatos por proporción con papeles por formato; fotos de vitrina sin copia; carga masiva con edición en bloque; solo JPG en sRGB; acceso con un solo correo de Google y registro de intentos rechazados; páginas simples. Nuevas entidades `Medio` e `IntentoAcceso`. Cambios al marco listados en §7. |
