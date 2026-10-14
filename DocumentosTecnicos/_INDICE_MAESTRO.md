@@ -9,7 +9,7 @@
 | `contenido/modelo-contenido-panel.md` | componente | 1.1 | aprobado | v1.0 | marco-general | marco-general |
 | `portafolio/galeria-colecciones.md` | componente | 1.1 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `portafolio/ficha-foto.md` | componente | 1.0 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
-| `consultas/consulta-copia.md` | componente | 0.1 | revision | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
+| `consultas/consulta-copia.md` | componente | 0.2 | revision | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
 | `paginas/paginas.md` | componente | — | pendiente | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `plataforma/seo.md` | transversal | — | pendiente | v1.0 | marco-general | galeria-colecciones, ficha-foto, paginas |
 | `plataforma/despliegue.md` | transversal | — | pendiente | v1.0 | marco-general | modelo-contenido-panel |
@@ -22,7 +22,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.4]
 ├── contenido/modelo-contenido-panel.md        [aprobado 1.1]
 ├── portafolio/galeria-colecciones.md          [aprobado 1.1]
 ├── portafolio/ficha-foto.md                   [aprobado 1.0]
-├── consultas/consulta-copia.md                [revision 0.1]
+├── consultas/consulta-copia.md                [revision 0.2]
 ├── paginas/paginas.md                         [pendiente]
 ├── plataforma/seo.md                          [pendiente]
 └── plataforma/despliegue.md                   [pendiente]
@@ -59,7 +59,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.4]
 {
   "esquema": "1.1",
   "proyecto": "Rod Díaz (Web_RodDiaz)",
-  "actualizado": "2026-10-14T13:30-03:00",
+  "actualizado": "2026-10-14T12:45-03:00",
   "fases": [
     {
       "id": "v1.0",
@@ -172,9 +172,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.4]
       ],
       "fase": "v1.0",
       "estado": "revision",
-      "version": "0.1",
+      "version": "0.2",
       "actualizado": "2026-10-14",
-      "notas": "Al aprobar: marco 1.5 (Consulta.items, consulta general, AjustesSitio, /consulta página, /datos/fotos-consultables), modelo-contenido-panel 1.2 (dashboard) y ficha-foto 1.1 (origen)."
+      "notas": "Al aprobar: marco 1.5 (Consulta.items, consulta general, nueva entidad Suscriptor con casilla opcional de novedades, art. 28 B Ley 19.496, AjustesSitio, /consulta página, /datos/fotos-consultables), modelo-contenido-panel 1.2 (dashboard) y ficha-foto 1.1 (origen)."
     },
     {
       "id": "paginas",
@@ -191,7 +191,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.4]
       "estado": "pendiente",
       "version": null,
       "actualizado": "2026-10-07",
-      "notas": "Desde consulta-copia: Contacto enlaza a /consulta sin foto; la política de privacidad incluye lo de consulta-copia §6."
+      "notas": "Desde consulta-copia: Contacto enlaza a /consulta sin foto; la política de privacidad incluye lo de consulta-copia §6 (contacto por los medios indicados y sección de novedades y promociones)."
     },
     {
       "id": "seo",
@@ -360,3 +360,4 @@ marco-general/marco-general-proyecto.md        [aprobado 1.4]
 | 2026-10-14 | Ficha de foto en revisión (0.1): resumen de copias con desplegable y elección de tamaño, barra móvil al pasar el botón, mes y año, historia plegada, compartir nativo, «Más de <colección>», contexto resuelto en el navegador y `GET /datos/contexto`. |
 | 2026-10-14 | Ficha de foto aprobada (1.0). Marco general pasa a 1.4 y galería a 1.1. Sin tareas nuevas. Queda desbloqueado `consulta-copia`. |
 | 2026-10-14 | Consulta de copia en revisión (0.1): página propia, hasta 5 fotos con buscador, ciudad opcional, consulta general, casilla de consentimiento, respuesta con borrador en Gmail, indicador mensual en el dashboard. |
+| 2026-10-14 | Consulta de copia 0.2: casilla obligatoria incluye ser contactado por los medios indicados; casilla opcional de novedades y promociones con la entidad `Suscriptor`. |

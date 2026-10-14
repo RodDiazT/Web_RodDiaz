@@ -4,7 +4,7 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/consultas/consulta-copia.md` |
 | Tipo | Componente |
-| Versión | 0.1 |
+| Versión | 0.2 |
 | Estado | En revisión |
 | Fecha | 2026-10-14 |
 | Padre | `marco-general/marco-general-proyecto.md` (1.4) |
@@ -55,15 +55,17 @@ Este componente cubre los dos últimos eslabones del flujo central (marco §4.1)
 - **D-01 resuelta:** el formulario vive en una **página propia**, `/consulta`, no en un modal.
 - Entrada desde la ficha (`/consulta?foto=<slug>&formato=<id>`), desde el visor y sin foto (consulta general, por ejemplo desde "Contacto").
 - Hasta **5 fotos por consulta**, cada una con tamaño y papel opcionales, y "Agregar otra foto" con buscador por título.
-- Campos: nombre y correo (obligatorios); teléfono, ciudad y mensaje (opcionales); casilla de aceptación de la política de privacidad (obligatoria).
+- Campos: nombre y correo (obligatorios); teléfono, ciudad y mensaje (opcionales); casilla de aceptación de la política de privacidad y de ser contactado por los medios indicados (obligatoria); casilla de novedades y promociones (opcional, sin marcar).
 - Envío que funciona sin JavaScript, guardado antes de confirmar, estado de éxito con texto editable desde el panel, y conservación de lo escrito si falla.
 - Antispam del marco §6.2.9 y sugerencia de corrección de correos mal escritos.
 - En el panel: colección *Consultas* con vistas, detalle, "Responder por correo" (borrador en Gmail), "Marcar respondida", "Cerrar", "Es spam", notas internas, otras consultas del mismo correo, contador de nuevas en el menú y en el dashboard, e indicador de consultas por mes (marco §2.1).
 - Borrado automático programado (12 meses; spam a los 30 días) y procedimiento de derechos del interesado (acceso, rectificación, supresión, oposición).
+- Registro de **suscriptores a novedades** (`Suscriptor`) para quienes marcan la casilla opcional, con su lista en el panel, "Copiar correos" para enviar desde Gmail en copia oculta, y baja.
 
 **No incluye**
 
-- Envío de correos desde el sitio (aviso a Rod, confirmación al interesado o respuesta): fuera de la v1.0 por decisión del marco (§6.6).
+- Envío de correos desde el sitio (aviso a Rod, confirmación al interesado, respuesta o boletín de novedades): fuera de la v1.0 por decisión del marco (§6.6). Las novedades las envía Rod desde su Gmail.
+- Suscripción a novedades sin consulta (un formulario "suscríbete" suelto): queda para v1.x si se quiere.
 - Precios, cotización automática, carrito o pagos.
 - El texto de la política de privacidad y la página "Contacto": `paginas/paginas.md` (este documento fija lo que deben decir sobre consultas, §6).
 - Título, descripción e indexación de `/consulta`: este documento fija solo `noindex` (§5.5); lo demás en `plataforma/seo.md`.
@@ -86,9 +88,9 @@ Este componente cubre los dos últimos eslabones del flujo central (marco §4.1)
 **Escritorio (≥ 1024 px), dos columnas** dentro de un contenedor de 1040 px:
 
 - **Izquierda (sticky, 420 px):** "Tu consulta" en `--titulo-md` y la lista de ítems (§3.3). Debajo, "Agregar otra foto" (`Boton` variante `secundario`), oculto al llegar a 5.
-- **Derecha (máx. 520 px):** el texto breve `AjustesSitio.textoIntroConsulta` (por defecto "Cuéntame cómo contactarte y te respondo con los detalles y el valor de la copia."), los campos en este orden: **Nombre**, **Correo**, **Teléfono (opcional)**, **Ciudad (opcional)** con la ayuda "Para estimar el envío", **Mensaje (opcional)** (área de 4 líneas que crece hasta 10), la **casilla de privacidad** y el `Boton` primario "Enviar consulta".
+- **Derecha (máx. 520 px):** el texto breve `AjustesSitio.textoIntroConsulta` (por defecto "Cuéntame cómo contactarte y te respondo con los detalles y el valor de la copia."), los campos en este orden: **Nombre**, **Correo**, **Teléfono (opcional)**, **Ciudad (opcional)** con la ayuda "Para estimar el envío", **Mensaje (opcional)** (área de 4 líneas que crece hasta 10), la **casilla de privacidad y contacto** (obligatoria), la **casilla de novedades** (opcional, sin marcar) y el `Boton` primario "Enviar consulta".
 
-**Móvil y tableta (< 1024 px), apilado:** `Retorno`, título, ítems, "Agregar otra foto", texto breve, campos, casilla y botón. El botón no es fijo: está al final del formulario y el teclado no lo tapa (`enterkeyhint="next"` en los campos y `enterkeyhint="send"` en el último).
+**Móvil y tableta (< 1024 px), apilado:** `Retorno`, título, ítems, "Agregar otra foto", texto breve, campos, las dos casillas y botón. El botón no es fijo: está al final del formulario y el teclado no lo tapa (`enterkeyhint="next"` en los campos y `enterkeyhint="send"` en el último).
 
 **Sin ítems (consulta general):** la columna izquierda muestra solo "¿Te interesa una copia?" y "Agregar una foto"; el título de la página es "Escríbeme" y el botón dice "Enviar mensaje".
 
@@ -124,7 +126,7 @@ Los ítems aparecen con opacidad y 4 px de desplazamiento en 200 ms; al quitarse
 
 - Título "Recibimos tu consulta" (o "Recibimos tu mensaje" si es general) en `--titulo-md`.
 - Texto `AjustesSitio.textoConsultaRecibida`, con `{correo}` reemplazado por el correo escrito. Por defecto: "Te respondo a {correo} en los próximos días. Si no ves mi respuesta, revisa la carpeta de spam."
-- Resumen de lo enviado: miniaturas y títulos de los ítems con su tamaño y papel, si los eligió.
+- Resumen de lo enviado: miniaturas y títulos de los ítems con su tamaño y papel, si los eligió. Si marcó novedades, una línea: "También te sumé a las novedades. Puedes darte de baja cuando quieras escribiendo a <correoContacto>."
 - Acciones: "Seguir mirando fotos" (primario, a `/fotos`) y, si llegó desde una foto, "Volver a <título>".
 - **Pequeña celebración, sin ruido:** el bloque entra con opacidad y escala de 0,98 a 1 en 250 ms, y un ✓ de 20 px se dibuja con un trazo SVG en 300 ms. Es un momento único en la visita; se justifica (guías de diseño: formularios de primera vez admiten algo de deleite). Sin confeti ni sonido. Con `prefers-reduced-motion`, aparece sin movimiento.
 - Recargar la página después del éxito **no** reenvía: muestra el formulario vacío (con la foto del parámetro).
@@ -135,6 +137,8 @@ Los ítems aparecen con opacidad y 4 px de desplazamiento en 200 ms; al quitarse
 
 **Lista.** Vistas: *Nuevas* (por defecto si hay alguna), *Abiertas* (`nueva` y `respondida`), *Todas*, *Spam*. Columnas: estado (las `nueva` con punto y en negrita), nombre, fotos (miniatura de la primera y "+2" si hay más; "General" si no hay), ciudad, recibida (fecha y hora en America/Santiago). Búsqueda por nombre o correo. Orden: más reciente primero.
 
+**Suscriptores.** En el grupo *Consultas*, la lista *Suscriptores a novedades*: nombre, correo, desde (fecha). Acciones: **"Copiar correos"** (todos, separados por comas, para pegarlos en el campo **CCO** de Gmail, con el recordatorio "Pégalos en CCO, nunca en Para") y **"Dar de baja"** (borra el registro tras confirmar). La tarjeta "Consultas por mes" muestra al lado el total de suscriptores.
+
 **Detalle.** En este orden:
 
 1. Nombre, correo (con "Copiar"), teléfono, ciudad y fecha de recepción.
@@ -143,7 +147,7 @@ Los ítems aparecen con opacidad y 4 px de desplazamiento en 200 ms; al quitarse
 4. Acciones: **"Responder por correo"** (abre Gmail en una pestaña nueva con destinatario, asunto y cuerpo listos, §5.2.6), **"Marcar respondida"**, **"Cerrar"**, **"Es spam"** / "No es spam".
 5. **Notas internas** (texto, solo para Rod).
 6. **Otras consultas de este correo (N)**, con enlaces.
-7. Datos de cumplimiento: aceptó la política el <fecha> (versión de <fecha>), se borra el <fecha>.
+7. Datos de cumplimiento: aceptó la política el <fecha> (versión de <fecha>), se borra el <fecha>, y "Suscrito a novedades" si marcó la casilla (con enlace a su registro).
 
 Abrir una consulta no cambia su estado: sigue `nueva` hasta que Rod la marca. *Objeción planteada:* ¿no debería pasar a "vista" al abrirla? Se descarta: el contador debe medir lo que falta responder, no lo que Rod miró, y no se agrega un estado más al marco.
 
@@ -162,7 +166,7 @@ Abrir una consulta no cambia su estado: sigue `nueva` hasta que Rod la marca. *O
 - El resumen de errores es un `Aviso` con `role="alert"`; el estado de éxito recibe el foco en su título.
 - Los ítems son una lista (`ul`) con nombre "Fotos de tu consulta"; quitar uno se anuncia ("Quitaste <título>") con `aria-live="polite"`.
 - El `Dialogo` del buscador atrapa el foco, cierra con Esc y devuelve el foco a "Agregar otra foto". Las miniaturas son botones con nombre "Agregar <título>".
-- Casilla: `input type="checkbox"` nativo de 24 px con área táctil de 44 px; el enlace a la política abre en una pestaña nueva y lo anuncia ("se abre en una pestaña nueva").
+- Casillas: `input type="checkbox"` nativo de 24 px con área táctil de 44 px; el enlace a la política abre en una pestaña nueva y lo anuncia ("se abre en una pestaña nueva"). La de novedades dice "(opcional)" en su etiqueta.
 - Contraste AA y objetivos de 44 px con los tokens del sistema de diseño.
 
 ### 3.10 Objeciones planteadas al flujo y su resolución
@@ -177,6 +181,7 @@ Abrir una consulta no cambia su estado: sigue `nueva` hasta que Rod la marca. *O
 | O-6 | Casilla obligatoria agrega un paso. | Se mantiene por decisión de Rod: consentimiento explícito y con registro de fecha y versión (§6). |
 | O-7 | ¿Marcar respondida al abrir el correo? | No: se marca a mano para que el indicador de la v2 sea fiel (decisión de Rod). |
 | O-8 | Validar mientras se escribe molesta. | Validación al salir del campo y al enviar. |
+| O-10 | Rod pidió que el texto diga que el interesado acepta ser contactado y que sus datos se pueden usar para comunicaciones y promociones. | El contacto por los medios indicados se suma a la casilla obligatoria, porque es parte de responder. Las promociones van en una **segunda casilla opcional y sin marcar** (decisión de Rod): la Ley 21.719 pide un consentimiento libre y específico por finalidad, y condicionar la consulta a aceptar promociones lo invalidaría (§6). |
 | O-9 | Bloquear el envío sospechoso podría perder una consulta real. | Las señales de bot (campo trampa, envío en menos de 3 s) no se rechazan: se guardan como `spam`, que Rod revisa y puede rescatar (§5.2.5). |
 
 ## 4. Casos borde
@@ -211,7 +216,12 @@ Abrir una consulta no cambia su estado: sigue `nueva` hasta que Rod la marca. *O
 | Autocompletado del navegador llena el campo trampa | El campo trampa lleva `autocomplete="off"`, `tabindex="-1"` y un nombre que los navegadores no autocompletan; aun si se llena, la consulta se guarda como `spam` y no se pierde. |
 | Rod responde por otro medio (teléfono, Instagram) | Marca la consulta respondida a mano y puede anotar en notas internas. |
 | Rod borra una consulta por error | Payload pide confirmación; no hay papelera en la v1.0. Se recomienda "Cerrar" en vez de borrar. |
-| El interesado pide sus datos o su borrado | Procedimiento §5.2.9. |
+| El interesado pide sus datos o su borrado | Procedimiento §5.2.9 (incluye su registro de `Suscriptor`). |
+| Marca novedades y ya era suscriptor | No se duplica: se actualizan `consentimientoEn` y `versionPolitica` del registro existente. |
+| Marca novedades en una consulta que queda en *Spam* | No se crea `Suscriptor` hasta que Rod marque "No es spam". |
+| Pide la baja de novedades pero quiere que respondan su consulta | "Dar de baja" borra solo el `Suscriptor`; la consulta sigue. |
+| La consulta se borra a los 12 meses | El `Suscriptor` no se borra con ella: se conserva hasta la baja (§5.2.13). |
+| Rod envía novedades con todos los correos en "Para" | El panel solo ofrece "Copiar correos" con el recordatorio de usar CCO; el pie `plantillaNovedades` recuerda la forma de baja. |
 
 ## 5. Especificación técnica
 
@@ -233,7 +243,8 @@ Abrir una consulta no cambia su estado: sigue `nueva` hasta que Rod la marca. *O
 | `ultimaActividad` | fecha | Al crear y en cada cambio de `estado` o `notasInternas`. |
 | `eliminarDespuesDe` | fecha | Calculado: `ultimaActividad` + 12 meses; si `estado = spam`, `createdAt` + 30 días. Índice. |
 | `notasInternas` | área de texto | Opcional, solo panel. |
-| `consentimientoEn` | fecha | **Nuevo.** Instante en que se envió con la casilla marcada. Obligatorio. Solo lectura. |
+| `consentimientoEn` | fecha | **Nuevo.** Instante en que se envió con la casilla obligatoria marcada. Obligatorio. Solo lectura. |
+| `aceptaPromociones` | casilla | **Nuevo.** Si marcó la casilla de novedades. Solo lectura. |
 | `versionPolitica` | fecha | **Nuevo.** `updatedAt` de la `Pagina` de privacidad al momento del envío. Solo lectura. |
 | `origen` | selección (`ficha`, `visor`, `general`) | **Nuevo.** De dónde llegó (parámetro `origen` de la URL; por defecto `general` sin foto y `ficha` con foto). Solo lectura. Sirve para entender el uso, sin analítica. |
 | `claveEnvio` | texto | **Nuevo.** Clave de idempotencia (UUID). Única. Oculta en el panel. |
@@ -250,16 +261,30 @@ Abrir una consulta no cambia su estado: sigue `nueva` hasta que Rod la marca. *O
 
 No se guardan IP, agente de usuario ni identificadores del navegador en la `Consulta`.
 
+**`Suscriptor`** (colección Payload nueva, `src/colecciones/Suscriptor.ts`): persona que aceptó recibir novedades y promociones.
+
+| Campo | Tipo | Regla |
+|---|---|---|
+| `nombre` | texto | Copiado de la consulta. |
+| `correo` | correo | Obligatorio, en minúsculas, **único**. |
+| `consentimientoEn` | fecha | Instante del consentimiento (el último, si lo renovó). Solo lectura. |
+| `versionPolitica` | fecha | `updatedAt` de la política de privacidad al consentir. Solo lectura. |
+| `origen` | relación con `Consulta` | La consulta donde marcó la casilla; queda vacía cuando la consulta se borra. |
+
+No guarda teléfono, ciudad ni mensaje. La baja **borra** el registro (§5.2.13).
+
 **`AjustesSitio`**, campos nuevos (datos, no código, marco §6.2.10):
 
 | Campo | Por defecto |
 |---|---|
 | `textoIntroConsulta` | "Cuéntame cómo contactarte y te respondo con los detalles y el valor de la copia." |
 | `textoConsultaRecibida` | "Te respondo a {correo} en los próximos días. Si no ves mi respuesta, revisa la carpeta de spam." |
-| `textoConsentimiento` | "Acepto que Rod Díaz use estos datos solo para responder mi consulta, según la {politica}." (`{politica}` se reemplaza por el enlace "política de privacidad") |
+| `textoConsentimiento` | "Acepto la {politica} y que Rod Díaz me contacte por correo, teléfono u otro medio que indiqué, para responder esta consulta." (`{politica}` se reemplaza por el enlace "política de privacidad") |
+| `textoPromociones` | "Quiero recibir novedades y promociones de Rod Díaz (fotos nuevas, ofertas de copias). Puedo darme de baja cuando quiera." |
+| `plantillaNovedades` | Pie que Rod pega en cada correo de novedades: "Recibes este correo porque te suscribiste en <nombreSitio>. Si no quieres recibir más, responde BAJA a este correo." |
 | `plantillaRespuesta` | Asunto: "Tu consulta por {fotos}" (o "Tu mensaje" si es general). Cuerpo: "Hola {nombre}:\n\nGracias por escribirme. {detalle}\n\n" (`{detalle}` lista cada foto con su tamaño y papel). Rod la edita a su gusto. |
 
-**Índices:** `correo`, `estado`, `eliminarDespuesDe`, `createdAt`, `claveEnvio` (único).
+**Índices:** `Consulta`: `correo`, `estado`, `eliminarDespuesDe`, `createdAt`, `claveEnvio` (único). `Suscriptor`: `correo` (único).
 
 ### 5.2 Reglas de negocio específicas
 
@@ -279,11 +304,16 @@ No se guardan IP, agente de usuario ni identificadores del navegador en la `Cons
 9. **Derechos del interesado** (marco §7.1). El interesado escribe a `AjustesSitio.correoContacto`. Rod, en *Consultas*, busca por el correo y usa la acción **"Datos de este correo"**, que muestra cuántas consultas hay y ofrece:
    - **Acceso:** "Descargar" genera un archivo `.txt` legible con todas sus consultas (datos, ítems, mensaje, fechas, estado; sin notas internas que no sean datos del titular, ver §11 D-C2), que Rod adjunta a su respuesta.
    - **Rectificación:** Rod edita los campos de la consulta.
-   - **Supresión u oposición:** "Borrar todas" elimina, tras confirmar escribiendo el correo, todas las consultas de ese correo.
+   - **Supresión u oposición:** "Borrar todas" elimina, tras confirmar escribiendo el correo, todas las consultas de ese correo y su `Suscriptor`, si existe. La oposición solo a promociones es "Dar de baja" (§5.2.13).
    - Rod responde por correo; el plazo y el procedimiento visible para el interesado los fija la política de privacidad (`paginas/paginas.md`).
 10. **Borrado programado.** Una tarea diaria (`src/tareas/borrarConsultasVencidas.ts`, cola de trabajos de Payload a las 04:00 America/Santiago) borra las consultas con `eliminarDespuesDe` vencido y deja en el registro del servicio solo el número borrado, sin datos personales.
 11. **Fechas.** Instantes en UTC; el panel y el éxito muestran America/Santiago (marco §6.2.11). El panel se configura con zona horaria por defecto America/Santiago.
 12. **Datos, no código.** Los textos de §5.1 (`AjustesSitio`) son datos. Los rótulos de interfaz ("Tu consulta", "Agregar otra foto", "Elige una foto", "Nombre", "Correo", "Teléfono", "Ciudad", "Mensaje", "Enviar consulta", "Enviar mensaje", "Escríbeme", "Enviando…", "Recibimos tu consulta", "Seguir mirando fotos", los mensajes de error y los del panel) son parte del código, como en el sistema de diseño §5.4.
+13. **Novedades y promociones.**
+    - La casilla es opcional y nunca viene marcada; no marcarla no cambia nada del envío. Si se marca, al guardar una consulta que no es `spam` se crea o actualiza el `Suscriptor` de ese correo; si es `spam`, se crea al pasarla a "No es spam".
+    - **Conservación:** mientras no pida la baja. Al pedirla (respondiendo BAJA, por correo o por cualquier medio), Rod usa "Dar de baja" y el registro se borra. Para no volver a escribirle por error, queda solo una huella del correo (SHA-256 con sal del sitio) en una lista de bajas, que hace que la casilla no lo vuelva a suscribir en silencio: si marca la casilla en una consulta futura, se toma como consentimiento nuevo y la huella se elimina.
+    - **Envío:** en la v1.0 lo hace Rod desde Gmail, con los correos en CCO y el pie `plantillaNovedades`. Cada correo dice quién lo envía, de qué trata y cómo darse de baja (Ley 19.496, art. 28 B, §6).
+    - Los suscriptores no entran al contador ni al indicador de consultas.
 
 ### 5.3 Interfaces
 
@@ -304,7 +334,8 @@ No se guardan IP, agente de usuario ni identificadores del navegador en la `Cons
 |---|---|
 | `nombre`, `correo`, `telefono`, `ciudad`, `mensaje` | Texto. |
 | `items[i][foto]`, `items[i][formato]`, `items[i][papel]` | Slug, id, id. `i` de 0 a 4. |
-| `acepta` | `on` si marcada. |
+| `acepta` | `on` si marcada (obligatoria). |
+| `promociones` | `on` si marcada (opcional). |
 | `origen`, `claveEnvio`, `emitidoEn`, `firma`, `sitio_web` | Ocultos. |
 
 Respuesta de error: `errores` por campo con el código (`requerido`, `formato`, `largo`, `maximo_items`, `limite`, `guardado`) y `valores` para repoblar. Nunca devuelve datos internos.
@@ -348,6 +379,7 @@ src/
 │   ├── BuscadorFotos.tsx                  # Dialogo + filtro; carga diferida
 │   ├── SugerenciaCorreo.tsx
 │   └── ExitoConsulta.tsx                  # estado de éxito, ✓ en SVG
+├── colecciones/Suscriptor.ts              # acceso solo Usuario; alta y baja
 ├── colecciones/Consulta.ts                # campos, hooks (tipo, ultimaActividad, eliminarDespuesDe, respondidaEn), acceso solo Usuario
 ├── componentes/admin/
 │   ├── ContadorConsultas.tsx              # globo del menú
@@ -355,7 +387,8 @@ src/
 │   ├── TarjetaConsultasPorMes.tsx         # dashboard, barras en CSS
 │   ├── AccionesConsulta.tsx               # responder, marcar, cerrar, spam
 │   ├── OtrasConsultasCorreo.tsx
-│   └── DatosDeCorreo.tsx                  # derechos: descargar, borrar todas
+│   ├── DatosDeCorreo.tsx                  # derechos: descargar, borrar todas
+│   └── AccionesSuscriptores.tsx           # copiar correos para CCO, dar de baja
 ├── tareas/borrarConsultasVencidas.ts
 ├── globales/AjustesSitio.ts               # campos nuevos del §5.1
 └── lib/
@@ -397,14 +430,15 @@ El resto se hereda del marco §6.6 y del sistema de diseño §5.7. **Costo incre
 Lo transversal está en el marco §7.1. Lo específico (preguntas del método §8):
 
 - **Normativa reverificada el 2026-10-14.** La Ley 21.719 mantiene su entrada en vigencia el 1 de diciembre de 2026. El proyecto que la posterga al 1 de diciembre de 2027 (boletín 18.623-07) seguía en su primer trámite en el Senado a fines de septiembre de 2026 y no se encontró su aprobación (fuentes: [Ecosistema Startup, 19-09-2026](https://ecosistemastartup.com/ley-de-proteccion-de-datos-en-chile-postergan-hasta-2027/), [Garrigues](https://www.garrigues.com/es_ES/noticia/chile-ejecutivo-presenta-proyecto-postergar-entrada-vigor-nueva-ley-proteccion-datos.md), consultadas el 2026-10-14). Se mantiene el criterio del marco: cumplir la Ley 21.719 desde el lanzamiento.
+- **Novedades y promociones (pedido de Rod, 0.2):** es una **finalidad distinta** de responder la consulta. Por eso tiene su propia casilla, opcional y sin marcar, que no condiciona la consulta: la Ley 21.719 pide un consentimiento libre (sin consecuencias por negarse) y específico para cada finalidad, y no acepta casillas premarcadas ([Alayia Trust](https://alayiatrust.com/en/blog/bases-licitud-consentimiento-ley-21719)). Del suscriptor solo se guardan nombre y correo, hasta su baja. Además, cada correo promocional debe ofrecer una forma expedita de pedir la suspensión, y los envíos quedan prohibidos desde que la pide, también si lo hace por el sistema "No Molestar" del Sernac (Ley 19.496, art. 28 B, y su reglamento de 2020; [AZ, reglamento "No Molestar"](https://www.az.cl/nuevo-reglamento-que-regula-el-sistema-no-molestar-o-antispam/), consultada el 2026-10-14). Esto saca un punto del marco §7.5 ("consumo fuera de alcance"), que se ajusta solo para las promociones.
 - **Datos y minimización:** nombre, correo, teléfono (opcional), ciudad (opcional, para estimar el envío) y mensaje (opcional). **La ciudad es un dato nuevo respecto del marco** y se justifica por la misma finalidad. No se guardan IP, agente de usuario ni cookies.
-- **Finalidad:** responder la consulta por copias (o el mensaje general). No se usan para marketing ni listas.
+- **Finalidades:** (1) responder la consulta o el mensaje general, contactando por los medios que el interesado indicó; (2) solo si marca la casilla opcional, enviarle novedades y promociones. Ningún dato de la consulta (teléfono, ciudad, mensaje) se usa para la segunda.
 - **Base de licitud:** **consentimiento** (marco §7.1), por decisión de Rod: casilla sin marcar, obligatoria, con el texto `textoConsentimiento` y enlace a la política. Cumple los requisitos de la Ley 21.719 de un consentimiento libre, informado, específico e inequívoco mediante una acción afirmativa, sin casillas premarcadas ([Alayia Trust, bases de licitud de la Ley 21.719](https://alayiatrust.com/en/blog/bases-licitud-consentimiento-ley-21719), consultada el 2026-10-14). Se registra `consentimientoEn` y `versionPolitica` como prueba. *Alternativa evaluada y descartada por Rod:* medidas precontractuales a solicitud del titular, sin casilla.
 - **Revocación:** retirar el consentimiento es tan simple como darlo: un correo a `correoContacto`, que Rod ejecuta con "Borrar todas" (§5.2.9).
-- **Conservación:** 12 meses desde `ultimaActividad`; `spam`, 30 días (marco §6.2.8); borrado diario automático.
+- **Conservación:** consultas, 12 meses desde `ultimaActividad`; `spam`, 30 días (marco §6.2.8); borrado diario automático. Suscriptores, hasta la baja.
 - **Derechos:** procedimiento del §5.2.9.
 - **Terceros:** Railway (aloja la base de datos). **Google**: cuando Rod responde con "Responder por correo", el correo del interesado y el borrador pasan a su cuenta de Gmail; es la misma vía por la que respondería de todos modos. La política de privacidad debe decir que las respuestas se envían desde Gmail.
-- **Lo que la política de privacidad debe incluir sobre consultas** (encargo a `paginas/paginas.md`): responsable (Rod Díaz) y correo de contacto; datos que se piden y para qué; base de licitud (consentimiento) y cómo retirarlo; plazo de conservación (12 meses, 30 días el spam); que no se guardan IP ni cookies de rastreo; Railway y Gmail como terceros; cómo ejercer acceso, rectificación, supresión y oposición, y el plazo de respuesta que fije la ley vigente (a verificar al redactar esa página).
+- **Lo que la política de privacidad debe incluir sobre consultas** (encargo a `paginas/paginas.md`): responsable (Rod Díaz) y correo de contacto; datos que se piden y para qué; base de licitud (consentimiento) y cómo retirarlo; plazo de conservación (12 meses, 30 días el spam); que no se guardan IP ni cookies de rastreo; Railway y Gmail como terceros; cómo ejercer acceso, rectificación, supresión y oposición, y el plazo de respuesta que fije la ley vigente (a verificar al redactar esa página); **que el interesado acepta ser contactado por los medios que indicó para responder su consulta**; y una sección de **novedades y promociones**: que es opcional, qué se envía, qué se guarda (nombre y correo), que se conserva hasta la baja y cómo darse de baja en cualquier momento.
 - **Cookies:** ninguna (el límite por IP no usa cookies). No requiere banner (marco §7.4).
 - **Consumo:** sin precios ni condiciones de venta (marco §7.5). El texto de introducción dice que Rod responde "con los detalles y el valor", sin prometer precio ni plazo de entrega.
 
@@ -418,7 +452,9 @@ No hay código previo. Este documento cambia o precisa:
 | Marco 1.4 §6.1, `AjustesSitio` | Campos actuales | Se agregan `textoIntroConsulta`, `textoConsultaRecibida`, `textoConsentimiento` y `plantillaRespuesta`. |
 | Marco 1.4 §6.3 | `/consulta` "(o modal en la ficha)" | `/consulta` es página propia (D-01 resuelta); se agrega `GET /datos/fotos-consultables` y el parámetro `origen`. |
 | Marco 1.4 §12, D-01 | Abierta | Resuelta: página propia. |
-| Marco 1.4 §7.1 | Datos: nombre, correo, teléfono y mensaje | Se agrega ciudad (opcional) y Gmail como tercero al responder. |
+| Marco 1.4 §7.1 | Datos: nombre, correo, teléfono y mensaje; "no se usan para marketing ni se agregan a listas" | Se agrega ciudad (opcional) y Gmail como tercero. **Se reemplaza la prohibición de marketing** por: novedades y promociones solo con una casilla opcional separada, en la entidad nueva `Suscriptor`, hasta la baja. |
+| Marco 1.4 §6.1 | Entidades | Nueva entidad `Suscriptor` (§5.1). |
+| Marco 1.4 §7.5 | Consumo fuera de alcance | Se agrega el art. 28 B de la Ley 19.496 para los correos promocionales. |
 | `modelo-contenido-panel` 1.1 §3.4 y §5 | Tarjeta "Consultas nuevas" reservada; consulta de foto borrada a definir | Definidas en §3.7 y §4 de este documento; se agrega la tarjeta "Consultas por mes". Cambio menor (1.2) para registrar los campos nuevos de `AjustesSitio` y las tarjetas. |
 | `ficha-foto` 1.0 §5.2.9 | Destino `/consulta?foto=&formato=` | Agrega `&origen=ficha` o `&origen=visor`. Cambio menor (1.1). |
 | `paginas/paginas.md` (pendiente) | — | "Contacto" enlaza a `/consulta` sin foto, y la política de privacidad incluye lo del §6. Se registra en el índice como nota. |
@@ -439,7 +475,8 @@ Para Claude Code, en el paso 5 del plan del marco (§9.2), después de la ficha.
 | 8 | Panel: vistas, detalle, acciones, otras consultas del correo, contador del menú y tarjetas del dashboard. | 2 | Criterios 12 a 14. |
 | 9 | Derechos: "Datos de este correo", descargar y borrar todas. | 8 | Criterio 16. |
 | 10 | Tarea de borrado programado. | 2 | Criterio 17. |
-| 11 | Revisión en dispositivos y medición. | 1 a 10 | Criterios 15 y 18. |
+| 11 | `Suscriptor`, casilla de novedades, lista del panel, "Copiar correos" y "Dar de baja". | 2, 4 | Criterio 19. |
+| 12 | Revisión en dispositivos y medición. | 1 a 11 | Criterios 15 y 18. |
 
 ## 9. Criterios de aceptación y pruebas
 
@@ -461,6 +498,7 @@ Para Claude Code, en el paso 5 del plan del marco (§9.2), después de la ficha.
 16. "Datos de este correo" descarga un `.txt` con todas las consultas de ese correo y "Borrar todas" las elimina tras confirmar escribiendo el correo.
 17. La tarea diaria borra consultas con `eliminarDespuesDe` vencido (12 meses; spam a los 30 días) y no registra datos personales.
 18. **Rendimiento y accesibilidad (Lighthouse móvil):** `/consulta` < 150 KB sin miniaturas, JavaScript propio < 12 KB sin el buscador, accesibilidad ≥ 95; navegación completa con teclado y lector de pantalla (etiquetas, errores, diálogo, éxito).
+19. La casilla de novedades viene sin marcar y no impide enviar. Marcada, crea un solo `Suscriptor` por correo (sin teléfono, ciudad ni mensaje) que sobrevive al borrado de la consulta; "Dar de baja" lo borra y la consulta queda; "Borrar todas" borra ambos. "Copiar correos" entrega la lista con el recordatorio de CCO.
 
 ## 10. Riesgos
 
@@ -473,6 +511,7 @@ Para Claude Code, en el paso 5 del plan del marco (§9.2), después de la ficha.
 | CC-05 | El contador en memoria se reinicia con cada despliegue y deja pasar una ráfaga. | Baja | Bajo | Las demás defensas siguen activas; Turnstile en v1.x si hace falta. |
 | CC-06 | Consultas generales llenan el panel con temas ajenos a copias. | Media | Bajo | Columna "General", fuera del indicador; si molesta, se separa en una vista propia (cambio menor). |
 | CC-07 | El enlace de Gmail cambia de formato. | Baja | Bajo | Respaldo `mailto:` y "Copiar" del correo. |
+| CC-09 | Se envían promociones a quien pidió la baja, o se exponen todos los correos en "Para". | Media | Medio | La baja borra el registro y deja una huella; "Copiar correos" solo para CCO; pie con la forma de baja. Servicio de boletines en v1.x si la lista crece (P-03). |
 | CC-08 | La normativa cambia de fecha o de requisitos. | Media | Bajo | Se diseñó para la Ley 21.719; se reverifica al redactar la política de privacidad. |
 
 ## 11. Decisiones abiertas y tareas del dueño
@@ -486,11 +525,12 @@ Para Claude Code, en el paso 5 del plan del marco (§9.2), después de la ficha.
 **Propuestas** (fuera de alcance; no se construyen sin tu aprobación)
 
 - **P-01 (v1.x).** Aviso de consulta nueva por bot de Telegram, sin credenciales tuyas de correo. Costo bajo, gratis.
+- **P-03 (v1.x).** Enviar novedades con un servicio de boletines gratis, con enlace de baja automático, cuando la lista pase de unas decenas. Costo: cero en plan gratuito; una cuenta más.
 - **P-02 (v1.x).** Respuestas rápidas: dos o tres plantillas (por ejemplo "Cotización", "Sin stock de papel") para elegir al responder. Costo bajo.
 
 **Cambios a otros documentos al aprobar**
 
-1. Marco general → 1.5: `Consulta` con `items` y campos nuevos (§5.1), consulta general (cero fotos), campos nuevos de `AjustesSitio`, `/consulta` como página y `GET /datos/fotos-consultables` (§6.3), D-01 resuelta, ciudad y Gmail en §7.1.
+1. Marco general → 1.5: `Consulta` con `items` y campos nuevos (§5.1), consulta general (cero fotos), entidad nueva `Suscriptor` y finalidad de novedades con casilla opcional (§7.1), art. 28 B de la Ley 19.496 en §7.5, campos nuevos de `AjustesSitio`, `/consulta` como página y `GET /datos/fotos-consultables` (§6.3), D-01 resuelta, ciudad y Gmail en §7.1.
 2. Modelo de contenido y panel → 1.2: campos nuevos de `AjustesSitio` y tarjetas "Consultas nuevas" y "Consultas por mes" en el dashboard.
 3. Ficha de foto → 1.1: el enlace a la consulta agrega `origen=ficha` u `origen=visor`.
 4. Índice: nota en `paginas` (Contacto enlaza a `/consulta`; la política incluye lo del §6).
@@ -503,4 +543,5 @@ No nacen tareas nuevas: los textos tienen valores por defecto. Para lanzar sigue
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 0.2 | 2026-10-14 | Pedido de Rod: la casilla obligatoria dice que acepta ser contactado por los medios que indicó; se agrega una segunda casilla **opcional y sin marcar** para novedades y promociones, con la entidad nueva `Suscriptor` (hasta la baja), lista y "Copiar correos" en el panel, baja y lo que debe decir la política. Se verifica el art. 28 B de la Ley 19.496. |
 | 0.1 | 2026-10-14 | Borrador inicial. Decisiones de Rod: formulario en página propia (D-01); hasta 5 fotos con "Agregar otra foto" y buscador; nombre y correo obligatorios, teléfono, ciudad y mensaje opcionales; texto de recepción editable en el panel; responder con borrador en Gmail y marcar a mano; consulta general sin foto; consentimiento con casilla obligatoria. Ley 21.719 reverificada el 2026-10-14. Revisión con las guías de diseño de interfaces (validación al salir del campo, botón nunca deshabilitado, celebración breve en el éxito, casos de datos extremos). |
