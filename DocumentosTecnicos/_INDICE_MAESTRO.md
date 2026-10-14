@@ -11,7 +11,7 @@
 | `portafolio/ficha-foto.md` | componente | 1.1 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
 | `consultas/consulta-copia.md` | componente | 1.1 | aprobado | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
 | `paginas/paginas.md` | componente | 1.0 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
-| `plataforma/seo.md` | transversal | — | pendiente | v1.0 | marco-general | galeria-colecciones, ficha-foto, paginas |
+| `plataforma/seo.md` | transversal | 0.1 | revision | v1.0 | marco-general | galeria-colecciones, ficha-foto, paginas |
 | `plataforma/despliegue.md` | transversal | — | pendiente | v1.0 | marco-general | modelo-contenido-panel |
 
 ## Árbol
@@ -24,7 +24,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.6]
 ├── portafolio/ficha-foto.md                   [aprobado 1.1]
 ├── consultas/consulta-copia.md                [aprobado 1.1]
 ├── paginas/paginas.md                         [aprobado 1.0]
-├── plataforma/seo.md                          [pendiente]
+├── plataforma/seo.md                          [revision 0.1]
 └── plataforma/despliegue.md                   [pendiente]
 ```
 
@@ -59,7 +59,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.6]
 {
   "esquema": "1.1",
   "proyecto": "Rod Díaz (Web_RodDiaz)",
-  "actualizado": "2026-10-14T12:45-03:00",
+  "actualizado": "2026-10-14T14:30-03:00",
   "fases": [
     {
       "id": "v1.0",
@@ -206,10 +206,10 @@ marco-general/marco-general-proyecto.md        [aprobado 1.6]
         "paginas"
       ],
       "fase": "v1.0",
-      "estado": "pendiente",
-      "version": null,
-      "actualizado": "2026-10-07",
-      "notas": ""
+      "estado": "revision",
+      "version": "0.1",
+      "actualizado": "2026-10-14",
+      "notas": "Borrador 0.1: indexación desde el subdominio con URL_SITIO, lienzo OG con foto completa y marca, licencia en Google Imágenes, Search Console, robots de IA (búsqueda sí, entrenamiento no). Al aprobar: marco 1.7, modelo 1.4, consulta 1.2, páginas 1.1; T-010 y T-011."
     },
     {
       "id": "despliegue",
@@ -364,3 +364,4 @@ marco-general/marco-general-proyecto.md        [aprobado 1.6]
 | 2026-10-14 | Consulta de copia aprobada (1.0). Marco general pasa a 1.5, modelo de contenido a 1.2 y ficha a 1.1. Siguiente: `paginas` (también desbloqueado `despliegue`). |
 | 2026-10-14 | Páginas en revisión (0.1): Contacto con botón a la consulta general y sin correo visible, Sobre mí con destacadas, política de privacidad y condiciones completas en la semilla, páginas libres sin menú. Ley 21.719 reverificada. |
 | 2026-10-14 | Páginas aprobado (1.0). Marco general pasa a 1.6, modelo de contenido a 1.3 y consulta de copia a 1.1. Sin tareas nuevas. Siguientes desbloqueados: `seo` y `despliegue`. |
+| 2026-10-14 | SEO en revisión (0.1): indexar desde el subdominio con host único, vista previa con foto completa y marca, títulos con lugar, descripción automática editable, etiqueta "Con licencia", Search Console, características indexables, robots de IA de búsqueda sí y de entrenamiento no. |
