@@ -13,6 +13,8 @@ export interface FotoMarco {
   titulo?: string
   textoAlternativo?: string
   filete?: boolean
+  focalX?: number
+  focalY?: number
   sizes?: {
     pequena_avif?: { url?: string }
     pequena_webp?: { url?: string }
@@ -29,6 +31,8 @@ interface MarcoFotoProps {
   modo?: ModoMarcoFoto
   prioridad?: boolean
   sizes?: string
+  proporcion?: string
+  ajustarContenedor?: boolean
   alAmpliar?: () => void
   className?: string
 }
@@ -38,6 +42,8 @@ export function MarcoFoto({
   modo = 'grilla',
   prioridad = false,
   sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw',
+  proporcion,
+  ajustarContenedor = false,
   alAmpliar,
   className = '',
 }: MarcoFotoProps) {
@@ -53,8 +59,13 @@ export function MarcoFoto({
     }
   }, [])
 
-  const ratio = foto.ancho && foto.alto ? `${foto.ancho} / ${foto.alto}` : '3 / 2'
+  const ratio = proporcion
+    ? proporcion.replace(':', ' / ')
+    : foto.ancho && foto.alto
+      ? `${foto.ancho} / ${foto.alto}`
+      : '3 / 2'
   const alt = foto.textoAlternativo || foto.titulo || 'Fotografía Fine Art de Rod Díaz'
+
 
   const modoClase =
     modo === 'ficha'
@@ -97,6 +108,11 @@ export function MarcoFoto({
 
   const aplicarFundido = hidratado && !prioridad && !cargada
 
+  const posicionFocal =
+    foto.focalX !== undefined || foto.focalY !== undefined
+      ? `${foto.focalX ?? 50}% ${foto.focalY ?? 50}%`
+      : undefined
+
   return (
     <div
       className={`
@@ -104,11 +120,13 @@ export function MarcoFoto({
         ${modoClase}
         ${foto.filete ? styles.filete : ''}
         ${alAmpliar ? styles.interactivo : ''}
+        ${ajustarContenedor ? styles.ajustarContenedor : ''}
         ${className}
       `}
       style={{
-        aspectRatio: modo !== 'visor' ? ratio : undefined,
+        aspectRatio: !ajustarContenedor && modo !== 'visor' ? ratio : undefined,
         backgroundColor: foto.colorDominante || 'var(--color-superficie)',
+        height: ajustarContenedor ? '100%' : undefined,
       }}
       onClick={alAmpliar}
       onKeyDown={(e) => {
@@ -137,6 +155,7 @@ export function MarcoFoto({
           onContextMenu={(e) => e.preventDefault()}
           onLoad={() => setCargada(true)}
           onError={() => setErrorCarga(true)}
+          style={posicionFocal ? { objectPosition: posicionFocal } : undefined}
           className={`
             ${styles.imagen}
             ${aplicarFundido ? styles.fundidoInicial : styles.cargada}

@@ -2,7 +2,7 @@
 
 > **Estado general de la documentación:** Todos los documentos técnicos de la suite v1.0 se encuentran en estado **`aprobado`** tras la auditoría integral Fine Art y difusión.
 > **Fuente de verdad:** [`DocumentosTecnicos/_INDICE_MAESTRO.md`](file:///Users/roddiaz/projects/DesarrolloWeb/DocumentosTecnicos/_INDICE_MAESTRO.md) y [`DocumentosTecnicos/marco-general/marco-general-proyecto.md`](file:///Users/roddiaz/projects/DesarrolloWeb/DocumentosTecnicos/marco-general/marco-general-proyecto.md).
-> **Estado de avance:** Etapa 1 completada y desplegada en Railway.
+> **Estado de avance:** Etapas 1, 2, 3 y 4 completadas. Próxima: Etapa 5 (Consultas 1:1 y Notificaciones).
 
 ---
 
@@ -32,9 +32,9 @@ Podemos construir todo el sistema con valores semilla (*seeds*), variables opcio
 ```mermaid
 flowchart TD
     E1["Etapa 1: Base Técnica y Entorno\nNext.js + Payload 3 + Postgres (COMPLETADA ✅)"] --> E2["Etapa 2: Modelo de Contenido\nColecciones, Sharp, EXIF, Seeds (AUDITADA Y CORREGIDA ✅)"]
-    E2 --> E3["Etapa 3: Sistema de Diseño\nTokens CSS, Tipografías, UI Base (COMPLETADA ✅)"]
-    E3 --> E4["Etapa 4: Portafolio Público\nGalería 3:2, Visor 2.5x, Ficha Fine Art (SIGUIENTE 🚀)"]
-    E4 --> E5["Etapa 5: Consultas 1:1\nFormulario, Antispam 1.8s, Telegram"]
+    E2 --> E3["Etapa 3: Sistema de Diseño\nTokens CSS, Tipografías, UI Base (AUDITADA Y COMPLETADA ✅)"]
+    E3 --> E4["Etapa 4: Portafolio Público\nGalería 3:2, Visor 2.5x, Ficha Fine Art (COMPLETADA ✅)"]
+    E4 --> E5["Etapa 5: Consultas 1:1\nFormulario, Antispam 1.8s, Telegram (SIGUIENTE 🚀)"]
     E2 --> E6["Etapa 6: Páginas Editoriales\nSobre mí, Contacto, Ley 21.719"]
     E4 --> E7["Etapa 7: SEO y Open Graph\nLienzo Vertical Blur, Sitemap, JSON-LD"]
     E6 --> E7
@@ -78,7 +78,7 @@ flowchart TD
 
 ---
 
-### Etapa 3: Identidad Visual y Sistema de Diseño (COMPLETADA ✅)
+### Etapa 3: Identidad Visual y Sistema de Diseño (COMPLETADA Y AUDITADA ✅)
 - **Objetivo:** Implementar la capa visual aprobada en [`sistema-de-diseno.md`](file:///Users/roddiaz/projects/DesarrolloWeb/DocumentosTecnicos/identidad/sistema-de-diseno.md).
 - **Tareas completadas:**
   - Configuración de fuentes locales mediante `next/font`: *Cormorant Garamond* (títulos/editorial) y *Manrope* (lectura/interfaz) con licencia OFL en el repositorio.
@@ -87,25 +87,40 @@ flowchart TD
   - Monograma "RD" en `src/app/icon.svg`.
   - Componentes base modulares: `SaltarContenido`, `Marca`, `Boton`, `Dialogo` nativo `<dialog>`, `MenuMovil` (100dvh), `Encabezado` ocultable, `Pie`, `ChipFiltro`, `Campo`, `Aviso`, `Esqueleto` (sin CLS), `MarcoFoto` (picture AVIF/WebP, filete), `Retorno`, `PlantillaEstado`, `NavegacionFotos`, `TarjetaColeccion` (ratio 4:5), `DisposicionFicha` (lateral vs franja inferior) y `Visor` a pantalla completa con navegación táctil y doble toque (*double-tap zoom* 2.5x).
   - Catálogo interactivo aislado en `/guia-estilo` (protegido contra producción con 404).
+  - Auditoría y blindaje: corrección de ciclo de vida en `Dialogo`, scroll suave a instantáneo en bloqueo, tipografía sin faux-bold, orden canónico de navegación, precarga a 1200px en `Visor` y CTA garantizado en top 360px en vertical.
 - **Criterio de aceptación cumplido:** 100% de componentes base construidos y probados en aislamiento sin dependencias externas pesadas; `next build` exitoso.
 
 ---
 
-### Etapa 4: Portafolio Público (Galería, Ficha y Visor Fine Art)
-- **Objetivo:** Construir la experiencia pública donde la obra fotográfica es la protagonista.
-- **Vistas y componentes:**
-  - **Portada (`/`):** foto de portada a gran tamaño, vitrina de colecciones destacadas y acceso directo al archivo completo.
-  - **Galería (`/fotos` y `/colecciones/[slug]`):** grilla de filas justificadas en CSS puro que respeta el ratio nativo sin recortar fotos; scroll infinito con `IntersectionObserver` apoyado en `GET /datos/fotos`.
-  - **Directorio de colecciones (`/colecciones`):** tarjetas con proporción 4:5 centradas en el punto focal.
-  - **Ficha de foto (`/fotos/[slug]`):**
-    - Despliegue íntegro de la fotografía con filete sutil.
-    - Leyenda de taller: margen perimetral blanco de conservación y firma de autor a mano en lápiz grafito.
-    - Selector interactivo de tamaños en cm y papeles Fine Art compatibles.
-    - Botón de llamada a la acción "Pedir una copia".
-    - Botón compartir nativo con fallback a enlace directo de WhatsApp en móviles.
-  - **Visor a pantalla completa:** inspección de nitidez Fine Art con soporte de doble toque (zoom 2.5x) y navegación táctil.
-  - Endpoint auxiliar `GET /datos/contexto` para transiciones fluidas de navegación.
-- **Criterio de aceptación:** Navegación en máximo 2 clics desde la portada a cualquier foto; visor interactivo fluido sin librerías externas pesadas.
+### Etapa 4: Portafolio Público (COMPLETADA ✅)
+- **Objetivo:** Construir la experiencia pública donde la obra fotográfica es la protagonista según especificaciones de [`galeria-colecciones.md`](file:///Users/roddiaz/projects/DesarrolloWeb/DocumentosTecnicos/interaccion/galeria-colecciones.md) y [`ficha-foto.md`](file:///Users/roddiaz/projects/DesarrolloWeb/DocumentosTecnicos/interaccion/ficha-foto.md).
+- **Vistas y componentes implementados:**
+  - **Paginación y dominio (`src/lib/`):**
+    - `cursor.ts` y `cursor.test.ts`: paginación por cursor opaco URL-safe base64.
+    - `ficha.ts` y `ficha.test.ts`: funciones puras de dominio (`orientarFormato`, `etiquetaProporcion`, `resumenCopias`, `fechaVisible`, `datosTecnicosVisibles`, `hrefConsulta`, `masDeCircular`).
+    - `contenido.ts`: mapeo público y consultas de portafolio sin fugas de información interna.
+  - **Endpoints auxiliares:**
+    - `GET /datos/fotos`: alimentación paginada de grilla justificadas por cursor con soporte de filtros (`coleccion`, `caracteristica`).
+    - `GET /datos/contexto`: recuperación ultraliviana de fotos anterior/siguiente de colección para navegación en `Visor` y `Ficha`.
+  - **Portada (`/`):**
+    - `PortadaSitio.tsx`: foto a gran formato ocupando ventana visible con aire perimetral, pie discreto y vitrina editorial de colecciones destacadas con acceso directo a todo el archivo.
+  - **Galería (`/fotos` y `/colecciones/[slug]`):**
+    - `GrillaFotos.tsx`: filas justificadas en CSS puro (flexbox con `--alto-fila`) respetando ratios nativos sin recortes; altura mínima de 28px reservada para títulos en hover evitando solapamientos.
+    - `CargaInfinita.tsx`: carga reactiva con `IntersectionObserver`, restauración de estado desde `sessionStorage` para retorno fluido sin re-scroll, fila de `Esqueleto` durante carga y reintento en caso de error de red.
+    - `CabeceraColeccion.tsx`, `FiltroCaracteristicas.tsx` (chips con scroll horizontal táctil) y `SeccionHija.tsx`.
+  - **Directorio de colecciones (`/colecciones`):**
+    - `RejillaColecciones.tsx`: rejilla responsiva (3/2/1 columnas) con tarjetas 4:5 centradas en punto focal.
+  - **Ficha Fine Art (`/fotos/[slug]`):**
+    - `Ficha.tsx` y `DisposicionFicha.tsx`: dos columnas en escritorio vertical/cuadrada (columna sticky derecha con CTA "Pedir una copia" en los primeros 360px); franja inferior continua en fotos horizontales/panorámicas.
+    - `MetaFoto.tsx`, `ResumenCopias.tsx`, `EleccionCopia.tsx`: selector reactivo de formatos y papeles compatibles.
+    - `TamanosPapeles.tsx`: acordeón nativo `<details>` con leyenda de taller destacando el margen perimetral blanco de conservación y firma a mano en lápiz grafito.
+    - `BarraCopiaMovil.tsx`: barra inferior fija en pantallas móviles activada mediante `IntersectionObserver` cuando el botón principal sale de pantalla.
+    - `Historia.tsx`: texto colapsable con `line-clamp: 4` y botón "Leer más".
+    - `DatosTecnicos.tsx` y `CaracteristicasFoto.tsx`: metadatos de toma EXIF limpios y etiquetas temáticas.
+    - `Compartir.tsx`: Web Share API nativa con copia a portapapeles (feedback 2s) y fallback directo a WhatsApp.
+    - `MasDeColeccion.tsx`: carrusel circular de hasta 6 fotos de la misma serie.
+    - `ContextoFicha.tsx`: integración fluida con `Visor` (atajos ← / →, inspección de nitidez a doble toque 2.5x).
+- **Criterio de aceptación cumplido:** 23/23 pruebas unitarias pasando; compilación de producción en Next.js limpia sin base de datos activa; navegación en máximo 2 clics; sin imágenes de 2048px en la galería.
 
 ---
 

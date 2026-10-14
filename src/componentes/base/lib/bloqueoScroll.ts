@@ -29,5 +29,6 @@ export function desbloquearScroll(): void {
   document.body.style.top = ''
   document.body.style.width = ''
   document.body.style.overflow = ''
-  window.scrollTo(0, scrollYGuardado)
+  window.scrollTo({ top: scrollYGuardado, left: 0, behavior: 'instant' as ScrollBehavior })
 }
+

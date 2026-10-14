@@ -42,24 +42,31 @@ export function Dialogo({
         ;(disparadorRef.current as HTMLElement).focus()
       }
     }
+  }, [abierto])
 
+  useEffect(() => {
     return () => {
       desbloquearScroll()
     }
-  }, [abierto])
+  }, [])
 
   const manejarCancel = (e: React.SyntheticEvent) => {
     e.preventDefault()
     alCerrar()
   }
 
-  if (!abierto) return null
+  const manejarClickFondo = (e: React.MouseEvent<HTMLDialogElement>) => {
+    if (e.target === dialogRef.current) {
+      alCerrar()
+    }
+  }
 
   return (
     <dialog
       ref={dialogRef}
       className={`${styles.dialogo} ${className}`}
       onCancel={manejarCancel}
+      onClick={manejarClickFondo}
     >
       <div className={styles.panel}>
         <div className={styles.cabecera}>

@@ -1,0 +1,68 @@
+/**
+ * Estilos para foto de portada principal del sitio — Web_RodDiaz (v1.0)
+ * Especificado en DocumentosTecnicos/identidad/sistema-de-diseno.md (§5.3.2)
+ * y DocumentosTecnicos/portafolio/galeria-colecciones.md (§3.1).
+ */
+
+.seccionPortada {
+  width: 100%;
+  max-width: var(--ancho-max-contenido);
+  margin: 0 auto;
+  padding: 0 var(--margen);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* Altura calibrada para asomar colecciones sobre el pliegue (64px) */
+  min-height: calc(100svh - var(--alto-encabezado) - 64px);
+  padding-bottom: var(--esp-6);
+}
+
+.enlacePortada {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: var(--color-texto);
+  width: 100%;
+  border-radius: var(--radio-control);
+}
+
+.enlacePortada:focus-visible {
+  outline: 2px solid var(--color-foco);
+  outline-offset: 4px;
+}
+
+.contenedorFoto {
+  width: 100%;
+  max-height: calc(100svh - var(--alto-encabezado) - 112px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contenedorFoto > * {
+  max-height: calc(100svh - var(--alto-encabezado) - 112px);
+  width: auto;
+  max-width: 100%;
+}
+
+.pieFoto {
+  margin-top: var(--esp-3);
+  font: var(--texto-sm);
+  color: var(--color-texto-secundario);
+  text-align: center;
+  transition: color var(--dur-rapida) var(--curva-salida);
+}
+
+.enlacePortada:hover .pieFoto {
+  color: var(--color-texto);
+}
+
+.titulo {
+  color: var(--color-texto);
+}
+
+.lugar {
+  color: var(--color-texto-secundario);
+}

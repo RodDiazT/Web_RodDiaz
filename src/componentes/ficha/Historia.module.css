@@ -1,0 +1,33 @@
+.contenedor {
+  width: 100%;
+}
+
+.texto {
+  font: var(--texto-lectura);
+  color: var(--color-texto-secundario);
+  max-width: var(--ancho-max-lectura);
+  line-height: 1.7;
+  hyphens: auto;
+}
+
+.plegado {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.botonPlegado {
+  background: transparent;
+  border: none;
+  color: var(--color-texto);
+  font: var(--texto-sm);
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  margin-top: var(--esp-2);
+}
+
+.botonPlegado:hover {
+  color: var(--color-accion-hover);
+}

@@ -41,13 +41,13 @@ export function MenuMovil({
         dialog.close()
       }
     }
+  }, [abierto])
 
+  useEffect(() => {
     return () => {
       desbloquearScroll()
     }
-  }, [abierto])
-
-  if (!abierto) return null
+  }, [])
 
   return (
     <dialog
@@ -59,7 +59,7 @@ export function MenuMovil({
       }}
     >
       <div className={styles.cabecera}>
-        <span style={{ font: 'var(--titulo-sm)' }}>Menú</span>
+        <span className={styles.tituloMenu}>Menú</span>
         <button
           type="button"
           className={styles.botonCerrar}
@@ -72,7 +72,10 @@ export function MenuMovil({
 
       <nav className={styles.navegacion} aria-label="Navegación móvil">
         {navegacion.map((item) => {
-          const esActivo = rutaActual === item.href
+          const esActivo =
+            rutaActual === item.href ||
+            (item.href === '/colecciones' && rutaActual?.startsWith('/colecciones')) ||
+            (item.href === '/fotos' && rutaActual === '/fotos')
           return (
             <Link
               key={item.href}
@@ -89,3 +92,4 @@ export function MenuMovil({
     </dialog>
   )
 }
+

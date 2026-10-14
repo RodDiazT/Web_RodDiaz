@@ -6,10 +6,15 @@
   display: block;
 }
 
+.ajustarContenedor {
+  height: 100%;
+}
+
 .filete {
   outline: 1px solid var(--color-filete);
   outline-offset: -1px;
 }
+
 
 .imagen {
   display: block;

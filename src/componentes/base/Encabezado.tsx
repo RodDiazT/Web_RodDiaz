@@ -10,8 +10,8 @@ import { IconoMenu } from './iconos'
 import { usarEncabezadoOcultable } from './lib/usarEncabezadoOcultable'
 
 export const NAVEGACION_DEFAULT: ItemNavegacion[] = [
-  { etiqueta: 'Fotos', href: '/fotos' },
   { etiqueta: 'Colecciones', href: '/colecciones' },
+  { etiqueta: 'Fotos', href: '/fotos' },
   { etiqueta: 'Sobre mí', href: '/sobre-mi' },
   { etiqueta: 'Contacto', href: '/contacto' },
 ]
@@ -36,17 +36,23 @@ export function Encabezado({
   const visible = usarEncabezadoOcultable(debeOcultar)
   const [menuAbierto, setMenuAbierto] = useState(false)
 
+  // Siempre visible con el menú abierto o en ficha (§5.4)
+  const estaOculto = !menuAbierto && !visible
+
   return (
     <>
       <header
-        className={`${styles.encabezado} ${!visible ? styles.encabezadoOculto : ''}`}
+        className={`${styles.encabezado} ${estaOculto ? styles.encabezadoOculto : ''}`}
       >
         <div className={styles.contenedor}>
           <Marca nombreSitio={nombreSitio} logoUrl={logoUrl} />
 
           <nav className={styles.navegacionEscritorio} aria-label="Navegación principal">
             {navegacion.map((item) => {
-              const esActivo = rutaActual === item.href
+              const esActivo =
+                rutaActual === item.href ||
+                (item.href === '/colecciones' && rutaActual?.startsWith('/colecciones')) ||
+                (item.href === '/fotos' && rutaActual === '/fotos')
               return (
                 <Link
                   key={item.href}

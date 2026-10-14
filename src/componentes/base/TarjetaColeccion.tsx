@@ -30,7 +30,12 @@ export function TarjetaColeccion({
     <Link href={href} className={`${styles.tarjeta} ${className}`}>
       <div className={styles.portadaWrapper}>
         {coleccion.portada ? (
-          <MarcoFoto foto={coleccion.portada} modo="grilla" />
+          <MarcoFoto
+            foto={coleccion.portada}
+            modo="grilla"
+            proporcion="4/5"
+            ajustarContenedor
+          />
         ) : (
           <div style={{ width: '100%', height: '100%', backgroundColor: 'var(--color-superficie)' }} />
         )}

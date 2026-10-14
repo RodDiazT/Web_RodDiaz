@@ -9,9 +9,15 @@ interface DisposicionFichaProps {
   foto: React.ReactNode
   titulo: React.ReactNode
   meta: React.ReactNode
+  resumen?: React.ReactNode
   accion: React.ReactNode
-  historia?: React.ReactNode
   selectorFormatos?: React.ReactNode
+  historia?: React.ReactNode
+  caracteristicas?: React.ReactNode
+  datosTecnicos?: React.ReactNode
+  compartir?: React.ReactNode
+  navegacion?: React.ReactNode
+  masDe?: React.ReactNode
   className?: string
 }
 
@@ -22,9 +28,15 @@ export function DisposicionFicha({
   foto,
   titulo,
   meta,
+  resumen,
   accion,
-  historia,
   selectorFormatos,
+  historia,
+  caracteristicas,
+  datosTecnicos,
+  compartir,
+  navegacion,
+  masDe,
   className = '',
 }: DisposicionFichaProps) {
   // Evaluación precisa de orientación según especificación (§5.3.1)
@@ -40,18 +52,28 @@ export function DisposicionFicha({
           <div className={styles.areaFotoLateral}>{foto}</div>
 
           <aside className={styles.panelLateral}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--esp-2)' }}>
+            <div className={styles.cabeceraLateral}>
               {titulo}
               {meta}
+              {resumen}
             </div>
+
+            <div className={styles.bloqueAccion}>{accion}</div>
 
             {selectorFormatos}
 
-            <div>{accion}</div>
+            {historia}
 
-            {historia && <div style={{ marginTop: 'var(--esp-4)' }}>{historia}</div>}
+            {caracteristicas}
+
+            {datosTecnicos}
+
+            {compartir}
           </aside>
         </div>
+
+        {navegacion && <div className={styles.areaNavegacion}>{navegacion}</div>}
+        {masDe && <div className={styles.areaMasDe}>{masDe}</div>}
       </div>
     )
   }
@@ -66,15 +88,25 @@ export function DisposicionFicha({
           <div className={styles.franjaIzquierda}>
             {titulo}
             {meta}
+            {resumen}
           </div>
           <div className={styles.franjaDerecha}>
-            {selectorFormatos}
-            <div style={{ marginTop: 'var(--esp-2)' }}>{accion}</div>
+            <div className={styles.bloqueAccion}>{accion}</div>
           </div>
         </div>
 
-        {historia && <div className={styles.areaHistoriaHorizontal}>{historia}</div>}
+        <div className={styles.areaDetallesHorizontal}>
+          {selectorFormatos}
+          {historia}
+          {caracteristicas}
+          {datosTecnicos}
+          {compartir}
+        </div>
+
+        {navegacion && <div className={styles.areaNavegacion}>{navegacion}</div>}
+        {masDe && <div className={styles.areaMasDe}>{masDe}</div>}
       </div>
     </div>
   )
 }
+

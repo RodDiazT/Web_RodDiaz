@@ -134,8 +134,9 @@
   gap: var(--esp-4);
   z-index: 10;
   pointer-events: none;
-  background: linear-gradient(to top, rgba(21, 21, 21, 0.8) 0%, transparent 100%);
+  background-color: rgba(21, 21, 21, 0.75);
 }
+
 
 .tituloFoto {
   font: var(--texto-sm);

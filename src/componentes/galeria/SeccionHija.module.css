@@ -1,0 +1,31 @@
+.seccion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-5);
+  margin-top: var(--esp-9);
+}
+
+.cabeceraSeccion {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-linea);
+  padding-bottom: var(--esp-3);
+}
+
+.titulo {
+  font: var(--titulo-md);
+  color: var(--color-texto);
+  margin: 0;
+}
+
+.enlaceVerColeccion {
+  font: var(--texto-sm);
+  color: var(--color-texto-secundario);
+  text-decoration: none;
+  transition: color var(--dur-rapida) var(--curva-salida);
+}
+
+.enlaceVerColeccion:hover {
+  color: var(--color-texto);
+}

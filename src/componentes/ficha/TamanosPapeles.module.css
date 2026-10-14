@@ -1,0 +1,155 @@
+/**
+ * Estilos para el desplegable nativo de Tamaños y Papeles Fine Art
+ * Especificado en DocumentosTecnicos/portafolio/ficha-foto.md (§3.3).
+ */
+
+.detalles {
+  border: 1px solid var(--color-linea);
+  border-radius: var(--radio-control);
+  background-color: var(--color-superficie);
+  overflow: hidden;
+  width: 100%;
+}
+
+.resumen {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--esp-4) var(--esp-5);
+  font: var(--texto-sm);
+  color: var(--color-texto);
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  outline: none;
+  min-height: 48px;
+}
+
+.resumen::-webkit-details-marker {
+  display: none;
+}
+
+.resumen:focus-visible {
+  outline: 2px solid var(--color-foco);
+  outline-offset: -2px;
+}
+
+.flechaIcono {
+  transition: transform var(--dur-rapida) var(--curva-salida);
+  color: var(--color-texto-secundario);
+}
+
+.detalles[open] .flechaIcono {
+  transform: rotate(180deg);
+}
+
+.contenido {
+  padding: var(--esp-4) var(--esp-5);
+  border-top: 1px solid var(--color-linea);
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+}
+
+.leyendaTaller {
+  font: var(--texto-xs);
+  color: var(--color-texto-secundario);
+  line-height: 1.5;
+  padding-bottom: var(--esp-3);
+  border-bottom: 1px solid var(--color-linea);
+}
+
+.grupoOpciones {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+}
+
+.opcionLegend {
+  font: var(--texto-xs);
+  color: var(--color-texto-terciario);
+  margin-bottom: var(--esp-2);
+}
+
+.filaOpcion {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: var(--esp-3) var(--esp-4);
+  border: 1px solid var(--color-linea-control);
+  border-radius: var(--radio-control);
+  cursor: pointer;
+  min-height: 48px;
+  transition:
+    background-color var(--dur-rapida) var(--curva-salida),
+    border-color var(--dur-rapida) var(--curva-salida);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .filaOpcion:hover {
+    background-color: var(--color-superficie-alta);
+    border-color: var(--color-linea-control-hover);
+  }
+}
+
+.filaOpcionActiva {
+  border-color: var(--color-texto);
+  background-color: var(--color-superficie-alta);
+}
+
+.radioInput {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.infoFormato {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-1);
+}
+
+.dimensiones {
+  font: var(--texto-base);
+  color: var(--color-texto);
+}
+
+.papeles {
+  font: var(--texto-xs);
+  color: var(--color-texto-secundario);
+}
+
+.indicadorCheck {
+  color: var(--color-texto);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.lineaSeleccionado {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+  font: var(--texto-xs);
+  color: var(--color-texto-secundario);
+  margin-top: var(--esp-2);
+  min-height: 20px;
+}
+
+.botonQuitar {
+  background: transparent;
+  border: none;
+  color: var(--color-texto-terciario);
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+}
+
+.botonQuitar:hover {
+  color: var(--color-texto);
+}

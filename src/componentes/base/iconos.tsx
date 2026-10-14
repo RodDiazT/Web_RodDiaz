@@ -129,3 +129,47 @@ export function IconoCheck({ size = 14, ...props }: IconoProps) {
     </svg>
   )
 }
+
+export function IconoCompartir({ size = 20, ...props }: IconoProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      {...props}
+    >
+      <circle cx="15" cy="5" r="2.5" />
+      <circle cx="5" cy="10" r="2.5" />
+      <circle cx="15" cy="15" r="2.5" />
+      <line x1="7.2" y1="8.9" x2="12.8" y2="6.1" />
+      <line x1="7.2" y1="11.1" x2="12.8" y2="13.9" />
+    </svg>
+  )
+}
+
+export function IconoWhatsApp({ size = 20, ...props }: IconoProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      {...props}
+    >
+      <path d="M10 2.5a7.5 7.5 0 0 0-6.4 11.4L2.5 17.5l3.8-1a7.5 7.5 0 1 0 3.7-14z" />
+      <path d="M7.5 7.2c-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.1 1.8 2.8 4.4 3.9 2.1.9 2.6.7 3.1.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2-.1-.1-.3-.2-.6-.4s-1.5-.7-1.7-.8c-.2-.1-.4-.1-.6.1-.2.2-.7.8-.8 1-.1.1-.3.2-.5.1-.3-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.6-1.5-1.9-.1-.2 0-.4.1-.5.1-.1.3-.3.4-.4.1-.1.2-.3.3-.4.1-.2 0-.3 0-.4-.1-.1-.6-1.5-.8-2z" />
+    </svg>
+  )
+}
+

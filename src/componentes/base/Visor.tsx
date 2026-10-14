@@ -28,6 +28,8 @@ export function Visor({
   const [enZoom, setEnZoom] = useState(false)
   const [origenZoom, setOrigenZoom] = useState({ x: 50, y: 50 })
 
+  const [arrastrando, setArrastrando] = useState(false)
+
   const dialogRef = useRef<HTMLDialogElement>(null)
   const disparadorRef = useRef<Element | null>(null)
   const arrastrandoRef = useRef(false)
@@ -54,7 +56,7 @@ export function Visor({
     const dialog = dialogRef.current
     if (!dialog) return
 
-    if (abierto) {
+    if (abierto && fotos.length > 0) {
       disparadorRef.current = document.activeElement
       bloquearScroll()
       if (!dialog.open) {
@@ -69,11 +71,13 @@ export function Visor({
         ;(disparadorRef.current as HTMLElement).focus()
       }
     }
+  }, [abierto, fotos.length])
 
+  useEffect(() => {
     return () => {
       desbloquearScroll()
     }
-  }, [abierto])
+  }, [])
 
   // Navegación por teclado instantánea (← → Esc)
   useEffect(() => {
@@ -95,15 +99,18 @@ export function Visor({
     return () => window.removeEventListener('keydown', manejarTeclado)
   }, [abierto, indice, cambiarIndice, alCerrar])
 
-  if (!abierto || fotos.length === 0) return null
+  const fotoActual = fotos[indice] || fotos[0]
 
-  const fotoActual = fotos[indice]
+  // Precarga de fotos vecinas en 1200px (§5.4)
+  const fotoAnterior = indice > 0 ? fotos[indice - 1] : null
+  const fotoSiguiente = indice < fotos.length - 1 ? fotos[indice + 1] : null
 
-  // Control táctil de puntero
+  // Control táctil de puntero (deslizamiento 1:1)
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     if (enZoom) return
 
     arrastrandoRef.current = true
+    setArrastrando(true)
     inicioXRef.current = e.clientX
     tiempoInicioRef.current = Date.now()
     e.currentTarget.setPointerCapture(e.pointerId)
@@ -125,6 +132,7 @@ export function Visor({
   const onPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!arrastrandoRef.current || enZoom) return
     arrastrandoRef.current = false
+    setArrastrando(false)
 
     const delta = e.clientX - inicioXRef.current
     const duracionMs = Date.now() - tiempoInicioRef.current
@@ -144,6 +152,7 @@ export function Visor({
 
     setDesplazamientoX(0)
   }
+
 
   // Doble toque (double-tap zoom 2.5x) para inspección Fine Art (§5.4, §12)
   const manejarDobleToque = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -201,6 +210,7 @@ export function Visor({
           <button
             type="button"
             className={`${styles.flechaNavegacion} ${styles.flechaAnterior}`}
+            onPointerDown={(e) => e.stopPropagation()}
             onClick={(e) => {
               e.stopPropagation()
               cambiarIndice(indice - 1)
@@ -218,6 +228,7 @@ export function Visor({
               ? `scale(2.5)`
               : `translateX(${desplazamientoX}px)`,
             transformOrigin: `${origenZoom.x}% ${origenZoom.y}%`,
+            transition: arrastrando ? 'none' : undefined,
           }}
         >
           <MarcoFoto foto={fotoActual} modo="visor" prioridad />
@@ -227,6 +238,7 @@ export function Visor({
           <button
             type="button"
             className={`${styles.flechaNavegacion} ${styles.flechaSiguiente}`}
+            onPointerDown={(e) => e.stopPropagation()}
             onClick={(e) => {
               e.stopPropagation()
               cambiarIndice(indice + 1)
@@ -242,6 +254,17 @@ export function Visor({
         <span className={styles.tituloFoto}>{fotoActual.titulo}</span>
         {accion && <div className={styles.accionWrapper}>{accion}</div>}
       </div>
+
+      {/* Precarga no visible de vecinas en 1200px (§5.4) */}
+      <div style={{ display: 'none' }} aria-hidden="true">
+        {fotoAnterior?.sizes?.mediana_webp?.url && (
+          <img src={fotoAnterior.sizes.mediana_webp.url} alt="" loading="eager" />
+        )}
+        {fotoSiguiente?.sizes?.mediana_webp?.url && (
+          <img src={fotoSiguiente.sizes.mediana_webp.url} alt="" loading="eager" />
+        )}
+      </div>
     </dialog>
   )
 }
+

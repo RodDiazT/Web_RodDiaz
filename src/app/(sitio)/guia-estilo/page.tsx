@@ -49,6 +49,24 @@ const FOTO_NOCTURNA: FotoMarco = {
   url: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="1365" viewBox="0 0 2048 1365"><rect width="2048" height="1365" fill="%230d0e11"/><circle cx="1024" cy="682" r="100" fill="%23ffffff" fill-opacity="0.1"/></svg>',
 }
 
+const FOTO_1_1: FotoMarco = {
+  titulo: 'Volcán Llaima en Silencio',
+  ancho: 2048,
+  alto: 2048,
+  colorDominante: '#242426',
+  filete: false,
+  url: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="2048" viewBox="0 0 2048 2048"><rect width="2048" height="2048" fill="%23242426"/><circle cx="1024" cy="1024" r="400" fill="%233a3a40"/></svg>',
+}
+
+const FOTO_3_1: FotoMarco = {
+  titulo: 'Cordillera de los Andes al Ocaso',
+  ancho: 2048,
+  alto: 683,
+  colorDominante: '#1c1b22',
+  filete: false,
+  url: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="683" viewBox="0 0 2048 683"><rect width="2048" height="683" fill="%231c1b22"/><rect x="400" y="200" width="1248" height="283" fill="%233c364c"/></svg>',
+}
+
 const FOTO_ERROR: FotoMarco = {
   titulo: 'Foto inexistente',
   ancho: 2048,
@@ -56,7 +74,8 @@ const FOTO_ERROR: FotoMarco = {
   url: '/ruta-invalida-para-probar-error.jpg',
 }
 
-const FOTOS_MUESTRA = [FOTO_3_2, FOTO_4_5, FOTO_NOCTURNA]
+const FOTOS_MUESTRA = [FOTO_3_2, FOTO_4_5, FOTO_1_1, FOTO_3_1, FOTO_NOCTURNA]
+
 
 export default function PaginaGuiaEstilo() {
   if (process.env.NODE_ENV === 'production') {
@@ -226,13 +245,41 @@ export default function PaginaGuiaEstilo() {
 
           <div>
             <span style={{ font: 'var(--texto-xs)', color: 'var(--color-texto-terciario)', display: 'block', marginBottom: 'var(--esp-2)' }}>
+              Cuadrada 1:1 (Simetría pura)
+            </span>
+            <MarcoFoto
+              foto={FOTO_1_1}
+              modo="grilla"
+              alAmpliar={() => {
+                setIndiceVisor(2)
+                setVisorAbierto(true)
+              }}
+            />
+          </div>
+
+          <div>
+            <span style={{ font: 'var(--texto-xs)', color: 'var(--color-texto-terciario)', display: 'block', marginBottom: 'var(--esp-2)' }}>
+              Panorámica 3:1 (Gran angular)
+            </span>
+            <MarcoFoto
+              foto={FOTO_3_1}
+              modo="grilla"
+              alAmpliar={() => {
+                setIndiceVisor(3)
+                setVisorAbierto(true)
+              }}
+            />
+          </div>
+
+          <div>
+            <span style={{ font: 'var(--texto-xs)', color: 'var(--color-texto-terciario)', display: 'block', marginBottom: 'var(--esp-2)' }}>
               Nocturna con Filete sutil activado
             </span>
             <MarcoFoto
               foto={FOTO_NOCTURNA}
               modo="grilla"
               alAmpliar={() => {
-                setIndiceVisor(2)
+                setIndiceVisor(4)
                 setVisorAbierto(true)
               }}
             />
@@ -246,6 +293,7 @@ export default function PaginaGuiaEstilo() {
           </div>
         </div>
       </section>
+
 
       {/* 7. Navegación y Retorno */}
       <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--esp-4)' }}>

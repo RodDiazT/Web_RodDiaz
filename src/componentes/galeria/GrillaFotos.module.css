@@ -1,0 +1,84 @@
+/**
+ * Grilla de filas justificadas en CSS puro — Web_RodDiaz (v1.0)
+ * Especificado en DocumentosTecnicos/portafolio/galeria-colecciones.md (§3.5, §5.4).
+ */
+
+.contenedorGrilla {
+  width: 100%;
+}
+
+.grilla {
+  --alto-fila: 200px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2);
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .grilla {
+    --alto-fila: 260px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .grilla {
+    --alto-fila: 320px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .grilla {
+    --alto-fila: 360px;
+  }
+}
+
+/* Evita que la última fila se estire de forma desproporcionada (§5.4) */
+.grilla::after {
+  content: '';
+  flex-grow: 999999999;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: var(--color-texto);
+  overflow: hidden;
+  content-visibility: auto;
+  contain-intrinsic-size: var(--alto-fila);
+}
+
+.item:focus-visible {
+  outline: 2px solid var(--color-foco);
+  outline-offset: 2px;
+  box-shadow: inset 0 0 0 2px var(--color-fondo);
+}
+
+/* Línea de título y lugar reservada (solo con puntero fino, §3.5 O-4) */
+.lineaTitulo {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lineaTitulo {
+    display: flex;
+    align-items: center;
+    height: 28px;
+    padding: 0 var(--esp-1);
+    font: var(--texto-sm);
+    color: var(--color-texto-secundario);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0;
+    transition: opacity var(--dur-rapida) var(--curva-salida);
+  }
+
+  .item:hover .lineaTitulo,
+  .item:focus-within .lineaTitulo {
+    opacity: 1;
+    color: var(--color-texto);
+  }
+}

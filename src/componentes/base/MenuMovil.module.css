@@ -13,6 +13,7 @@
   z-index: var(--capa-menu);
   display: flex;
   flex-direction: column;
+  overscroll-behavior: contain;
 }
 
 .cabecera {
@@ -23,6 +24,11 @@
   padding: 0 var(--margen);
   padding-top: env(safe-area-inset-top);
   border-bottom: 1px solid var(--color-linea);
+}
+
+.tituloMenu {
+  font: var(--titulo-sm);
+  color: var(--color-texto);
 }
 
 .botonCerrar {
@@ -47,17 +53,17 @@
 }
 
 .enlace {
-  color: var(--color-texto);
+  color: var(--color-texto-secundario);
   text-decoration: none;
   font: var(--titulo-md);
-  transition: opacity var(--dur-rapida) var(--curva-salida);
+  transition: color var(--dur-rapida) var(--curva-salida);
 }
 
 .enlace:hover {
-  opacity: 0.8;
+  color: var(--color-texto);
 }
 
 .enlaceActivo {
   color: var(--color-texto);
-  font-weight: 600;
 }
+
