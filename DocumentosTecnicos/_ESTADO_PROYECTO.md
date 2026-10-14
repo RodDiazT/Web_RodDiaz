@@ -38,7 +38,7 @@ v1.0: portafolio con consulta 1:1.
 - Ninguno.
 
 ## Próximos pasos
-1. Implementación con Claude Code según el plan del marco §9.2, partiendo por la base del proyecto (incluye los pasos 1 a 3 de despliegue).
+1. **Etapa 2: Modelo de contenido** (doc 2). Implementar las colecciones del marco §6.1 (`Foto` con procesamiento Sharp, `Coleccion`, `Caracteristica`, `FormatoImpresion`, `TipoPapel`, `Pagina`, `Medio`, `Consulta`, `Suscriptor`, `IntentoAcceso`), semillas y migraciones.
 2. Rod, antes de implementar el panel: catálogo de tamaños y papeles en cm (T-006), cliente OAuth de Google (T-008) y bot de Telegram para avisos (T-014).
 3. Rod, antes de lanzar: límite de gasto en Railway (T-004), 12 fotos (T-005), Sobre mí (T-007), portada y destacadas (T-009), descripción del sitio (T-011) y JPG de prueba de 45 MP (T-013). Al lanzar: Search Console (T-010).
 4. v1.x: dominio propio (T-012) y difusión.
@@ -46,6 +46,7 @@ v1.0: portafolio con consulta 1:1.
 ## Control de cambios
 | Fecha | Cambio |
 |---|---|
+| 2026-10-14 | **Etapa 1 completada:** Base técnica del proyecto inicializada y desplegada en Railway con éxito. Next.js 15.2.9 + Payload CMS 3.90.2 + PostgreSQL en US East (Virginia). `/api/salud` verificado respondiendo 200 y panel `/admin` operativo en `https://sitio-production-7f52.up.railway.app`. |
 | 2026-10-14 | Auditoría integral Fine Art y difusión aprobada por Rod. Actualización de toda la suite documental: Canon PRO-1100, margen de conservación y ratio 3:2, papeles Fine Art enriquecidos, lienzo OG vertical, Telegram Bot (T-014), antispam móvil 1.8 s, snapshots de catálogo, optimización de memoria Sharp. Marco 1.9, sistema-de-diseno 1.1, modelo-contenido-panel 1.6, ficha-foto 1.3, consulta-copia 1.4, paginas 1.3, seo 1.1, despliegue 1.1. |
 | 2026-10-14 | Despliegue aprobado (1.0); marco general 1.8; modelo de contenido 1.5; consulta de copia 1.3; páginas 1.2; galería 1.2; ficha 1.2; T-004 redefinida; T-012 y T-013. Documentación de la v1.0 completa. |
 | 2026-10-14 | SEO aprobado (1.0); marco general 1.7; modelo de contenido 1.4; consulta de copia 1.2; páginas 1.1; T-010 y T-011. |
