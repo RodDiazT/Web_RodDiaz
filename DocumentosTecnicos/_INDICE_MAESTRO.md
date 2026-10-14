@@ -12,7 +12,7 @@
 | `consultas/consulta-copia.md` | componente | 1.2 | aprobado | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
 | `paginas/paginas.md` | componente | 1.1 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `plataforma/seo.md` | transversal | 1.0 | aprobado | v1.0 | marco-general | galeria-colecciones, ficha-foto, paginas |
-| `plataforma/despliegue.md` | transversal | — | pendiente | v1.0 | marco-general | modelo-contenido-panel |
+| `plataforma/despliegue.md` | transversal | 0.1 | revision | v1.0 | marco-general | modelo-contenido-panel |
 
 ## Árbol
 
@@ -25,7 +25,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.7]
 ├── consultas/consulta-copia.md                [aprobado 1.2]
 ├── paginas/paginas.md                         [aprobado 1.1]
 ├── plataforma/seo.md                          [aprobado 1.0]
-└── plataforma/despliegue.md                   [pendiente]
+└── plataforma/despliegue.md                   [revision 0.1]
 ```
 
 ## Tareas del dueño
@@ -61,7 +61,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.7]
 {
   "esquema": "1.1",
   "proyecto": "Rod Díaz (Web_RodDiaz)",
-  "actualizado": "2026-10-14T13:05-03:00",
+  "actualizado": "2026-10-14T14:45-03:00",
   "fases": [
     {
       "id": "v1.0",
@@ -224,10 +224,10 @@ marco-general/marco-general-proyecto.md        [aprobado 1.7]
         "modelo-contenido-panel"
       ],
       "fase": "v1.0",
-      "estado": "pendiente",
-      "version": null,
-      "actualizado": "2026-10-07",
-      "notas": ""
+      "estado": "revision",
+      "version": "0.1",
+      "actualizado": "2026-10-14",
+      "notas": "Borrador: producción y pruebas en US East, promoción manual, respaldos de Railway y descarga desde el panel, aviso USD 25 y tope USD 40."
     }
   ],
   "tareas": [
@@ -390,3 +390,4 @@ marco-general/marco-general-proyecto.md        [aprobado 1.7]
 | 2026-10-14 | Páginas aprobado (1.0). Marco general pasa a 1.6, modelo de contenido a 1.3 y consulta de copia a 1.1. Sin tareas nuevas. Siguientes desbloqueados: `seo` y `despliegue`. |
 | 2026-10-14 | SEO en revisión (0.1): indexar desde el subdominio con host único, vista previa con foto completa y marca, títulos con lugar, descripción automática editable, etiqueta "Con licencia", Search Console, características indexables, robots de IA de búsqueda sí y de entrenamiento no. |
 | 2026-10-14 | SEO aprobado (1.0). Marco general pasa a 1.7, modelo de contenido a 1.4, consulta de copia a 1.2 y páginas a 1.1. Nuevas T-010 (desarrollo) y T-011 (contenido). Siguiente: `despliegue`. |
+| 2026-10-14 | Despliegue en revisión (0.1): producción y pruebas en US East (pruebas automático, producción manual), despliegue solo con cambios de código, respaldos de Railway y descarga mensual desde el panel, recuperación de acceso con enlace de un solo uso, aviso USD 25 y tope USD 40, lanzamiento en subdominio indexado sin difundir. |
