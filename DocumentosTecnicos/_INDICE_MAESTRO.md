@@ -8,7 +8,7 @@
 | `identidad/sistema-de-diseno.md` | transversal | 1.0 | aprobado | v1.0 | marco-general | marco-general |
 | `contenido/modelo-contenido-panel.md` | componente | 1.1 | aprobado | v1.0 | marco-general | marco-general |
 | `portafolio/galeria-colecciones.md` | componente | 1.0 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
-| `portafolio/ficha-foto.md` | componente | — | pendiente | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
+| `portafolio/ficha-foto.md` | componente | 0.1 | revision | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
 | `consultas/consulta-copia.md` | componente | — | pendiente | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
 | `paginas/paginas.md` | componente | — | pendiente | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `plataforma/seo.md` | transversal | — | pendiente | v1.0 | marco-general | galeria-colecciones, ficha-foto, paginas |
@@ -21,7 +21,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.3]
 ├── identidad/sistema-de-diseno.md             [aprobado 1.0]
 ├── contenido/modelo-contenido-panel.md        [aprobado 1.1]
 ├── portafolio/galeria-colecciones.md          [aprobado 1.0]
-├── portafolio/ficha-foto.md                   [pendiente]
+├── portafolio/ficha-foto.md                   [revision 0.1]
 ├── consultas/consulta-copia.md                [pendiente]
 ├── paginas/paginas.md                         [pendiente]
 ├── plataforma/seo.md                          [pendiente]
@@ -59,7 +59,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.3]
 {
   "esquema": "1.1",
   "proyecto": "Rod Díaz (Web_RodDiaz)",
-  "actualizado": "2026-10-14T11:30-03:00",
+  "actualizado": "2026-10-14T12:15-03:00",
   "fases": [
     {
       "id": "v1.0",
@@ -154,10 +154,10 @@ marco-general/marco-general-proyecto.md        [aprobado 1.3]
         "galeria-colecciones"
       ],
       "fase": "v1.0",
-      "estado": "pendiente",
-      "version": null,
-      "actualizado": "2026-10-07",
-      "notas": ""
+      "estado": "revision",
+      "version": "0.1",
+      "actualizado": "2026-10-14",
+      "notas": "Al aprobar: marco 1.4 (GET /datos/contexto, enlace a /consulta) y galeria-colecciones 1.1 (contexto con filtro en colección)."
     },
     {
       "id": "consulta-copia",
@@ -357,3 +357,4 @@ marco-general/marco-general-proyecto.md        [aprobado 1.3]
 | 2026-10-13 | Modelo de contenido y panel aprobado (1.0). Marco general pasa a 1.2. Quedan desbloqueados `galeria-colecciones`, `paginas` y `despliegue`. |
 | 2026-10-14 | Galería y colecciones en revisión (0.1): filas justificadas sin recorte, fijadas en /fotos, scroll infinito, página /colecciones, filtro también en colecciones, recorte 4:5 de tarjetas con punto focal. |
 | 2026-10-14 | Galería y colecciones aprobado (1.0). Marco general pasa a 1.3 y modelo de contenido a 1.1. Nueva T-009 (contenido). Queda desbloqueado `ficha-foto`. |
+| 2026-10-14 | Ficha de foto en revisión (0.1): resumen de copias con desplegable y elección de tamaño, barra móvil al pasar el botón, mes y año, historia plegada, compartir nativo, «Más de <colección>», contexto resuelto en el navegador y `GET /datos/contexto`. |
