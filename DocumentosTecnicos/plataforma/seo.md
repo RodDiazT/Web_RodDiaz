@@ -4,11 +4,11 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/plataforma/seo.md` |
 | Tipo | Transversal |
-| Versión | 1.0 |
+| Versión | 1.1 |
 | Estado | Aprobado |
 | Fecha | 2026-10-14 |
-| Padre | `marco-general/marco-general-proyecto.md` |
-| Dependencias | `portafolio/galeria-colecciones.md`, `portafolio/ficha-foto.md`, `paginas/paginas.md` |
+| Padre | `marco-general/marco-general-proyecto.md` (1.9) |
+| Dependencias | `portafolio/galeria-colecciones.md` (1.2), `portafolio/ficha-foto.md` (1.3), `paginas/paginas.md` (1.2) |
 | Versión del producto | v1.0 |
 
 ## Índice
@@ -275,10 +275,12 @@ Imagen según la ruta:
 
 1. Rutas `GET /og/foto/[slug]` y `GET /og/medio/[id]` (§5.3), que responden un JPEG de 1200 × 630.
 2. Se parte de la versión de **1200 px** de la foto (marco §6.2.2) o del `Medio`, ya en sRGB y sin metadatos.
-3. Con `sharp`: lienzo `#151515`; la foto se escala con `fit: 'inside'` dentro de 1104 × 494 px y se centra en ese área (márgenes de §3.2), sin agrandarla si es más chica.
+3. Con `sharp`: lienzo de 1200 × 630 px.
+   - **Fotos horizontales:** la foto se escala con `fit: 'inside'` dentro de 1104 × 494 px sobre fondo `#151515`.
+   - **Fotos verticales y cuadradas (optimización WhatsApp / redes móviles):** para evitar que la foto parezca una estampilla diminuta cuando WhatsApp o iMessage recortan la vista previa a un cuadrado central de 630 × 630 px, el lienzo de 1200 × 630 px se compone con un fondo atenuado y desenfocado de la propia obra (o centrado a escala completa útil) de modo que en el recuadro central de 630 × 630 px la obra sea la protagonista absoluta.
 4. Marca: sin `logo`, el texto `nombreSitio` se rasteriza con la entrada `text` de `sharp` usando el archivo de Cormorant Garamond 500 que ya trae el sistema de diseño (`fontfile`), 30 px, `#ECECEC`, máx. 600 px de ancho; con `logo`, el logo rasterizado a 32 px de alto (SVG o PNG). Centrado en la franja inferior de 96 px.
 5. Salida JPEG calidad 82, progresiva, `mozjpeg`, perfil ICC sRGB y ningún otro metadato (marco §7.2). Objetivo: menos de 200 KB; máximo aceptado: 300 KB.
-6. **Caché:** la respuesta se guarda en la caché de datos de Next.js con las etiquetas `foto:<id>` (o `medio:<id>`) y `ajustes`, las mismas que ya invalidan los *hooks* de `modelo-contenido-panel` §5.2.12. Cabecera `Cache-Control: public, max-age=86400, stale-while-revalidate=604800`.
+6. **Caché:** la respuesta se guarda en la caché de datos de Next.js con las etiquetas `foto:<id>`, `foto:<slug>` (o `medio:<id>`) y `ajustes`, unificadas con los *hooks* de `modelo-contenido-panel` §5.2.12. Cabecera `Cache-Control: public, max-age=86400, stale-while-revalidate=604800`.
 7. **Versión en la URL:** las etiquetas `og:image` llevan `?v=` con los 8 primeros caracteres del SHA-1 de `updatedAt` de la foto (o `Medio`) más `updatedAt` de `AjustesSitio`. El parámetro no cambia el resultado; solo obliga a las redes a pedir de nuevo cuando algo cambió.
 8. Solo se generan lienzos de fotos **visibles** y de `Medio` usados por páginas publicadas o por el sitio; cualquier otro pedido responde 404.
 
@@ -532,5 +534,6 @@ No hay código previo. Cambios a documentos aprobados que se aplican **al aproba
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.1 | 2026-10-14 | Optimización de lienzos Open Graph para fotos verticales adaptados al recorte cuadrado (630 × 630) de WhatsApp e iMessage (§5.2.6) y unificación de etiquetas de caché con `foto:<id>` y `foto:<slug>`. |
 | 1.0 | 2026-10-14 | Aprobado por Rod. El marco general pasa a 1.7, el modelo de contenido a 1.4, la consulta de copia a 1.2 y páginas a 1.1 con los cambios del §7. Nacen T-010 y T-011. |
 | 0.1 | 2026-10-14 | Borrador inicial. Decisiones de Rod: indexar desde el lanzamiento en el subdominio de Railway con `URL_SITIO` y 301; vista previa 1200 × 630 con la foto completa y la marca; títulos "título, lugar · Rod Díaz"; descripción automática con campo opcional `Foto.seo.descripcion`; etiqueta "Con licencia" con `acquireLicensePage` hacia la consulta (`origen = licencia`); Search Console en v1.0; características de `/fotos` indexables; robots de búsqueda de IA permitidos y de entrenamiento excluidos, lista editable. Requisitos de licencia de Google y clasificación de robots verificados el 2026-10-14. |

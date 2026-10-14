@@ -4,7 +4,7 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/marco-general/marco-general-proyecto.md` |
 | Tipo | Marco general |
-| Versión | 1.8 |
+| Versión | 1.9 |
 | Estado | Aprobado |
 | Fecha | 2026-10-14 |
 | Padre | — |
@@ -44,7 +44,7 @@
 
 Hoy Rod no tiene un lugar propio donde mostrar su trabajo ni recibir interesados. El sitio viene a resolver eso.
 
-**Resultado esperado de la v1.0:** un sitio rápido, de fondo oscuro, donde la foto es protagonista. Cada foto tiene una ficha con sus tamaños y papeles disponibles, y desde ahí se envía una consulta que Rod ve en su panel. Rod administra todo el contenido sin tocar código.
+**Resultado esperado de la v1.0:** un sitio rápido, de fondo oscuro, donde la foto es protagonista. Cada foto tiene una ficha con sus tamaños y papeles disponibles, y desde ahí se envía una consulta que Rod ve en su panel y recibe como aviso instantáneo en su celular vía bot de Telegram. Rod imprime artesanalmente en taller con tintas pigmentadas minerales (Canon imagePROGRAF PRO-1100 de 17") en papeles Fine Art (algodón y baritado), preservando la proporción íntegra de la obra con margen de conservación para enmarcado y firma de autor. Rod administra todo el contenido sin tocar código.
 
 Este documento es la **fuente de verdad** de las definiciones transversales. Los documentos de componente referencian sus secciones y no las reescriben.
 
@@ -52,8 +52,8 @@ Este documento es la **fuente de verdad** de las definiciones transversales. Los
 
 | Versión | Incluye |
 |---|---|
-| **v1.0 — Portafolio con consulta 1:1** | Galería pública con colecciones y filtro por características. Ficha de foto con proporción, tamaños y papeles, sin precio, y visor a pantalla completa. Formulario de consulta. Panel exclusivo de Rod para fotos, colecciones, características, formatos, papeles, páginas, ajustes del sitio y consultas. Aviso de consultas nuevas **solo en el panel** (contador y destacado al entrar). Páginas "Sobre mí" y "Contacto". SEO con Open Graph y enlace a Instagram. **Sin aviso por correo ni analítica de visitas.** |
-| **v1.x — Mejoras** | Aviso de consultas fuera del panel (bot de Telegram u otro canal sin credenciales de Rod). Analítica de visitas, con una opción que no sume cuentas. Cloudflare Turnstile si el spam supera las defensas de la v1. Dominio propio. Lo que surja del uso real. |
+| **v1.0 — Portafolio con consulta 1:1** | Galería pública con colecciones y filtro por características. Ficha de foto con proporción, tamaños por medidas en cm y papeles Fine Art, sin precio, y visor a pantalla completa con soporte de doble toque. Botón de compartir con fallback a WhatsApp en móviles. Formulario de consulta con antispam amigable con autocompletado móvil. Panel exclusivo de Rod para fotos, colecciones, características, formatos, papeles, páginas, ajustes del sitio y consultas. Aviso de consultas nuevas en el panel y **notificación push inmediata por bot de Telegram**. Páginas "Sobre mí" y "Contacto". SEO con Open Graph optimizado para fotos verticales en WhatsApp y enlace a Instagram. **Sin pasarela de pago ni analítica de visitas.** |
+| **v1.x — Mejoras** | Analítica de visitas, con una opción que no sume cuentas. Cloudflare Turnstile si el spam supera las defensas de la v1. Dominio propio `.cl`. Lo que surja del uso real. |
 | **v2 — Venta automatizada** | Conexión con Shopify u otra plataforma para venta directa. **Se activa solo cuando Rod lo decida** (§2.1). |
 | **Futuro** | Ediciones limitadas, terminaciones de impresión, otros idiomas, curso de fotografía. Nada de esto se construye sin una solicitud explícita de Rod. |
 
@@ -127,13 +127,13 @@ Estos son los **nombres oficiales**. En el código van sin tildes, con el domini
 
 | Entidad (colección Payload) | Qué es | Campos principales |
 |---|---|---|
-| `Foto` | Obra publicada. Es una colección *upload*: guarda solo las versiones web, nunca el original (§6.2). | `titulo` (máx. 120), `slug` (único), `slugsAnteriores`, `lugar`, `fecha` (día de la toma), `historia` (opcional, texto enriquecido), `textoAlternativo` (opcional; si falta se usa `titulo`), `datosTecnicos` (grupo opcional: `distanciaFocal`, `apertura`, `velocidad`; precargados del EXIF y editables; sin cámara, lente ni ISO), `coleccion` (relación con **una** `Coleccion`), `orden` (posición en su colección), `caracteristicas` (relación con `Caracteristica`, varias), `proporcion` (calculada: etiqueta `3:2`, `4:5`, `1:1`, `16:9`… o personalizada, valor decimal, orientación y marca de edición manual), `ancho` y `alto` (px de la versión mayor), `colorDominante`, `formatos` (relación con `FormatoImpresion`, varias, solo de proporción compatible), `estado` (`borrador`, `publicada`, `despublicada`), `publicadaEn`, `destacada`, `fijada` y `ordenFijada` (primero en `/fotos`, en el orden de Rod), punto focal (`focalX`, `focalY`, para el recorte de tarjetas de colección), `huella`, `posibleDuplicado`, `filete` (ver `identidad/sistema-de-diseno.md`), `seo.descripcion` (opcional; si falta, se arma sola según `plataforma/seo.md`). `titulo`, `lugar`, `fecha` y `coleccion` son obligatorios para publicar. Detalle en `contenido/modelo-contenido-panel.md`. |
+| `Foto` | Obra publicada. Es una colección *upload*: guarda solo las versiones web, nunca el original (§6.2). | `titulo` (máx. 120), `slug` (único), `slugsAnteriores`, `lugar`, `fecha` (día de la toma), `historia` (opcional, texto enriquecido), `textoAlternativo` (opcional; si falta se usa `titulo`), `nombreArchivoOriginal` (texto técnico privado, solo lectura en panel; trazabilidad con el negativo en Lightroom), `datosTecnicos` (grupo opcional: `distanciaFocal`, `apertura`, `velocidad`; precargados del EXIF y editables; sin cámara, lente ni ISO), `coleccion` (relación con **una** `Coleccion`), `orden` (posición en su colección), `caracteristicas` (relación con `Caracteristica`, varias), `proporcion` (calculada: etiqueta `3:2`, `4:5`, `1:1`, `16:9`… o personalizada, valor decimal, orientación y marca de edición manual), `ancho` y `alto` (px de la versión mayor), `colorDominante`, `formatos` (relación con `FormatoImpresion`, varias, elegidas manualmente por Rod), `estado` (`borrador`, `publicada`, `despublicada`), `publicadaEn`, `destacada`, `fijada` y `ordenFijada` (primero en `/fotos`, en el orden de Rod), punto focal (`focalX`, `focalY`, para el recorte de tarjetas de colección), `huella`, `posibleDuplicado`, `filete` (ver `identidad/sistema-de-diseno.md`), `seo.descripcion` (opcional; si falta, se arma sola según `plataforma/seo.md`). `titulo`, `lugar`, `fecha` y `coleccion` son obligatorios para publicar. Detalle en `contenido/modelo-contenido-panel.md`. |
 | `Coleccion` | Agrupación por lugar o salida, con dos niveles como máximo (madre e hija). | `nombre`, `slug`, `slugsAnteriores`, `descripcion` (opcional), `padre` (relación con una `Coleccion` sin padre, opcional), `visibleSola` (hijas: si es falso, solo alimenta a la madre), `orden` (entre hermanas), `portada` (relación con `Foto`), `estado` (`borrador`, `publicada`). Una madre puede tener fotos propias y sub-colecciones, y su vista agrega ambas. |
 | `Caracteristica` | Etiqueta transversal que sirve de filtro, por ejemplo "Blanco y negro", "Paisaje", "Nocturna" o "Araucanía". | `nombre`, `slug`, `slugsAnteriores`. |
-| `FormatoImpresion` | Tamaño de copia disponible, del catálogo global; vale para ambas orientaciones. | `ladoCortoCm`, `ladoLargoCm`, `nombre` (calculado, por ejemplo "30 × 45 cm"), `proporcion` (calculada), `papeles` (relación con `TipoPapel`, al menos uno), `activo`, `orden`. |
-| `TipoPapel` | Papel de impresión del catálogo global, asociado a cada formato. | `nombre`, `descripcion` breve (por ejemplo "Algodón mate, textura suave"), `activo`. |
+| `FormatoImpresion` | Tamaño de copia disponible, del catálogo global; expresado por medidas en cm para proyectar en pared. | `ladoCortoCm`, `ladoLargoCm`, `nombre` ("30 × 45 cm", etc.), `margenMinimoCm` (margen perimetral de conservación y firma; por defecto 2.0 cm), `papeles` (relación con `TipoPapel`, al menos uno), `activo`, `orden`. |
+| `TipoPapel` | Papel de impresión Fine Art del catálogo global, asociado a cada formato. | `nombre`, `fabricante` (opcional: Hahnemühle, Canson, Canon…), `base` (`100% algodón`, `baritado`, `alfa-celulosa`), `acabado` (`mate_liso`, `mate_texturado`, `satinado_lustre`, `brillo_baritado`), `gramajeGsm` (número, ej. 310), `libreDeAcido` (booleano, `true`), `descripcion` breve (textura y acabado), `activo`. |
 | `Pagina` | Página editable: "Sobre mí", "Contacto", privacidad, condiciones. | `titulo`, `slug`, `contenido` (texto enriquecido en la v1.0; bloques en v1.x), `imagen` (relación con `Medio`, opcional), `estado`, campos SEO, `slugsAnteriores` (páginas libres) y `contenidoActualizadoEn` (fecha del último cambio de texto). Las cuatro reservadas (`sobre-mi`, `contacto`, `privacidad`, `condiciones`) no se borran ni cambian de `slug`, y la política publicada no vuelve a borrador (`paginas/paginas.md`). |
-| `Consulta` | Solicitud de un interesado por una o más copias, o mensaje general sin foto. | `nombre`, `correo`, `telefono` (opcional), `ciudad` (opcional), `mensaje` (opcional), `items` (0 a 5 `ItemConsulta`: `foto`, `tituloFoto`, `slugFoto`, `formato` y `papel` opcionales), `tipo` (`copia`, `general`), `estado` (`nueva`, `respondida`, `cerrada`, `spam`), `respondidaEn`, `ultimaActividad`, `eliminarDespuesDe` (calculado), `notasInternas`, `consentimientoEn`, `versionPolitica`, `aceptaPromociones`, `origen`, `claveEnvio`. Detalle en `consultas/consulta-copia.md`. |
+| `Consulta` | Solicitud de un interesado por una o más copias, o mensaje general sin foto. | `nombre`, `correo`, `telefono` (opcional), `ciudad` (opcional), `mensaje` (opcional), `items` (0 a 5 `ItemConsulta`: `foto`, `tituloFoto`, `slugFoto`, `formato` y `papel` opcionales, más `nombreFormatoSnapshot` y `nombrePapelSnapshot` para persistir la descripción textual histórica ante cambios de catálogo), `tipo` (`copia`, `general`), `estado` (`nueva`, `respondida`, `cerrada`, `spam`), `respondidaEn`, `ultimaActividad`, `eliminarDespuesDe` (calculado), `notasInternas`, `consentimientoEn`, `versionPolitica`, `aceptaPromociones`, `origen`, `claveEnvio`. Detalle en `consultas/consulta-copia.md`. |
 | `Suscriptor` | Persona que aceptó, con una casilla opcional, recibir novedades y promociones. | `nombre`, `correo` (único), `consentimientoEn`, `versionPolitica`, `origen` (relación con `Consulta`). Se conserva hasta la baja. |
 | `Usuario` | Cuenta del panel. Solo existe Rod. | `correo`, `nombre`, `proveedorAcceso` (`google`), `idGoogle`, `ultimoAcceso`, `recuperacionHash` y `recuperacionVence` (enlace de recuperación de un solo uso, `plataforma/despliegue.md` §5.2.11). |
 | `Medio` | Imagen auxiliar que no es obra: logo y foto de perfil. No aparece en galerías ni se consulta. | `archivo` (JPEG, PNG o SVG según el uso), `textoAlternativo`, `uso` (`logo`, `pagina`). |
@@ -143,7 +143,7 @@ Estos son los **nombres oficiales**. En el código van sin tildes, con el domini
 Relaciones clave:
 
 - Una `Foto` pertenece a **una** `Coleccion` (obligatoria para publicar) y tiene cero o más `Caracteristica`. Una `Coleccion` puede tener una `Coleccion` padre (dos niveles como máximo).
-- Una `Foto` ofrece cero o más `FormatoImpresion` (solo los de proporción compatible). Cada `FormatoImpresion` tiene uno o más `TipoPapel`: si hay varios, el interesado elige; si hay uno, se le informa.
+- Una `Foto` ofrece cero o más `FormatoImpresion`, seleccionados manualmente por Rod según la resolución y composición de la obra. Cada `FormatoImpresion` tiene uno o más `TipoPapel`: si hay varios, el interesado elige; si hay uno, se le informa.
 - Una `Foto` sin formatos ofrecibles es **de vitrina**: se publica y no ofrece copia.
 - Una `Consulta` referencia cero o más `Foto` (cero = consulta general), hasta cinco. Un `Suscriptor` nace de una `Consulta` con la casilla de novedades marcada y la sobrevive.
 
@@ -151,16 +151,16 @@ Relaciones clave:
 
 ### 6.2 Reglas de negocio transversales
 
-1. **Originales.** El sitio **no conserva el original**. Al subir, `sharp` genera las versiones web y el archivo subido se descarta. Rod mantiene sus originales fuera del sitio.
+1. **Originales.** El sitio **no conserva el original**. Al subir, `sharp` genera las versiones web y el archivo subido se descarta. Rod mantiene sus originales fuera del sitio; el panel conserva el `nombreArchivoOriginal` para ubicar el negativo en Lightroom.
    *Alternativa descartada:* guardar el original en un directorio privado del volumen. Ocupa espacio con costo, abre la puerta a una fuga y el sitio no lo necesita.
 2. **Versiones web.** Se generan versiones de 480, 1200 y **2048 px como tope en el lado largo**, en AVIF y WebP, con fallback JPEG de 1200 px. Todas van en sRGB, con el perfil ICC sRGB incrustado y sin ningún otro metadato. 2048 px equivale a unos 17 cm de lado largo a 300 ppp, insuficiente para una copia de calidad. Ese tope es la protección efectiva de la obra.
 3. **Captura y descarga.** Se disuade la descarga: sin menú contextual sobre la foto, sin arrastre y sin URL a un archivo grande, porque no existe. **No se promete** bloquear las capturas de pantalla, porque en la web no es posible. No se usa marca de agua.
-4. **Proporción y formatos.** La proporción se calcula del ancho y alto en píxeles y se normaliza a la proporción estándar más cercana con ±2 % de tolerancia. Una foto solo puede ofrecer formatos cuya proporción sea compatible dentro de esa tolerancia. Si Rod intenta asociar uno incompatible, el panel lo impide con un mensaje. Al subir, la foto recibe como sugerencia los formatos activos compatibles. Una foto sin formatos ofrecibles se puede publicar como **vitrina**: su ficha no ofrece copia.
+4. **Proporción y formatos.** La proporción se calcula del ancho y alto en píxeles. Rod asocia manualmente los formatos disponibles a cada foto. Cada copia respeta la proporción original íntegra de la obra, imprimiéndose centrada con margen perimetral blanco de conservación para enmarcado y firma en lápiz grafito. Una foto sin formatos ofrecibles se publica como **vitrina**: su ficha no ofrece copia.
 5. **Publicación.** Solo se ven en público las `Foto` con `estado = publicada` cuya `Coleccion` (y su madre, si la tiene) está `publicada`. Una `Coleccion` sin fotos visibles no se muestra. La regla completa está en `contenido/modelo-contenido-panel.md` §5.2.5.
 6. **Duplicados.** Al subir una foto cuya `huella` ya existe, se crea igual y el panel avisa en ella con un enlace a la existente; Rod decide cuál borra.
-7. **Consultas: se guardan y se ven en el panel.** La consulta se guarda en la base de datos antes de responder "recibida" al interesado; si no se pudo guardar, el formulario lo dice y conserva lo escrito. En la v1 no se envía aviso por correo. El panel muestra el número de consultas `nueva` en su portada y en el menú. Cuando se agregue un aviso externo en la v1.x, se mantendrá la regla: se guarda primero y se avisa después, de modo que una falla del aviso nunca pierde una consulta.
+7. **Consultas: se guardan en el panel y se avisa por Telegram.** La consulta se guarda en la base de datos antes de responder "recibida" al interesado; si no se pudo guardar, el formulario lo dice y conserva lo escrito. El panel muestra el número de consultas `nueva` en su portada y en el menú. Adicionalmente, el servidor envía de inmediato una notificación push al bot de Telegram de Rod (`TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`) de forma no bloqueante; si el aviso de Telegram falla, la consulta queda guardada a salvo en la base de datos.
 8. **Conservación de consultas.** Se conservan **12 meses desde `ultimaActividad`**. Un proceso diario borra las vencidas. Las marcadas `spam` se borran a los 30 días.
-9. **Antispam (v1).** Campo trampa oculto, tiempo mínimo de llenado (3 s), límite de 5 consultas por hora por IP y validación del formato del correo. No se usa captcha en la v1. Turnstile queda como opción v1.x.
+9. **Antispam (v1).** Campo trampa oculto, tiempo mínimo de llenado (1.8 s, calibrado para no penalizar el autocompletado nativo de smartphones), límite de 5 consultas por hora por IP y validación del formato del correo. No se usa captcha en la v1. Turnstile queda como opción v1.x.
 10. **Datos, no código.** Textos, nombre del sitio, enlaces a redes y correos se administran desde `AjustesSitio` y `Pagina`. Nunca se escriben en el código.
 11. **Fechas.** Se guardan como instantes UTC y se muestran en America/Santiago. Las medidas de impresión se expresan en cm (ancho × alto) con su proporción explícita.
 
@@ -223,7 +223,7 @@ Carpetas de dominio documental confirmadas: `identidad/`, `contenido/`, `portafo
 | Aplicación | **Next.js + TypeScript con Payload CMS 3**, en un solo servicio | Payload 3 vive dentro de la app Next.js: panel, colecciones, medios y páginas se definen en código y quedan versionados en el repo. | WordPress, por el diseño limitado por temas, la mantención de plugins y la configuración fuera del repo. Construir el panel desde cero, porque serían semanas reinventando un CMS. |
 | Base de datos | **PostgreSQL** en Railway | Adaptador oficial de Payload y servicio administrado en la misma cuenta. | SQLite: más simple, pero frágil con despliegues y volúmenes. |
 | Imágenes | **Volumen de Railway** montado en la app, procesado con `sharp` | Menos piezas: no se suma ningún servicio de almacenamiento y el tamaño es acotado, porque solo se guardan versiones web. | Bucket S3 o R2: otra cuenta y otra configuración, sin necesidad con este volumen de fotos. |
-| Aviso de consultas | **Solo en el panel en la v1.0.** | Rod no entrega credenciales de correo y prefiere no sumar servicios. | Resend o Gmail: descartados por Rod para la v1. El aviso externo queda para v1.x. |
+| Aviso de consultas | **En el panel y notificación instantánea vía Bot de Telegram.** | Gratis, sin intermediarios de correo ni cuentas complejas. Rod recibe un aviso push inmediato en su celular al llegar una consulta, con nombre, foto, formato y ciudad. | Resend o Gmail: descartados por Rod para la v1. |
 | Autenticación del panel | **Google OAuth** con estrategia propia de Payload (Auth.js o plugin OAuth), con lista permitida de un correo | Sin contraseñas que mantener. Rod ya usa esa cuenta. Gratis. | Usuario y contraseña de Payload: funciona, pero es una credencial más. |
 | Analítica | **No se incluye en la v1.0.** Pasa a v1.x. | Rod la valora, pero no es crucial para lanzar, y prefiere no sumar cuentas. | Cloudflare Web Analytics: descartado por Rod en la v1. |
 | Hosting | **Cuenta Railway existente de Rod, workspace en plan Pro** (verificado el 2026-10-07), proyecto `web-roddiaz` en US East (Virginia) con entornos `production` (promoción manual) y `pruebas` (automático, dormido sin uso) (`plataforma/despliegue.md`) | Costo hundido de la suscripción. El plan Pro incluye USD 20 de consumo y respaldos de volúmenes. | Vercel: separaría la app del volumen y la base de datos. |
@@ -243,7 +243,7 @@ Carpetas de dominio documental confirmadas: `identidad/`, `contenido/`, `portafo
 - **Responsable:** Rod. Correo de contacto para ejercer derechos: el de `AjustesSitio.correoContacto`.
 - **Conservación:** consultas, 12 meses desde la última actividad, y luego borrado automático (§6.2.8); suscriptores, hasta la baja.
 - **Derechos (acceso, rectificación, supresión, oposición):** por correo a Rod, que los ejecuta desde el panel. El documento `consultas/consulta-copia.md` define el procedimiento.
-- **Terceros:** Railway (hosting y base de datos) y Google (inicio de sesión de Rod en el panel, y Gmail, desde donde Rod responde consultas y envía novedades).
+- **Terceros:** Railway (hosting y base de datos), Telegram (notificación de aviso al chat privado de Rod) y Google (inicio de sesión de Rod en el panel, y Gmail, desde donde Rod responde consultas y envía novedades).
 - **Intentos de acceso al panel:** se registra el correo y la fecha de los intentos rechazados, por seguridad, durante 90 días (`contenido/modelo-contenido-panel.md` §6). La política de privacidad los menciona.
 - **Política de privacidad:** es una `Pagina` obligatoria antes del lanzamiento.
 
@@ -286,7 +286,7 @@ Los documentos 1 y 2 quedan desbloqueados en paralelo al aprobar el marco. Se re
 
 ### 9.2 Plan de implementación (para Claude Code, una vez aprobados los documentos)
 
-1. **Base del proyecto.** Next.js + Payload 3 + Postgres local, estructura del §6.4 y `AjustesSitio`. *Terminado cuando:* `/admin` levanta en local y existe el usuario de Rod.
+1. **Base del proyecto.** Next.js + Payload 3 + Postgres en Railway (entorno `pruebas`), estructura del §6.4 y `AjustesSitio`. *Terminado cuando:* `/admin` levanta en el entorno de pruebas y existe el usuario de Rod.
 2. **Modelo de contenido** (doc 2). *Terminado cuando:* todas las colecciones del §6.1 existen y la subida de una foto genera sus versiones sin metadatos (salvo el perfil ICC sRGB).
 3. **Sistema de diseño** (doc 1). *Terminado cuando:* existen los tokens y los componentes base.
 4. **Galería y ficha** (docs 3 y 4). *Terminado cuando:* se puede navegar de la portada a una ficha en dos clics.
@@ -316,7 +316,7 @@ Los documentos 1 y 2 quedan desbloqueados en paralelo al aprobar el marco. Se re
 
 | Id | Riesgo | Prob. | Impacto | Mitigación |
 |---|---|---|---|---|
-| R-01 | Sin aviso externo, Rod tarda en ver una consulta y el interesado se enfría. | Media | Medio | Contador de consultas nuevas en el panel. Rod revisa el panel con regularidad. Aviso externo en v1.x. |
+| R-01 | Rod tarda en ver una consulta y el interesado se enfría. | Baja | Medio | Notificación push instantánea a Telegram (`TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`) y contador de consultas nuevas en el panel. |
 | R-02 | El consumo de Railway del sitio genera un costo mayor al esperado. | Baja | Medio | Solo se guardan versiones web, un solo servicio de app, estimación de consumo (USD 10 a 11 al mes) y aviso en USD 25 con tope en USD 40 (`plataforma/despliegue.md` §5.5, T-004). |
 | R-03 | Pérdida del volumen o de la base de datos. | Baja | Alto | Respaldos de Railway (base diaria y semanal, imágenes semanal) y descarga mensual desde el panel (`plataforma/despliegue.md` §5.2.7). Rod tiene los originales. |
 | R-04 | Copia no autorizada por captura de pantalla. | Alta | Bajo | Tope de 2048 px y aviso de derechos. Se asume como riesgo aceptado. |
@@ -346,11 +346,13 @@ Los documentos 1 y 2 quedan desbloqueados en paralelo al aprobar el marco. Se re
 | T-011 | contenido | Escribir la descripción del sitio (máx. 160 caracteres). | Lanzamiento |
 | T-012 | desarrollo | Comprar el dominio `.cl` cuando decidas difundir el sitio. | Difusión (v1.x) |
 | T-013 | contenido | Entregar 3 JPG de prueba: uno de 45 MP vertical, uno en Adobe RGB y uno con GPS. | Prueba de memoria del despliegue |
+| T-014 | desarrollo | Crear bot en Telegram con @BotFather y registrar `TELEGRAM_BOT_TOKEN` y `TELEGRAM_CHAT_ID` en las variables de entorno de Railway. | Aviso de consultas |
 
 ## 13. Control de cambios
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.9 | 2026-10-14 | Enfoque de taller Fine Art con Canon PRO-1100: márgenes de conservación para enmarcado y firma; catálogo por medidas en cm y asociación manual por foto; enriquecimiento de `TipoPapel` (base, acabado, gramaje, libre de ácido); `nombreArchivoOriginal` en `Foto`; snapshots en `ItemConsulta`; antispam a 1.8 s; y notificación push inmediata vía Bot de Telegram (T-014). |
 | 1.8 | 2026-10-14 | Cambio menor al aprobar `plataforma/despliegue.md` 1.0: `Usuario.recuperacionHash` y `recuperacionVence`, `AjustesSitio.ultimoRespaldoEn` y `supresionesRecientes` (§6.1); `/api/salud`, `/api/respaldo` y `/admin/recuperar` (§6.3); `railway.json`, `scripts/` y `migraciones/` (§6.4); región, entornos y lanzamiento sin difundir (§6.6); mitigaciones de R-02 y R-03 (§11); D-02 resuelta, T-004 redefinida, T-012 y T-013 (§12). |
 | 1.7 | 2026-10-14 | Cambio menor al aprobar `plataforma/seo.md` 1.0: `Foto.seo.descripcion` y pestaña SEO de `AjustesSitio` (§6.1); rutas `/og/…` (§6.3); `URL_SITIO` con host único (§6.5); Search Console en el stack (§6.6) y en métricas (§10); T-010 y T-011 (§12). |
 | 1.6 | 2026-10-14 | Cambio menor al aprobar `paginas/paginas.md` 1.0: `Pagina` con `slugsAnteriores` y `contenidoActualizadoEn` y protección de las páginas reservadas (§6.1); `/privacidad`, `/condiciones` y libres por `/[slug]` con rutas reservadas (§6.3). |

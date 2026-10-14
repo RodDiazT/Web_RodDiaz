@@ -4,11 +4,11 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/consultas/consulta-copia.md` |
 | Tipo | Componente |
-| Versión | 1.3 |
+| Versión | 1.4 |
 | Estado | Aprobado |
 | Fecha | 2026-10-14 |
-| Padre | `marco-general/marco-general-proyecto.md` (1.5) |
-| Dependencias | `contenido/modelo-contenido-panel.md` (1.2), `portafolio/ficha-foto.md` (1.1); usa `identidad/sistema-de-diseno.md` (1.0) |
+| Padre | `marco-general/marco-general-proyecto.md` (1.9) |
+| Dependencias | `contenido/modelo-contenido-panel.md` (1.6), `portafolio/ficha-foto.md` (1.3); usa `identidad/sistema-de-diseno.md` (1.1) |
 | Versión del producto | v1.0 |
 
 ## Índice
@@ -258,6 +258,8 @@ Abrir una consulta no cambia su estado: sigue `nueva` hasta que Rod la marca. *O
 | `slugFoto` | texto | Copia del slug al enviar. Solo lectura. |
 | `formato` | relación con `FormatoImpresion` | Opcional; solo uno ofrecido por la foto al enviar. |
 | `papel` | relación con `TipoPapel` | Opcional; solo uno activo del formato elegido. Si el formato tiene un solo papel, se guarda ese. |
+| `nombreFormatoSnapshot` | texto | Copia en texto del nombre del formato al enviar (ej. "30 × 45 cm"). Preserva el registro histórico ante cambios o eliminaciones del catálogo. Solo lectura. |
+| `nombrePapelSnapshot` | texto | Copia en texto del nombre del papel al enviar (ej. "Hahnemühle Photo Rag"). Preserva el registro histórico ante cambios de catálogo. Solo lectura. |
 
 No se guardan IP, agente de usuario ni identificadores del navegador en la `Consulta`.
 
@@ -290,11 +292,11 @@ No guarda teléfono, ciudad ni mensaje. La baja **borra** el registro (§5.2.13)
 
 1. **Lectura de la URL.** `/consulta` lee en el servidor `foto`, `formato` y `origen`. La foto se resuelve con `fotoPorSlug`; solo se acepta si es visible y ofrece copia (`formatosOfrecidos` no vacío). El formato se acepta solo si está en `formatosOfrecidos` de esa foto. Lo que no cumpla se ignora según el §4.
 2. **Validación en el servidor** (la del navegador es solo ayuda): longitudes y formatos del §5.1, máximo 5 ítems, sin fotos repetidas, cada ítem con foto visible que ofrece copia, formato ofrecido y papel activo del formato. Lo inválido de un ítem se limpia (§4); lo inválido de los datos del interesado devuelve errores por campo. La casilla es obligatoria.
-3. **Guardar primero** (marco §6.2.7). La acción del servidor crea la `Consulta` con la API local de Payload y solo después devuelve éxito. No hay ningún paso posterior que pueda fallar (no hay aviso en la v1.0); el aviso de la v1.x se colgará de un *hook* `afterChange` que nunca bloquea ni deshace el guardado.
+3. **Guardar primero y avisar por Telegram** (marco §6.2.7). La acción del servidor crea la `Consulta` con la API local de Payload y solo después devuelve éxito al interesado. De forma asíncrona y no bloqueante, si las variables `TELEGRAM_BOT_TOKEN` y `TELEGRAM_CHAT_ID` están configuradas en el entorno, se dispara una notificación push al bot de Telegram de Rod con el resumen (nombre, correo, teléfono, ciudad, fotos y formatos solicitados, y mensaje). Si la notificación falla por red o API de Telegram, la consulta permanece a salvo en la base de datos y la respuesta al usuario no se ve alterada.
 4. **Idempotencia.** El formulario lleva `claveEnvio` (UUID generado al renderizar la página). Si llega un envío con una clave ya guardada, se devuelve el mismo éxito sin crear otra consulta.
 5. **Antispam** (marco §6.2.9, precisado):
    - **Campo trampa** oculto (`sitio_web`, fuera de la vista con CSS, `aria-hidden`, `tabindex="-1"`): si trae texto → se guarda con `estado = spam`.
-   - **Tiempo mínimo:** el formulario lleva `emitidoEn` firmado con HMAC (`PAYLOAD_SECRET`). Si el envío llega antes de 3 s, o la firma no valida → `spam`. Si la firma tiene más de 24 h, se acepta igual (alguien que dejó la pestaña abierta).
+   - **Tiempo mínimo:** el formulario lleva `emitidoEn` firmado con HMAC (`PAYLOAD_SECRET`). Si el envío llega antes de 1.8 s (calibrado para admitir el autocompletado nativo en smartphones de nombre/correo/teléfono sin falsos positivos), o la firma no valida → `spam`. Si la firma tiene más de 24 h, se acepta igual (alguien que dejó la pestaña abierta).
    - **Límite por IP:** 5 envíos por hora por IP, contados en memoria del servicio con la IP resumida (SHA-256 con sal diaria) y sin guardarla. Sobre el límite → se rechaza con el mensaje del §4 (no se guarda). Al reiniciar el servicio el contador se reinicia; se acepta (un solo servicio, tráfico bajo).
    - **Correo:** formato válido o error de campo.
    - Al visitante siempre se le muestra éxito en los casos `spam`: no se le da pista al bot.
@@ -417,6 +419,7 @@ src/
 | Pieza | Decisión | Por qué | Alternativa descartada |
 |---|---|---|---|
 | Envío | Server Action con `useActionState` | Funciona sin JavaScript (mejora progresiva), conserva lo escrito y no expone un endpoint REST propio. | Ruta `POST /api/consultas` con `fetch`: más código y sin respaldo sin JavaScript. |
+| Notificación de consultas | **Bot de Telegram** (`TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`) | Notificación push instantánea al móvil de Rod sin costos ni intermediarios de correo. Envío no bloqueante tras el guardado. | Correo saliente con Resend/SMTP: descartado por Rod para la v1.0. |
 | Límite por IP | Contador en memoria del servicio | Un solo servicio, tráfico bajo, sin piezas nuevas ni datos guardados. | Redis o tabla en Postgres: costo o datos personales (IP) guardados sin necesidad. |
 | Responder | Enlace de redacción de Gmail + `mailto:` | Rod responde desde su cuenta, sin credenciales en el sitio y sin servicio de correo (marco §6.6). | Envío desde el panel: requiere un servicio de correo, descartado para la v1.0. |
 | Borrado programado | Cola de trabajos de Payload 3 (`jobs` con `autoRun`) | Ya viene con Payload. | Cron de Railway: otra pieza que configurar. |
@@ -543,6 +546,7 @@ No nacen tareas nuevas: los textos tienen valores por defecto. Para lanzar sigue
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.4 | 2026-10-14 | Notificación push inmediata vía Bot de Telegram (`TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`) tras guardado exitoso (§5.2.3); tiempo mínimo de antispam ajustado a 1.8 s para compatibilidad con autocompletado nativo (§5.2.5); y persistencia de `nombreFormatoSnapshot` y `nombrePapelSnapshot` en `ItemConsulta` (§5.1). |
 | 1.3 | 2026-10-14 | Cambio menor al aprobar `plataforma/despliegue.md` 1.0: "Borrar todas" registra el resumen del correo en `AjustesSitio.supresionesRecientes`. |
 | 1.2 | 2026-10-14 | Cambio menor al aprobar `plataforma/seo.md` 1.0: `origen` acepta `licencia`. |
 | 1.1 | 2026-10-14 | Cambio menor al aprobar `paginas/paginas.md` 1.0: `versionPolitica` se toma de `Pagina.contenidoActualizadoEn`. |

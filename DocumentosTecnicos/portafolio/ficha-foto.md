@@ -4,11 +4,11 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/portafolio/ficha-foto.md` |
 | Tipo | Componente |
-| Versión | 1.2 |
+| Versión | 1.3 |
 | Estado | Aprobado |
 | Fecha | 2026-10-14 |
-| Padre | `marco-general/marco-general-proyecto.md` (1.4, que incorpora los cambios del §11) |
-| Dependencias | `identidad/sistema-de-diseno.md` (1.0), `contenido/modelo-contenido-panel.md` (1.1), `portafolio/galeria-colecciones.md` (1.1) |
+| Padre | `marco-general/marco-general-proyecto.md` (1.9) |
+| Dependencias | `identidad/sistema-de-diseno.md` (1.1), `contenido/modelo-contenido-panel.md` (1.6), `portafolio/galeria-colecciones.md` (1.2) |
 | Versión del producto | v1.0 |
 
 ## Índice
@@ -119,8 +119,8 @@ Resuelve el riesgo SD-08: sin color de acento, la llamada podría pasar inadvert
 ### 3.3 Desplegable "Tamaños y papeles" y elección de tamaño
 
 - Es un `<details>` nativo: se abre y cierra sin JavaScript, con teclado y con lector de pantalla. El `<summary>` dice "Tamaños y papeles" con un ícono de flecha que gira 180° en 150 ms. El contenido aparece sin animación de altura.
-- **Primera línea del contenido:** "Proporción 2:3. Cada copia muestra la foto completa, sin recortes." La proporción se muestra **orientada** (§5.2.4).
-- **Lista de tamaños**, en el orden de `FormatoImpresion.orden`. Cada fila: el tamaño orientado ("30 × 45 cm", ancho × alto, convención del proyecto) y, debajo, los papeles en `--texto-xs` secundario: "Algodón mate" si hay uno, o "Algodón mate · Baryta brillante" si hay varios. La `descripcion` breve de cada papel se muestra a continuación de su nombre, en terciario, solo dentro del desplegable.
+- **Primera línea del contenido:** "Proporción {orientada}. Impresión con margen blanco de conservación para enmarcado y firma de autor. La imagen no se recorta." La proporción se muestra **orientada** (§5.2.4).
+- **Lista de tamaños**, en el orden de `FormatoImpresion.orden`. Cada fila: el tamaño orientado por medidas en cm ("30 × 45 cm", ancho × alto, convención del proyecto) y, debajo, los papeles en `--texto-xs` secundario: "Algodón mate" si hay uno, o "Algodón mate · Baryta brillante" si hay varios, con sus atributos de conservación (base 100% algodón o baritado, gramaje, acabado libre de ácido). La `descripcion` breve de cada papel se muestra a continuación de su nombre, en terciario, solo dentro del desplegable.
 - **Elección opcional.** La lista es un grupo de opciones (`<fieldset>` con `<legend>` "Elige un tamaño (opcional)" y un `input type="radio"` por fila, toda la fila es el área táctil de al menos 44 px). La fila elegida lleva borde `--color-texto` e ícono ✓, como el chip activo (sistema de diseño, `ChipFiltro`); nunca relleno claro. Al elegir:
   - el botón principal, la barra móvil y el botón del visor (si es la misma foto) pasan a llevar `&formato=<id>`;
   - aparece bajo el botón la línea "30 × 45 cm · Quitar"; "Quitar" deja la elección vacía;
@@ -155,7 +155,8 @@ Resuelve el riesgo SD-08: sin color de acento, la llamada podría pasar inadvert
 - Botón "Compartir" con ícono, variante `enlace`, al final de la columna o del bloque bajo la franja.
 - Si el navegador ofrece `navigator.share` (la mayoría de los teléfonos), abre el menú nativo con el título de la foto y la **URL canónica** (sin parámetros de contexto).
 - Si no (escritorio, o el navegador interno de Instagram en Android), copia la URL canónica con `navigator.clipboard.writeText` y muestra un `Aviso` "Enlace copiado" bajo el botón durante 2 s, anunciado con `aria-live="polite"`. El aviso entra con opacidad y 4 px de desplazamiento en 200 ms, con `transition`.
-- Si copiar falla, el aviso se reemplaza por un campo de solo lectura con la URL seleccionada y el texto "Copia este enlace".
+- En dispositivos móviles, si el portapapeles falla o si el visitante navega dentro del WebView de Instagram (donde `navigator.share` suele estar bloqueado), el menú o aviso ofrece además un enlace directo "Compartir por WhatsApp" (`https://wa.me/?text=...`) con el título y la URL canónica, permitiendo compartir de inmediato sin fricción.
+- Si copiar falla por completo, el aviso se reemplaza por un campo de solo lectura con la URL seleccionada y el texto "Copia este enlace".
 - Si el visitante cancela el menú nativo, no pasa nada (la cancelación no es un error).
 - Sin JavaScript, el botón no se muestra.
 
@@ -466,6 +467,7 @@ No nacen tareas nuevas. Para lanzar, siguen abiertas T-005 (fotos de lanzamiento
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.3 | 2026-10-14 | Información explícita de margen blanco perimetral de conservación para enmarcado y firma de autor en el desplegable de tamaños (§3.3) y botón directo "Compartir por WhatsApp" como alternativa inmediata en dispositivos móviles y WebViews de Instagram (§3.7). |
 | 1.2 | 2026-10-14 | Cambio menor al aprobar `plataforma/despliegue.md` 1.0: la compilación no consulta la base; las fichas se generan al primer pedido (§5.3). |
 | 1.1 | 2026-10-14 | Cambio menor al aprobar `consultas/consulta-copia.md` 1.0: el enlace a la consulta agrega `origen=ficha` u `origen=visor` (§5.2.9). |
 | 1.0 | 2026-10-14 | Aprobado por Rod. D-F1 y D-F2 quedan con sus valores por defecto. El marco general pasa a 1.4 y la galería a 1.1 con los cambios del §11. |

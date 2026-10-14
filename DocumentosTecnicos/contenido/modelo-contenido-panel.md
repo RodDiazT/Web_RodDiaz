@@ -4,11 +4,11 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/contenido/modelo-contenido-panel.md` |
 | Tipo | Componente |
-| Versión | 1.5 |
+| Versión | 1.6 |
 | Estado | Aprobado |
 | Fecha | 2026-10-14 |
 | Padre | `marco-general/marco-general-proyecto.md` |
-| Dependencias | `marco-general/marco-general-proyecto.md` (1.3; la 1.2 incorporó los cambios del §7); considera `identidad/sistema-de-diseno.md` (1.0) para `logo`, `filete` y perfil ICC |
+| Dependencias | `marco-general/marco-general-proyecto.md` (1.9); considera `identidad/sistema-de-diseno.md` (1.1) para `logo`, `filete` y perfil ICC |
 | Versión del producto | v1.0 |
 
 ## Índice
@@ -198,13 +198,14 @@ Nombres oficiales del marco §6.1, sin tildes en el código. Las etiquetas del p
 | `fecha` | fecha (solo día) | Precargada de `DateTimeOriginal` del EXIF. Obligatoria para publicar. |
 | `historia` | texto enriquecido (Lexical, sin imágenes) | Opcional. |
 | `textoAlternativo` | texto | Opcional. Si falta, se usa `titulo`. |
+| `nombreArchivoOriginal` | texto, solo lectura | Nombre del archivo subido (ej. `_R5M2_4821.JPG`). Para trazabilidad en Lightroom al imprimir. |
 | `seo` | grupo: `descripcion` (texto, máx. 160, opcional) | "Descripción para buscadores (opcional)". Si está vacío, la descripción se arma sola; el panel la muestra como marcador de posición (`plataforma/seo.md` §5.2.2). |
 | `datosTecnicos` ◆ | grupo: `distanciaFocal` (número, mm), `apertura` (número, f), `velocidad` (texto normalizado, por ejemplo "1/250 s") | Precargados del EXIF, editables y borrables. Un campo vacío no se muestra. **No existen** campos de cámara, lente ni ISO. |
 | `coleccion` ◆ | relación con `Coleccion`, **una**, indexada | Obligatoria para publicar. |
 | `orden` ◆ | número | Posición dentro de su colección. Se asigna al final al llegar y se cambia arrastrando. |
 | `caracteristicas` | relación con `Caracteristica`, varias | Opcional. |
 | `proporcion` | grupo: `etiqueta` (texto: `1:1`, `5:4`, `4:3`, `3:2`, `16:9`, `2:1`, `3:1` o personalizada, por ejemplo `3,4:1`), `valor` (decimal, lado largo / lado corto, ≥ 1), `orientacion` ◆ (`horizontal`, `vertical`, `cuadrada`), `manual` ◆ (booleano) | Calculada al subir. Si Rod la sobrescribe, `manual = true`. |
-| `formatos` | relación con `FormatoImpresion`, varias | Solo los compatibles (§5.2.6). Se precarga con los formatos activos compatibles al subir. Si está vacía, la foto es de vitrina. |
+| `formatos` | relación con `FormatoImpresion`, varias | Seleccionados manualmente por Rod según la resolución y composición de la obra. Si está vacía, la foto es de vitrina. |
 | ~~`papeles`~~ ◆ | — | **Se elimina.** Los papeles salen del formato (`FormatoImpresion.papeles`). |
 | `estado` | `borrador`, `publicada`, `despublicada` | Nace en `borrador`. |
 | `publicadaEn` ◆ | fecha y hora (UTC), solo lectura | Primera vez que pasó a `publicada`. Distingue "despublicada" (página amable) de "nunca publicada" (404). |
@@ -247,9 +248,9 @@ Sin cambios respecto del marco: `nombre` (único, máx. 40), `slug`, `slugsAnter
 
 | Campo | Tipo | Reglas |
 |---|---|---|
-| `ladoCortoCm`, `ladoLargoCm` ◆ | número (cm, hasta un decimal) | Reemplazan `anchoCm`/`altoCm`: el formato vale para ambas orientaciones. `ladoCortoCm ≤ ladoLargoCm`. |
-| `nombre` | texto calculado | "30 × 45 cm". |
-| `proporcion` | grupo `etiqueta` + `valor`, calculado | Con la misma normalización que `Foto`. |
+| `ladoCortoCm`, `ladoLargoCm` ◆ | número (cm, hasta un decimal) | Medidas de la hoja de papel. Vale para ambas orientaciones (`ladoCortoCm ≤ ladoLargoCm`). |
+| `nombre` | texto | Nombre comercial con medidas en cm (ej. "30 × 45 cm"). |
+| `margenMinimoCm` | número (cm, por defecto 2.0) | Margen perimetral blanco de conservación para enmarcado y firma de autor. |
 | `papeles` ◆ | relación con `TipoPapel`, varias, **mínimo una** | Papeles disponibles para este tamaño. |
 | `activo` | booleano, `true` | — |
 | `orden` | número | Orden en que se listan los tamaños (del menor al mayor por defecto). |
@@ -258,7 +259,16 @@ Las medidas no se pueden editar si el formato tiene fotos asociadas (§4).
 
 #### `TipoPapel`
 
-Sin cambios respecto del marco: `nombre` (único), `descripcion` (máx. 120), `activo`.
+| Campo | Tipo | Reglas |
+|---|---|---|
+| `nombre` | texto, único | Ej. "Hahnemühle Photo Rag 308". |
+| `fabricante` | texto, opcional | Ej. "Hahnemühle", "Canson Infinity", "Canon". |
+| `base` | `algodon`, `baritado`, `celulosa` | Base del papel (`100% algodón`, `baritado`, `alfa-celulosa`). |
+| `acabado` | `mate_liso`, `mate_texturado`, `satinado_lustre`, `brillo_baritado` | Acabado superficial y textura. |
+| `gramajeGsm` | número, opcional | Gramaje en g/m² (ej. 308, 310). |
+| `libreDeAcido` | booleano, `true` | Garantía de conservación museográfica libre de ácido y lignina. |
+| `descripcion` | texto, máx. 160 | Descripción breve de textura y tonos. |
+| `activo` | booleano, `true` | — |
 
 #### `Pagina`
 
@@ -302,14 +312,14 @@ Solo lectura en el panel, salvo borrar. No se guarda IP, nombre ni foto de la cu
 ### 5.2 Reglas de negocio específicas
 
 1. **El sistema propone, Rod dispone.** Ningún valor automático es definitivo ni bloquea la edición. Recalcular (por ejemplo, la proporción) nunca pisa un valor que Rod editó a mano (`manual = true`).
-2. **Procesamiento al subir** (en este orden, en un *hook* de la operación de subida):
+2. **Procesamiento al subir** (en este orden, en un *hook* de la operación de subida, con `sharp.concurrency(1)` para no saturar memoria RAM):
    1. Validar el tipo real (JPEG por firma de bytes) y el tamaño (≤ 60 MB).
-   2. Calcular `huella` (SHA-256 del archivo recibido) y buscar duplicados.
-   3. Leer del EXIF **solo** `DateTimeOriginal`, `FocalLength`, `FNumber` y `ExposureTime`, y normalizarlos (§4).
-   4. `rotate()` según la orientación EXIF; convertir a sRGB (`toColorspace('srgb')`) e incrustar el perfil (`withIccProfile('srgb')`), sin `withMetadata`, `keepExif` ni `keepMetadata`.
-   5. Calcular `ancho`, `alto`, `proporcion` y `colorDominante` sobre la imagen orientada.
-   6. Generar las versiones (marco §6.2.2) y reducir el archivo principal a 2048 px de lado largo.
-   7. Precargar `formatos` con los activos compatibles.
+   2. Capturar `nombreArchivoOriginal` del archivo recibido para trazabilidad con Lightroom.
+   3. Calcular `huella` (SHA-256 del archivo recibido) y buscar duplicados.
+   4. Leer del EXIF **solo** `DateTimeOriginal`, `FocalLength`, `FNumber` y `ExposureTime`, y normalizarlos (§4).
+   5. `rotate()` según la orientación EXIF; convertir a sRGB (`toColorspace('srgb')`) e incrustar el perfil (`withIccProfile('srgb')`), sin `withMetadata`, `keepExif` ni `keepMetadata`.
+   6. Calcular `ancho`, `alto`, `proporcion` y `colorDominante` sobre la imagen orientada.
+   7. Generar las versiones (marco §6.2.2; AVIF con `effort: 3` balanceado) y reducir el archivo principal a 2048 px de lado largo.
    8. Descartar el archivo original recibido (marco §6.2.1).
 3. **Fecha de la toma.** `fecha` es un día calendario. Se guarda a las 12:00 America/Santiago (en UTC) para que ninguna conversión la mueva de día, y se muestra solo como fecha. Precisa el marco §6.2.11 para este campo.
 4. **Mínimos para publicar una `Foto`:** `titulo`, `lugar`, `fecha` y `coleccion`. La proporción y las versiones existen siempre, porque sin ellas la foto no se crea. Si falta algo, se rechaza el cambio a `publicada` con la lista de faltantes. Los formatos **no** son obligatorios.
@@ -318,7 +328,7 @@ Solo lectura en el panel, salvo borrar. No se guarda IP, nombre ni foto de la cu
    - Una `Coleccion` madre se lista si está `publicada` y tiene al menos una foto visible, propia o de sus hijas.
    - Una `Coleccion` hija se lista y tiene página propia si está `publicada`, su madre está `publicada`, `visibleSola = true` y tiene al menos una foto visible.
    - La vista de una madre muestra sus fotos propias (por `orden`) y luego las de cada hija `publicada` (hijas por `orden` y fotos por `orden`). La presentación (agrupada o continua) la decide `portafolio/galeria-colecciones.md`.
-6. **Compatibilidad de formatos.** Un `FormatoImpresion` es compatible con una `Foto` si `|valorFormato − valorFoto| / valorFoto ≤ 0,02`, comparando siempre lado largo / lado corto (independiente de la orientación). La validación corre al guardar la foto y al editar en bloque.
+6. **Selección y mancha de formatos.** Rod asocia manualmente a cada foto los formatos que desea ofrecer según la resolución y composición de la obra. En la ficha y la consulta, la foto mantiene íntegra su proporción nativa dentro del formato de papel elegido, calculando el área de imagen viva y respetando el margen perimetral blanco de conservación para enmarcado y firma de autor.
 7. **Oferta de copia.** Una foto ofrece copia si tiene al menos un formato `activo` con al menos un papel `activo`. Si no, es **de vitrina**: la ficha no muestra "Pedir una copia". Esto reemplaza "Tamaños a pedido" del marco §6.2.4.
 8. **Elección de papel** (para la ficha y la consulta): en cada formato ofrecido, si tiene dos o más papeles activos el interesado elige; si tiene uno, se informa sin pedir elección.
 9. **Jerarquía:** dos niveles como máximo (§4). La validación corre en el servidor (*hook* `beforeValidate`), no solo en la interfaz.
@@ -504,6 +514,7 @@ Para Claude Code, después del paso 1 del plan del marco (§9.2: base del proyec
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.6 | 2026-10-14 | Trazabilidad con `nombreArchivoOriginal` en `Foto`; catálogo de `FormatoImpresion` por medidas de hoja en cm con `margenMinimoCm` y asociación manual por foto (sin barrera ±2 %); enriquecimiento de `TipoPapel` (base, acabado, gramaje, libre de ácido); y optimización de memoria con `sharp.concurrency(1)` y AVIF `effort: 3`. |
 | 1.5 | 2026-10-14 | Cambio menor al aprobar `plataforma/despliegue.md` 1.0: tarjeta *Respaldo* en el dashboard (§3.4). |
 | 1.4 | 2026-10-14 | Cambio menor al aprobar `plataforma/seo.md` 1.0: `Foto.seo.descripcion`, pestaña SEO de `AjustesSitio`, máx. 160 en `descripcion` y revalidación de sitemap, robots y vistas previas. |
 | 1.3 | 2026-10-14 | Cambio menor al aprobar `paginas/paginas.md` 1.0: `Pagina` con `slugsAnteriores`, `contenidoActualizadoEn`, `reservada` y validaciones de protección; la semilla usa los textos de `paginas` (§3.2 y Anexos A y B). |

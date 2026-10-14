@@ -4,28 +4,30 @@
 
 | Ruta | Tipo | Versión | Estado | Producto | Padre | Dependencias |
 |---|---|---|---|---|---|---|
-| `marco-general/marco-general-proyecto.md` | marco | 1.8 | aprobado | v1.0 | — | — |
-| `identidad/sistema-de-diseno.md` | transversal | 1.0 | aprobado | v1.0 | marco-general | marco-general |
-| `contenido/modelo-contenido-panel.md` | componente | 1.5 | aprobado | v1.0 | marco-general | marco-general |
+| Ruta | Tipo | Versión | Estado | Producto | Padre | Dependencias |
+|---|---|---|---|---|---|---|
+| `marco-general/marco-general-proyecto.md` | marco | 1.9 | aprobado | v1.0 | — | — |
+| `identidad/sistema-de-diseno.md` | transversal | 1.1 | aprobado | v1.0 | marco-general | marco-general |
+| `contenido/modelo-contenido-panel.md` | componente | 1.6 | aprobado | v1.0 | marco-general | marco-general |
 | `portafolio/galeria-colecciones.md` | componente | 1.2 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
-| `portafolio/ficha-foto.md` | componente | 1.2 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
-| `consultas/consulta-copia.md` | componente | 1.3 | aprobado | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
-| `paginas/paginas.md` | componente | 1.2 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
-| `plataforma/seo.md` | transversal | 1.0 | aprobado | v1.0 | marco-general | galeria-colecciones, ficha-foto, paginas |
-| `plataforma/despliegue.md` | transversal | 1.0 | aprobado | v1.0 | marco-general | modelo-contenido-panel |
+| `portafolio/ficha-foto.md` | componente | 1.3 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
+| `consultas/consulta-copia.md` | componente | 1.4 | aprobado | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
+| `paginas/paginas.md` | componente | 1.3 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
+| `plataforma/seo.md` | transversal | 1.1 | aprobado | v1.0 | marco-general | galeria-colecciones, ficha-foto, paginas |
+| `plataforma/despliegue.md` | transversal | 1.1 | aprobado | v1.0 | marco-general | modelo-contenido-panel |
 
 ## Árbol
 
 ```
-marco-general/marco-general-proyecto.md        [aprobado 1.8]
-├── identidad/sistema-de-diseno.md             [aprobado 1.0]
-├── contenido/modelo-contenido-panel.md        [aprobado 1.5]
+marco-general/marco-general-proyecto.md        [aprobado 1.9]
+├── identidad/sistema-de-diseno.md             [aprobado 1.1]
+├── contenido/modelo-contenido-panel.md        [aprobado 1.6]
 ├── portafolio/galeria-colecciones.md          [aprobado 1.2]
-├── portafolio/ficha-foto.md                   [aprobado 1.2]
-├── consultas/consulta-copia.md                [aprobado 1.3]
-├── paginas/paginas.md                         [aprobado 1.2]
-├── plataforma/seo.md                          [aprobado 1.0]
-└── plataforma/despliegue.md                   [aprobado 1.0]
+├── portafolio/ficha-foto.md                   [aprobado 1.3]
+├── consultas/consulta-copia.md                [aprobado 1.4]
+├── paginas/paginas.md                         [aprobado 1.3]
+├── plataforma/seo.md                          [aprobado 1.1]
+└── plataforma/despliegue.md                   [aprobado 1.1]
 ```
 
 ## Tareas del dueño
@@ -40,6 +42,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.8]
 | T-008 | Crear cliente OAuth de Google Cloud para el inicio de sesión del panel | modelo-contenido-panel | abierta | 2026-10-07 |
 | T-010 | Verificar el sitio en Google Search Console y enviar el sitemap (al lanzar) | — | abierta | 2026-10-14 |
 | T-012 | Comprar el dominio .cl cuando decidas difundir el sitio (v1.x) | — | abierta | 2026-10-14 |
+| T-014 | Crear bot en Telegram con @BotFather y registrar TELEGRAM_BOT_TOKEN y TELEGRAM_CHAT_ID en Railway | — | abierta | 2026-10-14 |
 
 ### Contenido
 | Id | Tarea | Bloquea | Estado | Creada |
@@ -63,7 +66,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.8]
 {
   "esquema": "1.1",
   "proyecto": "Rod Díaz (Web_RodDiaz)",
-  "actualizado": "2026-10-14T13:20-03:00",
+  "actualizado": "2026-10-14T15:00-03:00",
   "fases": [
     {
       "id": "v1.0",
@@ -92,9 +95,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.8]
       "dependencias": [],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.8",
+      "version": "1.9",
       "actualizado": "2026-10-14",
-      "notas": "1.8: recuperación de acceso, respaldo y supresiones recientes, rutas de salud y respaldo, entornos y región (desde despliegue)."
+      "notas": "1.9: Canon PRO-1100, margen de conservación Fine Art, aviso push por Telegram, nombreArchivoOriginal, snapshots en consulta, antispam 1.8 s (T-014)."
     },
     {
       "id": "sistema-de-diseno",
@@ -108,9 +111,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.8]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.0",
-      "actualizado": "2026-10-07",
-      "notas": ""
+      "version": "1.1",
+      "actualizado": "2026-10-14",
+      "notas": "1.1: evaluación vertical/cuadrada en DisposicionFicha y doble toque 2.5x en Visor."
     },
     {
       "id": "modelo-contenido-panel",
@@ -124,9 +127,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.8]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.5",
+      "version": "1.6",
       "actualizado": "2026-10-14",
-      "notas": "1.5: tarjeta Respaldo en el dashboard (desde despliegue). Implementación requiere T-006 y T-008."
+      "notas": "1.6: nombreArchivoOriginal en Foto, FormatoImpresion con medidas en cm y margen mínimo, TipoPapel Fine Art enriquecido, Sharp concurrency(1) y AVIF effort 3."
     },
     {
       "id": "galeria-colecciones",
@@ -159,9 +162,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.8]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.2",
+      "version": "1.3",
       "actualizado": "2026-10-14",
-      "notas": "1.2: compilación sin base (desde despliegue)."
+      "notas": "1.3: leyenda de margen perimetral de conservación y firma; botón directo de WhatsApp en móviles."
     },
     {
       "id": "consulta-copia",
@@ -176,9 +179,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.8]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.3",
+      "version": "1.4",
       "actualizado": "2026-10-14",
-      "notas": "1.3: Borrar todas registra supresionesRecientes (desde despliegue)."
+      "notas": "1.4: snapshots en ItemConsulta, aviso push por bot de Telegram, antispam a 1.8 s para autocompletado móvil (T-014)."
     },
     {
       "id": "paginas",
@@ -193,9 +196,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.8]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.2",
+      "version": "1.3",
       "actualizado": "2026-10-14",
-      "notas": "1.2: frase de respaldos en la política de privacidad (desde despliegue). Lanzamiento requiere T-007."
+      "notas": "1.3: plazo flexible en derechos de datos para expediciones; recomendaciones de conservación y manipulación Fine Art en condiciones."
     },
     {
       "id": "seo",
@@ -211,9 +214,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.8]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.0",
+      "version": "1.1",
       "actualizado": "2026-10-14",
-      "notas": "Aprobado. Marco pasa a 1.7, modelo 1.4, consulta 1.2 y páginas 1.1 (§7). Nacen T-010 y T-011."
+      "notas": "1.1: lienzo Open Graph para fotos verticales con fondo desenfocado; unificación de tags de revalidación."
     },
     {
       "id": "despliegue",
@@ -227,9 +230,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.8]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.0",
+      "version": "1.1",
       "actualizado": "2026-10-14",
-      "notas": "Aprobado. Marco 1.8, modelo 1.5, consulta 1.3, páginas 1.2, galería 1.2 y ficha 1.2 (§7). Nacen T-012 y T-013; T-004 redefinida."
+      "notas": "1.1: variables de Telegram bot (T-014); nota de límite de memoria Sharp concurrency(1) en pruebas para 45 MP (T-013)."
     }
   ],
   "tareas": [
@@ -385,6 +388,17 @@ marco-general/marco-general-proyecto.md        [aprobado 1.8]
       "estado": "abierta",
       "creada": "2026-10-14",
       "cerrada": null
+    },
+    {
+      "id": "T-014",
+      "titulo": "Crear bot en Telegram con @BotFather y registrar TELEGRAM_BOT_TOKEN y TELEGRAM_CHAT_ID en Railway",
+      "categoria": "desarrollo",
+      "origen": "consulta-copia",
+      "bloquea": [],
+      "estado": "abierta",
+      "creada": "2026-10-14",
+      "cerrada": null,
+      "notas": "Aviso instantáneo push de consultas al Telegram de Rod."
     }
   ]
 }
@@ -395,6 +409,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.8]
 
 | Fecha | Cambio |
 |---|---|
+| 2026-10-14 | Auditoría integral y granular Fine Art / Tech Lead completada y aprobada por Rod. Actualización masiva de documentos: Canon PRO-1100, margen de conservación y ratios 3:2, papeles Fine Art enriquecidos, lienzo Open Graph para fotos verticales, aviso push por bot de Telegram, antispam móvil 1.8 s, snapshots en consultas, optimización de memoria Sharp. Marco 1.9, sistema-de-diseno 1.1, modelo-contenido-panel 1.6, ficha-foto 1.3, consulta-copia 1.4, paginas 1.3, seo 1.1, despliegue 1.1. Nace tarea T-014. |
 | 2026-10-07 | Creación del índice. Marco general en revisión (0.1); 8 documentos identificados; tareas T-001 a T-007. |
 | 2026-10-07 | Marco general 0.2: acceso con Google, aviso por Resend; T-002 redefinida; nueva T-008. |
 | 2026-10-07 | Marco general 0.3: se eliminan de la v1.0 el aviso por correo y la analítica; `seo-analitica` pasa a `seo`. T-001 hecha; T-002 y T-003 descartadas; T-004 redefinida. |

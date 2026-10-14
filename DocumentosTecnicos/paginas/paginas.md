@@ -4,11 +4,11 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/paginas/paginas.md` |
 | Tipo | Componente |
-| Versión | 1.2 |
+| Versión | 1.3 |
 | Estado | Aprobado |
 | Fecha | 2026-10-14 |
-| Padre | `marco-general/marco-general-proyecto.md` |
-| Dependencias | `identidad/sistema-de-diseno.md`, `contenido/modelo-contenido-panel.md` |
+| Padre | `marco-general/marco-general-proyecto.md` (1.9) |
+| Dependencias | `identidad/sistema-de-diseno.md` (1.1), `contenido/modelo-contenido-panel.md` (1.6), `consultas/consulta-copia.md` (1.4) |
 | Versión del producto | v1.0 |
 
 ## Índice
@@ -363,6 +363,7 @@ No hay código previo. Cambios a documentos aprobados que se aplican al aprobar 
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.3 | 2026-10-14 | Alineado con marco 1.9, consulta de copia 1.4 y ficha de foto 1.3: flexibilización de plazo de respuesta a derechos en política de privacidad (Anexo A) para resguardar expediciones fotográficas en terreno ("a la brevedad y dentro de los plazos legales vigentes"); incorporación de pautas de cuidado y preservación Fine Art (manipulación por bordes/guantes, materiales libres de ácido y protección UV) en condiciones de uso (Anexo B). |
 | 1.2 | 2026-10-14 | Cambio menor al aprobar `plataforma/despliegue.md` 1.0: la política de privacidad (Anexo A) indica que los respaldos pueden conservar un dato borrado hasta 45 días. |
 | 1.1 | 2026-10-14 | Cambio menor al aprobar `plataforma/seo.md` 1.0: `og` es ruta reservada y las páginas libres publicadas entran al mapa del sitio. |
 | 1.0 | 2026-10-14 | Aprobado por Rod. El marco general pasa a 1.6, el modelo de contenido a 1.3 y la consulta de copia a 1.1 con los cambios del §7. |
@@ -412,7 +413,7 @@ Sus servidores pueden estar fuera de Chile, así que tus datos pueden almacenars
 
 **Tus derechos**
 
-Puedes pedirme acceder a tus datos, corregirlos, borrarlos, oponerte a su uso, recibirlos en un formato que puedas llevarte o bloquearlos temporalmente. Escríbeme a {correo} desde el correo con el que enviaste la consulta y te respondo dentro de 2 días hábiles. Si no recibes respuesta o no estás de acuerdo con ella, puedes reclamar ante la autoridad que corresponda según la ley vigente.
+Puedes pedirme acceder a tus datos, corregirlos, borrarlos, oponerte a su uso, recibirlos en un formato que puedas llevarte o bloquearlos temporalmente. Escríbeme a {correo} desde el correo con el que enviaste la consulta y te respondo a la brevedad y dentro de los plazos legales vigentes. Si no recibes respuesta o no estás de acuerdo con ella, puedes reclamar ante la autoridad que corresponda según la ley vigente.
 
 **Novedades y promociones**
 
@@ -449,6 +450,8 @@ Si quieres usar una foto para un proyecto, una publicación o una marca, escríb
 **Las copias impresas**
 
 Lo que ves en el sitio no es una oferta de venta: los tamaños y papeles indican lo que se puede pedir. Cada copia se conversa uno a uno: te respondo con el valor, el plazo y la forma de envío antes de que decidas.
+
+Las copias se imprimen bajo estándares Fine Art con tintas de pigmento mineral de alta durabilidad y papeles libres de ácido de calidad de museo. Para preservar la obra a lo largo de décadas, se recomienda manipular la copia tomándola exclusivamente por los bordes (o utilizando guantes limpios de algodón) y realizar su enmarcado con materiales libres de ácido y vidrio con protección UV.
 
 Los colores en pantalla dependen de cada dispositivo, así que la copia impresa puede verse algo distinta.
 

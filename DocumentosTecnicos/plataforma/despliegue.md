@@ -4,11 +4,11 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/plataforma/despliegue.md` |
 | Tipo | Transversal |
-| Versión | 1.0 |
+| Versión | 1.1 |
 | Estado | Aprobado |
 | Fecha | 2026-10-14 |
-| Padre | `marco-general/marco-general-proyecto.md` |
-| Dependencias | `contenido/modelo-contenido-panel.md`, `plataforma/seo.md` (variables y host único) |
+| Padre | `marco-general/marco-general-proyecto.md` (1.9) |
+| Dependencias | `contenido/modelo-contenido-panel.md` (1.6), `plataforma/seo.md` (1.1) |
 | Versión del producto | v1.0 (el dominio propio y la difusión quedan en v1.x) |
 
 ## Índice
@@ -202,7 +202,7 @@ No hay entidades nuevas. El archivo de respaldo no es una entidad: se genera y s
    | Respaldos de Railway | Sí (§5.2.7) | No |
    | Recursos máximos de `sitio` | 2 GB de RAM, 2 vCPU | 1 GB de RAM, 1 vCPU |
 
-   Los máximos son topes: se cobra lo que se usa. Los 2 GB en producción cubren el pico de procesar un JPG de 45 MP con `sharp` en serie (modelo de contenido §5.5, criterio 21).
+   Los máximos son topes: se cobra lo que se usa. Los 2 GB en producción cubren el pico de procesar un JPG de 45 MP con `sharp` en serie (modelo de contenido §5.5, criterio 21). En `pruebas` (1 GB de RAM), para evitar saturación de memoria durante la ingesta de fotos de prueba de 45 MP (T-013), se aplica `sharp.concurrency(1)` y AVIF `effort: 3`.
 3. **Disparo de despliegues.** `railway.json` define `watchPatterns` con las rutas de código (`src/**`, `public/**`, `scripts/**`, `package.json`, el *lockfile*, `next.config.*`, `tsconfig.json`, `railway.json`). Un cambio solo en `DocumentosTecnicos/`, `README.md` o `CLAUDE.md` no despliega. Antes de cada push con código, Claude Code compila y corre las pruebas en local.
 4. **Migraciones.** En producción y pruebas la base se modifica solo con migraciones de Payload versionadas en `src/migraciones/`, ejecutadas por el comando previo al despliegue (`payload migrate`). El modo *push* automático de esquema queda solo para desarrollo local. Las migraciones son **aditivas**: una columna se quita en dos promociones (primero deja de usarse, después se borra), para que el *rollback* siempre funcione con la base ya migrada.
 5. **Promoción a producción.** Se despliega en producción el **mismo commit** que está corriendo en pruebas y pasó su revisión, con el visto bueno de Rod en el chat. Se hace con la CLI o la herramienta de Railway ("desplegar commit"). Cada promoción se anota en `_ESTADO_PROYECTO.md` cuando cambia algo visible.
@@ -308,8 +308,10 @@ El gestor de paquetes y su *lockfile* son los que elija la implementación base 
 | `TAREAS_AUTOMATICAS` | `true` | `false` | No |
 | `NEXT_TELEMETRY_DISABLED` | `1` | `1` | No |
 | `TZ` | `UTC` | `UTC` | No |
+| `TELEGRAM_BOT_TOKEN` | Token del bot de Telegram (`@BotFather`, T-014) | Opcional (o token de pruebas) | Sí |
+| `TELEGRAM_CHAT_ID` | ID de chat o canal de Telegram para avisos | Opcional | Sí |
 
-`src/lib/entorno.ts` valida al iniciar que existan todas; si falta una, el servicio no arranca y el chequeo de salud impide que la versión entre en servicio. Los secretos se cargan con la herramienta de Railway o la CLI, nunca en el repositorio; `.env.ejemplo` solo trae los nombres.
+`src/lib/entorno.ts` valida al iniciar que existan las variables obligatorias; si falta una, el servicio no arranca y el chequeo de salud impide que la versión entre en servicio. Las variables de Telegram (`TELEGRAM_BOT_TOKEN` y `TELEGRAM_CHAT_ID`) son opcionales: si no se configuran, las consultas se guardan normalmente sin disparar notificación push. Los secretos se cargan con la herramienta de Railway o la CLI, nunca en el repositorio; `.env.ejemplo` solo trae los nombres.
 
 **Seguridad**
 
@@ -384,7 +386,7 @@ Para Claude Code. Los pasos 1 a 3 se hacen junto con la base del proyecto (marco
 
 | # | Paso | Depende de | Terminado cuando |
 |---|---|---|---|
-| 1 | `src/lib/entorno.ts`, `.env.ejemplo`, `GET /api/salud` y `TZ=UTC`. | Base del proyecto | Sin una variable, `pnpm start` falla con un mensaje claro; `/api/salud` da 200 con la base local y 503 sin ella. |
+| 1 | `src/lib/entorno.ts`, `.env.ejemplo`, `GET /api/salud` y `TZ=UTC`. | Base del proyecto | Sin una variable, `pnpm start` falla con un mensaje claro; `/api/salud` da 200 con la base de datos y 503 sin ella. |
 | 2 | Migraciones de Payload en `src/migraciones/` desde el primer esquema; *push* solo en local. | Modelo de contenido, paso 2 | `pnpm payload migrate` sobre una base vacía crea todo el esquema. |
 | 3 | Compilación sin base (§5.2.6): `generateStaticParams` vacío en compilación y `instrumentation.ts` con calentamiento. | 1 | `pnpm build` termina con la base apagada; al iniciar se ven en el registro los pedidos de calentamiento. |
 | 4 | Proyecto `web-roddiaz` en Railway con la región, entornos, servicios, volúmenes, recursos máximos y direcciones del §5.2.1 y §5.2.2; conexión con el repositorio (si la app de Railway no tiene acceso al repositorio, se le pide a Rod el permiso mínimo). | 1 a 3 | El proyecto existe con dos entornos y la región correcta. |
@@ -463,6 +465,7 @@ Para Claude Code. Los pasos 1 a 3 se hacen junto con la base del proyecto (marco
 | T-008 | desarrollo | (Existente) Cliente OAuth de Google. Al implementarlo se agregan las URI de pruebas y de producción. | Paso 6 |
 | T-012 | desarrollo | **Nueva.** Comprar el dominio `.cl` cuando decidas difundir el sitio (v1.x; unos 10.000 CLP al año en NIC Chile, a confirmar al comprar). | Difusión (v1.x) |
 | T-013 | contenido | **Nueva.** Entregar 3 JPG de prueba exportados desde Lightroom: uno de 45 MP vertical, uno en Adobe RGB y uno con GPS. | Paso 12 |
+| T-014 | desarrollo | **Nueva.** Crear bot en Telegram con @BotFather y registrar `TELEGRAM_BOT_TOKEN` y `TELEGRAM_CHAT_ID` en Railway. | Aviso de consultas |
 | T-005, T-006, T-007, T-009, T-011 | contenido | (Existentes) Fotos, catálogo, Sobre mí, portada y descripción del sitio. | Lanzamiento |
 | T-010 | desarrollo | (Existente, de `seo`) Search Console al lanzar. | — |
 
@@ -470,5 +473,6 @@ Para Claude Code. Los pasos 1 a 3 se hacen junto con la base del proyecto (marco
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.1 | 2026-10-14 | Alineado con marco 1.9, modelo de contenido 1.6 y consulta de copia 1.4: variables opcionales `TELEGRAM_BOT_TOKEN` y `TELEGRAM_CHAT_ID` para avisos push instantáneos de consultas (T-014); nota de límite de memoria `sharp.concurrency(1)` y AVIF `effort: 3` en entorno de pruebas (1 GB RAM) para ingesta de fotos de 45 MP (T-013). |
 | 1.0 | 2026-10-14 | Aprobado por Rod. Marco general pasa a 1.8, modelo de contenido a 1.5, consulta de copia a 1.3, páginas a 1.2, galería a 1.2 y ficha a 1.2 (§7). Nacen T-012 y T-013; T-004 queda con los valores de §5.2.10. |
 | 0.1 | 2026-10-14 | Borrador inicial. Decisiones de Rod: subdominio indexado sin difundir hasta el dominio; despliegue solo con cambios de código; entornos producción y pruebas con promoción manual; respaldos de Railway más descarga mensual desde el panel; aviso USD 25 y tope USD 40. Ley 21.719 reverificada. Alineado con `seo` 1.0 (aprobado en paralelo): `ENTORNO` en vez de una variable propia, excepción de `/api/salud` en el host único, mudanza según `seo` §5.2.4 con el subdominio redirigiendo 12 meses y lista de lanzamiento con T-010 y T-011; tareas nuevas renumeradas T-012 y T-013. |
