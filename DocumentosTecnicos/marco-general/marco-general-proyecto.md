@@ -4,7 +4,7 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/marco-general/marco-general-proyecto.md` |
 | Tipo | Marco general |
-| Versión | 1.3 |
+| Versión | 1.4 |
 | Estado | Aprobado |
 | Fecha | 2026-10-14 |
 | Padre | — |
@@ -172,8 +172,9 @@ Relaciones clave:
 | `/fotos` | Todas las fotos publicadas, con filtro por `Caracteristica` (`?caracteristica=<slug>`) y página siguiente (`?pagina=N`). |
 | `/colecciones/[slug]` | Una colección, en el orden definido por Rod, con los mismos parámetros que `/fotos`. |
 | `GET /datos/fotos` | Siguiente página de fotos para el scroll infinito (`portafolio/galeria-colecciones.md` §5.3). |
-| `/fotos/[slug]` | Ficha de foto con la llamada a "Pedir una copia". |
-| `/consulta` (o modal en la ficha) | Formulario de consulta. Se define en su documento. |
+| `/fotos/[slug]` | Ficha de foto con la llamada a "Pedir una copia". Lee el contexto `?coleccion=` y `?caracteristica=` en el navegador (`portafolio/ficha-foto.md` §5.2.2). |
+| `GET /datos/contexto` | Lista del contexto de una foto para la navegación y el visor (`portafolio/ficha-foto.md` §5.3). |
+| `/consulta?foto=<slug>&formato=<id>` (o modal en la ficha) | Formulario de consulta. La ficha enlaza a esta URL (`formato` opcional); modal o página se define en `consultas/consulta-copia.md`. |
 | `/sobre-mi`, `/contacto`, `/[slug]` | Páginas. |
 | `/admin` | Panel Payload, solo para Rod. |
 | `/api/...` | API de Payload y endpoint de envío de consultas. |
@@ -336,6 +337,7 @@ Los documentos 1 y 2 quedan desbloqueados en paralelo al aprobar el marco. Se re
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.4 | 2026-10-14 | Cambio menor al aprobar `portafolio/ficha-foto.md` 1.0: §6.3 agrega `GET /datos/contexto` y el destino `/consulta?foto=<slug>&formato=<id>`. |
 | 1.3 | 2026-10-14 | Cambios menores al aprobar `portafolio/galeria-colecciones.md` 1.0: las grillas de fotos no recortan (filas justificadas) y solo las tarjetas de colección recortan a 4:5 con punto focal (§5); `Foto.fijada`, `Foto.ordenFijada` y punto focal (§6.1); rutas `/colecciones`, `?pagina=`, filtro en colecciones y `GET /datos/fotos` (§6.3). |
 | 1.2 | 2026-10-13 | Cambios al aprobar `contenido/modelo-contenido-panel.md` 1.0: una sola `Coleccion` por `Foto` (obligatoria para publicar) y jerarquía de dos niveles (`padre`, `visibleSola`, `orden`, estado `borrador`/`publicada`); `datosTecnicos` reducido a distancia focal, apertura y velocidad; `FormatoImpresion` por lado corto × lado largo con `papeles`; se elimina `Foto.papeles`; fotos de vitrina sin copia en lugar de "Tamaños a pedido"; solo JPEG; nuevas entidades `Medio` e `IntentoAcceso`; `Foto.slugsAnteriores`, `publicadaEn` y `posibleDuplicado`; `AjustesSitio.textoVitrina`; duplicados con aviso posterior. |
 | 1.1 | 2026-10-07 | Cambios menores al aprobar `identidad/sistema-de-diseno.md` 1.0: nombre del sitio "Rod Díaz"; campos `AjustesSitio.logo` y `Foto.filete`; se conserva el perfil ICC sRGB en las versiones web; visor a pantalla completa en la ficha (v1.0). |

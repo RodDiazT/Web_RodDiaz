@@ -4,11 +4,11 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/portafolio/ficha-foto.md` |
 | Tipo | Componente |
-| Versión | 0.1 |
-| Estado | En revisión |
+| Versión | 1.0 |
+| Estado | Aprobado |
 | Fecha | 2026-10-14 |
-| Padre | `marco-general/marco-general-proyecto.md` (1.3) |
-| Dependencias | `identidad/sistema-de-diseno.md` (1.0), `contenido/modelo-contenido-panel.md` (1.1), `portafolio/galeria-colecciones.md` (1.0) |
+| Padre | `marco-general/marco-general-proyecto.md` (1.4, que incorpora los cambios del §11) |
+| Dependencias | `identidad/sistema-de-diseno.md` (1.0), `contenido/modelo-contenido-panel.md` (1.1), `portafolio/galeria-colecciones.md` (1.1) |
 | Versión del producto | v1.0 |
 
 ## Índice
@@ -386,7 +386,7 @@ No hay código previo. Este documento precisa o completa estas definiciones:
 | Marco 1.3 §6.3 | Rutas sin `GET /datos/contexto`; `/consulta` "(o modal en la ficha)" sin parámetros | Se agrega `GET /datos/contexto`. El destino de la llamada es `/consulta?foto=<slug>&formato=<id>`; `consulta-copia` decide modal o página (D-01 sigue abierta). Cambio menor: marco 1.4 al aprobar. |
 | Sistema de diseño 1.0 §5.3.1 | "Si conviene una barra fija inferior, la decide `portafolio/ficha-foto.md`" | Decidida: barra que aparece cuando el botón principal sale por arriba (§3.2). No cambia el sistema de diseño. |
 | Sistema de diseño 1.0, riesgo SD-07 y SD-08 | Historia larga en la columna; llamada inadvertida en móvil | Mitigados con la historia plegada (§3.4) y la barra móvil (§3.2). |
-| Galería 1.0 §5.2.9 | Desde una colección se pasa solo `?coleccion=`, aunque haya filtro | Propuesta de cambio menor (galería 1.1): con filtro activo en una colección, el enlace lleva `?coleccion=<slug>&caracteristica=<slug>` (O-2). |
+| Galería 1.0 §5.2.9 | Desde una colección se pasa solo `?coleccion=`, aunque haya filtro | Cambio menor aplicado (galería 1.1): con filtro activo en una colección, el enlace lleva `?coleccion=<slug>&caracteristica=<slug>` (O-2). |
 | Modelo de contenido 1.1, decisión abierta sobre `textoVitrina` y elección de papel | "Uso de `textoVitrina`… y cómo se muestra la elección de papel" | Resuelto en §3.1, §3.3 y §5.2.9. |
 
 ## 8. Plan de acción
@@ -443,8 +443,8 @@ Para Claude Code, en el paso 4 del plan del marco (§9.2), después de la galer�
 
 **Decisiones abiertas**
 
-- **D-F1.** ¿La frase "Cada copia muestra la foto completa, sin recortes" es correcta con tu forma de imprimir? Si dudas, se reemplaza por "Proporción 2:3" sola. No bloquea la implementación (es un rótulo).
-- **D-F2.** ¿El atributo `datetime` puede llevar el día exacto (invisible en pantalla, visible en el código)? Por defecto sí; si prefieres, solo año y mes.
+- **D-F1 (resuelta).** Se mantiene la frase "Cada copia muestra la foto completa, sin recortes". Si el proveedor de impresión no lo permite, se cambia el rótulo por "Proporción 2:3" (cambio menor, riesgo FF-04).
+- **D-F2 (resuelta).** El atributo `datetime` lleva el día exacto; en pantalla, solo mes y año.
 - Para `consultas/consulta-copia.md`: aceptar `/consulta?foto=<slug>&formato=<id>`, mostrar el formato preseleccionado, resolver una foto despublicada en la URL y decidir modal o página (D-01).
 - Para `plataforma/seo.md`: código de estado de la página amable (404 o 410), título y descripción de la ficha, Open Graph con la versión de 1200 px y datos estructurados.
 
@@ -453,7 +453,7 @@ Para Claude Code, en el paso 4 del plan del marco (§9.2), después de la galer�
 - **P-01 (v1.x).** Vista previa de una foto en borrador desde el panel (modo borrador de Next.js con Payload), para revisar la ficha antes de publicar. Costo: bajo, sin servicios nuevos.
 - **P-02 (v1.x o futuro).** "Así se ve en tu pared": la foto sobre una pared neutra con una silueta de referencia, a escala según el tamaño elegido. Ayuda a decidir el tamaño. Costo: medio, sin servicios nuevos.
 
-**Cambios a otros documentos al aprobar** (cambios menores, sin cambio de alcance)
+**Cambios a otros documentos** (aplicados al aprobar; cambios menores, sin cambio de alcance)
 
 1. Marco general → 1.4: §6.3 agrega `GET /datos/contexto` y el destino `/consulta?foto=<slug>&formato=<id>`.
 2. Galería y colecciones → 1.1: §5.2.9, el enlace desde una colección con filtro activo lleva ambos parámetros (O-2).
@@ -466,4 +466,5 @@ No nacen tareas nuevas. Para lanzar, siguen abiertas T-005 (fotos de lanzamiento
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.0 | 2026-10-14 | Aprobado por Rod. D-F1 y D-F2 quedan con sus valores por defecto. El marco general pasa a 1.4 y la galería a 1.1 con los cambios del §11. |
 | 0.1 | 2026-10-14 | Borrador inicial. Decisiones de Rod: tamaños con resumen de una línea y desplegable; elección de tamaño opcional que se lleva a la consulta; barra fija móvil que aparece al pasar el botón; fecha en mes y año; historia plegada con "Leer más"; características como enlaces; datos técnicos en una línea discreta; botón compartir nativo; "Más de <colección>" bajo la ficha; vitrina con `textoVitrina` o nada; "Pedir una copia" en el visor. Revisión con las guías de diseño de interfaces (transiciones interrumpibles, salida más rápida que la entrada, sin animar acciones de teclado). |

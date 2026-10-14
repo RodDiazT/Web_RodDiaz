@@ -4,7 +4,7 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/portafolio/galeria-colecciones.md` |
 | Tipo | Componente |
-| Versión | 1.0 |
+| Versión | 1.1 |
 | Estado | Aprobado |
 | Fecha | 2026-10-14 |
 | Padre | `marco-general/marco-general-proyecto.md` (1.3, que incorpora los cambios del §11) |
@@ -265,7 +265,7 @@ Token nuevo de este componente (en `GrillaFotos.module.css`, a partir de los tok
 6. **Chips en una colección:** se muestran si el conjunto de fotos visibles de la colección (en una madre, propias más hijas) reúne **dos o más** características distintas. En `/fotos` se muestran siempre que exista al menos una característica con fotos visibles.
 7. **Conteo de una tarjeta:** fotos visibles de la colección y, si es madre, de sus hijas publicadas, tengan o no página propia.
 8. **Tamaño de página:** 30 fotos. Se pagina por **cursor** (la clave de orden de la última foto entregada), no por desplazamiento, para que las publicaciones nuevas no repitan ni salten fotos. La URL `?pagina=N` de la versión sin JavaScript se resuelve en el servidor contando desde el inicio.
-9. **Contexto hacia la ficha.** El enlace de cada foto lleva el contexto de la lista de origen: `?coleccion=<slug>` desde una colección, `?caracteristica=<slug>` desde `/fotos` filtrado, y sin parámetro desde `/fotos`, la portada o las destacadas. El contexto de las destacadas es "todas las fotos". `ficha-foto` lo usa para "Anterior/Siguiente" y para el `Visor`. La URL canónica de la ficha no lleva parámetros (`plataforma/seo.md`).
+9. **Contexto hacia la ficha.** El enlace de cada foto lleva el contexto de la lista de origen: `?coleccion=<slug>` desde una colección (y `&caracteristica=<slug>` si la colección tiene un filtro activo), `?caracteristica=<slug>` desde `/fotos` filtrado, y sin parámetro desde `/fotos`, la portada o las destacadas. El contexto de las destacadas es "todas las fotos". `ficha-foto` lo usa para "Anterior/Siguiente" y para el `Visor`. La URL canónica de la ficha no lleva parámetros (`plataforma/seo.md`).
 10. **Datos, no código.** Los nombres, descripciones y conteos salen de los datos. Los rótulos de interfaz ("Colecciones", "Fotos", "Destacadas", "Más fotos", "Reintentar", "Ver colección" y los textos de estado vacío) son parte del código, como los del sistema de diseño (§5.4).
 
 ### 5.3 Interfaces
@@ -464,5 +464,6 @@ Para Claude Code, en el paso 4 del plan del marco (§9.2), después del modelo d
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.1 | 2026-10-14 | Cambio menor al aprobar `portafolio/ficha-foto.md` 1.0: desde una colección con filtro activo, el enlace a la ficha lleva `?coleccion=` y `&caracteristica=` (§5.2.9). |
 | 1.0 | 2026-10-14 | Aprobado por Rod. El marco general pasa a 1.3 y el modelo de contenido a 1.1 con los cambios del §11; nace T-009. |
 | 0.1 | 2026-10-14 | Borrador inicial. Decisiones de Rod: filas justificadas sin recorte; portada con foto fija elegida por Rod, luego colecciones y destacadas; madre agrupada por secciones de hijas; `/fotos` por publicación más reciente con fotos fijadas arriba en su orden; título y lugar solo al pasar el mouse; scroll infinito; página `/colecciones` en el encabezado; filtro por característica en `/fotos` y en cada colección; la invitación a pedir copia vive solo en la ficha; tarjetas de colección recortadas a 4:5 con punto focal. |
