@@ -7,7 +7,6 @@
       "scripts/**",
       "package.json",
       "pnpm-lock.yaml",
-      "pnpm-workspace.yaml",
       "next.config.*",
       "tsconfig.json",
       "railway.json"
