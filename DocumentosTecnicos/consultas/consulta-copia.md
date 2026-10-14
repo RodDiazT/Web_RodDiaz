@@ -4,7 +4,7 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/consultas/consulta-copia.md` |
 | Tipo | Componente |
-| Versión | 1.2 |
+| Versión | 1.3 |
 | Estado | Aprobado |
 | Fecha | 2026-10-14 |
 | Padre | `marco-general/marco-general-proyecto.md` (1.5) |
@@ -304,7 +304,7 @@ No guarda teléfono, ciudad ni mensaje. La baja **borra** el registro (§5.2.13)
 9. **Derechos del interesado** (marco §7.1). El interesado escribe a `AjustesSitio.correoContacto`. Rod, en *Consultas*, busca por el correo y usa la acción **"Datos de este correo"**, que muestra cuántas consultas hay y ofrece:
    - **Acceso:** "Descargar" genera un archivo `.txt` legible con todas sus consultas (datos, ítems, mensaje, fechas, estado; sin notas internas que no sean datos del titular, ver §11 D-C2), que Rod adjunta a su respuesta.
    - **Rectificación:** Rod edita los campos de la consulta.
-   - **Supresión u oposición:** "Borrar todas" elimina, tras confirmar escribiendo el correo, todas las consultas de ese correo y su `Suscriptor`, si existe. La oposición solo a promociones es "Dar de baja" (§5.2.13).
+   - **Supresión u oposición:** "Borrar todas" elimina, tras confirmar escribiendo el correo, todas las consultas de ese correo y su `Suscriptor`, si existe, y agrega el resumen SHA-256 del correo a `AjustesSitio.supresionesRecientes` (lo limpia la tarea diaria a los 45 días; `plataforma/despliegue.md` §6). La oposición solo a promociones es "Dar de baja" (§5.2.13).
    - Rod responde por correo; el plazo y el procedimiento visible para el interesado los fija la política de privacidad (`paginas/paginas.md`).
 10. **Borrado programado.** Una tarea diaria (`src/tareas/borrarConsultasVencidas.ts`, cola de trabajos de Payload a las 04:00 America/Santiago) borra las consultas con `eliminarDespuesDe` vencido y deja en el registro del servicio solo el número borrado, sin datos personales.
 11. **Fechas.** Instantes en UTC; el panel y el éxito muestran America/Santiago (marco §6.2.11). El panel se configura con zona horaria por defecto America/Santiago.
@@ -543,6 +543,7 @@ No nacen tareas nuevas: los textos tienen valores por defecto. Para lanzar sigue
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.3 | 2026-10-14 | Cambio menor al aprobar `plataforma/despliegue.md` 1.0: "Borrar todas" registra el resumen del correo en `AjustesSitio.supresionesRecientes`. |
 | 1.2 | 2026-10-14 | Cambio menor al aprobar `plataforma/seo.md` 1.0: `origen` acepta `licencia`. |
 | 1.1 | 2026-10-14 | Cambio menor al aprobar `paginas/paginas.md` 1.0: `versionPolitica` se toma de `Pagina.contenidoActualizadoEn`. |
 | 1.0 | 2026-10-14 | Aprobado por Rod. D-C1 a D-C3 con sus valores por defecto. El marco general pasa a 1.5, el modelo de contenido a 1.2 y la ficha a 1.1 con los cambios del §11. |

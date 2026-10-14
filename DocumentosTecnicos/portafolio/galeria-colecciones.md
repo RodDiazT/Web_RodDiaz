@@ -4,7 +4,7 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/portafolio/galeria-colecciones.md` |
 | Tipo | Componente |
-| Versión | 1.1 |
+| Versión | 1.2 |
 | Estado | Aprobado |
 | Fecha | 2026-10-14 |
 | Padre | `marco-general/marco-general-proyecto.md` (1.3, que incorpora los cambios del §11) |
@@ -276,7 +276,7 @@ Token nuevo de este componente (en `GrillaFotos.module.css`, a partir de los tok
 |---|---|---|
 | `/` | Estática con revalidación por etiquetas | §3.1 |
 | `/colecciones` (nueva) | Estática con revalidación | §3.2 |
-| `/colecciones/[slug]` | Estática (`generateStaticParams` de las colecciones listadas) con revalidación | §3.3. Con `?caracteristica=` o `?pagina=` se genera a pedido y se guarda en caché con las mismas etiquetas. |
+| `/colecciones/[slug]` | Estática (`generateStaticParams` de las colecciones listadas, que devuelve una lista vacía durante la compilación: `plataforma/despliegue.md` §5.2.6) con revalidación | §3.3. Con `?caracteristica=` o `?pagina=` se genera a pedido y se guarda en caché con las mismas etiquetas. |
 | `/fotos` | Estática con revalidación | §3.4. Con `?caracteristica=` o `?pagina=`, igual que arriba. |
 | `GET /datos/fotos` (nueva) | Manejador de ruta con caché por etiquetas | Siguiente página para el scroll infinito. |
 
@@ -464,6 +464,7 @@ Para Claude Code, en el paso 4 del plan del marco (§9.2), después del modelo d
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.2 | 2026-10-14 | Cambio menor al aprobar `plataforma/despliegue.md` 1.0: la compilación no consulta la base; las rutas se generan al primer pedido y el calentamiento cubre las principales (§5.3). |
 | 1.1 | 2026-10-14 | Cambio menor al aprobar `portafolio/ficha-foto.md` 1.0: desde una colección con filtro activo, el enlace a la ficha lleva `?coleccion=` y `&caracteristica=` (§5.2.9). |
 | 1.0 | 2026-10-14 | Aprobado por Rod. El marco general pasa a 1.3 y el modelo de contenido a 1.1 con los cambios del §11; nace T-009. |
 | 0.1 | 2026-10-14 | Borrador inicial. Decisiones de Rod: filas justificadas sin recorte; portada con foto fija elegida por Rod, luego colecciones y destacadas; madre agrupada por secciones de hijas; `/fotos` por publicación más reciente con fotos fijadas arriba en su orden; título y lugar solo al pasar el mouse; scroll infinito; página `/colecciones` en el encabezado; filtro por característica en `/fotos` y en cada colección; la invitación a pedir copia vive solo en la ficha; tarjetas de colección recortadas a 4:5 con punto focal. |

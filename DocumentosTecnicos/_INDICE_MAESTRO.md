@@ -4,28 +4,28 @@
 
 | Ruta | Tipo | Versión | Estado | Producto | Padre | Dependencias |
 |---|---|---|---|---|---|---|
-| `marco-general/marco-general-proyecto.md` | marco | 1.7 | aprobado | v1.0 | — | — |
+| `marco-general/marco-general-proyecto.md` | marco | 1.8 | aprobado | v1.0 | — | — |
 | `identidad/sistema-de-diseno.md` | transversal | 1.0 | aprobado | v1.0 | marco-general | marco-general |
-| `contenido/modelo-contenido-panel.md` | componente | 1.4 | aprobado | v1.0 | marco-general | marco-general |
-| `portafolio/galeria-colecciones.md` | componente | 1.1 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
-| `portafolio/ficha-foto.md` | componente | 1.1 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
-| `consultas/consulta-copia.md` | componente | 1.2 | aprobado | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
-| `paginas/paginas.md` | componente | 1.1 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
+| `contenido/modelo-contenido-panel.md` | componente | 1.5 | aprobado | v1.0 | marco-general | marco-general |
+| `portafolio/galeria-colecciones.md` | componente | 1.2 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
+| `portafolio/ficha-foto.md` | componente | 1.2 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
+| `consultas/consulta-copia.md` | componente | 1.3 | aprobado | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
+| `paginas/paginas.md` | componente | 1.2 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `plataforma/seo.md` | transversal | 1.0 | aprobado | v1.0 | marco-general | galeria-colecciones, ficha-foto, paginas |
-| `plataforma/despliegue.md` | transversal | 0.1 | revision | v1.0 | marco-general | modelo-contenido-panel |
+| `plataforma/despliegue.md` | transversal | 1.0 | aprobado | v1.0 | marco-general | modelo-contenido-panel |
 
 ## Árbol
 
 ```
-marco-general/marco-general-proyecto.md        [aprobado 1.7]
+marco-general/marco-general-proyecto.md        [aprobado 1.8]
 ├── identidad/sistema-de-diseno.md             [aprobado 1.0]
-├── contenido/modelo-contenido-panel.md        [aprobado 1.4]
-├── portafolio/galeria-colecciones.md          [aprobado 1.1]
-├── portafolio/ficha-foto.md                   [aprobado 1.1]
-├── consultas/consulta-copia.md                [aprobado 1.2]
-├── paginas/paginas.md                         [aprobado 1.1]
+├── contenido/modelo-contenido-panel.md        [aprobado 1.5]
+├── portafolio/galeria-colecciones.md          [aprobado 1.2]
+├── portafolio/ficha-foto.md                   [aprobado 1.2]
+├── consultas/consulta-copia.md                [aprobado 1.3]
+├── paginas/paginas.md                         [aprobado 1.2]
 ├── plataforma/seo.md                          [aprobado 1.0]
-└── plataforma/despliegue.md                   [revision 0.1]
+└── plataforma/despliegue.md                   [aprobado 1.0]
 ```
 
 ## Tareas del dueño
@@ -36,9 +36,10 @@ marco-general/marco-general-proyecto.md        [aprobado 1.7]
 | T-001 | Crear el repositorio privado RodDiazT/Web_RodDiaz en GitHub y dar acceso a la app de Claude | — | hecha (2026-10-07) | 2026-10-07 |
 | T-002 | Crear cuenta gratis en Resend con rodrigodiaztapia@gmail.com y generar clave de API | consulta-copia | descartada (2026-10-07) | 2026-10-07 |
 | T-003 | Crear cuenta gratis de Cloudflare y activar Web Analytics | seo | descartada (2026-10-07) | 2026-10-07 |
-| T-004 | Revisar en la facturación de Railway el consumo actual y fijar un límite de gasto mensual (plan Pro confirmado) | despliegue | abierta | 2026-10-07 |
+| T-004 | Revisar en la facturación de Railway el consumo actual y fijar en Usage Limits un aviso de USD 25 y un tope de USD 40 | despliegue | abierta | 2026-10-07 |
 | T-008 | Crear cliente OAuth de Google Cloud para el inicio de sesión del panel | modelo-contenido-panel | abierta | 2026-10-07 |
 | T-010 | Verificar el sitio en Google Search Console y enviar el sitemap (al lanzar) | — | abierta | 2026-10-14 |
+| T-012 | Comprar el dominio .cl cuando decidas difundir el sitio (v1.x) | — | abierta | 2026-10-14 |
 
 ### Contenido
 | Id | Tarea | Bloquea | Estado | Creada |
@@ -48,6 +49,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.7]
 | T-007 | Escribir el texto de Sobre mí y elegir foto de perfil | paginas | abierta | 2026-10-07 |
 | T-009 | Elegir la foto de portada, marcar al menos 6 destacadas, revisar portada y punto focal de cada colección y fijar fotos (opcional) | despliegue | abierta | 2026-10-14 |
 | T-011 | Escribir la descripción del sitio en Ajustes (máx. 160 caracteres: qué fotografías y dónde) | despliegue | abierta | 2026-10-14 |
+| T-013 | Entregar 3 JPG de prueba exportados desde Lightroom: uno de 45 MP vertical, uno en Adobe RGB y uno con GPS | despliegue | abierta | 2026-10-14 |
 
 ### Negocio
 | Id | Tarea | Bloquea | Estado | Creada |
@@ -61,7 +63,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.7]
 {
   "esquema": "1.1",
   "proyecto": "Rod Díaz (Web_RodDiaz)",
-  "actualizado": "2026-10-14T14:45-03:00",
+  "actualizado": "2026-10-14T13:20-03:00",
   "fases": [
     {
       "id": "v1.0",
@@ -90,9 +92,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.7]
       "dependencias": [],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.7",
+      "version": "1.8",
       "actualizado": "2026-10-14",
-      "notas": "1.7: Foto.seo.descripcion, pestaña SEO de AjustesSitio, rutas /og, URL_SITIO, Search Console (desde seo)."
+      "notas": "1.8: recuperación de acceso, respaldo y supresiones recientes, rutas de salud y respaldo, entornos y región (desde despliegue)."
     },
     {
       "id": "sistema-de-diseno",
@@ -122,9 +124,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.7]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.4",
+      "version": "1.5",
       "actualizado": "2026-10-14",
-      "notas": "1.4: Foto.seo.descripcion, pestaña SEO y revalidación de sitemap, robots y /og (desde seo). Implementación requiere T-006 y T-008."
+      "notas": "1.5: tarjeta Respaldo en el dashboard (desde despliegue). Implementación requiere T-006 y T-008."
     },
     {
       "id": "galeria-colecciones",
@@ -139,9 +141,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.7]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.1",
+      "version": "1.2",
       "actualizado": "2026-10-14",
-      "notas": "1.1: contexto con filtro desde una colección (desde ficha-foto)."
+      "notas": "1.2: compilación sin base (desde despliegue)."
     },
     {
       "id": "ficha-foto",
@@ -157,9 +159,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.7]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.1",
+      "version": "1.2",
       "actualizado": "2026-10-14",
-      "notas": "1.1: enlace a la consulta con origen (desde consulta-copia)."
+      "notas": "1.2: compilación sin base (desde despliegue)."
     },
     {
       "id": "consulta-copia",
@@ -174,9 +176,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.7]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.2",
+      "version": "1.3",
       "actualizado": "2026-10-14",
-      "notas": "1.2: origen licencia (desde seo)."
+      "notas": "1.3: Borrar todas registra supresionesRecientes (desde despliegue)."
     },
     {
       "id": "paginas",
@@ -191,9 +193,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.7]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.1",
+      "version": "1.2",
       "actualizado": "2026-10-14",
-      "notas": "1.1: og reservada y páginas libres en el sitemap (desde seo). Lanzamiento requiere T-007."
+      "notas": "1.2: frase de respaldos en la política de privacidad (desde despliegue). Lanzamiento requiere T-007."
     },
     {
       "id": "seo",
@@ -224,10 +226,10 @@ marco-general/marco-general-proyecto.md        [aprobado 1.7]
         "modelo-contenido-panel"
       ],
       "fase": "v1.0",
-      "estado": "revision",
-      "version": "0.1",
+      "estado": "aprobado",
+      "version": "1.0",
       "actualizado": "2026-10-14",
-      "notas": "Borrador: producción y pruebas en US East, promoción manual, respaldos de Railway y descarga desde el panel, aviso USD 25 y tope USD 40."
+      "notas": "Aprobado. Marco 1.8, modelo 1.5, consulta 1.3, páginas 1.2, galería 1.2 y ficha 1.2 (§7). Nacen T-012 y T-013; T-004 redefinida."
     }
   ],
   "tareas": [
@@ -269,7 +271,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.7]
     },
     {
       "id": "T-004",
-      "titulo": "Revisar en la facturación de Railway el consumo actual y fijar un límite de gasto mensual (plan Pro confirmado)",
+      "titulo": "Revisar en la facturación de Railway el consumo actual y fijar en Usage Limits un aviso de USD 25 y un tope de USD 40",
       "categoria": "desarrollo",
       "origen": "marco-general",
       "bloquea": [
@@ -360,6 +362,29 @@ marco-general/marco-general-proyecto.md        [aprobado 1.7]
       "estado": "abierta",
       "creada": "2026-10-14",
       "cerrada": null
+    },
+    {
+      "id": "T-012",
+      "titulo": "Comprar el dominio .cl cuando decidas difundir el sitio (v1.x)",
+      "categoria": "desarrollo",
+      "origen": "despliegue",
+      "bloquea": [],
+      "estado": "abierta",
+      "creada": "2026-10-14",
+      "cerrada": null,
+      "notas": "Bloquea la difusión (v1.x), no el lanzamiento."
+    },
+    {
+      "id": "T-013",
+      "titulo": "Entregar 3 JPG de prueba exportados desde Lightroom: uno de 45 MP vertical, uno en Adobe RGB y uno con GPS",
+      "categoria": "contenido",
+      "origen": "despliegue",
+      "bloquea": [
+        "despliegue"
+      ],
+      "estado": "abierta",
+      "creada": "2026-10-14",
+      "cerrada": null
     }
   ]
 }
@@ -391,3 +416,4 @@ marco-general/marco-general-proyecto.md        [aprobado 1.7]
 | 2026-10-14 | SEO en revisión (0.1): indexar desde el subdominio con host único, vista previa con foto completa y marca, títulos con lugar, descripción automática editable, etiqueta "Con licencia", Search Console, características indexables, robots de IA de búsqueda sí y de entrenamiento no. |
 | 2026-10-14 | SEO aprobado (1.0). Marco general pasa a 1.7, modelo de contenido a 1.4, consulta de copia a 1.2 y páginas a 1.1. Nuevas T-010 (desarrollo) y T-011 (contenido). Siguiente: `despliegue`. |
 | 2026-10-14 | Despliegue en revisión (0.1): producción y pruebas en US East (pruebas automático, producción manual), despliegue solo con cambios de código, respaldos de Railway y descarga mensual desde el panel, recuperación de acceso con enlace de un solo uso, aviso USD 25 y tope USD 40, lanzamiento en subdominio indexado sin difundir. |
+| 2026-10-14 | Despliegue aprobado (1.0). Marco general pasa a 1.8, modelo de contenido a 1.5, consulta de copia a 1.3, páginas a 1.2, galería a 1.2 y ficha a 1.2. T-004 redefinida; nuevas T-012 (desarrollo) y T-013 (contenido). Todos los documentos de la v1.0 quedan aprobados. |

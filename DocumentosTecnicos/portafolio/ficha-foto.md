@@ -4,7 +4,7 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/portafolio/ficha-foto.md` |
 | Tipo | Componente |
-| Versión | 1.1 |
+| Versión | 1.2 |
 | Estado | Aprobado |
 | Fecha | 2026-10-14 |
 | Padre | `marco-general/marco-general-proyecto.md` (1.4, que incorpora los cambios del §11) |
@@ -266,7 +266,7 @@ Resuelve el riesgo SD-08: sin color de acento, la llamada podría pasar inadvert
 
 | Ruta | Generación | Contenido |
 |---|---|---|
-| `/fotos/[slug]` | Estática (`generateStaticParams` de las fotos visibles) con revalidación por etiquetas; `dynamicParams = true` para fotos publicadas después del despliegue | Ficha (§3), página amable o redirección según `fotoPorSlug`. Los parámetros `coleccion` y `caracteristica` **no** se leen en el servidor (§5.2.2). |
+| `/fotos/[slug]` | Estática (`generateStaticParams` de las fotos visibles, que devuelve una lista vacía durante la compilación: `plataforma/despliegue.md` §5.2.6) con revalidación por etiquetas; `dynamicParams = true`, así cada ficha se genera al primer pedido | Ficha (§3), página amable o redirección según `fotoPorSlug`. Los parámetros `coleccion` y `caracteristica` **no** se leen en el servidor (§5.2.2). |
 | `GET /datos/contexto` (nueva) | Manejador de ruta con caché por etiquetas | Lista del contexto resuelto, para la navegación y el visor. |
 | `/consulta?foto=…&formato=…` | La define `consultas/consulta-copia.md` | Destino de "Pedir una copia" (§5.2.9). |
 
@@ -466,6 +466,7 @@ No nacen tareas nuevas. Para lanzar, siguen abiertas T-005 (fotos de lanzamiento
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.2 | 2026-10-14 | Cambio menor al aprobar `plataforma/despliegue.md` 1.0: la compilación no consulta la base; las fichas se generan al primer pedido (§5.3). |
 | 1.1 | 2026-10-14 | Cambio menor al aprobar `consultas/consulta-copia.md` 1.0: el enlace a la consulta agrega `origen=ficha` u `origen=visor` (§5.2.9). |
 | 1.0 | 2026-10-14 | Aprobado por Rod. D-F1 y D-F2 quedan con sus valores por defecto. El marco general pasa a 1.4 y la galería a 1.1 con los cambios del §11. |
 | 0.1 | 2026-10-14 | Borrador inicial. Decisiones de Rod: tamaños con resumen de una línea y desplegable; elección de tamaño opcional que se lleva a la consulta; barra fija móvil que aparece al pasar el botón; fecha en mes y año; historia plegada con "Leer más"; características como enlaces; datos técnicos en una línea discreta; botón compartir nativo; "Más de <colección>" bajo la ficha; vitrina con `textoVitrina` o nada; "Pedir una copia" en el visor. Revisión con las guías de diseño de interfaces (transiciones interrumpibles, salida más rápida que la entrada, sin animar acciones de teclado). |

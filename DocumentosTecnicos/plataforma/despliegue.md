@@ -4,8 +4,8 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/plataforma/despliegue.md` |
 | Tipo | Transversal |
-| Versión | 0.1 |
-| Estado | En revisión |
+| Versión | 1.0 |
+| Estado | Aprobado |
 | Fecha | 2026-10-14 |
 | Padre | `marco-general/marco-general-proyecto.md` |
 | Dependencias | `contenido/modelo-contenido-panel.md`, `plataforma/seo.md` (variables y host único) |
@@ -470,4 +470,5 @@ Para Claude Code. Los pasos 1 a 3 se hacen junto con la base del proyecto (marco
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.0 | 2026-10-14 | Aprobado por Rod. Marco general pasa a 1.8, modelo de contenido a 1.5, consulta de copia a 1.3, páginas a 1.2, galería a 1.2 y ficha a 1.2 (§7). Nacen T-012 y T-013; T-004 queda con los valores de §5.2.10. |
 | 0.1 | 2026-10-14 | Borrador inicial. Decisiones de Rod: subdominio indexado sin difundir hasta el dominio; despliegue solo con cambios de código; entornos producción y pruebas con promoción manual; respaldos de Railway más descarga mensual desde el panel; aviso USD 25 y tope USD 40. Ley 21.719 reverificada. Alineado con `seo` 1.0 (aprobado en paralelo): `ENTORNO` en vez de una variable propia, excepción de `/api/salud` en el host único, mudanza según `seo` §5.2.4 con el subdominio redirigiendo 12 meses y lista de lanzamiento con T-010 y T-011; tareas nuevas renumeradas T-012 y T-013. |

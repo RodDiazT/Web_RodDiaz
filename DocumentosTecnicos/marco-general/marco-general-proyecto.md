@@ -4,7 +4,7 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/marco-general/marco-general-proyecto.md` |
 | Tipo | Marco general |
-| Versión | 1.7 |
+| Versión | 1.8 |
 | Estado | Aprobado |
 | Fecha | 2026-10-14 |
 | Padre | — |
@@ -135,10 +135,10 @@ Estos son los **nombres oficiales**. En el código van sin tildes, con el domini
 | `Pagina` | Página editable: "Sobre mí", "Contacto", privacidad, condiciones. | `titulo`, `slug`, `contenido` (texto enriquecido en la v1.0; bloques en v1.x), `imagen` (relación con `Medio`, opcional), `estado`, campos SEO, `slugsAnteriores` (páginas libres) y `contenidoActualizadoEn` (fecha del último cambio de texto). Las cuatro reservadas (`sobre-mi`, `contacto`, `privacidad`, `condiciones`) no se borran ni cambian de `slug`, y la política publicada no vuelve a borrador (`paginas/paginas.md`). |
 | `Consulta` | Solicitud de un interesado por una o más copias, o mensaje general sin foto. | `nombre`, `correo`, `telefono` (opcional), `ciudad` (opcional), `mensaje` (opcional), `items` (0 a 5 `ItemConsulta`: `foto`, `tituloFoto`, `slugFoto`, `formato` y `papel` opcionales), `tipo` (`copia`, `general`), `estado` (`nueva`, `respondida`, `cerrada`, `spam`), `respondidaEn`, `ultimaActividad`, `eliminarDespuesDe` (calculado), `notasInternas`, `consentimientoEn`, `versionPolitica`, `aceptaPromociones`, `origen`, `claveEnvio`. Detalle en `consultas/consulta-copia.md`. |
 | `Suscriptor` | Persona que aceptó, con una casilla opcional, recibir novedades y promociones. | `nombre`, `correo` (único), `consentimientoEn`, `versionPolitica`, `origen` (relación con `Consulta`). Se conserva hasta la baja. |
-| `Usuario` | Cuenta del panel. Solo existe Rod. | `correo`, `nombre`, `proveedorAcceso` (`google`), `idGoogle`, `ultimoAcceso`. |
+| `Usuario` | Cuenta del panel. Solo existe Rod. | `correo`, `nombre`, `proveedorAcceso` (`google`), `idGoogle`, `ultimoAcceso`, `recuperacionHash` y `recuperacionVence` (enlace de recuperación de un solo uso, `plataforma/despliegue.md` §5.2.11). |
 | `Medio` | Imagen auxiliar que no es obra: logo y foto de perfil. No aparece en galerías ni se consulta. | `archivo` (JPEG, PNG o SVG según el uso), `textoAlternativo`, `uso` (`logo`, `pagina`). |
 | `IntentoAcceso` | Registro de un intento rechazado de entrar al panel. | `correo`, `fecha`, `motivo`. Se borra a los 90 días. |
-| `AjustesSitio` (global Payload) | Datos del sitio que no van en el código. | `nombreSitio` ("Rod Díaz"; también es el texto de la marca), `logo` (relación con `Medio`, opcional, SVG o PNG; reemplaza al wordmark), `descripcion`, `correoContacto`, `redes` (Instagram, etc.), `fotoPortada` (relación con `Foto`, opcional), textos de la llamada a consulta, texto opcional para fotos de vitrina (`textoVitrina`), aviso de derechos de autor y los textos de la consulta (`textoIntroConsulta`, `textoConsultaRecibida`, `textoConsentimiento`, `textoPromociones`, `plantillaRespuesta`, `plantillaNovedades`) y, en la pestaña SEO, `seo.tituloPortada`, `seo.verificacionGoogle` y `seo.robotsExcluidos` (`plataforma/seo.md` §5.1). `descripcion` tiene máx. 160 caracteres. |
+| `AjustesSitio` (global Payload) | Datos del sitio que no van en el código. | `nombreSitio` ("Rod Díaz"; también es el texto de la marca), `logo` (relación con `Medio`, opcional, SVG o PNG; reemplaza al wordmark), `descripcion`, `correoContacto`, `redes` (Instagram, etc.), `fotoPortada` (relación con `Foto`, opcional), textos de la llamada a consulta, texto opcional para fotos de vitrina (`textoVitrina`), aviso de derechos de autor y los textos de la consulta (`textoIntroConsulta`, `textoConsultaRecibida`, `textoConsentimiento`, `textoPromociones`, `plantillaRespuesta`, `plantillaNovedades`) y, en la pestaña SEO, `seo.tituloPortada`, `seo.verificacionGoogle` y `seo.robotsExcluidos` (`plataforma/seo.md` §5.1). `descripcion` tiene máx. 160 caracteres. Campos de sistema ocultos: `ultimoRespaldoEn` y `supresionesRecientes` (`plataforma/despliegue.md` §5.1). |
 
 Relaciones clave:
 
@@ -180,6 +180,7 @@ Relaciones clave:
 | `/sobre-mi`, `/contacto`, `/[slug]` | Páginas. `/privacidad`, `/condiciones` y las páginas libres van por `/[slug]`; las rutas del sitio están reservadas como `slug` (`paginas/paginas.md`). |
 | `/admin` | Panel Payload, solo para Rod. |
 | `/api/...` | API de Payload y endpoint de envío de consultas. |
+| `GET /api/salud`, `POST /api/respaldo`, `/admin/recuperar` | Chequeo de salud, descarga de respaldo (solo Rod) y enlace de recuperación de acceso (`plataforma/despliegue.md` §5.3). |
 | `/sitemap.xml`, `/robots.txt` | SEO, generados según `plataforma/seo.md` §5.2.9 y §5.2.10. |
 | `GET /og/foto/[slug]`, `GET /og/medio/[id]` | Imagen de vista previa de 1200 × 630 para redes (`plataforma/seo.md` §5.2.6). |
 
@@ -191,6 +192,8 @@ Los contratos detallados (campos del formulario, respuestas y errores) los defin
 Web_RodDiaz/
 ├── CLAUDE.md
 ├── README.md
+├── railway.json             # configuración de Railway (`plataforma/despliegue.md` §5.4)
+├── scripts/                 # recuperar-acceso, restaurar-respaldo
 ├── DocumentosTecnicos/          # raíz documental (ver §9)
 └── src/
     ├── app/
@@ -201,6 +204,7 @@ Web_RodDiaz/
     ├── componentes/             # UI del sitio público
     ├── lib/                     # imagenes (sharp), proporcion, antispam
     ├── tareas/                  # trabajos programados (borrado de consultas vencidas)
+    ├── migraciones/             # migraciones de Payload (producción y pruebas)
     └── payload.config.ts
 ```
 
@@ -222,8 +226,8 @@ Carpetas de dominio documental confirmadas: `identidad/`, `contenido/`, `portafo
 | Aviso de consultas | **Solo en el panel en la v1.0.** | Rod no entrega credenciales de correo y prefiere no sumar servicios. | Resend o Gmail: descartados por Rod para la v1. El aviso externo queda para v1.x. |
 | Autenticación del panel | **Google OAuth** con estrategia propia de Payload (Auth.js o plugin OAuth), con lista permitida de un correo | Sin contraseñas que mantener. Rod ya usa esa cuenta. Gratis. | Usuario y contraseña de Payload: funciona, pero es una credencial más. |
 | Analítica | **No se incluye en la v1.0.** Pasa a v1.x. | Rod la valora, pero no es crucial para lanzar, y prefiere no sumar cuentas. | Cloudflare Web Analytics: descartado por Rod en la v1. |
-| Hosting | **Cuenta Railway existente de Rod, workspace en plan Pro** (verificado el 2026-10-07) | Costo hundido de la suscripción. El plan Pro incluye respaldos de volúmenes. | Vercel: separaría la app del volumen y la base de datos. |
-| Dominio | Subdominio de Railway en la v1, indexado desde el lanzamiento. Dominio propio en v1.x. | Costo cero en la v1. | — |
+| Hosting | **Cuenta Railway existente de Rod, workspace en plan Pro** (verificado el 2026-10-07), proyecto `web-roddiaz` en US East (Virginia) con entornos `production` (promoción manual) y `pruebas` (automático, dormido sin uso) (`plataforma/despliegue.md`) | Costo hundido de la suscripción. El plan Pro incluye USD 20 de consumo y respaldos de volúmenes. | Vercel: separaría la app del volumen y la base de datos. |
+| Dominio | Subdominio de Railway en la v1, indexado desde el lanzamiento y **sin difundir**. Dominio propio y difusión en v1.x (procedimiento en `plataforma/despliegue.md` §5.2.12). | Costo cero en la v1. | — |
 | Buscadores | **Google Search Console** (gratis, con la cuenta de Google de Rod, sin script en el sitio). | Muestra búsquedas, indexación y errores sin analítica ni cookies. | Esperar a la v1.x: el sitio quedaría sin visibilidad de cómo lo encuentra Google. |
 
 **Costo incremental de la v1:** ninguna suscripción ni servicio nuevo. En Railway, el uso (CPU, RAM, disco, egreso) se cobra según consumo, así que el sitio suma un consumo pequeño a la cuenta de Rod. Ese monto se estima y acota en `plataforma/despliegue.md`, que fija además un límite de gasto (riesgo R-02, tarea T-004).
@@ -313,8 +317,8 @@ Los documentos 1 y 2 quedan desbloqueados en paralelo al aprobar el marco. Se re
 | Id | Riesgo | Prob. | Impacto | Mitigación |
 |---|---|---|---|---|
 | R-01 | Sin aviso externo, Rod tarda en ver una consulta y el interesado se enfría. | Media | Medio | Contador de consultas nuevas en el panel. Rod revisa el panel con regularidad. Aviso externo en v1.x. |
-| R-02 | El consumo de Railway del sitio genera un costo mayor al esperado. | Baja | Medio | Solo se guardan versiones web, un solo servicio de app, estimación de consumo y límite de gasto en Railway (T-004). |
-| R-03 | Pérdida del volumen o de la base de datos. | Baja | Alto | Respaldo periódico de la base de datos y del volumen, a definir en `plataforma/despliegue.md`. Rod tiene los originales. |
+| R-02 | El consumo de Railway del sitio genera un costo mayor al esperado. | Baja | Medio | Solo se guardan versiones web, un solo servicio de app, estimación de consumo (USD 10 a 11 al mes) y aviso en USD 25 con tope en USD 40 (`plataforma/despliegue.md` §5.5, T-004). |
+| R-03 | Pérdida del volumen o de la base de datos. | Baja | Alto | Respaldos de Railway (base diaria y semanal, imágenes semanal) y descarga mensual desde el panel (`plataforma/despliegue.md` §5.2.7). Rod tiene los originales. |
 | R-04 | Copia no autorizada por captura de pantalla. | Alta | Bajo | Tope de 2048 px y aviso de derechos. Se asume como riesgo aceptado. |
 | R-05 | Mala experiencia en el navegador de Instagram (memoria o tiempos). | Media | Alto | Presupuesto de peso y pruebas en el navegador de Instagram como criterio de aceptación de galería y ficha. |
 | R-06 | Spam en el formulario. | Media | Bajo | Defensas de §6.2.9. Turnstile en v1.x. |
@@ -326,7 +330,7 @@ Los documentos 1 y 2 quedan desbloqueados en paralelo al aprobar el marco. Se re
 **Decisiones abiertas (no bloquean los documentos 1 y 2)**
 
 - D-01 (resuelta en `consultas/consulta-copia.md` 1.0): el formulario va en una página propia.
-- D-02. Política de respaldo (frecuencia). El plan Pro de Railway incluye respaldos de volumen. Se decide en `plataforma/despliegue.md`.
+- D-02 (resuelta en `plataforma/despliegue.md` 1.0): respaldos de Railway y descarga mensual desde el panel.
 
 **Tareas del dueño**
 
@@ -334,17 +338,20 @@ Los documentos 1 y 2 quedan desbloqueados en paralelo al aprobar el marco. Se re
 |---|---|---|---|
 | T-001 | desarrollo | Crear el repositorio privado en GitHub. **Hecha.** | — |
 | T-008 | desarrollo | Crear en Google Cloud un cliente OAuth (gratis) para el inicio de sesión del panel. Te guío paso a paso cuando toque implementarlo. | Implementación del doc 2 |
-| T-004 | desarrollo | Revisar en la facturación de Railway el consumo actual y fijar un límite de gasto mensual. El plan Pro ya está confirmado. | Doc 8 |
+| T-004 | desarrollo | Revisar en la facturación de Railway el consumo actual y fijar en *Usage Limits* un aviso de USD 25 y un tope de USD 40. | Lanzamiento |
 | T-005 | contenido | Seleccionar al menos 12 fotos de lanzamiento con título, lugar y fecha. | Lanzamiento |
 | T-006 | contenido | Definir el catálogo inicial de tamaños (cm) y tipos de papel. | Implementación del doc 2 |
 | T-007 | contenido | Escribir el texto de "Sobre mí" y elegir una foto de perfil. | Doc 6 |
 | T-010 | desarrollo | Verificar el sitio en Google Search Console y enviar el sitemap (al lanzar). | — |
 | T-011 | contenido | Escribir la descripción del sitio (máx. 160 caracteres). | Lanzamiento |
+| T-012 | desarrollo | Comprar el dominio `.cl` cuando decidas difundir el sitio. | Difusión (v1.x) |
+| T-013 | contenido | Entregar 3 JPG de prueba: uno de 45 MP vertical, uno en Adobe RGB y uno con GPS. | Prueba de memoria del despliegue |
 
 ## 13. Control de cambios
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.8 | 2026-10-14 | Cambio menor al aprobar `plataforma/despliegue.md` 1.0: `Usuario.recuperacionHash` y `recuperacionVence`, `AjustesSitio.ultimoRespaldoEn` y `supresionesRecientes` (§6.1); `/api/salud`, `/api/respaldo` y `/admin/recuperar` (§6.3); `railway.json`, `scripts/` y `migraciones/` (§6.4); región, entornos y lanzamiento sin difundir (§6.6); mitigaciones de R-02 y R-03 (§11); D-02 resuelta, T-004 redefinida, T-012 y T-013 (§12). |
 | 1.7 | 2026-10-14 | Cambio menor al aprobar `plataforma/seo.md` 1.0: `Foto.seo.descripcion` y pestaña SEO de `AjustesSitio` (§6.1); rutas `/og/…` (§6.3); `URL_SITIO` con host único (§6.5); Search Console en el stack (§6.6) y en métricas (§10); T-010 y T-011 (§12). |
 | 1.6 | 2026-10-14 | Cambio menor al aprobar `paginas/paginas.md` 1.0: `Pagina` con `slugsAnteriores` y `contenidoActualizadoEn` y protección de las páginas reservadas (§6.1); `/privacidad`, `/condiciones` y libres por `/[slug]` con rutas reservadas (§6.3). |
 | 1.5 | 2026-10-14 | Cambios al aprobar `consultas/consulta-copia.md` 1.0: `Consulta` con `items` (0 a 5), `ciudad`, `tipo`, `respondidaEn`, consentimiento y campos técnicos; consulta general sin foto; entidad nueva `Suscriptor` para novedades con casilla opcional (§6.1, §7.1); textos de consulta en `AjustesSitio`; `/consulta` como página y `GET /datos/fotos-consultables` (§6.3); Gmail como tercero; art. 28 B de la Ley 19.496 para promociones (§7.5); D-01 resuelta. |

@@ -4,7 +4,7 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/contenido/modelo-contenido-panel.md` |
 | Tipo | Componente |
-| Versión | 1.4 |
+| Versión | 1.5 |
 | Estado | Aprobado |
 | Fecha | 2026-10-14 |
 | Padre | `marco-general/marco-general-proyecto.md` |
@@ -100,6 +100,7 @@ Reemplaza la portada por defecto de Payload con tarjetas simples, en este orden:
 
 1. **Consultas nuevas** (número, la más antigua sin responder y enlace) y **Consultas por mes** (12 meses, recibidas y respondidas, y total de suscriptores). Las define `consultas/consulta-copia.md` §3.7.
 2. **Fotos en borrador** (número), con un enlace a la lista "Por completar", que muestra las que no cumplen los mínimos y qué les falta.
+   - **Respaldo:** días desde la última descarga, espacio de imágenes y botón *Descargar respaldo*; la define `plataforma/despliegue.md` §3.2.
 3. **Accesos rechazados** de los últimos 30 días (número y el último correo). Si no hay, la tarjeta no se muestra.
 4. Accesos directos: *Subir fotos*, *Colecciones*, *Ajustes del sitio*.
 
@@ -503,6 +504,7 @@ Para Claude Code, después del paso 1 del plan del marco (§9.2: base del proyec
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.5 | 2026-10-14 | Cambio menor al aprobar `plataforma/despliegue.md` 1.0: tarjeta *Respaldo* en el dashboard (§3.4). |
 | 1.4 | 2026-10-14 | Cambio menor al aprobar `plataforma/seo.md` 1.0: `Foto.seo.descripcion`, pestaña SEO de `AjustesSitio`, máx. 160 en `descripcion` y revalidación de sitemap, robots y vistas previas. |
 | 1.3 | 2026-10-14 | Cambio menor al aprobar `paginas/paginas.md` 1.0: `Pagina` con `slugsAnteriores`, `contenidoActualizadoEn`, `reservada` y validaciones de protección; la semilla usa los textos de `paginas` (§3.2 y Anexos A y B). |
 | 1.2 | 2026-10-14 | Cambio menor al aprobar `consultas/consulta-copia.md` 1.0: tarjetas del dashboard, grupo Consultas con Suscriptores y textos de consulta en `AjustesSitio`. |
