@@ -10,7 +10,7 @@
 | `portafolio/galeria-colecciones.md` | componente | 1.1 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `portafolio/ficha-foto.md` | componente | 1.1 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
 | `consultas/consulta-copia.md` | componente | 1.0 | aprobado | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
-| `paginas/paginas.md` | componente | — | pendiente | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
+| `paginas/paginas.md` | componente | 0.1 | revision | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `plataforma/seo.md` | transversal | — | pendiente | v1.0 | marco-general | galeria-colecciones, ficha-foto, paginas |
 | `plataforma/despliegue.md` | transversal | — | pendiente | v1.0 | marco-general | modelo-contenido-panel |
 
@@ -23,7 +23,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.5]
 ├── portafolio/galeria-colecciones.md          [aprobado 1.1]
 ├── portafolio/ficha-foto.md                   [aprobado 1.1]
 ├── consultas/consulta-copia.md                [aprobado 1.0]
-├── paginas/paginas.md                         [pendiente]
+├── paginas/paginas.md                         [revision 0.1]
 ├── plataforma/seo.md                          [pendiente]
 └── plataforma/despliegue.md                   [pendiente]
 ```
@@ -59,7 +59,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.5]
 {
   "esquema": "1.1",
   "proyecto": "Rod Díaz (Web_RodDiaz)",
-  "actualizado": "2026-10-14T12:35-03:00",
+  "actualizado": "2026-10-14T13:20-03:00",
   "fases": [
     {
       "id": "v1.0",
@@ -188,10 +188,10 @@ marco-general/marco-general-proyecto.md        [aprobado 1.5]
         "modelo-contenido-panel"
       ],
       "fase": "v1.0",
-      "estado": "pendiente",
-      "version": null,
-      "actualizado": "2026-10-07",
-      "notas": "Desde consulta-copia: Contacto enlaza a /consulta sin foto; la política de privacidad incluye lo de consulta-copia §6 (contacto por los medios indicados y sección de novedades y promociones)."
+      "estado": "revision",
+      "version": "0.1",
+      "actualizado": "2026-10-14",
+      "notas": "0.1: Contacto breve con «Escríbeme» hacia /consulta y sin correo visible; Sobre mí con 6 destacadas; textos legales en la semilla (Anexos A y B); páginas libres sin menú. Al aprobar: marco 1.6 y modelo-contenido-panel 1.3 (slugsAnteriores, contenidoActualizadoEn, protección de reservadas)."
     },
     {
       "id": "seo",
@@ -362,3 +362,4 @@ marco-general/marco-general-proyecto.md        [aprobado 1.5]
 | 2026-10-14 | Consulta de copia en revisión (0.1): página propia, hasta 5 fotos con buscador, ciudad opcional, consulta general, casilla de consentimiento, respuesta con borrador en Gmail, indicador mensual en el dashboard. |
 | 2026-10-14 | Consulta de copia 0.2: casilla obligatoria incluye ser contactado por los medios indicados; casilla opcional de novedades y promociones con la entidad `Suscriptor`. |
 | 2026-10-14 | Consulta de copia aprobada (1.0). Marco general pasa a 1.5, modelo de contenido a 1.2 y ficha a 1.1. Siguiente: `paginas` (también desbloqueado `despliegue`). |
+| 2026-10-14 | Páginas en revisión (0.1): Contacto con botón a la consulta general y sin correo visible, Sobre mí con destacadas, política de privacidad y condiciones completas en la semilla, páginas libres sin menú. Ley 21.719 reverificada. |
