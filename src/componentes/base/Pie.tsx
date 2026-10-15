@@ -6,14 +6,24 @@ interface PieProps {
   nombreSitio?: string
   textoDerechos?: string
   instagramUrl?: string
+  enlacesLegales?: {
+    contacto?: boolean
+    privacidad?: boolean
+    condiciones?: boolean
+  }
 }
 
 export function Pie({
   nombreSitio = 'Rod Díaz',
   textoDerechos = 'Todos los derechos reservados',
   instagramUrl = 'https://instagram.com/roddiazt',
+  enlacesLegales,
 }: PieProps) {
   const anio = new Date().getFullYear()
+
+  const mostrarContacto = enlacesLegales ? Boolean(enlacesLegales.contacto) : true
+  const mostrarPrivacidad = enlacesLegales ? Boolean(enlacesLegales.privacidad) : true
+  const mostrarCondiciones = enlacesLegales ? Boolean(enlacesLegales.condiciones) : true
 
   return (
     <footer className={styles.pie}>
@@ -36,21 +46,27 @@ export function Pie({
                 </a>
               </li>
             )}
-            <li>
-              <Link href="/contacto" className={styles.enlace}>
-                Contacto
-              </Link>
-            </li>
-            <li>
-              <Link href="/privacidad" className={styles.enlace}>
-                Privacidad
-              </Link>
-            </li>
-            <li>
-              <Link href="/condiciones" className={styles.enlace}>
-                Condiciones
-              </Link>
-            </li>
+            {mostrarContacto && (
+              <li>
+                <Link href="/contacto" className={styles.enlace}>
+                  Contacto
+                </Link>
+              </li>
+            )}
+            {mostrarPrivacidad && (
+              <li>
+                <Link href="/privacidad" className={styles.enlace}>
+                  Privacidad
+                </Link>
+              </li>
+            )}
+            {mostrarCondiciones && (
+              <li>
+                <Link href="/condiciones" className={styles.enlace}>
+                  Condiciones
+                </Link>
+              </li>
+            )}
           </ul>
         </nav>
       </div>

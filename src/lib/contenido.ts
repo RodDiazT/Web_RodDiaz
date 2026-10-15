@@ -15,10 +15,14 @@ export async function obtenerPayload() {
  * Obtiene los ajustes globales del sitio.
  */
 export async function ajustes() {
-  const payload = await obtenerPayload()
-  return await payload.findGlobal({
-    slug: 'ajustes-sitio',
-  })
+  try {
+    const payload = await obtenerPayload()
+    return await payload.findGlobal({
+      slug: 'ajustes-sitio',
+    })
+  } catch {
+    return null
+  }
 }
 
 export interface FiltroFotos {
@@ -32,80 +36,95 @@ export interface FiltroFotos {
  * Consulta fotos públicas que cumplen con las reglas estrictas de visibilidad.
  */
 export async function fotosVisibles(filtro?: FiltroFotos) {
-  const payload = await obtenerPayload()
+  try {
+    const payload = await obtenerPayload()
 
-  // 1. Obtener colecciones para validar estados y resolver relaciones
-  const todasColecciones = await payload.find({
-    collection: 'colecciones',
-    limit: 500,
-  })
-
-  const colMap = new Map(todasColecciones.docs.map((c) => [String(c.id), c]))
-  const obtenerColeccionPorId = (id: string | number) => colMap.get(String(id))
-
-  // 2. Construir condiciones de búsqueda
-  const whereConditions: any[] = [
-    {
-      estado: {
-        equals: 'publicada',
-      },
-    },
-  ]
-
-  if (filtro?.coleccionSlug) {
-    const colDoc = todasColecciones.docs.find((c) => c.slug === filtro.coleccionSlug)
-    if (colDoc) {
-      // Si la colección es madre, incluye fotos de la madre y de sus hijas
-      const idsHijas = todasColecciones.docs
-        .filter((c) => {
-          const idPadre = typeof c.padre === 'object' && c.padre ? c.padre.id : c.padre
-          return String(idPadre) === String(colDoc.id)
-        })
-        .map((c) => c.id)
-
-      const idsValidos = [colDoc.id, ...idsHijas]
-      whereConditions.push({
-        coleccion: {
-          in: idsValidos,
-        },
-      })
-    }
-  }
-
-  if (filtro?.caracteristicaSlug) {
-    const carac = await payload.find({
-      collection: 'caracteristicas',
-      where: {
-        slug: { equals: filtro.caracteristicaSlug },
-      },
-      limit: 1,
+    // 1. Obtener colecciones para validar estados y resolver relaciones
+    const todasColecciones = await payload.find({
+      collection: 'colecciones',
+      limit: 500,
     })
-    if (carac.totalDocs > 0) {
-      whereConditions.push({
-        caracteristicas: {
-          contains: carac.docs[0].id,
+
+    const colMap = new Map(todasColecciones.docs.map((c) => [String(c.id), c]))
+    const obtenerColeccionPorId = (id: string | number) => colMap.get(String(id))
+
+    // 2. Construir condiciones de búsqueda
+    const whereConditions: any[] = [
+      {
+        estado: {
+          equals: 'publicada',
         },
-      })
+      },
+    ]
+
+    if (filtro?.coleccionSlug) {
+      const colDoc = todasColecciones.docs.find((c) => c.slug === filtro.coleccionSlug)
+      if (colDoc) {
+        // Si la colección es madre, incluye fotos de la madre y de sus hijas
+        const idsHijas = todasColecciones.docs
+          .filter((c) => {
+            const idPadre = typeof c.padre === 'object' && c.padre ? c.padre.id : c.padre
+            return String(idPadre) === String(colDoc.id)
+          })
+          .map((c) => c.id)
+
+        const idsValidos = [colDoc.id, ...idsHijas]
+        whereConditions.push({
+          coleccion: {
+            in: idsValidos,
+          },
+        })
+      }
     }
-  }
 
-  const resultado = await payload.find({
-    collection: 'fotos',
-    where: {
-      and: whereConditions,
-    },
-    sort: 'orden',
-    limit: filtro?.limit || 100,
-    page: filtro?.page || 1,
-  })
+    if (filtro?.caracteristicaSlug) {
+      const carac = await payload.find({
+        collection: 'caracteristicas',
+        where: {
+          slug: { equals: filtro.caracteristicaSlug },
+        },
+        limit: 1,
+      })
+      if (carac.totalDocs > 0) {
+        whereConditions.push({
+          caracteristicas: {
+            contains: carac.docs[0].id,
+          },
+        })
+      }
+    }
 
-  // Filtrar con la función única de visibilidad
-  const visibles = resultado.docs.filter((f) => esFotoVisible(f as any, obtenerColeccionPorId))
+    const resultado = await payload.find({
+      collection: 'fotos',
+      where: {
+        and: whereConditions,
+      },
+      sort: 'orden',
+      limit: filtro?.limit || 100,
+      page: filtro?.page || 1,
+    })
 
-  return {
-    ...resultado,
-    docs: visibles,
-    totalDocs: visibles.length,
+    // Filtrar con la función única de visibilidad
+    const visibles = resultado.docs.filter((f) => esFotoVisible(f as any, obtenerColeccionPorId))
+
+    return {
+      ...resultado,
+      docs: visibles,
+      totalDocs: visibles.length,
+    }
+  } catch {
+    return {
+      docs: [],
+      totalDocs: 0,
+      limit: filtro?.limit || 100,
+      page: filtro?.page || 1,
+      totalPages: 1,
+      hasNextPage: false,
+      hasPrevPage: false,
+      pagingCounter: 1,
+      prevPage: null,
+      nextPage: null,
+    }
   }
 }
 
@@ -1183,6 +1202,117 @@ export async function fotosConsultables() {
     return consultables
   } catch {
     return []
+  }
+}
+
+export type ResultadoPaginaPorSlug =
+  | { tipo: 'exito'; pagina: any }
+  | { tipo: 'redirigir'; destino: string; codigo: 308 }
+  | { tipo: 'no_encontrada' }
+
+/**
+ * Obtiene una página publicada por su slug actual o redirige si coincide con un slug anterior (§5.3).
+ */
+export async function paginaPorSlug(slug: string): Promise<ResultadoPaginaPorSlug> {
+  if (!slug) return { tipo: 'no_encontrada' }
+
+  try {
+    const payload = await obtenerPayload()
+
+    // 1. Búsqueda por slug actual publicado
+    const resActual = await payload.find({
+      collection: 'paginas',
+      where: {
+        and: [
+          { slug: { equals: slug } },
+          { estado: { equals: 'publicada' } },
+        ],
+      },
+      limit: 1,
+      depth: 2,
+    })
+
+    if (resActual.totalDocs > 0) {
+      return { tipo: 'exito', pagina: resActual.docs[0] }
+    }
+
+    // 2. Si no se encontró por slug actual, buscar en slugsAnteriores de páginas publicadas
+    const resTodas = await payload.find({
+      collection: 'paginas',
+      where: {
+        estado: { equals: 'publicada' },
+      },
+      limit: 100,
+      depth: 0,
+    })
+
+    for (const doc of resTodas.docs) {
+      const anteriores = doc.slugsAnteriores
+      if (Array.isArray(anteriores) && anteriores.includes(slug)) {
+        return {
+          tipo: 'redirigir',
+          destino: `/${doc.slug}`,
+          codigo: 308,
+        }
+      }
+    }
+
+    return { tipo: 'no_encontrada' }
+  } catch {
+    return { tipo: 'no_encontrada' }
+  }
+}
+
+export interface PaginasEnNavegacion {
+  sobreMi: boolean
+  contacto: boolean
+  privacidad: boolean
+  condiciones: boolean
+}
+
+/**
+ * Consulta el estado de publicación de las páginas reservadas del sitio (§3.6, §5.3).
+ * Utilizado por layout, Encabezado, MenuMovil y Pie para mostrar únicamente enlaces a páginas publicadas.
+ */
+export async function paginasEnNavegacion(): Promise<PaginasEnNavegacion> {
+  const porDefecto: PaginasEnNavegacion = {
+    sobreMi: false,
+    contacto: false,
+    privacidad: false,
+    condiciones: false,
+  }
+
+  try {
+    const payload = await obtenerPayload()
+    const res = await payload.find({
+      collection: 'paginas',
+      where: {
+        and: [
+          {
+            slug: {
+              in: ['sobre-mi', 'contacto', 'privacidad', 'condiciones'],
+            },
+          },
+          {
+            estado: { equals: 'publicada' },
+          },
+        ],
+      },
+      limit: 4,
+      depth: 0,
+    })
+
+    const mapa: PaginasEnNavegacion = { ...porDefecto }
+    for (const doc of res.docs) {
+      if (doc.slug === 'sobre-mi') mapa.sobreMi = true
+      if (doc.slug === 'contacto') mapa.contacto = true
+      if (doc.slug === 'privacidad') mapa.privacidad = true
+      if (doc.slug === 'condiciones') mapa.condiciones = true
+    }
+
+    return mapa
+  } catch {
+    return porDefecto
   }
 }
 

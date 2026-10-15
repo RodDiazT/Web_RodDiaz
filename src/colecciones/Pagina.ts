@@ -1,8 +1,9 @@
 import type { CollectionConfig } from 'payload'
 import { generarSlug, actualizarSlugsAnteriores } from '../lib/slug'
 import { revalidarRutasSeguras } from '../lib/revalidacion'
+import { esRutaReservada, esPaginaReservada, SLUGS_RESERVADOS_PAGINAS } from '../lib/rutasReservadas'
 
-export const SLUGS_RESERVADOS = ['sobre-mi', 'contacto', 'privacidad', 'condiciones'] as const
+export const SLUGS_RESERVADOS = SLUGS_RESERVADOS_PAGINAS
 
 export const Pagina: CollectionConfig = {
   slug: 'paginas',
@@ -34,7 +35,7 @@ export const Pagina: CollectionConfig = {
         if (!data) return data
 
         const slugOriginal = originalDoc?.slug
-        const esReservadaOriginal = slugOriginal && SLUGS_RESERVADOS.includes(slugOriginal as any)
+        const esReservadaOriginal = slugOriginal && esPaginaReservada(slugOriginal)
 
         // Si es una página reservada, su slug nunca puede modificarse
         if (esReservadaOriginal) {
@@ -43,6 +44,21 @@ export const Pagina: CollectionConfig = {
           data.slug = generarSlug(data.titulo)
         } else if (data.slug) {
           data.slug = generarSlug(data.slug)
+        }
+
+        // Validación: una página libre no puede colisionar con rutas del sitio (§4, §5.1)
+        if (!esReservadaOriginal && data.slug && esRutaReservada(data.slug)) {
+          throw new Error('Ese nombre ya lo usa el sitio. Elige otro.')
+        }
+
+        // Validación: publicar exige título y contenido (§5.2.2)
+        if (data.estado === 'publicada') {
+          if (!data.titulo || !String(data.titulo).trim()) {
+            throw new Error('Para publicar la página debes ingresar un título.')
+          }
+          if (!data.contenido) {
+            throw new Error('Para publicar la página debes ingresar contenido.')
+          }
         }
 
         // Si una página libre cambia de slug, registrar en slugsAnteriores

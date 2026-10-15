@@ -6,6 +6,12 @@
 
 import { getPayload } from 'payload'
 import config from '../payload.config'
+import {
+  contenidoSobreMi,
+  contenidoContacto,
+  contenidoPrivacidad,
+  contenidoCondiciones,
+} from './paginas'
 
 export function crearParrafoLexical(texto: string) {
   return {
@@ -181,39 +187,31 @@ export async function sembrarDatos() {
     }
   }
 
-  // 4. Las cuatro páginas reservadas obligatorias
+  // 4. Las cuatro páginas reservadas obligatorias (§5.2.9, Anexos A y B)
   const paginasReservadas = [
     {
       titulo: 'Sobre mí',
       slug: 'sobre-mi',
       estado: 'borrador' as const,
-      contenido: crearParrafoLexical(
-        'Fotógrafo de naturaleza y expediciones. Impresión de autor en taller propio con tintas de pigmento mineral sobre papeles de conservación museográfica.'
-      ),
+      contenido: contenidoSobreMi(),
     },
     {
       titulo: 'Contacto',
       slug: 'contacto',
       estado: 'borrador' as const,
-      contenido: crearParrafoLexical(
-        'Para consultas sobre copias Fine Art, colaboraciones o encargos especiales, puedes utilizar el formulario de consulta o escribirme directamente.'
-      ),
+      contenido: contenidoContacto(),
     },
     {
       titulo: 'Política de privacidad',
       slug: 'privacidad',
       estado: 'borrador' as const,
-      contenido: crearParrafoLexical(
-        'En conformidad con la Ley 19.628 y la Ley 21.719 sobre Protección de la Vida Privada, los datos ingresados en las consultas son utilizados exclusivamente para responder tus requerimientos y no son cedidos a terceros.'
-      ),
+      contenido: contenidoPrivacidad(),
     },
     {
-      titulo: 'Condiciones de uso y conservación',
+      titulo: 'Condiciones de uso',
       slug: 'condiciones',
       estado: 'borrador' as const,
-      contenido: crearParrafoLexical(
-        'Todas las fotografías exhibidas en este sitio están protegidas por la Ley 17.336 de Propiedad Intelectual. Cada copia impresa se entrega con margen de conservación para enmarcado y firma de autor.'
-      ),
+      contenido: contenidoCondiciones(),
     },
   ]
 

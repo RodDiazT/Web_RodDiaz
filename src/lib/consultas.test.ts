@@ -178,7 +178,7 @@ test('urlRespuestaGmail arma URLs de Gmail y mailto con sustitución de variable
 })
 
 test('indicadorMensual agrupa 12 meses en America/Santiago excluyendo spam y generales', () => {
-  const ref = new Date('2026-10-15T15:00:00Z')
+  const ref = new Date('2026-10-31T15:00:00Z')
   const consultas = [
     { tipo: 'copia', estado: 'nueva', createdAt: '2026-10-10T12:00:00Z' },
     { tipo: 'copia', estado: 'respondida', createdAt: '2026-10-05T12:00:00Z', respondidaEn: '2026-10-06T12:00:00Z' },
@@ -190,7 +190,12 @@ test('indicadorMensual agrupa 12 meses en America/Santiago excluyendo spam y gen
   assert.equal(indicador.meses.length, 12)
   assert.equal(indicador.generales, 1)
 
+  // Verificar que no hay meses duplicados en días 31
+  const clavesUnicas = new Set(indicador.meses.map((m) => m.claveMes))
+  assert.equal(clavesUnicas.size, 12)
+
   const mesActual = indicador.meses[indicador.meses.length - 1]
+  assert.equal(mesActual.claveMes, '2026-10')
   assert.equal(mesActual.recibidas, 2)
   assert.equal(mesActual.respondidas, 1)
 })

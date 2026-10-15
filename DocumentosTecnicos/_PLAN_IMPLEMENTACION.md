@@ -2,7 +2,7 @@
 
 > **Estado general de la documentación:** Todos los documentos técnicos de la suite v1.0 se encuentran en estado **`aprobado`** tras la auditoría integral Fine Art y difusión.
 > **Fuente de verdad:** [`DocumentosTecnicos/_INDICE_MAESTRO.md`](file:///Users/roddiaz/projects/DesarrolloWeb/DocumentosTecnicos/_INDICE_MAESTRO.md) y [`DocumentosTecnicos/marco-general/marco-general-proyecto.md`](file:///Users/roddiaz/projects/DesarrolloWeb/DocumentosTecnicos/marco-general/marco-general-proyecto.md).
-> **Estado de avance:** Etapas 1, 2, 3, 4 y 5 completadas. Próxima: Etapa 6 (Páginas Editoriales y Cumplimiento Legal).
+> **Estado de avance:** Etapas 1, 2, 3, 4, 5 (auditada y debugeada) y 6 (completada) al 100%. Próxima: Etapa 7 (SEO, Open Graph y Rendimiento).
 
 ---
 
@@ -34,10 +34,10 @@ flowchart TD
     E1["Etapa 1: Base Técnica y Entorno\nNext.js + Payload 3 + Postgres (COMPLETADA ✅)"] --> E2["Etapa 2: Modelo de Contenido\nColecciones, Sharp, EXIF, Seeds (AUDITADA Y CORREGIDA ✅)"]
     E2 --> E3["Etapa 3: Sistema de Diseño\nTokens CSS, Tipografías, UI Base (AUDITADA Y COMPLETADA ✅)"]
     E3 --> E4["Etapa 4: Portafolio Público\nGalería 3:2, Visor 2.5x, Ficha Fine Art (AUDITADA Y CORREGIDA ✅)"]
-    E4 --> E5["Etapa 5: Consultas 1:1\nFormulario, Antispam 1.8s, Telegram (COMPLETADA ✅)"]
-    E5 --> E6["Etapa 6: Páginas Editoriales\nSobre mí, Contacto, Ley 21.719 (SIGUIENTE 🚀)"]
+    E4 --> E5["Etapa 5: Consultas 1:1\nFormulario, Antispam 1.8s, Telegram (AUDITADA Y DEBUGEADA ✅)"]
+    E5 --> E6["Etapa 6: Páginas Editoriales\nSobre mí, Contacto, Ley 21.719 (COMPLETADA ✅)"]
     E2 --> E6
-    E4 --> E7["Etapa 7: SEO y Open Graph\nLienzo Vertical Blur, Sitemap, JSON-LD"]
+    E4 --> E7["Etapa 7: SEO y Open Graph\nLienzo Vertical Blur, Sitemap, JSON-LD (SIGUIENTE 🚀)"]
     E6 --> E7
     E5 --> E8["Etapa 8: Despliegue Railway y Lanzamiento\nPruebas/Prod, Backups, Estrés 45 MP"]
     E7 --> E8
@@ -169,18 +169,33 @@ flowchart TD
     - `AccionesSuscriptores.tsx`: copia masiva para CCO y gestión de bajas.
   - **Tarea programada de purga:**
     - `src/tareas/borrarConsultasVencidas.ts` integrada a la cola diaria.
-- **Criterio de aceptación cumplido:** 33/33 pruebas unitarias en verde; compilación Next.js 15 exitosa; persistencia inmutable de snapshots; notificación push por Telegram; y antispam calibrado sin fricción.
+  - **Auditoría y debugeo completados (Rol Auditor/Debugger):**
+    - Corrección de desborde de meses en días 29-31 en `indicadorMensual` (`src/lib/consultas.ts`).
+    - Migración a HTML parse mode con escape de entidades en `notificarTelegramConsulta` (`src/lib/telegram.ts`) previniendo caídas 400 Bad Request por caracteres especiales o guiones bajos del usuario.
+    - Incorporación de índices de base de datos (`correo`, `estado`, `eliminarDespuesDe`, `createdAt`, `claveEnvio` único) y selector oficial `origen` con permisos de solo lectura en `Consulta.ts`.
+    - Hook `afterChange` en `Consulta.ts` para registrar/actualizar `Suscriptor` automáticamente cuando una consulta marcada como spam es promovida a `nueva` ("No es spam") con la casilla de novedades marcada (§4, §5.2.13).
+    - Inclusión del total de suscriptores a novedades en la cabecera de `TarjetaConsultasPorMes.tsx`.
+    - Blindaje de `ajustes()` y `fotosVisibles()` con `try/catch` para garantizar compilación Next.js limpia sin base de datos activa.
+- **Criterio de aceptación cumplido:** 35/35 pruebas unitarias en verde; compilación Next.js 15 exitosa; persistencia inmutable de snapshots; notificación push por Telegram blindada; y antispam calibrado sin fricción.
 
 ---
 
-### Etapa 6: Páginas Editoriales y Cumplimiento Legal
-- **Objetivo:** Completar la presencia institucional y garantizar cumplimiento con la Ley 21.719 de datos personales.
-- **Vistas:**
-  - `/sobre-mi`: perfil fotográfico de Rod, trayectoria y selección de fotos destacadas.
-  - `/contacto`: vías de comunicación con enmascaramiento `{correo}` para neutralizar bots recolectores.
-  - `/privacidad`: política legal adaptada a expediciones fotográficas en terreno y cláusula de respaldos (retención de hasta 45 días).
-  - `/condiciones`: propiedad intelectual (Ley 17.336), pautas de manipulación y enmarcado Fine Art.
-- **Criterio de aceptación:** Las cuatro páginas reservadas cargan su contenido administrable desde Payload y cumplen con las normativas legales vigentes.
+### Etapa 6: Páginas Editoriales y Cumplimiento Legal (COMPLETADA ✅)
+- **Objetivo:** Completar la presencia institucional y garantizar cumplimiento con la Ley 21.719 de datos personales y Ley 17.336 de propiedad intelectual según [`paginas.md`](file:///Users/roddiaz/projects/DesarrolloWeb/DocumentosTecnicos/paginas/paginas.md).
+- **Componentes y arquitectura implementados (Rol Desarrollador):**
+  - `src/lib/rutasReservadas.ts`: definición estricta de rutas de sistema (`fotos`, `colecciones`, `consulta`, `admin`, `api`, `datos`, `sitemap.xml`, `robots.txt`, `guia-estilo`, `og`, etc.) y páginas institucionales reservadas, con helpers `esRutaReservada` y `esPaginaReservada`.
+  - `src/colecciones/Pagina.ts`: protección contra colisiones de slugs en páginas libres ("Ese nombre ya lo usa el sitio. Elige otro."), validación obligatoria de título y contenido para publicar, inmutabilidad de slugs en páginas reservadas, y bloqueo contra borrador o eliminación de la política de privacidad.
+  - `src/componentes/paginas/CorreoProtegido.tsx`: técnica de disuasión contra bots raspadores con renderizado SSR en texto ("usuario [arroba] dominio" con atributos data) e hidratación client-side interactiva a enlace `mailto:`.
+  - `src/componentes/paginas/TextoEnriquecido.tsx`: serializador seguro de nodos Lexical (párrafos, h2/h3 con IDs anclables para navegación intra-página, listas, citas, enlaces con `rel="noopener"`, negrita/cursiva) y sustitución automática del marcador `{correo}`.
+  - `src/componentes/paginas/paginas.module.css`: estilos editoriales con límite de 65ch, columna de lectura, tipografía `--texto-lectura`, foto de perfil sticky 40% ancho en escritorio y disposición apilada en móvil.
+  - `src/componentes/paginas/PlantillaSobreMi.tsx`: perfil fotográfico de Rod con foto de perfil en `MarcoFoto` modo `ficha` (LCP prioritario), texto editorial, vitrina de hasta 6 fotos destacadas (`fotosDestacadas(6)`) y botón secundario "Escríbeme".
+  - `src/componentes/paginas/PlantillaContacto.tsx`: página de contacto minimalista con botón primario "Escríbeme" hacia `/consulta` sin parámetros, enlace a Instagram con `rel="me noopener"` y **sin dirección de correo visible** en la vista ni en el HTML por decisión de Rod (§3.2).
+  - `src/componentes/paginas/PlantillaTexto.tsx`: plantilla de lectura sobria para `/privacidad`, `/condiciones` y páginas libres, con fecha de actualización formateada en español para las legales y botón `Retorno`.
+  - `src/lib/contenido.ts`: funciones públicas `paginaPorSlug` (resolución de páginas publicadas y redirección 308 para slugs anteriores) y `paginasEnNavegacion` (consulta liviana de páginas reservadas publicadas).
+  - Integración dinámica en `layout.tsx`, `Encabezado.tsx` y `Pie.tsx`: visualización condicional de enlaces institucionales en encabezado, menú móvil y pie únicamente si sus páginas están publicadas.
+  - Vistas públicas: `/sobre-mi`, `/contacto` y `/[slug]` (con soporte de `generateStaticParams` desacoplado de la base de datos).
+  - Semilla oficial `src/semilla/paginas.ts`: textos aprobados completos de los Anexos A (Política de privacidad con plazos adaptados a expediciones) y B (Condiciones de uso con pautas de manipulación y enmarcado Fine Art de museo).
+- **Criterio de aceptación cumplido:** 35/35 pruebas unitarias en verde; compilación `next build` exitosa con todas las rutas estáticas y dinámicas generadas en 102 kB First Load JS; cumplimiento normativo íntegro (Ley 21.719 / 19.628 / 17.336).
 
 ---
 

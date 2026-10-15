@@ -12,15 +12,21 @@ export function TarjetaConsultasPorMes() {
     meses: Array<{ claveMes: string; etiqueta: string; recibidas: number; respondidas: number }>
     generales: number
   } | null>(null)
+  const [totalSuscriptores, setTotalSuscriptores] = useState<number | null>(null)
   const [cargando, setCargando] = useState(true)
 
   useEffect(() => {
-    fetch('/api/consultas?limit=500&depth=0')
-      .then((res) => (res.ok ? res.json() : null))
-      .then((resJson) => {
-        if (resJson && Array.isArray(resJson.docs)) {
-          const resultado = indicadorMensual(resJson.docs)
+    Promise.all([
+      fetch('/api/consultas?limit=500&depth=0').then((res) => (res.ok ? res.json() : null)),
+      fetch('/api/suscriptores?limit=1&depth=0').then((res) => (res.ok ? res.json() : null)),
+    ])
+      .then(([resConsultas, resSuscriptores]) => {
+        if (resConsultas && Array.isArray(resConsultas.docs)) {
+          const resultado = indicadorMensual(resConsultas.docs)
           setDatos(resultado)
+        }
+        if (resSuscriptores && typeof resSuscriptores.totalDocs === 'number') {
+          setTotalSuscriptores(resSuscriptores.totalDocs)
         }
       })
       .catch(() => {})
@@ -72,11 +78,18 @@ export function TarjetaConsultasPorMes() {
           </div>
         </div>
 
-        {datos && (
-          <div style={{ fontSize: '12px', color: 'var(--theme-elevation-600, #aaa)' }}>
-            Mensajes generales: <strong>{datos.generales}</strong>
-          </div>
-        )}
+        <div style={{ display: 'flex', gap: '12px', fontSize: '12px', color: 'var(--theme-elevation-600, #aaa)' }}>
+          {totalSuscriptores !== null && (
+            <div>
+              Suscriptores a novedades: <strong>{totalSuscriptores}</strong>
+            </div>
+          )}
+          {datos && (
+            <div>
+              Mensajes generales: <strong>{datos.generales}</strong>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Leyenda */}

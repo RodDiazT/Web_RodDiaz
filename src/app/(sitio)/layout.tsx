@@ -7,6 +7,9 @@ import { SaltarContenido } from '@/componentes/base/SaltarContenido'
 import { Encabezado } from '@/componentes/base/Encabezado'
 import { Pie } from '@/componentes/base/Pie'
 
+import { ajustes, paginasEnNavegacion } from '@/lib/contenido'
+import { ItemNavegacion } from '@/componentes/base/MenuMovil'
+
 export const metadata: Metadata = {
   title: 'Rod Díaz — Fotografía Fine Art',
   description: 'Portafolio fotográfico y copias Fine Art impresas en taller propio de Rod Díaz.',
@@ -20,21 +23,51 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const [configGlobal, paginasNav] = await Promise.all([
+    ajustes(),
+    paginasEnNavegacion(),
+  ])
+
+  const navegacion: ItemNavegacion[] = [
+    { etiqueta: 'Colecciones', href: '/colecciones' },
+    { etiqueta: 'Fotos', href: '/fotos' },
+  ]
+
+  if (paginasNav.sobreMi) {
+    navegacion.push({ etiqueta: 'Sobre mí', href: '/sobre-mi' })
+  }
+  if (paginasNav.contacto) {
+    navegacion.push({ etiqueta: 'Contacto', href: '/contacto' })
+  }
+
+  const redInstagram = configGlobal?.redes?.find((r) => r.red === 'instagram')
+  const instagramUrl = redInstagram?.url || undefined
+
   return (
     <html lang="es" className={`${cormorant.variable} ${manrope.variable}`}>
       <body>
         <SaltarContenido />
-        <Encabezado />
+        <Encabezado
+          nombreSitio={configGlobal?.nombreSitio || 'Rod Díaz'}
+          logoUrl={typeof configGlobal?.logo === 'object' ? configGlobal.logo?.url : undefined}
+          navegacion={navegacion}
+        />
         <main id="contenido-principal" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
           {children}
         </main>
-        <Pie />
+        <Pie
+          nombreSitio={configGlobal?.nombreSitio || 'Rod Díaz'}
+          textoDerechos={configGlobal?.textoDerechos || 'Todos los derechos reservados'}
+          instagramUrl={instagramUrl}
+          enlacesLegales={paginasNav}
+        />
       </body>
     </html>
   )
 }
+

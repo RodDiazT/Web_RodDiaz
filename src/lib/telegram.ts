@@ -24,10 +24,13 @@ export interface DatosNotificacionTelegram {
 }
 
 /**
- * Escapa caracteres reservados para Telegram MarkdownV2 o texto seguro.
+ * Escapa entidades HTML para Telegram HTML parse mode.
  */
-function limpiarTexto(str: string): string {
-  return str.replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')
+function escaparHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
 }
 
 /**
@@ -54,37 +57,37 @@ export async function notificarTelegramConsulta(
 
     const lineas: string[] = [
       datos.tipo === 'copia'
-        ? '📸 *Nueva Consulta de Copia Fine Art*'
-        : '✉️ *Nuevo Mensaje General*',
-      `📅 ${ahoraChile}`,
+        ? '📸 <b>Nueva Consulta de Copia Fine Art</b>'
+        : '✉️ <b>Nuevo Mensaje General</b>',
+      `📅 ${escaparHtml(ahoraChile)}`,
       '',
-      `👤 *Nombre:* ${datos.nombre}`,
-      `📧 *Correo:* ${datos.correo}`,
+      `👤 <b>Nombre:</b> ${escaparHtml(datos.nombre)}`,
+      `📧 <b>Correo:</b> ${escaparHtml(datos.correo)}`,
     ]
 
     if (datos.telefono) {
-      lineas.push(`📞 *Teléfono:* ${datos.telefono}`)
+      lineas.push(`📞 <b>Teléfono:</b> ${escaparHtml(datos.telefono)}`)
     }
 
     if (datos.ciudad) {
-      lineas.push(`📍 *Ciudad:* ${datos.ciudad}`)
+      lineas.push(`📍 <b>Ciudad:</b> ${escaparHtml(datos.ciudad)}`)
     }
 
     if (Array.isArray(datos.items) && datos.items.length > 0) {
       lineas.push('')
-      lineas.push(`🖼️ *Obras solicitadas (${datos.items.length}):*`)
+      lineas.push(`🖼️ <b>Obras solicitadas (${datos.items.length}):</b>`)
       for (const item of datos.items) {
         const titulo = item.tituloFoto || 'Fotografía'
         const formato = item.nombreFormatoSnapshot || 'Tamaño por definir'
         const papel = item.nombrePapelSnapshot ? ` · ${item.nombrePapelSnapshot}` : ''
-        lineas.push(`• *${titulo}*: ${formato}${papel}`)
+        lineas.push(`• <b>${escaparHtml(titulo)}</b>: ${escaparHtml(formato)}${escaparHtml(papel)}`)
       }
     }
 
     if (datos.mensaje) {
       lineas.push('')
-      lineas.push(`💬 *Mensaje:*`)
-      lineas.push(`_${datos.mensaje.trim()}_`)
+      lineas.push(`💬 <b>Mensaje:</b>`)
+      lineas.push(`<i>${escaparHtml(datos.mensaje.trim())}</i>`)
     }
 
     const cuerpoTexto = lineas.join('\n')
@@ -96,7 +99,7 @@ export async function notificarTelegramConsulta(
       body: JSON.stringify({
         chat_id: chatId,
         text: cuerpoTexto,
-        parse_mode: 'Markdown',
+        parse_mode: 'HTML',
       }),
       signal: AbortSignal.timeout(5000), // Timeout 5s para no retener recursos
     })

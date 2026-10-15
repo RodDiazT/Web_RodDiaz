@@ -484,6 +484,7 @@ export function indicadorMensual(
 
   for (let i = 11; i >= 0; i--) {
     const d = new Date(fechaReferencia)
+    d.setDate(1)
     d.setMonth(d.getMonth() - i)
     const claveMes = formateadorClave.format(d) // "2026-10"
     const etiqueta = formateadorMes.format(d).replace('.', '') // "oct 26"
