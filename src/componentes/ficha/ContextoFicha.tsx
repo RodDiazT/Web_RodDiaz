@@ -157,8 +157,16 @@ export function ContextoFicha({
     />
   )
 
-  const accionVisor = ofreceCopia ? (
-    <Boton variante="primario" href={hrefVisor}>
+  // CTA del visor dinámico según la foto activa en el carrusel (§3.6)
+  const fotoEnVisor = fotosVisor[indiceVisor] || fotoActual
+  const esFotoActual = !fotoEnVisor.slug || fotoEnVisor.slug === fotoSlug
+  const ofreceCopiaEnVisor = esFotoActual ? ofreceCopia : Boolean(fotoEnVisor.ofreceCopia)
+  const hrefVisorActual = esFotoActual || !fotoEnVisor.slug
+    ? hrefVisor
+    : `/consulta?foto=${encodeURIComponent(fotoEnVisor.slug)}&origen=visor`
+
+  const accionVisor = ofreceCopiaEnVisor ? (
+    <Boton variante="primario" href={hrefVisorActual}>
       {textoLlamadaCopia}
     </Boton>
   ) : undefined

@@ -6,6 +6,7 @@ import styles from './MarcoFoto.module.css'
 export type ModoMarcoFoto = 'grilla' | 'ficha' | 'portada' | 'visor'
 
 export interface FotoMarco {
+  slug?: string
   url?: string
   ancho?: number
   alto?: number
@@ -13,6 +14,7 @@ export interface FotoMarco {
   titulo?: string
   textoAlternativo?: string
   filete?: boolean
+  ofreceCopia?: boolean
   focalX?: number
   focalY?: number
   sizes?: {

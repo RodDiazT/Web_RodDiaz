@@ -2,7 +2,7 @@
 
 > **Estado general de la documentación:** Todos los documentos técnicos de la suite v1.0 se encuentran en estado **`aprobado`** tras la auditoría integral Fine Art y difusión.
 > **Fuente de verdad:** [`DocumentosTecnicos/_INDICE_MAESTRO.md`](file:///Users/roddiaz/projects/DesarrolloWeb/DocumentosTecnicos/_INDICE_MAESTRO.md) y [`DocumentosTecnicos/marco-general/marco-general-proyecto.md`](file:///Users/roddiaz/projects/DesarrolloWeb/DocumentosTecnicos/marco-general/marco-general-proyecto.md).
-> **Estado de avance:** Etapas 1, 2, 3 y 4 completadas. Próxima: Etapa 5 (Consultas 1:1 y Notificaciones).
+> **Estado de avance:** Etapas 1, 2, 3, 4 y 5 completadas. Próxima: Etapa 6 (Páginas Editoriales y Cumplimiento Legal).
 
 ---
 
@@ -33,9 +33,10 @@ Podemos construir todo el sistema con valores semilla (*seeds*), variables opcio
 flowchart TD
     E1["Etapa 1: Base Técnica y Entorno\nNext.js + Payload 3 + Postgres (COMPLETADA ✅)"] --> E2["Etapa 2: Modelo de Contenido\nColecciones, Sharp, EXIF, Seeds (AUDITADA Y CORREGIDA ✅)"]
     E2 --> E3["Etapa 3: Sistema de Diseño\nTokens CSS, Tipografías, UI Base (AUDITADA Y COMPLETADA ✅)"]
-    E3 --> E4["Etapa 4: Portafolio Público\nGalería 3:2, Visor 2.5x, Ficha Fine Art (COMPLETADA ✅)"]
-    E4 --> E5["Etapa 5: Consultas 1:1\nFormulario, Antispam 1.8s, Telegram (SIGUIENTE 🚀)"]
-    E2 --> E6["Etapa 6: Páginas Editoriales\nSobre mí, Contacto, Ley 21.719"]
+    E3 --> E4["Etapa 4: Portafolio Público\nGalería 3:2, Visor 2.5x, Ficha Fine Art (AUDITADA Y CORREGIDA ✅)"]
+    E4 --> E5["Etapa 5: Consultas 1:1\nFormulario, Antispam 1.8s, Telegram (COMPLETADA ✅)"]
+    E5 --> E6["Etapa 6: Páginas Editoriales\nSobre mí, Contacto, Ley 21.719 (SIGUIENTE 🚀)"]
+    E2 --> E6
     E4 --> E7["Etapa 7: SEO y Open Graph\nLienzo Vertical Blur, Sitemap, JSON-LD"]
     E6 --> E7
     E5 --> E8["Etapa 8: Despliegue Railway y Lanzamiento\nPruebas/Prod, Backups, Estrés 45 MP"]
@@ -92,7 +93,7 @@ flowchart TD
 
 ---
 
-### Etapa 4: Portafolio Público (COMPLETADA ✅)
+### Etapa 4: Portafolio Público (COMPLETADA Y AUDITADA ✅)
 - **Objetivo:** Construir la experiencia pública donde la obra fotográfica es la protagonista según especificaciones de [`galeria-colecciones.md`](file:///Users/roddiaz/projects/DesarrolloWeb/DocumentosTecnicos/interaccion/galeria-colecciones.md) y [`ficha-foto.md`](file:///Users/roddiaz/projects/DesarrolloWeb/DocumentosTecnicos/interaccion/ficha-foto.md).
 - **Vistas y componentes implementados:**
   - **Paginación y dominio (`src/lib/`):**
@@ -120,21 +121,55 @@ flowchart TD
     - `Compartir.tsx`: Web Share API nativa con copia a portapapeles (feedback 2s) y fallback directo a WhatsApp.
     - `MasDeColeccion.tsx`: carrusel circular de hasta 6 fotos de la misma serie.
     - `ContextoFicha.tsx`: integración fluida con `Visor` (atajos ← / →, inspección de nitidez a doble toque 2.5x).
-- **Criterio de aceptación cumplido:** 23/23 pruebas unitarias pasando; compilación de producción en Next.js limpia sin base de datos activa; navegación en máximo 2 clics; sin imágenes de 2048px en la galería.
+- **Auditoría y correcciones aplicadas:**
+  - Botón CTA en `Visor` sincronizado reactivamente con la foto activa en el carrusel y ocultado en fotos de vitrina (§3.6).
+  - Ubicación de la línea del formato seleccionado ("30 × 45 cm · Quitar") bajo el botón primario en disposición horizontal y vertical (§3.1).
+  - Navegación inteligente en `Retorno` con `history.back()` cuando el usuario proviene de la misma lista de galería (§3.5).
+  - Restauración y salto instantáneo a la posición de la foto en la galería mediante `sessionStorage` en `ItemGrilla` y `CargaInfinita` (§3.7).
+  - Doble acción ("Ver todas las fotos" y "Ver <colección>") en `FotoNoDisponible` para fotos despublicadas (§3.8).
+- **Criterio de aceptación cumplido:** Pruebas unitarias al 100%; compilación de producción en Next.js limpia sin base de datos activa; navegación fluida en ≤ 2 clics; sin imágenes de 2048px en la galería.
 
 ---
 
-### Etapa 5: Sistema de Consultas 1:1 y Notificaciones
-- **Objetivo:** Canalizar el interés del visitante hacia Rod de forma ágil y privada.
-- **Tareas clave:**
-  - Página `/consulta` con soporte de parámetros de URL (`?foto=...&formato=...`) y buscador dinámico (`GET /datos/fotos-consultables`). Soporte de consulta general sin foto.
-  - Sistema antispam calibrado: honeypot + tiempo mínimo de llenado de 1.8 segundos (adaptado para autocompletado en navegadores móviles) + limitador de tasa por IP.
-  - Server Action con mejora progresiva (funciona sin JS).
-  - Persistencia de snapshots textuales de formato y papel para inmutabilidad ante cambios de catálogo.
-  - Integración push a Telegram (`TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`) de ejecución no bloqueante.
-  - Gestión en `/admin`: contador de consultas `nueva`, filtrado por estado, enlace con borrador para responder desde Gmail.
-  - Proceso de limpieza automática con cola de tareas de Payload: borrado a los 12 meses (y a los 30 días si es spam).
-- **Criterio de aceptación:** Una consulta enviada aparece como `nueva` en el panel, genera snapshot inmutable y despacha aviso a Telegram si las variables existen.
+### Etapa 5: Sistema de Consultas 1:1 y Notificaciones (COMPLETADA Y VERIFICADA ✅)
+- **Objetivo:** Canalizar el interés del visitante hacia Rod de forma ágil y privada cumpliendo con la Ley 21.719.
+- **Implementación realizada:**
+  - **Librería de dominio y antispam (`src/lib/consultas.ts` y `src/lib/limiteEnvios.ts`):**
+    - Detección de errores comunes de dominio de correo (`sugerirCorreo` para `gmail.com`, `hotmail.com`, etc.).
+    - Token HMAC firmado con `PAYLOAD_SECRET` y tiempo mínimo de llenado de 1.8 segundos (`firmarEmision`, `verificarEmision`, `clasificarSpam`).
+    - Límite de tasa por IP en memoria (5 envíos/hora) con sal diaria volátil y sin almacenar IPs en disco.
+    - Función de inmutabilidad y cálculo de purga `calcularEliminarDespuesDe` (12 meses o 30 días spam).
+    - Generador de URLs de respuesta por Gmail y mailto con sustitución de plantillas (`urlRespuestaGmail`).
+    - Indicador mensual de consultas de copia recibidas vs respondidas (`indicadorMensual`).
+    - Informe de transparencia de datos personales en texto plano (`exportarDatosCorreo`).
+    - Suite completa de pruebas en `src/lib/consultas.test.ts` (10 pruebas adicionales, totalizando 33 pruebas unitarias al 100%).
+  - **Notificaciones push instantáneas (`src/lib/telegram.ts`):**
+    - Aviso asíncrono no bloqueante vía Bot de Telegram (`TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`) tras guardado exitoso sin comprometer la respuesta al visitante.
+  - **Colecciones y globales Payload:**
+    - `Consulta`: acceso restringido a `Usuario` (creación pública exclusiva vía Server Action con `overrideAccess`), hooks automáticos de `tipo`, `ultimaActividad`, `respondidaEn` y `eliminarDespuesDe`.
+    - `AjustesSitio`: valores oficiales aprobados para textos de introducción, recepción, consentimiento (Ley 21.719), novedades y plantilla de respuesta.
+  - **Endpoint de búsqueda de fotos (`GET /datos/fotos-consultables`):**
+    - Entrega liviana de fotos visibles que ofrecen copia, con formatos orientados y búsqueda normalizada sin tildes.
+  - **Server Action (`src/app/(sitio)/consulta/acciones.ts`):**
+    - `enviarConsulta` con mejora progresiva (soporte sin JS), idempotencia por `claveEnvio`, verificación de honeypot y tasa por IP, persistencia de snapshots inmutables de catálogo (`nombreFormatoSnapshot`, `nombrePapelSnapshot`), y alta en `Suscriptor` si aceptó novedades.
+  - **Página y componentes públicos (`/consulta`):**
+    - `page.tsx`: servida dinámicamente, directiva `noindex, nofollow`, resolución de `?foto=...&formato=...&origen=...`, avisos informativos para fotos no disponibles o de vitrina sin generar 404.
+    - `FormularioConsulta.tsx`: formulario en dos columnas escritorio / apilado móvil con `useActionState`, validación al desenfocar (`onBlur`), resumen de errores accesible y botón con feedback de envío.
+    - `ItemsConsulta.tsx` e `ItemConsulta.tsx`: lista de hasta 5 obras, selectores dependientes de formato y papel, miniatura 72px y anuncio `aria-live` al quitar.
+    - `BuscadorFotos.tsx`: modal con búsqueda reactiva sin tildes, miniaturas de catálogo y selección directa.
+    - `SugerenciaCorreo.tsx`: sugerencia interactiva con un toque para correos mal escritos.
+    - `ExitoConsulta.tsx`: estado de confirmación con animación de trazo SVG sobria (≤ 300ms) y foco accesible en el título.
+  - **Componentes de administración en `/admin`:**
+    - `ContadorConsultas.tsx`: globo indicador de nuevas consultas en el menú.
+    - `TarjetaConsultasNuevas.tsx`: tarjeta del dashboard con conteo y antigüedad de la más antigua.
+    - `TarjetaConsultasPorMes.tsx`: gráfico de barras en CSS nativo para 12 meses (recibidas vs respondidas) y conteo de generales.
+    - `AccionesConsulta.tsx`: responder por Gmail, mailto alternativo y transiciones de estado.
+    - `OtrasConsultasCorreo.tsx`: historial de consultas del mismo titular.
+    - `DatosDeCorreo.tsx`: descarga de informe `.txt` y supresión total de datos.
+    - `AccionesSuscriptores.tsx`: copia masiva para CCO y gestión de bajas.
+  - **Tarea programada de purga:**
+    - `src/tareas/borrarConsultasVencidas.ts` integrada a la cola diaria.
+- **Criterio de aceptación cumplido:** 33/33 pruebas unitarias en verde; compilación Next.js 15 exitosa; persistencia inmutable de snapshots; notificación push por Telegram; y antispam calibrado sin fricción.
 
 ---
 

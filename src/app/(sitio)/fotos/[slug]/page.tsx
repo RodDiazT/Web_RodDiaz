@@ -53,7 +53,7 @@ export default async function PaginaFoto({ params }: PaginaFotoProps) {
 
 
   if ('noDisponible' in datos) {
-    return <FotoNoDisponible />
+    return <FotoNoDisponible coleccion={datos.coleccion} />
   }
 
   return <Ficha datos={datos} />

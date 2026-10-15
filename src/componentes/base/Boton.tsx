@@ -7,6 +7,7 @@ export type VarianteBoton = 'primario' | 'secundario' | 'enlace'
 interface BotonBaseProps {
   variante?: VarianteBoton
   cargando?: boolean
+  tipo?: 'button' | 'submit' | 'reset'
   icono?: React.ReactNode
   children: React.ReactNode
   className?: string
@@ -27,12 +28,15 @@ export type BotonProps = BotonComoBoton | BotonComoEnlace
 export function Boton({
   variante = 'primario',
   cargando = false,
+  tipo,
   icono,
   children,
   className = '',
   href,
+  type,
   ...props
 }: BotonProps) {
+  const tipoFinal = (tipo || type || (href ? undefined : 'button')) as 'button' | 'submit' | 'reset' | undefined
   const clases = [
     styles.boton,
     styles[variante],
@@ -64,7 +68,7 @@ export function Boton({
 
   return (
     <button
-      type="button"
+      type={tipoFinal || 'button'}
       className={clases}
       aria-busy={cargando}
       {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}

@@ -1,0 +1,121 @@
+.contenedorExito {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--esp-6) var(--margen);
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-6);
+  animation: entradaExito 250ms var(--curva-salida) forwards;
+}
+
+@keyframes entradaExito {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.cabeceraExito {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-3);
+}
+
+.iconoCheckCirculo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--color-linea);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background-color: var(--color-superficie);
+}
+
+.checkSvg {
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+  animation: trazarCheck 300ms ease forwards;
+}
+
+@keyframes trazarCheck {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.titulo {
+  font: var(--titulo-md);
+  margin: 0;
+  color: var(--color-texto);
+}
+
+.textoConfirmacion {
+  font: var(--texto-base);
+  color: var(--color-texto);
+  line-height: 1.6;
+}
+
+.resumenObras {
+  padding: var(--esp-4);
+  background-color: var(--color-superficie);
+  border: 1px solid var(--color-linea);
+  border-radius: var(--radio-control);
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+}
+
+.tituloResumen {
+  font: var(--texto-sm);
+  font-weight: 600;
+  color: var(--color-texto);
+  margin: 0 0 var(--esp-1) 0;
+}
+
+.listaResumen {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+}
+
+.itemResumen {
+  font: var(--texto-sm);
+  color: var(--color-texto-secundario);
+}
+
+.itemNombre {
+  font-weight: 500;
+  color: var(--color-texto);
+}
+
+.textoNovedades {
+  font: var(--texto-xs);
+  color: var(--color-texto-secundario);
+  margin: 0;
+}
+
+.acciones {
+  display: flex;
+  gap: var(--esp-3);
+  flex-wrap: wrap;
+  margin-top: var(--esp-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contenedorExito {
+    animation: none !important;
+  }
+  .checkSvg {
+    stroke-dashoffset: 0 !important;
+    animation: none !important;
+  }
+}

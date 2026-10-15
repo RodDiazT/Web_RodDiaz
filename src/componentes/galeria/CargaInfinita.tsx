@@ -37,10 +37,32 @@ export function CargaInfinita({
   const centinelaRef = useRef<HTMLDivElement>(null)
   const abortControllerRef = useRef<AbortController | null>(null)
 
+  // Restaurar posición y elemento visto al volver de una ficha (§3.7)
+  useEffect(() => {
+    try {
+      const clave = `galeria_${window.location.pathname}${window.location.search}`
+      const guardado = sessionStorage.getItem(clave)
+      if (guardado) {
+        const estado = JSON.parse(guardado)
+        if (estado.slug) {
+          const el = document.getElementById(`foto-${estado.slug}`)
+          if (el) {
+            el.scrollIntoView({ behavior: 'instant', block: 'center' })
+          } else if (typeof estado.scrollY === 'number') {
+            window.scrollTo({ top: estado.scrollY, behavior: 'instant' })
+          }
+        } else if (typeof estado.scrollY === 'number') {
+          window.scrollTo({ top: estado.scrollY, behavior: 'instant' })
+        }
+        sessionStorage.removeItem(clave)
+      }
+    } catch {}
+  }, [])
+
   // Guardar estado en sessionStorage antes de navegar a una ficha (§3.7)
   useEffect(() => {
     try {
-      const clave = `galeria_${window.location.pathname}`
+      const clave = `galeria_${window.location.pathname}${window.location.search}`
       const guardarEstado = () => {
         sessionStorage.setItem(
           clave,

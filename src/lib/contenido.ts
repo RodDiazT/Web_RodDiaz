@@ -821,7 +821,15 @@ export async function fichaFoto(slug: string) {
 
     if (resSlug.tipo === 'noDisponible') {
       const colId = typeof resSlug.foto?.coleccion === 'object' ? resSlug.foto.coleccion?.id : resSlug.foto?.coleccion
-      return { noDisponible: true, coleccionId: colId }
+      let coleccionPublica: { nombre: string; slug: string } | null = null
+      if (colId) {
+        const payload = await obtenerPayload()
+        const col = await payload.findByID({ collection: 'colecciones', id: colId }).catch(() => null)
+        if (col && col.estado === 'publicada') {
+          coleccionPublica = { nombre: col.nombre, slug: col.slug }
+        }
+      }
+      return { noDisponible: true, coleccion: coleccionPublica }
     }
 
     const { foto } = resSlug
@@ -1083,6 +1091,98 @@ export async function contextoFoto(params: {
     }
   } catch {
     return null
+  }
+}
+
+/**
+ * Consulta las fotos visibles que ofrecen copia física para el buscador de /consulta (§5.3).
+ * Formatos orientados, textos normalizados sin tildes y miniaturas ligeras (480px).
+ */
+export async function fotosConsultables() {
+  try {
+    const payload = await obtenerPayload()
+    const todasVisibles = await fotosVisibles({ limit: 500 })
+    let fotos = [...todasVisibles.docs] as any[]
+
+    // Orden canónico de /fotos: fijadas por ordenFijada asc, luego por publicadaEn desc
+    fotos.sort((a, b) => {
+      if (a.fijada && !b.fijada) return -1
+      if (!a.fijada && b.fijada) return 1
+      if (a.fijada && b.fijada) return (a.ordenFijada ?? 999) - (b.ordenFijada ?? 999)
+      const fA = new Date(a.publicadaEn || 0).getTime()
+      const fB = new Date(b.publicadaEn || 0).getTime()
+      if (fB !== fA) return fB - fA
+      return String(b.id).localeCompare(String(a.id))
+    })
+
+    const consultables: Array<{
+      slug: string
+      titulo: string
+      lugar?: string
+      busqueda: string
+      miniatura: {
+        webp?: string
+        avif?: string
+        ancho: number
+        alto: number
+        colorDominante?: string
+      }
+      formatos: Array<{
+        id: string
+        nombre: string
+        papeles: Array<{
+          id: string
+          nombre: string
+          descripcion?: string
+        }>
+      }>
+    }> = []
+
+    for (const foto of fotos) {
+      const orientacion = foto.proporcion?.orientacion || 'horizontal'
+      const formatosCrudos = Array.isArray(foto.formatos) ? foto.formatos : []
+      const formatos = formatosCrudos
+        .map((f: any) => (typeof f === 'object' ? orientarFormato(f, orientacion) : null))
+        .filter((f: any) => f && f.papeles && f.papeles.length > 0)
+
+      if (formatos.length === 0) continue
+
+      const textoBusqueda = [foto.titulo, foto.lugar]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+
+      const sizes = foto.sizes || {}
+
+      consultables.push({
+        slug: foto.slug,
+        titulo: foto.titulo,
+        lugar: foto.lugar || undefined,
+        busqueda: textoBusqueda,
+        miniatura: {
+          webp: sizes.pequena_webp?.url || foto.url,
+          avif: sizes.pequena_avif?.url || undefined,
+          ancho: sizes.pequena_webp?.width || 480,
+          alto: sizes.pequena_webp?.height || 320,
+          colorDominante: foto.colorDominante || '#1C1C1C',
+        },
+        formatos: formatos.map((f: any) => ({
+          id: String(f.id),
+          nombre: f.etiquetaDimensiones,
+          papeles: f.papeles.map((p: any) => ({
+            id: String(typeof p === 'object' ? p.id : p),
+            nombre: typeof p === 'object' ? p.nombre : 'Papel Fine Art',
+            descripcion: typeof p === 'object' ? p.descripcion || undefined : undefined,
+          })),
+        })),
+      })
+    }
+
+    return consultables
+  } catch {
+    return []
   }
 }
 

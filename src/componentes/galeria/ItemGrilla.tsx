@@ -15,9 +15,24 @@ export function ItemGrilla({ foto, prioridad = false, className = '' }: ItemGril
 
   const textoSubtitulo = [foto.titulo, foto.lugar].filter(Boolean).join(' · ')
 
+  const manejarClic = () => {
+    try {
+      const clave = `galeria_${window.location.pathname}${window.location.search}`
+      sessionStorage.setItem(
+        clave,
+        JSON.stringify({
+          scrollY: window.scrollY,
+          slug: foto.slug,
+        })
+      )
+    } catch {}
+  }
+
   return (
     <Link
       href={foto.href}
+      id={`foto-${foto.slug}`}
+      onClick={manejarClic}
       className={`${styles.item} ${className}`}
       style={{
         flexGrow: proporcion,

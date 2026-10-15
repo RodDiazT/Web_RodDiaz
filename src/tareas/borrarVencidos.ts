@@ -10,6 +10,7 @@
 
 import { getPayload } from 'payload'
 import config from '../payload.config'
+import { borrarConsultasVencidas } from './borrarConsultasVencidas'
 
 export async function borrarRegistrosVencidos() {
   const payload = await getPayload({ config })
@@ -45,38 +46,9 @@ export async function borrarRegistrosVencidos() {
     console.error('[Tareas] Error al purgar intentos de acceso:', error)
   }
 
-  // 2. Borrar Consultas con eliminarDespuesDe vencido
+  // 2. Borrar Consultas vencidas y purgar supresiones con más de 45 días (§5.2.10)
   try {
-    const consultasVencidas = await payload.find({
-      collection: 'consultas',
-      where: {
-        and: [
-          {
-            eliminarDespuesDe: {
-              exists: true,
-            },
-          },
-          {
-            eliminarDespuesDe: {
-              less_than_equal: ahora.toISOString(),
-            },
-          },
-        ],
-      },
-      limit: 500,
-    })
-
-    if (consultasVencidas.totalDocs > 0) {
-      for (const c of consultasVencidas.docs) {
-        await payload.delete({
-          collection: 'consultas',
-          id: c.id,
-        })
-      }
-      console.log(`[Tareas] Se purgaron ${consultasVencidas.totalDocs} consultas vencidas.`)
-    } else {
-      console.log('[Tareas] No hay consultas pendientes de purga.')
-    }
+    await borrarConsultasVencidas()
   } catch (error) {
     console.error('[Tareas] Error al purgar consultas vencidas:', error)
   }

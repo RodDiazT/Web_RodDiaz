@@ -123,21 +123,6 @@ export function TamanosPapeles({
           </fieldset>
         </div>
       </details>
-
-      {/* Línea indicadora bajo el botón si hay elección personalizada (§3.3) */}
-      {!esUnicoFormato && formatoActivoDoc && (
-        <div className={styles.lineaSeleccionado}>
-          <span>{formatoActivoDoc.etiquetaDimensiones}</span>
-          <span>·</span>
-          <button
-            type="button"
-            className={styles.botonQuitar}
-            onClick={() => seleccionarFormato(null)}
-          >
-            Quitar
-          </button>
-        </div>
-      )}
     </div>
   )
 }

@@ -3,47 +3,79 @@ import styles from './Campo.module.css'
 
 export type TipoCampo = 'texto' | 'correo' | 'telefono' | 'area' | 'seleccion' | 'casilla'
 
-interface OpcionSeleccion {
+export interface OpcionSeleccion {
   label: string
   value: string
 }
 
-interface CampoProps {
+export interface CampoProps {
+  id?: string
   tipo?: TipoCampo
-  nombre: string
+  nombre?: string
+  name?: string
   etiqueta: string
   ayuda?: string
   error?: string
   obligatorio?: boolean
+  requerido?: boolean
   valor?: string | boolean
   valorPorDefecto?: string | boolean
   opciones?: OpcionSeleccion[]
   placeholder?: string
   className?: string
+  lineas?: number
+  autoComplete?: string
+  enterKeyHint?: 'enter' | 'done' | 'go' | 'next' | 'previous' | 'search' | 'send'
+  autoFocus?: boolean
+  deshabilitado?: boolean
   onChange?: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => void
+  alCambiar?: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => void
+  onBlur?: (
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => void
+  alDesenfocar?: (
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => void
 }
 
 export function Campo({
+  id,
   tipo = 'texto',
   nombre,
+  name,
   etiqueta,
   ayuda,
   error,
   obligatorio = false,
+  requerido = false,
   valor,
   valorPorDefecto,
   opciones = [],
   placeholder,
   className = '',
+  lineas = 4,
+  autoComplete,
+  enterKeyHint,
+  autoFocus,
+  deshabilitado = false,
   onChange,
+  alCambiar,
+  onBlur,
+  alDesenfocar,
 }: CampoProps) {
   const idUnico = useId()
-  const idControl = `campo-${nombre}-${idUnico}`
+  const nombreFinal = nombre || name || 'campo'
+  const idControl = id || `campo-${nombreFinal}-${idUnico}`
   const idAyuda = ayuda ? `${idControl}-ayuda` : undefined
   const idError = error ? `${idControl}-error` : undefined
   const describedBy = [idError, idAyuda].filter(Boolean).join(' ') || undefined
+  const esObligatorio = obligatorio || requerido
+  const handleChange = onChange || alCambiar
+  const handleBlur = onBlur || alDesenfocar
 
   if (tipo === 'casilla') {
     return (
@@ -52,17 +84,20 @@ export function Campo({
           <input
             type="checkbox"
             id={idControl}
-            name={nombre}
+            name={nombreFinal}
             className={styles.casilla}
-            required={obligatorio}
+            required={esObligatorio}
+            disabled={deshabilitado}
+            autoFocus={autoFocus}
             checked={typeof valor === 'boolean' ? valor : undefined}
             defaultChecked={typeof valorPorDefecto === 'boolean' ? valorPorDefecto : undefined}
-            onChange={onChange}
+            onChange={handleChange}
+            onBlur={handleBlur}
             aria-describedby={describedBy}
           />
           <span className={styles.etiqueta}>
             {etiqueta}
-            {!obligatorio && <span className={styles.opcional}>(opcional)</span>}
+            {!esObligatorio && <span className={styles.opcional}>(opcional)</span>}
           </span>
         </label>
         {ayuda && (
@@ -83,31 +118,40 @@ export function Campo({
     <div className={`${styles.grupo} ${className}`}>
       <label htmlFor={idControl} className={styles.etiqueta}>
         {etiqueta}
-        {!obligatorio && <span className={styles.opcional}>(opcional)</span>}
+        {!esObligatorio && <span className={styles.opcional}>(opcional)</span>}
       </label>
 
       {tipo === 'area' ? (
         <textarea
           id={idControl}
-          name={nombre}
+          name={nombreFinal}
+          rows={lineas}
           className={`${styles.control} ${styles.area} ${error ? styles.controlError : ''}`}
-          required={obligatorio}
+          required={esObligatorio}
+          disabled={deshabilitado}
+          autoFocus={autoFocus}
           placeholder={placeholder}
+          autoComplete={autoComplete}
+          enterKeyHint={enterKeyHint}
           value={typeof valor === 'string' ? valor : undefined}
           defaultValue={typeof valorPorDefecto === 'string' ? valorPorDefecto : undefined}
-          onChange={onChange}
+          onChange={handleChange}
+          onBlur={handleBlur}
           aria-describedby={describedBy}
           aria-invalid={Boolean(error)}
         />
       ) : tipo === 'seleccion' ? (
         <select
           id={idControl}
-          name={nombre}
+          name={nombreFinal}
           className={`${styles.control} ${error ? styles.controlError : ''}`}
-          required={obligatorio}
+          required={esObligatorio}
+          disabled={deshabilitado}
+          autoFocus={autoFocus}
           value={typeof valor === 'string' ? valor : undefined}
           defaultValue={typeof valorPorDefecto === 'string' ? valorPorDefecto : undefined}
-          onChange={onChange}
+          onChange={handleChange}
+          onBlur={handleBlur}
           aria-describedby={describedBy}
           aria-invalid={Boolean(error)}
         >
@@ -122,14 +166,19 @@ export function Campo({
         <input
           type={tipo === 'correo' ? 'email' : tipo === 'telefono' ? 'tel' : 'text'}
           id={idControl}
-          name={nombre}
+          name={nombreFinal}
           className={`${styles.control} ${error ? styles.controlError : ''}`}
-          required={obligatorio}
+          required={esObligatorio}
+          disabled={deshabilitado}
+          autoFocus={autoFocus}
           placeholder={placeholder}
+          autoComplete={autoComplete}
+          enterKeyHint={enterKeyHint}
           autoCapitalize={tipo === 'correo' ? 'none' : undefined}
           value={typeof valor === 'string' ? valor : undefined}
           defaultValue={typeof valorPorDefecto === 'string' ? valorPorDefecto : undefined}
-          onChange={onChange}
+          onChange={handleChange}
+          onBlur={handleBlur}
           aria-describedby={describedBy}
           aria-invalid={Boolean(error)}
         />

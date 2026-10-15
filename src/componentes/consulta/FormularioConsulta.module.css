@@ -1,0 +1,113 @@
+.contenedorPagina {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: var(--esp-6) var(--margen) var(--esp-9);
+  width: 100%;
+}
+
+.retornoContenedor {
+  margin-bottom: var(--esp-4);
+}
+
+.disposicionDosColumnas {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-8);
+}
+
+@media (min-width: 1024px) {
+  .disposicionDosColumnas {
+    flex-direction: row;
+    gap: var(--esp-8);
+    align-items: flex-start;
+  }
+
+  .columnaIzquierda {
+    width: 420px;
+    flex-shrink: 0;
+    position: sticky;
+    top: calc(var(--alto-encabezado) + var(--esp-4));
+  }
+
+  .columnaDerecha {
+    flex: 1;
+    max-width: 540px;
+  }
+}
+
+.tituloColumna {
+  font: var(--titulo-md);
+  margin: 0 0 var(--esp-4) 0;
+  color: var(--color-texto);
+}
+
+.bloqueVacioConsulta {
+  padding: var(--esp-5);
+  background-color: var(--color-superficie);
+  border: 1px dashed var(--color-linea);
+  border-radius: var(--radio-control);
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+  align-items: flex-start;
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-5);
+}
+
+.textoIntro {
+  font: var(--texto-base);
+  color: var(--color-texto-secundario);
+  line-height: 1.6;
+  margin: 0 0 var(--esp-2) 0;
+}
+
+.grupoCampos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+}
+
+.casillaContenedor {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--esp-3);
+  font: var(--texto-sm);
+  color: var(--color-texto);
+  cursor: pointer;
+  user-select: none;
+}
+
+.casillaInput {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  accent-color: var(--color-texto);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.enlaceLegal {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.contadorMensaje {
+  font: var(--texto-xs);
+  color: var(--color-texto-secundario);
+  text-align: right;
+  margin-top: calc(-1 * var(--esp-2));
+}
+
+.campoTrampa {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}

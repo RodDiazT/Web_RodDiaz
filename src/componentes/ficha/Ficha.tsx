@@ -43,7 +43,8 @@ interface FichaProps {
 
 function ContenidoFicha({ datos }: FichaProps) {
   const { foto, formatos, ofreceCopia, resumenCopias: textoResumen, fecha, datosTecnicos, historia, caracteristicas, masDe, textoLlamadaCopia } = datos
-  const { hrefPrincipal } = usarEleccionCopia()
+  const { hrefPrincipal, formatoSeleccionado, seleccionarFormato } = usarEleccionCopia()
+  const formatoSeleccionadoDoc = formatos.find((f) => String(f.id) === String(formatoSeleccionado))
 
   const orientacion = foto.proporcion?.orientacion || 'horizontal'
   const proporcionOrientada = etiquetaProporcion(
@@ -122,6 +123,36 @@ function ContenidoFicha({ datos }: FichaProps) {
                   >
                     {textoLlamadaCopia}
                   </Boton>
+                  {formatos.length > 1 && formatoSeleccionadoDoc && (
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 'var(--esp-2)',
+                        font: 'var(--texto-xs)',
+                        color: 'var(--color-texto-secundario)',
+                        marginTop: 'var(--esp-2)',
+                      }}
+                    >
+                      <span>{formatoSeleccionadoDoc.etiquetaDimensiones}</span>
+                      <span aria-hidden="true">·</span>
+                      <button
+                        type="button"
+                        onClick={() => seleccionarFormato(null)}
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          color: 'var(--color-texto-secundario)',
+                          textDecoration: 'underline',
+                          cursor: 'pointer',
+                          padding: 0,
+                          font: 'inherit',
+                        }}
+                      >
+                        Quitar
+                      </button>
+                    </div>
+                  )}
                 </div>
               ) : null
             }

@@ -122,32 +122,35 @@ export const AjustesSitio: GlobalConfig = {
               type: 'textarea',
               label: 'Texto de introducción al formulario',
               defaultValue:
-                'Cada copia se imprime artesanalmente en taller sobre papeles Fine Art 100% algodón o baritados con tintas minerales de conservación. Deja tus datos y te responderé a la brevedad con la disponibilidad y detalles.',
+                'Cuéntame cómo contactarte y te respondo con los detalles y el valor de la copia.',
             },
             {
               name: 'textoConsultaRecibida',
               type: 'textarea',
               label: 'Mensaje de confirmación de envío',
               defaultValue:
-                'Gracias por tu interés en mi obra. He recibido tu consulta y te responderé directamente a tu correo.',
+                'Te respondo a {correo} en los próximos días. Si no ves mi respuesta, revisa la carpeta de spam.',
             },
             {
               name: 'textoConsentimiento',
               type: 'textarea',
               label: 'Texto de consentimiento obligatorio (Ley 21.719)',
               defaultValue:
-                'Acepto ser contactado por los medios indicados para responder a esta consulta, conforme a la política de privacidad.',
+                'Acepto la {politica} y que Rod Díaz me contacte por correo, teléfono u otro medio que indiqué, para responder esta consulta.',
             },
             {
               name: 'textoPromociones',
               type: 'textarea',
               label: 'Texto de suscripción opcional a novedades',
-              defaultValue: 'Deseo recibir ocasionalmente novedades de nuevas expediciones y ediciones.',
+              defaultValue:
+                'Quiero recibir novedades y promociones de Rod Díaz (fotos nuevas, ofertas de copias). Puedo darme de baja cuando quiera.',
             },
             {
               name: 'plantillaRespuesta',
               type: 'textarea',
               label: 'Plantilla de respuesta rápida a consultas',
+              defaultValue:
+                'Hola {nombre}:\n\nGracias por escribirme.\n\n{detalle}\n\nQuedo a tu disposición para coordinar detalles de impresión y despacho.\n\nSaludos cordiales,\nRod Díaz',
               admin: {
                 description:
                   'Borrador predefinido para agilizar la respuesta 1:1 desde Gmail con los datos de tiraje y despacho.',
@@ -157,6 +160,8 @@ export const AjustesSitio: GlobalConfig = {
               name: 'plantillaNovedades',
               type: 'textarea',
               label: 'Plantilla de novedades para suscriptores',
+              defaultValue:
+                'Recibes este correo porque te suscribiste en Rod Díaz. Si no quieres recibir más, responde BAJA a este correo.',
               admin: {
                 description: 'Estructura base para envíos de correo con nuevas colecciones.',
               },

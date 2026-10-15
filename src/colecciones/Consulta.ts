@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { calcularEliminarDespuesDe } from '../lib/consultas'
 
 export const Consulta: CollectionConfig = {
   slug: 'consultas',
@@ -12,11 +13,42 @@ export const Consulta: CollectionConfig = {
     group: 'Consultas',
   },
   access: {
-    // Interesados envían consultas de forma pública a través del formulario/Server Action
-    create: () => true,
+    // La creación pública pasa únicamente por el Server Action enviarConsulta con overrideAccess (§5.4)
+    create: ({ req: { user } }) => Boolean(user),
     read: ({ req: { user } }) => Boolean(user),
     update: ({ req: { user } }) => Boolean(user),
     delete: ({ req: { user } }) => Boolean(user),
+  },
+  hooks: {
+    beforeChange: [
+      ({ data, originalDoc }) => {
+        const ahoraIso = new Date().toISOString()
+
+        // 1. Cálculo de tipo según presencia de ítems (§5.1)
+        if (Array.isArray(data.items) && data.items.length > 0) {
+          data.tipo = 'copia'
+        } else {
+          data.tipo = 'general'
+        }
+
+        // 2. Registro de última actividad
+        data.ultimaActividad = ahoraIso
+
+        // 3. Fijar respondidaEn la primera vez que pasa a respondida (§5.2.7)
+        if (data.estado === 'respondida' && !originalDoc?.respondidaEn && !data.respondidaEn) {
+          data.respondidaEn = ahoraIso
+        }
+
+        // 4. Cálculo de fecha de purga programada (12 meses o 30 días spam)
+        data.eliminarDespuesDe = calcularEliminarDespuesDe({
+          estado: data.estado,
+          ultimaActividad: data.ultimaActividad,
+          createdAt: originalDoc?.createdAt || ahoraIso,
+        })
+
+        return data
+      },
+    ],
   },
   fields: [
     {
