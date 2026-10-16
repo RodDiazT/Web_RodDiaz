@@ -73,7 +73,9 @@ export async function sembrarDatos() {
         'Acepto ser contactado por los medios indicados para responder a esta consulta, conforme a la política de privacidad.',
       textoPromociones:
         'Deseo recibir ocasionalmente novedades de nuevas expediciones y ediciones.',
-      tituloPortada: 'Rod Díaz — Fotografía Fine Art',
+      seo: {
+        tituloPortada: 'Rod Díaz — Fotografía Fine Art',
+      },
     },
   })
   console.log('[Semilla] Ajustes del sitio configurados.')

@@ -77,7 +77,7 @@ export function PlantillaTexto({
         <TextoEnriquecido contenido={pagina.contenido} correoContacto={correoContacto} />
 
         <div className={styles.retornoFinal}>
-          <Retorno etiqueta={retorno.etiqueta} href={retorno.href} />
+          <Retorno etiqueta={retorno.etiqueta} href={retorno.href} usarHistorial={true} />
         </div>
       </div>
     </article>

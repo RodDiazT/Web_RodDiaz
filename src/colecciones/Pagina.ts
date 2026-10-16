@@ -81,7 +81,7 @@ export const Pagina: CollectionConfig = {
             }
           }
           if (originalDoc?.estado === 'publicada' && data.estado === 'borrador') {
-            throw new Error('La política de privacidad ya publicada no puede volver a borrador (marco normativo).')
+            throw new Error('La política de privacidad debe estar visible mientras el formulario reciba consultas.')
           }
         }
 
@@ -101,7 +101,7 @@ export const Pagina: CollectionConfig = {
       async ({ id, req }) => {
         const doc = await req.payload.findByID({ collection: 'paginas', id })
         if (doc && SLUGS_RESERVADOS.includes(doc.slug as any)) {
-          throw new Error(`La página reservada "${doc.slug}" es obligatoria para el funcionamiento del sitio y no puede ser eliminada.`)
+          throw new Error('Esta página es parte del sitio y no se puede borrar. Puedes dejarla en borrador.')
         }
       },
     ],
@@ -166,6 +166,11 @@ export const Pagina: CollectionConfig = {
       name: 'imagen',
       type: 'relationship',
       relationTo: 'medios',
+      filterOptions: {
+        uso: {
+          equals: 'pagina',
+        },
+      },
       label: 'Imagen destacada (ej. foto de perfil en Sobre mí)',
     },
     {

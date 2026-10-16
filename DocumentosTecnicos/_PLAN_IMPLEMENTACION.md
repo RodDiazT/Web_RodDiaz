@@ -2,7 +2,7 @@
 
 > **Estado general de la documentación:** Todos los documentos técnicos de la suite v1.0 se encuentran en estado **`aprobado`** tras la auditoría integral Fine Art y difusión.
 > **Fuente de verdad:** [`DocumentosTecnicos/_INDICE_MAESTRO.md`](file:///Users/roddiaz/projects/DesarrolloWeb/DocumentosTecnicos/_INDICE_MAESTRO.md) y [`DocumentosTecnicos/marco-general/marco-general-proyecto.md`](file:///Users/roddiaz/projects/DesarrolloWeb/DocumentosTecnicos/marco-general/marco-general-proyecto.md).
-> **Estado de avance:** Etapas 1, 2, 3, 4, 5 (auditada y debugeada) y 6 (completada) al 100%. Próxima: Etapa 7 (SEO, Open Graph y Rendimiento).
+> **Estado de avance:** Etapas 1, 2, 3, 4, 5, 6 (auditada y completada) y 7 (completada) al 100%. Próxima: Etapa 8 (Despliegue en Railway, Respaldo y Lanzamiento).
 
 ---
 
@@ -35,11 +35,11 @@ flowchart TD
     E2 --> E3["Etapa 3: Sistema de Diseño\nTokens CSS, Tipografías, UI Base (AUDITADA Y COMPLETADA ✅)"]
     E3 --> E4["Etapa 4: Portafolio Público\nGalería 3:2, Visor 2.5x, Ficha Fine Art (AUDITADA Y CORREGIDA ✅)"]
     E4 --> E5["Etapa 5: Consultas 1:1\nFormulario, Antispam 1.8s, Telegram (AUDITADA Y DEBUGEADA ✅)"]
-    E5 --> E6["Etapa 6: Páginas Editoriales\nSobre mí, Contacto, Ley 21.719 (COMPLETADA ✅)"]
+    E5 --> E6["Etapa 6: Páginas Editoriales\nSobre mí, Contacto, Ley 21.719 (AUDITADA Y CORREGIDA ✅)"]
     E2 --> E6
-    E4 --> E7["Etapa 7: SEO y Open Graph\nLienzo Vertical Blur, Sitemap, JSON-LD (SIGUIENTE 🚀)"]
+    E4 --> E7["Etapa 7: SEO y Open Graph\nLienzo Vertical Blur, Sitemap, JSON-LD (COMPLETADA ✅)"]
     E6 --> E7
-    E5 --> E8["Etapa 8: Despliegue Railway y Lanzamiento\nPruebas/Prod, Backups, Estrés 45 MP"]
+    E5 --> E8["Etapa 8: Despliegue Railway y Lanzamiento\nPruebas/Prod, Backups, Estrés 45 MP (SIGUIENTE 🚀)"]
     E7 --> E8
 ```
 
@@ -180,7 +180,7 @@ flowchart TD
 
 ---
 
-### Etapa 6: Páginas Editoriales y Cumplimiento Legal (COMPLETADA ✅)
+### Etapa 6: Páginas Editoriales y Cumplimiento Legal (AUDITADA Y COMPLETADA ✅)
 - **Objetivo:** Completar la presencia institucional y garantizar cumplimiento con la Ley 21.719 de datos personales y Ley 17.336 de propiedad intelectual según [`paginas.md`](file:///Users/roddiaz/projects/DesarrolloWeb/DocumentosTecnicos/paginas/paginas.md).
 - **Componentes y arquitectura implementados (Rol Desarrollador):**
   - `src/lib/rutasReservadas.ts`: definición estricta de rutas de sistema (`fotos`, `colecciones`, `consulta`, `admin`, `api`, `datos`, `sitemap.xml`, `robots.txt`, `guia-estilo`, `og`, etc.) y páginas institucionales reservadas, con helpers `esRutaReservada` y `esPaginaReservada`.
@@ -195,20 +195,37 @@ flowchart TD
   - Integración dinámica en `layout.tsx`, `Encabezado.tsx` y `Pie.tsx`: visualización condicional de enlaces institucionales en encabezado, menú móvil y pie únicamente si sus páginas están publicadas.
   - Vistas públicas: `/sobre-mi`, `/contacto` y `/[slug]` (con soporte de `generateStaticParams` desacoplado de la base de datos).
   - Semilla oficial `src/semilla/paginas.ts`: textos aprobados completos de los Anexos A (Política de privacidad con plazos adaptados a expediciones) y B (Condiciones de uso con pautas de manipulación y enmarcado Fine Art de museo).
+- **Auditoría y corrección completadas (Rol Auditor/Debugger):**
+  - Incorporación de prop `usarHistorial` en `Retorno.tsx` activada en `PlantillaTexto.tsx` para retornar mediante `window.history.back()` cuando el visitante llega desde el formulario de `/consulta`, preservando los datos ya ingresados en el formulario de contacto.
+  - Alineación textual de los mensajes de validación en `Pagina.ts` con las especificaciones de `paginas.md` (§4, §5.2.3) para los intentos de cambiar a borrador la política de privacidad y de borrar páginas reservadas.
+  - Filtro explícito `filterOptions: { uso: { equals: 'pagina' } }` en la relación de imagen destacada de `Pagina.ts`.
+  - Actualización de enlaces a redes sociales en `Pie.tsx` y `PlantillaContacto.tsx` con `rel="me noopener"` y URLs canónicas sin barra diagonal final.
 - **Criterio de aceptación cumplido:** 35/35 pruebas unitarias en verde; compilación `next build` exitosa con todas las rutas estáticas y dinámicas generadas en 102 kB First Load JS; cumplimiento normativo íntegro (Ley 21.719 / 19.628 / 17.336).
 
 ---
 
-### Etapa 7: SEO, Open Graph y Rendimiento
-- **Objetivo:** Maximizar visibilidad en Google e impacto visual en redes sociales.
-- **Tareas clave:**
-  - Generación de metadatos estáticos y dinámicos (`Metadata` API de Next.js).
-  - Generación dinámica de lienzo Open Graph (1200 × 630) con fondo desenfocado para fotos verticales/3:2 (`/og/foto/[slug]`), óptimo para WhatsApp e Instagram.
-  - Marcado estructurado JSON-LD con datos de autor, obra y licencias.
-  - Generación de `sitemap.ts` y `robots.ts` adaptados según entorno (`production` indexable vs `pruebas` con `noindex`).
-  - Middleware de host único (`URL_SITIO`) con redirección 301 (con excepción para `/api/salud`).
-  - Desacoplamiento de compilación: `generateStaticParams` seguro para compilar sin base de datos activa.
-- **Criterio de aceptación:** Compilación `next build` exitosa con base de datos apagada; metatags y tarjeta Open Graph vertical visualmente verificados.
+### Etapa 7: SEO, Open Graph y Rendimiento (COMPLETADA ✅)
+- **Objetivo:** Maximizar visibilidad en Google e impacto visual en redes sociales cumpliendo con [`seo.md`](file:///Users/roddiaz/projects/DesarrolloWeb/DocumentosTecnicos/plataforma/seo.md).
+- **Componentes y arquitectura implementados (Rol Desarrollador):**
+  - `src/globales/AjustesSitio.ts`: grupo `seo` enriquecido con `tituloPortada` (máx. 65 chars), `verificacionGoogle` (con extracción automática de meta tag o código alfanumérico limpio) y `robotsExcluidos` (con validación regex y bloqueo preventivo de robots buscadores).
+  - `src/lib/seo/titulos.ts`: generador determinista `tituloPara` con presupuesto estricto de 65 caracteres, separador punto medio ` · `, deduplicación inteligente de lugar en fotos, jerarquía madre/hija en colecciones y paginación.
+  - `src/lib/seo/descripciones.ts`: generador `descripcionPara` con tope de 155 caracteres y corte sobrio en frontera de palabras (`…`), extracción limpia de texto desde nodos Lexical de Payload, reglas específicas para fotos de vitrina y métricas de colección.
+  - `src/lib/seo/canonica.ts`: helper `canonicaPara` que genera URLs absolutas oficiales, descarta parámetros de rastreo (`fbclid`, `gclid`, `utm_*`), elimina contexto de navegación y preserva paginación únicamente cuando `pagina >= 2`.
+  - `src/lib/seo/robots.ts`: validación y normalización estricta de bots bloqueados con protección contra exclusión accidental de Googlebot, Bingbot y rastreadores de búsqueda.
+  - `src/lib/seo/lienzo-og.ts`: motor de generación con Sharp para lienzo adaptativo de 1200 × 630 px. Si la foto es vertical o cuadrada, compone un fondo desenfocado armónico y escala la foto respetando ratio y zona central de 630 × 630 px (óptima para recorte 1:1 de WhatsApp), franja de marca de 96 px con tipografía Cormorant Garamond / monograma, compresión progresiva JPEG a < 300 KB y hash de versión de 8 caracteres SHA-1 (`v=...`).
+  - `src/lib/seo/metadatos.ts`: integrador universal de Next.js `Metadata` para todas las páginas (`openGraph`, `twitter`, `alternates.canonical`, `robots`, `verification`).
+  - `src/lib/seo/jsonld.ts`: generador de datos estructurados en grafo `@graph` (`WebSite`, `Person`, `ImageObject` con derechos Fine Art bajo Ley 17.336 y URL de consulta, `CollectionPage`, `AboutPage`, `ContactPage`, `BreadcrumbList`) y serializador seguro `serializarJsonLdSeguro` con escape de caracteres peligrosos contra inyecciones XSS.
+  - `src/componentes/JsonLd.tsx`: componente de servidor para inyección segura de scripts `application/ld+json`.
+  - Route Handlers dinámicos:
+    - `src/app/(sitio)/og/foto/[slug]/route.ts`: respuesta binaria `image/jpeg` de lienzo adaptativo con caché inmutable `s-maxage=31536000, stale-while-revalidate=86400` y 404 para fotos no listadas.
+    - `src/app/(sitio)/og/medio/[id]/route.ts`: generación de tarjeta OG para páginas institucionales y medios auxiliares.
+  - `src/app/sitemap.ts`: sitemap XML con extensiones de imagen `<image:loc>` e `<image:title>` para fotos públicas.
+  - `src/app/robots.ts`: directivas dinámicas respetando entorno (`noindex` total en `pruebas`, indexación en `production` bloqueando bots de raspado/entrenamiento de IA).
+  - `src/middleware.ts`: redirección canónica 301 de host único hacia `URL_SITIO` (con excepciones para desarrollo local, `/api/salud` y recursos estáticos).
+  - `next.config.mjs`: cabecera `X-Robots-Tag: noindex, nofollow` para `/admin/*`, `/datos/*` y `/api/*` (exceptuando `/api/fotos/file/*` y `/api/medios/file/*`).
+  - Integración en todas las vistas públicas: `generateMetadata` y `<JsonLd />` en portada (`/`), `/fotos`, `/fotos/[slug]`, `/colecciones`, `/colecciones/[slug]`, `/sobre-mi`, `/contacto` y `/[slug]`.
+  - Suite de pruebas unitarias `src/lib/seo/seo.test.ts`: 6 baterías de pruebas cubriendo criterios de aceptación 1, 2, 3, 6, 7, 9, 10 y 13.
+- **Criterio de aceptación cumplido:** 41/41 pruebas unitarias pasando al 100%; compilación `next build` limpia con 16 rutas estáticas y dinámicas generadas sin base de datos activa; lienzos Open Graph generados en < 300 KB con fondo desenfocado; JSON-LD con autoría Fine Art; y cero rastreadores o scripts externos.
 
 ---
 

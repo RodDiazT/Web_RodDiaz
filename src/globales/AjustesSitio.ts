@@ -12,6 +12,56 @@ export const AjustesSitio: GlobalConfig = {
     update: ({ req: { user } }) => Boolean(user),
   },
   hooks: {
+    beforeValidate: [
+      ({ data }) => {
+        if (!data) return data
+
+        if (data.seo) {
+          // Extraer y validar verificacionGoogle (§4, §5.1)
+          if (data.seo.verificacionGoogle) {
+            let codigo = String(data.seo.verificacionGoogle).trim()
+            const matchMeta = codigo.match(/content=["']([^"']+)["']/i)
+            if (matchMeta) {
+              codigo = matchMeta[1].trim()
+            }
+            if (!/^[a-zA-Z0-9_-]{20,100}$/.test(codigo)) {
+              throw new Error('Pega solo el código, sin <meta> ni comillas. Por ejemplo: AbC123…')
+            }
+            data.seo.verificacionGoogle = codigo
+          }
+
+          // Validar robots excluidos (§4, §5.1)
+          if (data.seo.robotsExcluidos) {
+            const robots = Array.isArray(data.seo.robotsExcluidos)
+              ? data.seo.robotsExcluidos
+              : typeof data.seo.robotsExcluidos === 'string'
+              ? data.seo.robotsExcluidos.split(/[\n,]/).map((r: string) => r.trim()).filter(Boolean)
+              : []
+
+            const CRAWLERS_BUSCADORES = [
+              '*',
+              'googlebot',
+              'googlebot-image',
+              'bingbot',
+              'oai-searchbot',
+              'chatgpt-user',
+              'claude-searchbot',
+              'claude-user',
+              'perplexitybot',
+            ]
+
+            for (const r of robots) {
+              const limpio = String(r).trim().toLowerCase()
+              if (CRAWLERS_BUSCADORES.includes(limpio)) {
+                throw new Error('Ese robot es de un buscador; bloquearlo te sacaría de las búsquedas.')
+              }
+            }
+          }
+        }
+
+        return data
+      },
+    ],
     afterChange: [
       () => {
         revalidarRutasSeguras(['/', '/sitemap.xml', '/robots.txt'], ['ajustes'])
@@ -172,22 +222,47 @@ export const AjustesSitio: GlobalConfig = {
           label: 'SEO',
           fields: [
             {
-              name: 'tituloPortada',
-              type: 'text',
-              label: 'Título en buscadores para la portada',
-              admin: {
-                description: 'Por defecto: "Rod Díaz — Fotografía Fine Art".',
-              },
-            },
-            {
-              name: 'verificacionGoogle',
-              type: 'text',
-              label: 'Código de verificación de Google Search Console',
-            },
-            {
-              name: 'robotsExcluidos',
-              type: 'textarea',
-              label: 'Rutas excluidas de indexación (robots.txt)',
+              name: 'seo',
+              type: 'group',
+              label: 'Motores de búsqueda y robots',
+              fields: [
+                {
+                  name: 'tituloPortada',
+                  type: 'text',
+                  maxLength: 60,
+                  defaultValue: 'Rod Díaz · Fotografía',
+                  label: 'Título en buscadores para la portada',
+                  admin: {
+                    description: 'Máximo 60 caracteres. Valor inicial: "Rod Díaz · Fotografía".',
+                  },
+                },
+                {
+                  name: 'verificacionGoogle',
+                  type: 'text',
+                  label: 'Código de verificación de Google Search Console',
+                  admin: {
+                    description:
+                      'Pega el código alfanumérico (o la etiqueta <meta> completa). Solo se publica en la portada.',
+                  },
+                },
+                {
+                  name: 'robotsExcluidos',
+                  type: 'json',
+                  defaultValue: [
+                    'GPTBot',
+                    'ClaudeBot',
+                    'anthropic-ai',
+                    'Google-Extended',
+                    'Applebot-Extended',
+                    'CCBot',
+                  ],
+                  label: 'Robots de IA excluidos de entrenamiento',
+                  admin: {
+                    description:
+                      'Robots que entrenan inteligencias artificiales. No afecta tu aparición en Google ni en asistentes que buscan en la web.',
+                  },
+                },
+              ],
             },
           ],
         },

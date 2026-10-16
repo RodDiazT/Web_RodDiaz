@@ -482,6 +482,10 @@ export interface Pagina {
    * Identificador URL. En páginas reservadas (sobre-mi, contacto, privacidad, condiciones) es fijo.
    */
   slug: string;
+  /**
+   * Indica si es una página institucional reservada.
+   */
+  reservada?: boolean | null;
   contenido: {
     root: {
       type: string;
@@ -602,7 +606,7 @@ export interface Consulta {
   consentimientoEn: string;
   versionPolitica?: string | null;
   aceptaPromociones?: boolean | null;
-  origen?: string | null;
+  origen?: ('ficha' | 'visor' | 'general' | 'licencia') | null;
   claveEnvio?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -982,6 +986,7 @@ export interface TiposPapelSelect<T extends boolean = true> {
 export interface PaginasSelect<T extends boolean = true> {
   titulo?: T;
   slug?: T;
+  reservada?: T;
   contenido?: T;
   imagen?: T;
   estado?: T;
@@ -1215,12 +1220,28 @@ export interface AjustesSitio {
    * Estructura base para envíos de correo con nuevas colecciones.
    */
   plantillaNovedades?: string | null;
-  /**
-   * Por defecto: "Rod Díaz — Fotografía Fine Art".
-   */
-  tituloPortada?: string | null;
-  verificacionGoogle?: string | null;
-  robotsExcluidos?: string | null;
+  seo?: {
+    /**
+     * Máximo 60 caracteres. Valor inicial: "Rod Díaz · Fotografía".
+     */
+    tituloPortada?: string | null;
+    /**
+     * Pega el código alfanumérico (o la etiqueta <meta> completa). Solo se publica en la portada.
+     */
+    verificacionGoogle?: string | null;
+    /**
+     * Robots que entrenan inteligencias artificiales. No afecta tu aparición en Google ni en asistentes que buscan en la web.
+     */
+    robotsExcluidos?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
   ultimoRespaldoEn?: string | null;
   supresionesRecientes?:
     | {
@@ -1260,9 +1281,13 @@ export interface AjustesSitioSelect<T extends boolean = true> {
   textoPromociones?: T;
   plantillaRespuesta?: T;
   plantillaNovedades?: T;
-  tituloPortada?: T;
-  verificacionGoogle?: T;
-  robotsExcluidos?: T;
+  seo?:
+    | T
+    | {
+        tituloPortada?: T;
+        verificacionGoogle?: T;
+        robotsExcluidos?: T;
+      };
   ultimoRespaldoEn?: T;
   supresionesRecientes?: T;
   updatedAt?: T;

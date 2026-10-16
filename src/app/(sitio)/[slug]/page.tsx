@@ -34,6 +34,10 @@ export async function generateStaticParams() {
   }
 }
 
+import { metadatosPara } from '@/lib/seo/metadatos'
+import { jsonLdPara } from '@/lib/seo/jsonld'
+import { JsonLd } from '@/componentes/JsonLd'
+
 export async function generateMetadata({ params }: PaginaDinamicaProps): Promise<Metadata> {
   const { slug } = await params
   const [res, configGlobal] = await Promise.all([
@@ -41,25 +45,21 @@ export async function generateMetadata({ params }: PaginaDinamicaProps): Promise
     ajustes(),
   ])
 
-  const nombreSitio = configGlobal?.nombreSitio || 'Rod Díaz'
-
   if (res.tipo !== 'exito' || !res.pagina) {
-    return {
-      title: `Página — ${nombreSitio}`,
-    }
+    return metadatosPara({
+      tipo: 'pagina',
+      datos: { titulo: 'Página' },
+      ajustes: configGlobal,
+      ruta: `/${slug}`,
+    })
   }
 
-  const pagina = res.pagina
-  const titulo = pagina.titulo || 'Página'
-  const descripcion =
-    pagina.seo?.descripcion ||
-    configGlobal?.descripcion ||
-    `Página editorial de ${nombreSitio}.`
-
-  return {
-    title: `${titulo} — ${nombreSitio}`,
-    description: descripcion,
-  }
+  return metadatosPara({
+    tipo: 'pagina',
+    datos: res.pagina,
+    ajustes: configGlobal,
+    ruta: `/${slug}`,
+  })
 }
 
 export default async function PaginaDinamica({ params }: PaginaDinamicaProps) {
@@ -81,12 +81,22 @@ export default async function PaginaDinamica({ params }: PaginaDinamicaProps) {
   const pagina = resPagina.pagina
   const esLegal = slug === 'privacidad' || slug === 'condiciones'
 
+  const jsonLd = jsonLdPara({
+    tipo: 'pagina',
+    datos: pagina,
+    ajustes: configGlobal,
+    ruta: `/${slug}`,
+  })
+
   return (
-    <PlantillaTexto
-      pagina={pagina}
-      mostrarFecha={esLegal}
-      correoContacto={configGlobal?.correoContacto}
-      retorno={{ etiqueta: 'Volver', href: '/' }}
-    />
+    <>
+      <JsonLd datos={jsonLd} />
+      <PlantillaTexto
+        pagina={pagina}
+        mostrarFecha={esLegal}
+        correoContacto={configGlobal?.correoContacto}
+        retorno={{ etiqueta: 'Volver', href: '/' }}
+      />
+    </>
   )
 }

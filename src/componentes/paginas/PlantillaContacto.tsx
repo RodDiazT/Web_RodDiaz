@@ -54,7 +54,9 @@ export function PlantillaContacto({
           <div className={styles.lineaRedes}>
             {redes.map((item, idx) => {
               const nombreRed = item.red === 'instagram' ? 'Instagram' : 'Red social'
-              const textoEnlace = item.url.replace(/^https?:\/\/(www\.)?/, '')
+              const urlLimpia = item.url.replace(/\/+$/, '')
+              const textoEnlace = urlLimpia.replace(/^https?:\/\/(www\.)?/, '')
+              const usuario = textoEnlace.split('/')[1] || textoEnlace
 
               return (
                 <div key={idx} style={{ marginTop: 'var(--esp-2)' }}>
@@ -62,10 +64,10 @@ export function PlantillaContacto({
                   <a
                     href={item.url}
                     target="_blank"
-                    rel="me noopener noreferrer"
+                    rel="me noopener"
                     className={styles.enlaceRed}
                   >
-                    @{textoEnlace.split('/')[1] || textoEnlace}
+                    @{usuario}
                   </a>
                 </div>
               )

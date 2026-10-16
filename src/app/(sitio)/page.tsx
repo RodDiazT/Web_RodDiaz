@@ -1,29 +1,51 @@
 import React from 'react'
+import type { Metadata } from 'next'
 import {
   fotoPortadaSitio,
   tarjetasColecciones,
   fotosDestacadas,
+  ajustes,
 } from '@/lib/contenido'
 import { PortadaSitio } from '@/componentes/galeria/PortadaSitio'
 import { RejillaColecciones } from '@/componentes/galeria/RejillaColecciones'
 import { GrillaFotos } from '@/componentes/galeria/GrillaFotos'
 import { Boton } from '@/componentes/base/Boton'
+import { metadatosPara } from '@/lib/seo/metadatos'
+import { jsonLdPara } from '@/lib/seo/jsonld'
+import { JsonLd } from '@/componentes/JsonLd'
 
 export const dynamic = 'force-static'
 export const revalidate = 3600
 
+export async function generateMetadata(): Promise<Metadata> {
+  const configGlobal = await ajustes()
+  return metadatosPara({
+    tipo: 'portada',
+    ajustes: configGlobal,
+    ruta: '/',
+  })
+}
+
 export default async function PaginaInicio() {
-  const [fotoPortada, colecciones, destacadas] = await Promise.all([
+  const [fotoPortada, colecciones, destacadas, configGlobal] = await Promise.all([
     fotoPortadaSitio(),
     tarjetasColecciones(),
     fotosDestacadas(12),
+    ajustes(),
   ])
+
+  const jsonLd = jsonLdPara({
+    tipo: 'portada',
+    ajustes: configGlobal,
+    ruta: '/',
+  })
 
   const mostrarBotonVerTodasColecciones = colecciones.length > 6
   const coleccionesPortada = colecciones.slice(0, 6)
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--esp-9)', paddingBottom: 'var(--esp-9)' }}>
+      <JsonLd datos={jsonLd} />
       {/* 1. Foto principal de portada (§3.1) */}
       {fotoPortada && <PortadaSitio foto={fotoPortada} />}
 

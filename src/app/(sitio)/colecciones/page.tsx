@@ -1,19 +1,36 @@
 import React from 'react'
 import type { Metadata } from 'next'
-import { tarjetasColecciones } from '@/lib/contenido'
+import { tarjetasColecciones, ajustes } from '@/lib/contenido'
 import { RejillaColecciones } from '@/componentes/galeria/RejillaColecciones'
 import { PlantillaEstado } from '@/componentes/base/PlantillaEstado'
+import { metadatosPara } from '@/lib/seo/metadatos'
+import { jsonLdPara } from '@/lib/seo/jsonld'
+import { JsonLd } from '@/componentes/JsonLd'
 
 export const dynamic = 'force-static'
 export const revalidate = 3600
 
-export const metadata: Metadata = {
-  title: 'Colecciones — Rod Díaz',
-  description: 'Series fotográficas y expediciones documentadas por Rod Díaz.',
+export async function generateMetadata(): Promise<Metadata> {
+  const configGlobal = await ajustes()
+  return metadatosPara({
+    tipo: 'colecciones',
+    ajustes: configGlobal,
+    ruta: '/colecciones',
+  })
 }
 
 export default async function PaginaColecciones() {
-  const colecciones = await tarjetasColecciones()
+  const [colecciones, configGlobal] = await Promise.all([
+    tarjetasColecciones(),
+    ajustes(),
+  ])
+
+  const jsonLd = jsonLdPara({
+    tipo: 'colecciones',
+    datos: { nombre: 'Colecciones' },
+    ajustes: configGlobal,
+    ruta: '/colecciones',
+  })
 
   return (
     <div
@@ -27,6 +44,7 @@ export default async function PaginaColecciones() {
         gap: 'var(--esp-8)',
       }}
     >
+      <JsonLd datos={jsonLd} />
       <header style={{ borderBottom: '1px solid var(--color-linea)', paddingBottom: 'var(--esp-4)' }}>
         <h1 style={{ font: 'var(--titulo-lg)', margin: 0 }}>Colecciones</h1>
       </header>

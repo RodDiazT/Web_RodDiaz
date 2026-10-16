@@ -3,6 +3,9 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { paginaPorSlug, fotosDestacadas, paginasEnNavegacion, ajustes } from '@/lib/contenido'
 import { PlantillaSobreMi } from '@/componentes/paginas/PlantillaSobreMi'
+import { metadatosPara } from '@/lib/seo/metadatos'
+import { jsonLdPara } from '@/lib/seo/jsonld'
+import { JsonLd } from '@/componentes/JsonLd'
 
 export const revalidate = 3600 // Revalidación ISR cada hora
 
@@ -12,25 +15,21 @@ export async function generateMetadata(): Promise<Metadata> {
     ajustes(),
   ])
 
-  const nombreSitio = configGlobal?.nombreSitio || 'Rod Díaz'
-
   if (res.tipo !== 'exito' || !res.pagina) {
-    return {
-      title: `Sobre mí — ${nombreSitio}`,
-    }
+    return metadatosPara({
+      tipo: 'pagina',
+      datos: { titulo: 'Sobre mí' },
+      ajustes: configGlobal,
+      ruta: '/sobre-mi',
+    })
   }
 
-  const pagina = res.pagina
-  const titulo = pagina.titulo || 'Sobre mí'
-  const descripcion =
-    pagina.seo?.descripcion ||
-    configGlobal?.descripcion ||
-    'Fotografía Fine Art de naturaleza y paisaje por Rod Díaz.'
-
-  return {
-    title: `${titulo} — ${nombreSitio}`,
-    description: descripcion,
-  }
+  return metadatosPara({
+    tipo: 'pagina',
+    datos: res.pagina,
+    ajustes: configGlobal,
+    ruta: '/sobre-mi',
+  })
 }
 
 export default async function PaginaSobreMi() {
@@ -45,12 +44,23 @@ export default async function PaginaSobreMi() {
     notFound()
   }
 
+  const jsonLd = jsonLdPara({
+    tipo: 'sobre-mi',
+    datos: resPagina.pagina,
+    ajustes: configGlobal,
+    ruta: '/sobre-mi',
+    imagenSobreMiUrl: resPagina.pagina.imagen?.url || undefined,
+  })
+
   return (
-    <PlantillaSobreMi
-      pagina={resPagina.pagina}
-      destacadas={destacadas}
-      contactoPublicado={nav.contacto}
-      correoContacto={configGlobal?.correoContacto}
-    />
+    <>
+      <JsonLd datos={jsonLd} />
+      <PlantillaSobreMi
+        pagina={resPagina.pagina}
+        destacadas={destacadas}
+        contactoPublicado={nav.contacto}
+        correoContacto={configGlobal?.correoContacto}
+      />
+    </>
   )
 }

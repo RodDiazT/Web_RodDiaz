@@ -1,9 +1,12 @@
 import React from 'react'
 import type { Metadata } from 'next'
 import { redirect, notFound } from 'next/navigation'
-import { fichaFoto } from '@/lib/contenido'
+import { fichaFoto, ajustes, paginasEnNavegacion } from '@/lib/contenido'
 import { Ficha } from '@/componentes/ficha/Ficha'
 import { FotoNoDisponible } from '@/componentes/ficha/FotoNoDisponible'
+import { metadatosPara } from '@/lib/seo/metadatos'
+import { jsonLdPara } from '@/lib/seo/jsonld'
+import { JsonLd } from '@/componentes/JsonLd'
 
 export const dynamicParams = true
 export const revalidate = 3600
@@ -19,29 +22,46 @@ interface PaginaFotoProps {
 
 export async function generateMetadata({ params }: PaginaFotoProps): Promise<Metadata> {
   const { slug } = await params
-  const datos = await fichaFoto(slug)
+  const [datos, configGlobal] = await Promise.all([
+    fichaFoto(slug),
+    ajustes(),
+  ])
 
   if (!datos || 'redirigirA' in datos) {
-    return { title: 'Fotografía — Rod Díaz' }
+    return metadatosPara({
+      tipo: 'foto',
+      datos: { titulo: 'Fotografía', slug },
+      ajustes: configGlobal,
+      ruta: `/fotos/${slug}`,
+    })
   }
 
   if ('noDisponible' in datos) {
-    return {
-      title: 'Foto no disponible — Rod Díaz',
-      robots: { index: false, follow: true },
-    }
+    return metadatosPara({
+      tipo: 'foto_amable',
+      datos: { slug },
+      ajustes: configGlobal,
+      ruta: `/fotos/${slug}`,
+      robotsOverride: { index: false, follow: true },
+    })
   }
 
   const { foto } = datos
-  return {
-    title: `${foto.titulo} — Rod Díaz`,
-    description: `Fotografía Fine Art "${foto.titulo}" tomada en ${foto.lugar || 'Chile'}. Impresión en taller propio de Rod Díaz.`,
-  }
+  return metadatosPara({
+    tipo: 'foto',
+    datos: foto,
+    ajustes: configGlobal,
+    ruta: `/fotos/${slug}`,
+  })
 }
 
 export default async function PaginaFoto({ params }: PaginaFotoProps) {
   const { slug } = await params
-  const datos = await fichaFoto(slug)
+  const [datos, configGlobal, paginasNav] = await Promise.all([
+    fichaFoto(slug),
+    ajustes(),
+    paginasEnNavegacion(),
+  ])
 
   if (!datos) {
     notFound()
@@ -51,10 +71,22 @@ export default async function PaginaFoto({ params }: PaginaFotoProps) {
     redirect(datos.redirigirA)
   }
 
-
   if ('noDisponible' in datos) {
     return <FotoNoDisponible coleccion={datos.coleccion} />
   }
 
-  return <Ficha datos={datos} />
+  const jsonLd = jsonLdPara({
+    tipo: 'foto',
+    datos: datos.foto,
+    ajustes: configGlobal,
+    ruta: `/fotos/${datos.foto.slug}`,
+    condicionesPublicada: paginasNav.condiciones,
+  })
+
+  return (
+    <>
+      <JsonLd datos={jsonLd} />
+      <Ficha datos={datos} />
+    </>
+  )
 }

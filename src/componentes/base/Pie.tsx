@@ -39,7 +39,7 @@ export function Pie({
                 <a
                   href={instagramUrl}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="me noopener"
                   className={styles.enlace}
                 >
                   Instagram

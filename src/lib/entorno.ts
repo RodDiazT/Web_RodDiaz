@@ -25,7 +25,14 @@ export const entorno = {
     return obtenerVariable('PAYLOAD_SECRET')
   },
   get URL_SITIO(): string {
-    return obtenerVariable('URL_SITIO')
+    const val = obtenerVariable('URL_SITIO', false)
+    if (!val) {
+      if (this.ENTORNO === 'produccion') {
+        throw new Error('[Configuración] Falta la variable de entorno obligatoria "URL_SITIO" en producción.')
+      }
+      return 'http://localhost:3000'
+    }
+    return val.replace(/\/+$/, '')
   },
   get ENTORNO(): 'pruebas' | 'produccion' {
     const val = (obtenerVariable('ENTORNO', false) || 'pruebas').toLowerCase()

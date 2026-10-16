@@ -7,11 +7,16 @@ import { SaltarContenido } from '@/componentes/base/SaltarContenido'
 import { Encabezado } from '@/componentes/base/Encabezado'
 import { Pie } from '@/componentes/base/Pie'
 
+import { entorno } from '@/lib/entorno'
 import { ajustes, paginasEnNavegacion } from '@/lib/contenido'
 import { ItemNavegacion } from '@/componentes/base/MenuMovil'
 
 export const metadata: Metadata = {
-  title: 'Rod Díaz — Fotografía Fine Art',
+  metadataBase: new URL(entorno.URL_SITIO || 'http://localhost:3000'),
+  title: {
+    default: 'Rod Díaz · Fotografía',
+    template: '%s',
+  },
   description: 'Portafolio fotográfico y copias Fine Art impresas en taller propio de Rod Díaz.',
 }
 

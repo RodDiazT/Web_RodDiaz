@@ -3,36 +3,87 @@ import type { Metadata } from 'next'
 import {
   paginaFotos,
   caracteristicasConFotos,
+  ajustes,
 } from '@/lib/contenido'
 import { FiltroCaracteristicas } from '@/componentes/galeria/FiltroCaracteristicas'
 import { CargaInfinita } from '@/componentes/galeria/CargaInfinita'
 import { PlantillaEstado } from '@/componentes/base/PlantillaEstado'
+import { metadatosPara } from '@/lib/seo/metadatos'
+import { jsonLdPara } from '@/lib/seo/jsonld'
+import { JsonLd } from '@/componentes/JsonLd'
 
 export const dynamic = 'force-static'
 export const revalidate = 3600
 
-export const metadata: Metadata = {
-  title: 'Todas las fotos — Rod Díaz',
-  description: 'Catálogo fotográfico completo y series Fine Art de Rod Díaz.',
+interface PaginaFotosProps {
+  searchParams: Promise<{ caracteristica?: string; pagina?: string }>
 }
 
-interface PaginaFotosProps {
-  searchParams: Promise<{ caracteristica?: string }>
+export async function generateMetadata({ searchParams }: PaginaFotosProps): Promise<Metadata> {
+  const { caracteristica: caracSlug, pagina: pagParam } = await searchParams
+  const [configGlobal, caracteristicas, resFotos] = await Promise.all([
+    ajustes(),
+    caracteristicasConFotos(),
+    caracSlug
+      ? paginaFotos({ lista: 'todas', caracteristica: caracSlug, limite: 1 })
+      : Promise.resolve({ fotos: [] }),
+  ])
+
+  const pagina = Number(pagParam) || 1
+  const caracEncontrada = caracteristicas.find((c) => c.slug === caracSlug)
+
+  if (caracSlug) {
+    const sinResultados = !caracEncontrada || resFotos.fotos.length === 0
+    return metadatosPara({
+      tipo: 'caracteristica',
+      datos: {
+        nombre: caracEncontrada?.nombre || caracSlug,
+        totalFotos: resFotos.fotos.length,
+        pagina,
+      },
+      ajustes: configGlobal,
+      ruta: '/fotos',
+      parametros: { caracteristica: caracSlug, pagina },
+      robotsOverride: sinResultados ? { index: false, follow: true } : undefined,
+    })
+  }
+
+  return metadatosPara({
+    tipo: 'fotos',
+    datos: { pagina },
+    ajustes: configGlobal,
+    ruta: '/fotos',
+    parametros: { pagina },
+  })
 }
 
 export default async function PaginaFotos({ searchParams }: PaginaFotosProps) {
-  const { caracteristica: caracteristicaFiltro } = await searchParams
+  const { caracteristica: caracteristicaFiltro, pagina: pagParam } = await searchParams
 
-  const [resultadoFotos, caracteristicas] = await Promise.all([
+  const [resultadoFotos, caracteristicas, configGlobal] = await Promise.all([
     paginaFotos({
       lista: 'todas',
       caracteristica: caracteristicaFiltro,
       limite: 30,
     }),
     caracteristicasConFotos(),
+    ajustes(),
   ])
 
   const { fotos, siguiente } = resultadoFotos
+  const pagina = Number(pagParam) || 1
+  const caracEncontrada = caracteristicas.find((c) => c.slug === caracteristicaFiltro)
+
+  const jsonLd = jsonLdPara({
+    tipo: caracteristicaFiltro ? 'caracteristica' : 'fotos',
+    datos: {
+      nombre: caracEncontrada?.nombre || (caracteristicaFiltro ? 'Fotos' : 'Todas las fotos'),
+      pagina,
+    },
+    ajustes: configGlobal,
+    ruta: '/fotos',
+    parametros: { caracteristica: caracteristicaFiltro, pagina },
+  })
 
   return (
     <div
@@ -46,6 +97,7 @@ export default async function PaginaFotos({ searchParams }: PaginaFotosProps) {
         gap: 'var(--esp-6)',
       }}
     >
+      <JsonLd datos={jsonLd} />
       <header style={{ borderBottom: '1px solid var(--color-linea)', paddingBottom: 'var(--esp-4)' }}>
         <h1 style={{ font: 'var(--titulo-lg)', margin: 0 }}>Fotos</h1>
       </header>

@@ -5,12 +5,16 @@ import {
   vistaColeccion,
   caracteristicasConFotos,
   paginaFotos,
+  ajustes,
 } from '@/lib/contenido'
 import { CabeceraColeccion } from '@/componentes/galeria/CabeceraColeccion'
 import { FiltroCaracteristicas } from '@/componentes/galeria/FiltroCaracteristicas'
 import { CargaInfinita } from '@/componentes/galeria/CargaInfinita'
 import { SeccionHija } from '@/componentes/galeria/SeccionHija'
 import { PlantillaEstado } from '@/componentes/base/PlantillaEstado'
+import { metadatosPara } from '@/lib/seo/metadatos'
+import { jsonLdPara } from '@/lib/seo/jsonld'
+import { JsonLd } from '@/componentes/JsonLd'
 
 export const dynamicParams = true
 export const revalidate = 3600
@@ -22,23 +26,49 @@ export async function generateStaticParams() {
 
 interface PaginaColeccionProps {
   params: Promise<{ slug: string }>
-  searchParams: Promise<{ caracteristica?: string }>
+  searchParams: Promise<{ caracteristica?: string; pagina?: string }>
 }
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: PaginaColeccionProps): Promise<Metadata> {
   const { slug } = await params
-  const vista = await vistaColeccion(slug)
+  const { pagina: pagParam } = (await searchParams) || {}
+  const [vista, configGlobal] = await Promise.all([
+    vistaColeccion(slug),
+    ajustes(),
+  ])
 
   if (!vista || 'redirigirA' in vista) {
-    return { title: 'Colección — Rod Díaz' }
+    return metadatosPara({
+      tipo: 'coleccion',
+      datos: { nombre: 'Colección', slug },
+      ajustes: configGlobal,
+      ruta: `/colecciones/${slug}`,
+    })
   }
 
-  return {
-    title: `${vista.coleccion.nombre} — Rod Díaz`,
-    description: vista.coleccion.descripcion || `Serie fotográfica ${vista.coleccion.nombre} de Rod Díaz.`,
-  }
+  const col = vista.coleccion
+  const pagina = Number(pagParam) || 1
+  const esHija = vista.tipo === 'hija'
+  const nombreMadre = vista.tipo === 'hija' ? vista.madre?.nombre : undefined
+
+  return metadatosPara({
+    tipo: 'coleccion',
+    datos: {
+      nombre: col.nombre,
+      esHija,
+      nombreMadre,
+      descripcion: col.descripcion,
+      totalFotos: vista.totalFotos,
+      portada: col.portada,
+      pagina,
+    },
+    ajustes: configGlobal,
+    ruta: `/colecciones/${slug}`,
+    parametros: { pagina },
+  })
 }
 
 export default async function PaginaColeccion({
@@ -46,9 +76,12 @@ export default async function PaginaColeccion({
   searchParams,
 }: PaginaColeccionProps) {
   const { slug } = await params
-  const { caracteristica: caracteristicaFiltro } = await searchParams
+  const { caracteristica: caracteristicaFiltro, pagina: pagParam } = await searchParams
 
-  const vista = await vistaColeccion(slug)
+  const [vista, configGlobal] = await Promise.all([
+    vistaColeccion(slug),
+    ajustes(),
+  ])
 
   if (!vista) {
     notFound()
@@ -87,6 +120,18 @@ export default async function PaginaColeccion({
 
   const tieneFotos = vista.totalFotos > 0
 
+  const pagina = Number(pagParam) || 1
+  const jsonLd = jsonLdPara({
+    tipo: 'coleccion',
+    datos: {
+      ...coleccion,
+      padre: vista.tipo === 'hija' ? vista.madre : undefined,
+    },
+    ajustes: configGlobal,
+    ruta: `/colecciones/${coleccion.slug}`,
+    parametros: { pagina },
+  })
+
   return (
     <div
       style={{
@@ -99,6 +144,7 @@ export default async function PaginaColeccion({
         gap: 'var(--esp-6)',
       }}
     >
+      <JsonLd datos={jsonLd} />
       <CabeceraColeccion
         nombre={coleccion.nombre}
         descripcion={coleccion.descripcion}
