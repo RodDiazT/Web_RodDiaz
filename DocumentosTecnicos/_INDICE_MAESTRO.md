@@ -38,7 +38,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.9]
 | T-001 | Crear el repositorio privado RodDiazT/Web_RodDiaz en GitHub y dar acceso a la app de Claude | — | hecha (2026-10-07) | 2026-10-07 |
 | T-002 | Crear cuenta gratis en Resend con rodrigodiaztapia@gmail.com y generar clave de API | consulta-copia | descartada (2026-10-07) | 2026-10-07 |
 | T-003 | Crear cuenta gratis de Cloudflare y activar Web Analytics | seo | descartada (2026-10-07) | 2026-10-07 |
-| T-004 | Revisar en la facturación de Railway el consumo actual y fijar en Usage Limits un aviso de USD 25 y un tope de USD 40 | despliegue | abierta | 2026-10-07 |
+| T-004 | Revisar en la facturación de Railway el consumo actual y fijar en Usage Limits un aviso de USD 25 y un tope de USD 40 | despliegue | hecha (2026-10-16) | 2026-10-07 |
 | T-008 | Crear cliente OAuth de Google Cloud para el inicio de sesión del panel | modelo-contenido-panel | abierta | 2026-10-07 |
 | T-010 | Verificar el sitio en Google Search Console y enviar el sitemap (al lanzar) | — | abierta | 2026-10-14 |
 | T-012 | Comprar el dominio .cl cuando decidas difundir el sitio (v1.x) | — | abierta | 2026-10-14 |
@@ -280,9 +280,10 @@ marco-general/marco-general-proyecto.md        [aprobado 1.9]
       "bloquea": [
         "despliegue"
       ],
-      "estado": "abierta",
+      "estado": "hecha",
       "creada": "2026-10-07",
-      "cerrada": null
+      "cerrada": "2026-10-16",
+      "notas": "Rod configuró en Railway Usage Limits un hard limit de USD 30."
     },
     {
       "id": "T-005",

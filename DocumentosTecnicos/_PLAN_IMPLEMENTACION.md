@@ -2,7 +2,7 @@
 
 > **Estado general de la documentación:** Todos los documentos técnicos de la suite v1.0 se encuentran en estado **`aprobado`** tras la auditoría integral Fine Art y difusión.
 > **Fuente de verdad:** [`DocumentosTecnicos/_INDICE_MAESTRO.md`](file:///Users/roddiaz/projects/DesarrolloWeb/DocumentosTecnicos/_INDICE_MAESTRO.md) y [`DocumentosTecnicos/marco-general/marco-general-proyecto.md`](file:///Users/roddiaz/projects/DesarrolloWeb/DocumentosTecnicos/marco-general/marco-general-proyecto.md).
-> **Estado de avance:** Etapas 1, 2, 3, 4, 5, 6 (auditada y completada) y 7 (completada) al 100%. Próxima: Etapa 8 (Despliegue en Railway, Respaldo y Lanzamiento).
+> **Estado de avance:** Etapas 1 a 8 completadas, auditadas y verificadas al 100%. Todo el sistema listo para lanzamiento.
 
 ---
 
@@ -13,7 +13,7 @@ Podemos construir todo el sistema con valores semilla (*seeds*), variables opcio
 
 | Tarea | Descripción | ¿Bloquea el desarrollo? | Estrategia de avance sin fricción |
 |---|---|:---:|---|
-| **T-004** | Límites de gasto en Railway (aviso $25 / tope $40) | **NO** | Solo se requiere antes del lanzamiento a producción. |
+| **T-004** | Límites de gasto en Railway (aviso $25 / tope $40) | **COMPLETADA ✅** | Rod configuró en Railway Usage Limits un hard limit de USD 30. |
 | **T-006** | Catálogo inicial de tamaños en cm y papeles Fine Art | **NO** | Se implementa el esquema exacto de `FormatoImpresion` y `TipoPapel`. Usaremos un catálogo semilla con los estándares Fine Art aprobados (30×45, 40×60, 50×75 cm; papeles 100% algodón y baritados Hahnemühle/Canon). Podrás editarlo desde el panel en cualquier momento. |
 | **T-008** | Cliente OAuth de Google Cloud para el panel | **NO** | Para el desarrollo local y pruebas se habilita el acceso vía script de mantenimiento (`scripts/recuperar-acceso.ts`) o autenticación de desarrollo. Se enchufa Google OAuth en cuanto crees las credenciales. |
 | **T-014** | Bot de Telegram (`TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`) | **NO** | La notificación push en el Server Action está diseñada como **no bloqueante y resiliente**: si las credenciales no están presentes, la consulta se almacena con éxito en la base de datos y se registra en logs sin fallar. |
@@ -39,7 +39,7 @@ flowchart TD
     E2 --> E6
     E4 --> E7["Etapa 7: SEO y Open Graph\nLienzo Vertical Blur, Sitemap, JSON-LD (COMPLETADA ✅)"]
     E6 --> E7
-    E5 --> E8["Etapa 8: Despliegue Railway y Lanzamiento\nPruebas/Prod, Backups, Estrés 45 MP (SIGUIENTE 🚀)"]
+    E5 --> E8["Etapa 8: Despliegue Railway y Lanzamiento\nPruebas/Prod, Backups, Estrés 45 MP (COMPLETADA Y VERIFICADA ✅)"]
     E7 --> E8
 ```
 
