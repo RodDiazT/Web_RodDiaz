@@ -10,7 +10,10 @@
     "start": "next start",
     "lint": "next lint",
     "test": "node --test --experimental-strip-types --experimental-specifier-resolution=node \"src/lib/*.test.ts\" \"src/lib/**/*.test.ts\"",
-    "payload": "cross-env NODE_OPTIONS=--no-deprecation payload"
+    "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
+    "recuperar-acceso": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/recuperar-acceso.ts",
+    "restaurar-respaldo": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/restaurar-respaldo.ts",
+    "semilla": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/semilla.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.90.2",

@@ -140,9 +140,11 @@ export async function generarLienzoOg({
     agregarMarcaTexto(capasAComponer, nombreSitio)
   }
 
-  // 5. Componer capas y exportar en JPEG sRGB de alta eficiencia (< 300 KB)
+  // 5. Componer capas y exportar en JPEG sRGB de alta eficiencia (< 300 KB) con perfil ICC sRGB (§5.2.6.5)
   return await lienzoBase
     .composite(capasAComponer)
+    .toColorspace('srgb')
+    .withIccProfile('srgb')
     .jpeg({
       quality: 82,
       progressive: true,

@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import { sembrarDatos } from '../src/semilla/semilla'
+import { sembrarDatos } from '../src/semilla/semilla.ts'
 
 async function ejecutar() {
   try {

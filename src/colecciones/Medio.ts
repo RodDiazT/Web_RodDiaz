@@ -48,8 +48,9 @@ export const Medio: CollectionConfig = {
       },
     ],
     afterChange: [
-      () => {
-        revalidarRutasSeguras(['/'], ['ajustes', 'medios'])
+      ({ doc }) => {
+        const tags = ['ajustes', 'medios', doc?.id ? `medio:${doc.id}` : ''].filter(Boolean) as string[]
+        revalidarRutasSeguras(['/'], tags)
       },
     ],
   },

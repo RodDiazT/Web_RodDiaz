@@ -98,9 +98,12 @@ export function metadatosPara({
   const meta: Metadata = {
     title,
     description,
-    alternates: {
-      canonical: canonicalUrl,
-    },
+    alternates:
+      tipo === 'foto_amable' || tipo === 'no_encontrada'
+        ? undefined
+        : {
+            canonical: canonicalUrl,
+          },
     robots: {
       index: robots.index,
       follow: robots.follow,

@@ -208,14 +208,29 @@ export const Foto: CollectionConfig = {
         if (previousDoc?.slug && previousDoc.slug !== doc?.slug) {
           rutas.push(`/fotos/${previousDoc.slug}`)
         }
-        revalidarRutasSeguras(rutas, ['fotos', 'portada'])
+        const tags = [
+          'fotos',
+          'portada',
+          doc?.id ? `foto:${doc.id}` : '',
+          doc?.slug ? `foto:${doc.slug}` : '',
+          previousDoc?.slug ? `foto:${previousDoc.slug}` : '',
+        ].filter(Boolean) as string[]
+
+        revalidarRutasSeguras(rutas, tags)
       },
     ],
     afterDelete: [
       ({ doc }) => {
         const rutas = ['/', '/fotos', '/sitemap.xml', '/robots.txt']
         if (doc?.slug) rutas.push(`/fotos/${doc.slug}`)
-        revalidarRutasSeguras(rutas, ['fotos', 'portada'])
+        const tags = [
+          'fotos',
+          'portada',
+          doc?.id ? `foto:${doc.id}` : '',
+          doc?.slug ? `foto:${doc.slug}` : '',
+        ].filter(Boolean) as string[]
+
+        revalidarRutasSeguras(rutas, tags)
       },
     ],
   },

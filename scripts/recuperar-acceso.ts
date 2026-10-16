@@ -9,8 +9,8 @@
 import 'dotenv/config'
 import crypto from 'crypto'
 import { getPayload } from 'payload'
-import config from '../src/payload.config'
-import { entorno } from '../src/lib/entorno'
+import config from '../src/payload.config.ts'
+import { entorno } from '../src/lib/entorno.ts'
 
 async function recuperarAcceso() {
   const correoAdmin = entorno.listaCorreosAdmin[0] || 'rodrigodiaztapia@gmail.com'

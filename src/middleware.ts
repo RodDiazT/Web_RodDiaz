@@ -12,14 +12,16 @@ export function middleware(request: NextRequest) {
 
   try {
     const targetUrl = new URL(urlSitioRaw)
-    const hostDestino = targetUrl.host.toLowerCase()
-    const hostPeticion = (request.headers.get('host') || request.nextUrl.host).toLowerCase()
+    const hostDestino = targetUrl.hostname.toLowerCase()
+    const rawHeader = request.headers.get('x-forwarded-host') || request.headers.get('host') || request.nextUrl.host
+    const hostPeticion = rawHeader.split(':')[0].toLowerCase()
 
     // 1. Excepciones de host local (§5.2.4)
     if (
-      hostPeticion.startsWith('localhost') ||
-      hostPeticion.startsWith('127.0.0.1') ||
-      hostPeticion.startsWith('0.0.0.0')
+      hostPeticion === 'localhost' ||
+      hostPeticion === '127.0.0.1' ||
+      hostPeticion === '0.0.0.0' ||
+      hostPeticion.endsWith('.local')
     ) {
       return NextResponse.next()
     }

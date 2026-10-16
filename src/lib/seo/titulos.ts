@@ -103,10 +103,14 @@ export function tituloPara(
     case 'caracteristica': {
       const nombre = (datos?.nombre || '').trim()
       const pagina = Number(datos?.pagina) || 1
-      if (pagina >= 2) {
-        return `${nombre}${SEPARADOR}Fotos${SEPARADOR}Página ${pagina}${sufijoSitio}`
+      const sufijoPagina = pagina >= 2 ? `${SEPARADOR}Página ${pagina}` : ''
+      const sufijo = `${SEPARADOR}Fotos${sufijoPagina}${sufijoSitio}`
+      const base = `${nombre}${sufijo}`
+      if (base.length <= MAX_TITULO) {
+        return base
       }
-      return `${nombre}${SEPARADOR}Fotos${sufijoSitio}`
+      const presupuesto = MAX_TITULO - sufijo.length
+      return `${cortarPalabraCompleta(nombre, presupuesto)}${sufijo}`
     }
 
     case 'colecciones': {

@@ -13,6 +13,7 @@
     ]
   },
   "deploy": {
+    "preDeployCommand": ["pnpm payload migrate"],
     "startCommand": "pnpm start",
     "healthcheckPath": "/api/salud",
     "healthcheckTimeout": 120,

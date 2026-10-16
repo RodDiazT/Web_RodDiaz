@@ -12,6 +12,7 @@ import {
 } from './robots.ts'
 import { jsonLdPara, serializarJsonLdSeguro } from './jsonld.ts'
 import { generarLienzoOg, versionOg } from './lienzo-og.ts'
+import { metadatosPara } from './metadatos.ts'
 
 test('titulos: reglas oficiales de generación, lugares repetidos y corte de palabras (Criterio 1)', () => {
   const ajustes = { nombreSitio: 'Rod Díaz' }
@@ -66,6 +67,15 @@ test('titulos: reglas oficiales de generación, lugares repetidos y corte de pal
     tituloPara('caracteristica', { nombre: 'Araucanía', pagina: 3 }, ajustes),
     'Araucanía · Fotos · Página 3 · Rod Díaz'
   )
+
+  // Característica muy larga (presupuesto estricto de 65 caracteres)
+  const carLarga = tituloPara(
+    'caracteristica',
+    { nombre: 'Fotografía nocturna astronómica de larga exposición en cielos limpios', pagina: 1 },
+    ajustes
+  )
+  assert.ok(carLarga.length <= 65, `Longitud ${carLarga.length} debe ser <= 65`)
+  assert.ok(carLarga.endsWith('… · Fotos · Rod Díaz'))
 
   // 6. Estados especiales
   assert.equal(tituloPara('foto_amable', {}, ajustes), 'Foto no disponible · Rod Díaz')
@@ -304,9 +314,47 @@ test('lienzo-og: generación de imagen 1200x630, marca inferior y peso < 300 KB 
   assert.equal(metaV.format, 'jpeg')
   assert.ok(lienzoVertical.length < 300 * 1024, `Peso ${lienzoVertical.length} bytes debe ser < 300 KB`)
 
+  // Perfil ICC sRGB presente (§5.2.6.5)
+  assert.ok(metaH.icc, 'Debe incluir perfil de color ICC')
+  assert.ok(metaV.icc, 'Debe incluir perfil de color ICC')
+
   // Parámetro versionOg
   const v1 = versionOg('2026-10-15T12:00:00Z', '2026-10-14T10:00:00Z')
   const v2 = versionOg('2026-10-16T12:00:00Z', '2026-10-14T10:00:00Z')
   assert.equal(v1.length, 8)
   assert.notEqual(v1, v2, 'Cambio de fecha debe cambiar el hash v')
 })
+
+test('metadatosPara: omisión estricta de canónica en estados no indexables (foto_amable, 404)', () => {
+  const ajustes = { nombreSitio: 'Rod Díaz' }
+
+  // 1. Ficha normal: lleva canonical
+  const metaFoto = metadatosPara({
+    tipo: 'foto',
+    datos: { slug: 'foto-1', titulo: 'Foto 1' },
+    ajustes,
+    ruta: '/fotos/foto-1',
+  })
+  assert.ok(metaFoto.alternates?.canonical)
+
+  // 2. Foto amable (no disponible): NO debe llevar canonical
+  const metaAmable = metadatosPara({
+    tipo: 'foto_amable',
+    datos: { slug: 'foto-despublicada' },
+    ajustes,
+    ruta: '/fotos/foto-despublicada',
+  })
+  assert.equal(metaAmable.alternates?.canonical, undefined)
+  assert.equal(metaAmable.robots?.index, false)
+  assert.equal(metaAmable.robots?.follow, true)
+
+  // 3. Página 404: NO debe llevar canonical
+  const meta404 = metadatosPara({
+    tipo: 'no_encontrada',
+    ajustes,
+    ruta: '/ruta-inexistente',
+  })
+  assert.equal(meta404.alternates?.canonical, undefined)
+  assert.equal(meta404.robots?.index, false)
+})
+

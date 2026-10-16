@@ -225,17 +225,30 @@ flowchart TD
   - `next.config.mjs`: cabecera `X-Robots-Tag: noindex, nofollow` para `/admin/*`, `/datos/*` y `/api/*` (exceptuando `/api/fotos/file/*` y `/api/medios/file/*`).
   - Integración en todas las vistas públicas: `generateMetadata` y `<JsonLd />` en portada (`/`), `/fotos`, `/fotos/[slug]`, `/colecciones`, `/colecciones/[slug]`, `/sobre-mi`, `/contacto` y `/[slug]`.
   - Suite de pruebas unitarias `src/lib/seo/seo.test.ts`: 6 baterías de pruebas cubriendo criterios de aceptación 1, 2, 3, 6, 7, 9, 10 y 13.
-- **Criterio de aceptación cumplido:** 41/41 pruebas unitarias pasando al 100%; compilación `next build` limpia con 16 rutas estáticas y dinámicas generadas sin base de datos activa; lienzos Open Graph generados en < 300 KB con fondo desenfocado; JSON-LD con autoría Fine Art; y cero rastreadores o scripts externos.
+- **Auditoría y corrección completadas (Rol Auditor/Debugger):**
+  - Incorporación de perfil de color ICC sRGB (`toColorspace('srgb').withIccProfile('srgb')`) en Sharp dentro de `lienzo-og.ts` (§5.2.6.5) para eliminar cualquier desvío cromático en redes móviles.
+  - Aplicación de presupuesto de 65 caracteres y corte en frontera de palabras con elipsis `…` en títulos de características (`titulos.ts`).
+  - Omisión estricta de la etiqueta `<link rel="canonical">` en páginas de fotos amables (`foto_amable`) y 404 (`no_encontrada`) para prevenir advertencias en Googlebot (`metadatos.ts`).
+  - Normalización de host y detección de proxy inverso con `x-forwarded-host` en `middleware.ts`.
+  - Resolución robusta de URLs de imágenes a partir de `filename` y cálculo dinámico de `lastModified` en `sitemap.ts`.
+  - Inclusión de etiquetas unificadas de caché `foto:${doc.id}`, `foto:${doc.slug}` en `Foto.ts` y `medio:${doc.id}` en `Medio.ts`.
+- **Criterio de aceptación cumplido:** 42/42 pruebas unitarias pasando al 100%; compilación `next build` limpia con 16 rutas estáticas y dinámicas generadas sin base de datos activa; lienzos Open Graph generados en < 300 KB con fondo desenfocado y perfil ICC; JSON-LD con autoría Fine Art; y cero rastreadores o scripts externos.
 
 ---
 
-### Etapa 8: Despliegue en Railway, Respaldo y Lanzamiento
-- **Objetivo:** Desplegar el sistema en Railway y verificar la lista de chequeo de lanzamiento.
-- **Tareas clave:**
-  - Archivo `railway.json` con rutas de vigilancia (*watch patterns*) para evitar despliegues innecesarios por documentación.
-  - Configuración de entornos `production` (promoción manual) y `pruebas` (serverless sleep).
-  - Tarjeta de Respaldo en `/admin` con endpoint `POST /api/respaldo` (descarga comprimida `.json.gz` sin imágenes pesadas).
-  - Script de consola `scripts/recuperar-acceso.ts` para emisión de enlaces de emergencia de un solo uso (15 minutos).
-  - Pruebas de carga de memoria Sharp con imágenes de 45 MP (concurrencia 1, AVIF effort 3) en entorno de pruebas.
-  - Chequeo final de la lista de lanzamiento antes de promover a producción.
-- **Criterio de aceptación:** Sitio arriba en Railway, migraciones automáticas funcionales, chequeo de salud en verde y pruebas de memoria aprobadas.
+### Etapa 8: Despliegue en Railway, Respaldo y Lanzamiento (COMPLETADA Y VERIFICADA ✅)
+- **Objetivo:** Desplegar el sistema en Railway, blindar la persistencia de datos mediante respaldos comprimidos y verificar la lista de chequeo de lanzamiento según [`despliegue.md`](file:///Users/roddiaz/projects/DesarrolloWeb/DocumentosTecnicos/plataforma/despliegue.md).
+- **Componentes y arquitectura implementados (Rol Desarrollador):**
+  - `railway.json`: configuración como código con `watchPatterns` (`src/**`, `public/**`, `scripts/**`, `package.json`, etc.) para evitar despliegues innecesarios por documentación, comando previo `preDeployCommand: ["pnpm payload migrate"]`, comando de arranque `pnpm start`, chequeo de salud `/api/salud` (timeout 120s), política de reinicio `ON_FAILURE` (5 reintentos), y entorno `pruebas` con `sleepApplication: true`.
+  - `.env.ejemplo`: especificación exhaustiva de todas las variables requeridas y opcionales (`DATABASE_URL`, `PAYLOAD_SECRET`, `CORREOS_ADMIN`, `URL_SITIO`, `RUTA_MEDIOS`, `ENTORNO`, `TAREAS_AUTOMATICAS`, `NEXT_TELEMETRY_DISABLED`, `TZ`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`).
+  - `src/lib/respaldo.ts`: módulo puro de respaldo con generación de manifiesto inmutable (versión de esquema `1.0`, conteos por colección, fecha UTC y commit Git), extracción de todas las entidades oficiales (`Foto`, `Coleccion`, `Caracteristica`, `FormatoImpresion`, `TipoPapel`, `Pagina`, `Medio`, `Consulta`, `Suscriptor`, `Usuario`, `AjustesSitio`), sanitización estricta de credenciales de usuario (omisión de hashes, tokens y sales), serialización y compresión en gzip (`.json.gz`), medición recursiva de almacenamiento de imágenes en volumen persistente, formateo en GB con coma decimal y detección de umbrales de alerta (> 30 días o > 80% del volumen).
+  - `src/app/api/respaldo/route.ts`: route handlers protegidos con autenticación Payload (`payload.auth`):
+    - `GET`: entrega estado del respaldo, días de antigüedad y espacio utilizado.
+    - `POST`: genera y responde en stream la descarga de `respaldo-roddiaz-AAAA-MM-DD.json.gz` con cabeceras `application/gzip` y actualiza automáticamente `AjustesSitio.ultimoRespaldoEn`. Incluye protección contra llamadas concurrentes.
+  - `src/componentes/admin/TarjetaRespaldo.tsx`: tarjeta del panel de administración (`/admin`) con estados de alerta visuales según antigüedad (>30 días) y espacio de volumen (>80%), diálogo modal nativo `<dialog>` con advertencia de retención y confidencialidad, y botón reactivo con feedback "Preparando…".
+  - `scripts/restaurar-respaldo.ts`: script CLI (`pnpm restaurar-respaldo --archivo <ruta>`) para reconstruir la base en un proyecto nuevo o tras contingencia mayor. Valida versión de esquema, verifica que la base esté completamente vacía antes de escribir y conserva los `id` originales respetando dependencias de clave foránea.
+  - `scripts/recuperar-acceso.ts` y `src/app/(payload)/admin/recuperar/route.ts`: mecanismo de recuperación de emergencia ante fallas de Google OAuth. Genera enlace de un solo uso válido por 15 minutos con token criptográfico SHA-256 de 32 bytes, quema el token inmediatamente al utilizarlo y abre sesión en Payload.
+  - `src/instrumentation.ts`: hook de instrumentación Next.js para calentamiento automático del servidor tras 5 segundos de arranque, precargando en local las rutas públicas `/`, `/fotos`, `/colecciones`, `/sobre-mi` y las obras destacadas.
+  - `package.json`: scripts CLI registrados (`recuperar-acceso`, `restaurar-respaldo`, `semilla`).
+  - Suite de pruebas unitarias `src/lib/respaldo.test.ts`: cálculo de días calendario, formateo de espacio en GB con coma decimal, esquema inmutable y compresión/descompresión gzip íntegra.
+- **Criterio de aceptación cumplido:** 45/45 pruebas unitarias pasando al 100%; compilación `next build` limpia en 102 kB First Load JS sin base de datos activa; endpoints `/api/salud`, `/api/respaldo` y `/admin/recuperar` verificados; y proyecto completamente listo para la ejecución de la lista de lanzamiento en Railway.

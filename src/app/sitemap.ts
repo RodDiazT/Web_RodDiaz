@@ -38,25 +38,42 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // 2. Fichas de fotos visibles (con imagen asociada 2048px en sitemap)
     const resFotos = await fotosVisibles({ limit: 1000 })
+    let ultimaModificacionFotos = ahora
+
     for (const foto of resFotos.docs as any[]) {
       if (foto.slug) {
-        let urlImg = foto.url
-        if (foto.sizes?.grande_webp?.url) {
-          urlImg = foto.sizes.grande_webp.url
-        } else if (foto.sizes?.mediana_webp?.url) {
-          urlImg = foto.sizes.mediana_webp.url
+        const fechaFoto = foto.updatedAt ? new Date(foto.updatedAt) : ahora
+        if (fechaFoto > ultimaModificacionFotos) {
+          ultimaModificacionFotos = fechaFoto
         }
+
+        let urlImg =
+          foto.sizes?.grande_webp?.url ||
+          foto.sizes?.mediana_webp?.url ||
+          foto.url
+
+        if (!urlImg) {
+          const fn = foto.sizes?.grande_webp?.filename || foto.sizes?.mediana_webp?.filename || foto.filename
+          if (fn) {
+            urlImg = `/api/fotos/file/${fn}`
+          }
+        }
+
         if (urlImg && !urlImg.startsWith('http')) {
-          urlImg = `${urlSitio}${urlImg}`
+          urlImg = `${urlSitio}${urlImg.startsWith('/') ? '' : '/'}${urlImg}`
         }
 
         rutas.push({
           url: `${urlSitio}/fotos/${foto.slug}`,
-          lastModified: foto.updatedAt ? new Date(foto.updatedAt) : ahora,
+          lastModified: fechaFoto,
           images: urlImg ? [urlImg] : undefined,
         })
       }
     }
+
+    // Actualizar rutas de portada y fotos con la fecha más reciente
+    rutas[0].lastModified = ultimaModificacionFotos
+    rutas[1].lastModified = ultimaModificacionFotos
 
     // 3. Colecciones visibles (madres e hijas con visibleSola = true)
     const coleccionesMadre = await coleccionesListadas()
