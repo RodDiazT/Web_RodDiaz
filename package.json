@@ -11,9 +11,9 @@
     "lint": "next lint",
     "test": "node --test --experimental-strip-types --experimental-specifier-resolution=node \"src/lib/*.test.ts\" \"src/lib/**/*.test.ts\"",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
-    "recuperar-acceso": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/recuperar-acceso.ts",
-    "restaurar-respaldo": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/restaurar-respaldo.ts",
-    "semilla": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/semilla.ts"
+    "recuperar-acceso": "tsx scripts/recuperar-acceso.ts",
+    "restaurar-respaldo": "tsx scripts/restaurar-respaldo.ts",
+    "semilla": "tsx scripts/semilla.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.90.2",
@@ -33,6 +33,7 @@
     "@types/node": "^22.13.4",
     "@types/react": "19.0.10",
     "@types/react-dom": "19.0.4",
+    "tsx": "^4.23.15",
     "typescript": "^5.7.3"
   }
 }
