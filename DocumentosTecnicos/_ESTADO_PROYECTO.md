@@ -38,7 +38,7 @@ v1.0: portafolio con consulta 1:1 (implementación de código completada al 100%
 - Ninguno.
 
 ## Próximos pasos
-1. Rod, antes de desplegar en producción: catálogo de tamaños y papeles en cm (T-006), cliente OAuth de Google (T-008) y bot de Telegram para avisos (T-014).
+1. Rod, antes de desplegar en producción: catálogo de tamaños y papeles en cm (T-006) y cliente OAuth de Google (T-008). (T-014 completada con bot @WebRodDiaz_bot).
 2. Rod, antes de lanzar: 12 fotos (T-005), Sobre mí (T-007), portada y destacadas (T-009), descripción del sitio (T-011) y JPG de prueba de 45 MP (T-013). (T-004 completada con límite de USD 30 en Railway).
 3. Prueba de carga y memoria Sharp con JPG de 45 MP en entorno de pruebas.
 4. Verificación final de la lista de lanzamiento y promoción a producción.

@@ -42,7 +42,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.9]
 | T-008 | Crear cliente OAuth de Google Cloud para el inicio de sesión del panel | modelo-contenido-panel | abierta | 2026-10-07 |
 | T-010 | Verificar el sitio en Google Search Console y enviar el sitemap (al lanzar) | — | abierta | 2026-10-14 |
 | T-012 | Comprar el dominio .cl cuando decidas difundir el sitio (v1.x) | — | abierta | 2026-10-14 |
-| T-014 | Crear bot en Telegram con @BotFather y registrar TELEGRAM_BOT_TOKEN y TELEGRAM_CHAT_ID en Railway | — | abierta | 2026-10-14 |
+| T-014 | Crear bot en Telegram con @BotFather y registrar TELEGRAM_BOT_TOKEN y TELEGRAM_CHAT_ID en Railway | — | hecha (2026-10-16) | 2026-10-14 |
 
 ### Contenido
 | Id | Tarea | Bloquea | Estado | Creada |
@@ -396,10 +396,10 @@ marco-general/marco-general-proyecto.md        [aprobado 1.9]
       "categoria": "desarrollo",
       "origen": "consulta-copia",
       "bloquea": [],
-      "estado": "abierta",
+      "estado": "hecha",
       "creada": "2026-10-14",
-      "cerrada": null,
-      "notas": "Aviso instantáneo push de consultas al Telegram de Rod."
+      "cerrada": "2026-10-16",
+      "notas": "Bot @WebRodDiaz_bot configurado y registrado en Railway production."
     }
   ]
 }
