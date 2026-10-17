@@ -48,7 +48,19 @@ export const Pagina: CollectionConfig = {
 
         // Validación: una página libre no puede colisionar con rutas del sitio (§4, §5.1)
         if (!esReservadaOriginal && data.slug && esRutaReservada(data.slug)) {
-          throw new Error('Ese nombre ya lo usa el sitio. Elige otro.')
+          if (!originalDoc && esPaginaReservada(data.slug)) {
+            const yaExiste = await req.payload.find({
+              collection: 'paginas',
+              where: { slug: { equals: data.slug } },
+              limit: 1,
+              overrideAccess: true,
+            })
+            if (yaExiste.totalDocs > 0) {
+              throw new Error('Ese nombre ya lo usa el sitio. Elige otro.')
+            }
+          } else {
+            throw new Error('Ese nombre ya lo usa el sitio. Elige otro.')
+          }
         }
 
         // Validación: publicar exige título y contenido (§5.2.2)
