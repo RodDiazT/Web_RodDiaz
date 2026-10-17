@@ -144,7 +144,6 @@ export async function leerExifSeguro(
   try {
     const raw = await exifr.parse(entrada as any, {
       tiff: true,
-      ifd0: false,
       exif: ['DateTimeOriginal', 'CreateDate', 'FocalLength', 'FNumber', 'ExposureTime'],
       xmp: true,
       translateValues: false,
@@ -153,7 +152,7 @@ export async function leerExifSeguro(
       iptc: false,
       jfif: false,
       gps: false, // Blindaje explícito: GPS descartado
-    })
+    } as any)
 
     if (!raw) return {}
 
