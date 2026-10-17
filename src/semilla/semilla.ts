@@ -4,7 +4,7 @@
  * Especificado en DocumentosTecnicos/contenido/modelo-contenido-panel.md (§5.4 y §8, Paso 10).
  */
 
-import { getPayload } from 'payload'
+import { getPayload, type BasePayload } from 'payload'
 import config from '../payload.config'
 import {
   contenidoSobreMi,
@@ -45,8 +45,8 @@ export function crearParrafoLexical(texto: string) {
   }
 }
 
-export async function sembrarDatos() {
-  const payload = await getPayload({ config })
+export async function sembrarDatos(payloadInstance?: BasePayload) {
+  const payload = payloadInstance || (await getPayload({ config }))
   console.log('[Semilla] Iniciando carga de datos iniciales...')
 
   // 1. Ajustes del sitio

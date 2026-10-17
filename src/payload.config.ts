@@ -69,6 +69,22 @@ export default buildConfig({
   onInit: async (payload) => {
     if (process.env.NEXT_PHASE === 'phase-production-build') return
     try {
+      // 1. Asegurar esquema de tablas en PostgreSQL (aditivo y sin prompts interactivos)
+      const adapter = payload.db as any
+      if (adapter && typeof adapter.requireDrizzleKit === 'function' && adapter.drizzle) {
+        const { pushSchema } = adapter.requireDrizzleKit()
+        const { apply } = await pushSchema(
+          adapter.schema,
+          adapter.drizzle,
+          adapter.schemaName ? [adapter.schemaName] : undefined,
+          adapter.tablesFilter,
+          adapter.extensions?.postgis ? ['postgis'] : undefined
+        )
+        await apply()
+        console.log('[Payload] Esquema PostgreSQL sincronizado correctamente.')
+      }
+
+      // 2. Asegurar usuario administrador autorizado para habilitar /admin/login con Google OAuth
       const existentes = await payload.find({
         collection: 'usuarios',
         limit: 1,
@@ -95,8 +111,19 @@ export default buildConfig({
           console.log(`[Payload] Usuario administrador inicializado para ${correoPrincipal}`)
         }
       }
-    } catch {
-      // Ignorar si la base aún no está disponible durante compilación
+
+      // 3. Sembrar páginas reservadas y ajustes iniciales si la base está recién creada
+      const paginasExistentes = await payload.find({
+        collection: 'paginas',
+        limit: 1,
+        overrideAccess: true,
+      })
+      if (paginasExistentes.totalDocs === 0) {
+        const { sembrarDatos } = await import('./semilla/semilla.ts')
+        await sembrarDatos(payload)
+      }
+    } catch (err: any) {
+      console.warn('[Payload/onInit] Aviso en inicialización:', err?.message || err)
     }
   },
 })
