@@ -6,28 +6,28 @@
 |---|---|---|---|---|---|---|
 | Ruta | Tipo | Versión | Estado | Producto | Padre | Dependencias |
 |---|---|---|---|---|---|---|
-| `marco-general/marco-general-proyecto.md` | marco | 1.9 | aprobado | v1.0 | — | — |
+| `marco-general/marco-general-proyecto.md` | marco | 1.10 | aprobado | v1.0 | — | — |
 | `identidad/sistema-de-diseno.md` | transversal | 1.1 | aprobado | v1.0 | marco-general | marco-general |
-| `contenido/modelo-contenido-panel.md` | componente | 1.6 | aprobado | v1.0 | marco-general | marco-general |
+| `contenido/modelo-contenido-panel.md` | componente | 1.7 | aprobado | v1.0 | marco-general | marco-general |
 | `portafolio/galeria-colecciones.md` | componente | 1.2 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `portafolio/ficha-foto.md` | componente | 1.3 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
 | `consultas/consulta-copia.md` | componente | 1.4 | aprobado | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
 | `paginas/paginas.md` | componente | 1.3 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `plataforma/seo.md` | transversal | 1.1 | aprobado | v1.0 | marco-general | galeria-colecciones, ficha-foto, paginas |
-| `plataforma/despliegue.md` | transversal | 1.1 | aprobado | v1.0 | marco-general | modelo-contenido-panel |
+| `plataforma/despliegue.md` | transversal | 1.2 | aprobado | v1.0 | marco-general | modelo-contenido-panel |
 
 ## Árbol
 
 ```
-marco-general/marco-general-proyecto.md        [aprobado 1.9]
+marco-general/marco-general-proyecto.md        [aprobado 1.10]
 ├── identidad/sistema-de-diseno.md             [aprobado 1.1]
-├── contenido/modelo-contenido-panel.md        [aprobado 1.6]
+├── contenido/modelo-contenido-panel.md        [aprobado 1.7]
 ├── portafolio/galeria-colecciones.md          [aprobado 1.2]
 ├── portafolio/ficha-foto.md                   [aprobado 1.3]
 ├── consultas/consulta-copia.md                [aprobado 1.4]
 ├── paginas/paginas.md                         [aprobado 1.3]
 ├── plataforma/seo.md                          [aprobado 1.1]
-└── plataforma/despliegue.md                   [aprobado 1.1]
+└── plataforma/despliegue.md                   [aprobado 1.2]
 ```
 
 ## Tareas del dueño
@@ -66,7 +66,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.9]
 {
   "esquema": "1.1",
   "proyecto": "Rod Díaz (Web_RodDiaz)",
-  "actualizado": "2026-10-14T15:00-03:00",
+  "actualizado": "2026-10-17T18:00-03:00",
   "fases": [
     {
       "id": "v1.0",
@@ -95,9 +95,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.9]
       "dependencias": [],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.9",
-      "actualizado": "2026-10-14",
-      "notas": "1.9: Canon PRO-1100, margen de conservación Fine Art, aviso push por Telegram, nombreArchivoOriginal, snapshots en consulta, antispam 1.8 s (T-014)."
+      "version": "1.10",
+      "actualizado": "2026-10-17",
+      "notas": "1.10: cierre de T-008, definición de ambiente permanente de QA vs Oficial, panel Payload 100% en español y regla obligatoria de sincronización documental continua."
     },
     {
       "id": "sistema-de-diseno",
@@ -127,9 +127,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.9]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.6",
-      "actualizado": "2026-10-14",
-      "notas": "1.6: nombreArchivoOriginal en Foto, FormatoImpresion con medidas en cm y margen mínimo, TipoPapel Fine Art enriquecido, Sharp concurrency(1) y AVIF effort 3."
+      "version": "1.7",
+      "actualizado": "2026-10-17",
+      "notas": "1.7: Google OAuth operativo (T-008), i18n español (@payloadcms/translations), etiquetas completas en español y ocultamiento de botones de contraseña local."
     },
     {
       "id": "galeria-colecciones",
@@ -230,9 +230,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.9]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.1",
-      "actualizado": "2026-10-14",
-      "notas": "1.1: variables de Telegram bot (T-014); nota de límite de memoria Sharp concurrency(1) en pruebas para 45 MP (T-013)."
+      "version": "1.2",
+      "actualizado": "2026-10-17",
+      "notas": "1.2: ambiente permanente de QA (ENTORNO=pruebas) vs entorno Oficial al aprobar QA; sincronización automática de esquema y semilla en onInit."
     }
   ],
   "tareas": [
@@ -411,6 +411,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.9]
 
 | Fecha | Cambio |
 |---|---|
+| 2026-10-17 | Cierre de T-008 (cliente Google OAuth configurado y operativo en `/admin`). Formalización del ambiente actual como entorno permanente de QA/pruebas (`ENTORNO=pruebas`) previo a duplicar al entorno Oficial al aprobar QA. Traducción íntegra del panel Payload al español (`@payloadcms/translations`, etiquetas en español y ocultamiento de botones de contraseña local) y regla de actualización documental obligatoria en cada modificación. Marco 1.10, modelo-contenido-panel 1.7, despliegue 1.2. |
 | 2026-10-14 | Auditoría integral y granular Fine Art / Tech Lead completada y aprobada por Rod. Actualización masiva de documentos: Canon PRO-1100, margen de conservación y ratios 3:2, papeles Fine Art enriquecidos, lienzo Open Graph para fotos verticales, aviso push por bot de Telegram, antispam móvil 1.8 s, snapshots en consultas, optimización de memoria Sharp. Marco 1.9, sistema-de-diseno 1.1, modelo-contenido-panel 1.6, ficha-foto 1.3, consulta-copia 1.4, paginas 1.3, seo 1.1, despliegue 1.1. Nace tarea T-014. |
 | 2026-10-07 | Creación del índice. Marco general en revisión (0.1); 8 documentos identificados; tareas T-001 a T-007. |
 | 2026-10-07 | Marco general 0.2: acceso con Google, aviso por Resend; T-002 redefinida; nueva T-008. |

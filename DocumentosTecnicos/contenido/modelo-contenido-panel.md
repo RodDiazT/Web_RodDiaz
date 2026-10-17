@@ -508,12 +508,13 @@ Para Claude Code, después del paso 1 del plan del marco (§9.2: base del proyec
 | Id | Categoría | Tarea | Bloquea |
 |---|---|---|---|
 | T-006 | contenido | Definir el catálogo inicial de tamaños (cm, por proporción: 3:2, 4:5, 1:1 y otras que uses) y de tipos de papel, indicando qué papeles hay en cada tamaño. | Paso 13 de la implementación |
-| T-008 | desarrollo | Crear el cliente OAuth de Google Cloud para el panel. | Paso 9 de la implementación |
+| T-008 | desarrollo | Crear el cliente OAuth de Google Cloud para el panel. **Hecha (2026-10-17).** | Paso 9 de la implementación |
 
 ## 12. Control de cambios
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.7 | 2026-10-17 | Cierre de T-008 e integración en producción/QA del flujo OAuth 2.0 con Google (`/api/oauth/google`, `/api/oauth/google/callback` y `BotonGoogleLogin.tsx`), sincronización automática de esquema y semilla en `onInit`, configuración de idioma español nativo en Payload (`@payloadcms/translations`, `supportedLanguages: { es }`, `fallbackLanguage: 'es'`), etiquetas en español en todos los campos de `Usuario` y `Pagina`, y ocultamiento de controles de contraseña local (`#change-password`, `#force-unlock`) en la vista de cuenta. |
 | 1.6 | 2026-10-14 | Trazabilidad con `nombreArchivoOriginal` en `Foto`; catálogo de `FormatoImpresion` por medidas de hoja en cm con `margenMinimoCm` y asociación manual por foto (sin barrera ±2 %); enriquecimiento de `TipoPapel` (base, acabado, gramaje, libre de ácido); y optimización de memoria con `sharp.concurrency(1)` y AVIF `effort: 3`. |
 | 1.5 | 2026-10-14 | Cambio menor al aprobar `plataforma/despliegue.md` 1.0: tarjeta *Respaldo* en el dashboard (§3.4). |
 | 1.4 | 2026-10-14 | Cambio menor al aprobar `plataforma/seo.md` 1.0: `Foto.seo.descripcion`, pestaña SEO de `AjustesSitio`, máx. 160 en `descripcion` y revalidación de sitemap, robots y vistas previas. |

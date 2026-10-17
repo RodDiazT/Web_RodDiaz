@@ -461,11 +461,11 @@ Para Claude Code. Los pasos 1 a 3 se hacen junto con la base del proyecto (marco
 
 | Id | Categoría | Tarea | Bloquea |
 |---|---|---|---|
-| T-004 | desarrollo | (Redefinida) Revisar en la facturación de Railway el consumo actual de tus proyectos y fijar en *Usage Limits* un aviso de USD 25 y un tope de USD 40. | Lanzamiento |
-| T-008 | desarrollo | (Existente) Cliente OAuth de Google. Al implementarlo se agregan las URI de pruebas y de producción. | Paso 6 |
+| T-004 | desarrollo | (Redefinida) Revisar en la facturación de Railway el consumo actual de tus proyectos y fijar en *Usage Limits* un aviso de USD 25 y un tope de USD 40. **Hecha (2026-10-16, tope fijado en USD 30).** | Lanzamiento |
+| T-008 | desarrollo | (Existente) Cliente OAuth de Google. Al implementarlo se agregan las URI de pruebas y de producción. **Hecha (2026-10-17).** | Paso 6 |
 | T-012 | desarrollo | **Nueva.** Comprar el dominio `.cl` cuando decidas difundir el sitio (v1.x; unos 10.000 CLP al año en NIC Chile, a confirmar al comprar). | Difusión (v1.x) |
 | T-013 | contenido | **Nueva.** Entregar 3 JPG de prueba exportados desde Lightroom: uno de 45 MP vertical, uno en Adobe RGB y uno con GPS. | Paso 12 |
-| T-014 | desarrollo | **Nueva.** Crear bot en Telegram con @BotFather y registrar `TELEGRAM_BOT_TOKEN` y `TELEGRAM_CHAT_ID` en Railway. | Aviso de consultas |
+| T-014 | desarrollo | **Nueva.** Crear bot en Telegram con @BotFather y registrar `TELEGRAM_BOT_TOKEN` y `TELEGRAM_CHAT_ID` en Railway. **Hecha (2026-10-16).** | Aviso de consultas |
 | T-005, T-006, T-007, T-009, T-011 | contenido | (Existentes) Fotos, catálogo, Sobre mí, portada y descripción del sitio. | Lanzamiento |
 | T-010 | desarrollo | (Existente, de `seo`) Search Console al lanzar. | — |
 
@@ -473,6 +473,7 @@ Para Claude Code. Los pasos 1 a 3 se hacen junto con la base del proyecto (marco
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.2 | 2026-10-17 | Cierre de T-008; definición operativa de ambientes: el ambiente activo inicial (`sitio-production-7f52.up.railway.app`, configurado con `ENTORNO=pruebas` y `TAREAS_AUTOMATICAS=false`) se mantiene permanentemente como entorno de QA / pruebas para validar cambios presentes y futuros, y al aprobar el QA se duplicarán los recursos hacia un entorno Oficial separado (`ENTORNO=produccion`) abierto al público. Sincronización automática de esquema PostgreSQL y semilla en `onInit`. |
 | 1.1 | 2026-10-14 | Alineado con marco 1.9, modelo de contenido 1.6 y consulta de copia 1.4: variables opcionales `TELEGRAM_BOT_TOKEN` y `TELEGRAM_CHAT_ID` para avisos push instantáneos de consultas (T-014); nota de límite de memoria `sharp.concurrency(1)` y AVIF `effort: 3` en entorno de pruebas (1 GB RAM) para ingesta de fotos de 45 MP (T-013). |
 | 1.0 | 2026-10-14 | Aprobado por Rod. Marco general pasa a 1.8, modelo de contenido a 1.5, consulta de copia a 1.3, páginas a 1.2, galería a 1.2 y ficha a 1.2 (§7). Nacen T-012 y T-013; T-004 queda con los valores de §5.2.10. |
 | 0.1 | 2026-10-14 | Borrador inicial. Decisiones de Rod: subdominio indexado sin difundir hasta el dominio; despliegue solo con cambios de código; entornos producción y pruebas con promoción manual; respaldos de Railway más descarga mensual desde el panel; aviso USD 25 y tope USD 40. Ley 21.719 reverificada. Alineado con `seo` 1.0 (aprobado en paralelo): `ENTORNO` en vez de una variable propia, excepción de `/api/salud` en el host único, mudanza según `seo` §5.2.4 con el subdominio redirigiendo 12 meses y lista de lanzamiento con T-010 y T-011; tareas nuevas renumeradas T-012 y T-013. |

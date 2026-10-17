@@ -36,6 +36,7 @@ export const Usuario: CollectionConfig = {
     {
       name: 'proveedorAcceso',
       type: 'select',
+      label: 'Proveedor de acceso',
       options: [
         { label: 'Google OAuth', value: 'google' },
         { label: 'Local / Recuperación de emergencia', value: 'local' },
@@ -48,6 +49,7 @@ export const Usuario: CollectionConfig = {
     {
       name: 'idGoogle',
       type: 'text',
+      label: 'ID de Google',
       admin: {
         readOnly: true,
       },
@@ -55,6 +57,7 @@ export const Usuario: CollectionConfig = {
     {
       name: 'ultimoAcceso',
       type: 'date',
+      label: 'Último acceso',
       admin: {
         readOnly: true,
       },

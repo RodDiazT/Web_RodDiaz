@@ -156,6 +156,7 @@ export const Pagina: CollectionConfig = {
     {
       name: 'reservada',
       type: 'checkbox',
+      label: 'Página reservada',
       admin: {
         readOnly: true,
         description: 'Indica si es una página institucional reservada.',
@@ -199,6 +200,7 @@ export const Pagina: CollectionConfig = {
     {
       name: 'contenidoActualizadoEn',
       type: 'date',
+      label: 'Contenido actualizado el',
       admin: {
         readOnly: true,
         description: 'Fecha de la última modificación editorial de título o texto.',

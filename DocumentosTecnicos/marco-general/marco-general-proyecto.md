@@ -337,8 +337,8 @@ Los documentos 1 y 2 quedan desbloqueados en paralelo al aprobar el marco. Se re
 | Id | Categoría | Tarea | Bloquea |
 |---|---|---|---|
 | T-001 | desarrollo | Crear el repositorio privado en GitHub. **Hecha.** | — |
-| T-008 | desarrollo | Crear en Google Cloud un cliente OAuth (gratis) para el inicio de sesión del panel. Te guío paso a paso cuando toque implementarlo. | Implementación del doc 2 |
-| T-004 | desarrollo | Revisar en la facturación de Railway el consumo actual y fijar en *Usage Limits* un aviso de USD 25 y un tope de USD 40. | Lanzamiento |
+| T-008 | desarrollo | Crear en Google Cloud un cliente OAuth (gratis) para el inicio de sesión del panel. **Hecha (2026-10-17).** | Implementación del doc 2 |
+| T-004 | desarrollo | Revisar en la facturación de Railway el consumo actual y fijar en *Usage Limits* un aviso de USD 25 y un tope de USD 40. **Hecha (2026-10-16, tope fijado en USD 30).** | Lanzamiento |
 | T-005 | contenido | Seleccionar al menos 12 fotos de lanzamiento con título, lugar y fecha. | Lanzamiento |
 | T-006 | contenido | Definir el catálogo inicial de tamaños (cm) y tipos de papel. | Implementación del doc 2 |
 | T-007 | contenido | Escribir el texto de "Sobre mí" y elegir una foto de perfil. | Doc 6 |
@@ -346,12 +346,15 @@ Los documentos 1 y 2 quedan desbloqueados en paralelo al aprobar el marco. Se re
 | T-011 | contenido | Escribir la descripción del sitio (máx. 160 caracteres). | Lanzamiento |
 | T-012 | desarrollo | Comprar el dominio `.cl` cuando decidas difundir el sitio. | Difusión (v1.x) |
 | T-013 | contenido | Entregar 3 JPG de prueba: uno de 45 MP vertical, uno en Adobe RGB y uno con GPS. | Prueba de memoria del despliegue |
-| T-014 | desarrollo | Crear bot en Telegram con @BotFather y registrar `TELEGRAM_BOT_TOKEN` y `TELEGRAM_CHAT_ID` en las variables de entorno de Railway. | Aviso de consultas |
+| T-014 | desarrollo | Crear bot en Telegram con @BotFather y registrar `TELEGRAM_BOT_TOKEN` y `TELEGRAM_CHAT_ID` en las variables de entorno de Railway. **Hecha (2026-10-16).** | Aviso de consultas |
+
+> **Regla de mantenimiento documental:** Cada vez que se realice una modificación, corrección o ajuste en el sistema (durante el desarrollo, QA o evolución post-lanzamiento), se deben actualizar de inmediato los documentos técnicos respectivos para mantener la documentación sincronizada con la realidad del sistema. Jamás deben registrarse claves, tokens ni secretos en los documentos.
 
 ## 13. Control de cambios
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.10 | 2026-10-17 | Cierre de T-008 (Google OAuth operativo en `/admin`), formalización del entorno actual como ambiente permanente de QA/pruebas (previo a duplicar hacia el entorno oficial al aprobar QA), traducción íntegra de la interfaz del panel al español (`@payloadcms/translations`) y regla obligatoria de actualización continua de la documentación en cada cambio sin exponer secretos. |
 | 1.9 | 2026-10-14 | Enfoque de taller Fine Art con Canon PRO-1100: márgenes de conservación para enmarcado y firma; catálogo por medidas en cm y asociación manual por foto; enriquecimiento de `TipoPapel` (base, acabado, gramaje, libre de ácido); `nombreArchivoOriginal` en `Foto`; snapshots en `ItemConsulta`; antispam a 1.8 s; y notificación push inmediata vía Bot de Telegram (T-014). |
 | 1.8 | 2026-10-14 | Cambio menor al aprobar `plataforma/despliegue.md` 1.0: `Usuario.recuperacionHash` y `recuperacionVence`, `AjustesSitio.ultimoRespaldoEn` y `supresionesRecientes` (§6.1); `/api/salud`, `/api/respaldo` y `/admin/recuperar` (§6.3); `railway.json`, `scripts/` y `migraciones/` (§6.4); región, entornos y lanzamiento sin difundir (§6.6); mitigaciones de R-02 y R-03 (§11); D-02 resuelta, T-004 redefinida, T-012 y T-013 (§12). |
 | 1.7 | 2026-10-14 | Cambio menor al aprobar `plataforma/seo.md` 1.0: `Foto.seo.descripcion` y pestaña SEO de `AjustesSitio` (§6.1); rutas `/og/…` (§6.3); `URL_SITIO` con host único (§6.5); Search Console en el stack (§6.6) y en métricas (§10); T-010 y T-011 (§12). |

@@ -8,3 +8,4 @@
 6. No escribas en el código textos, enlaces ni datos de contacto que se administran desde el panel.
 7. Nunca publiques originales ni metadatos (EXIF o GPS) de las fotos.
 8. No edites a mano vistas derivadas (tablero, `data.json`).
+9. Cada vez que se realice una modificación, corrección o ajuste en el código o en la configuración (durante el desarrollo, QA o mantenimiento), se deben actualizar de inmediato los documentos técnicos respectivos en `DocumentosTecnicos/` a modo de documentación viva. Nunca expongas claves, tokens ni secretos en los documentos ni en el repositorio.
