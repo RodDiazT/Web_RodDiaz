@@ -2,9 +2,10 @@
 node_modules/
 .pnpm-store/
 
-# Next.js
+# Next.js y TypeScript
 .next/
 out/
+*.tsbuildinfo
 
 # Entorno y secretos (nunca commitear)
 .env
