@@ -15,7 +15,7 @@ Podemos construir todo el sistema con valores semilla (*seeds*), variables opcio
 |---|---|:---:|---|
 | **T-004** | Límites de gasto en Railway (aviso $25 / tope $40) | **COMPLETADA ✅** | Rod configuró en Railway Usage Limits un hard limit de USD 30. |
 | **T-006** | Catálogo inicial de tamaños en cm y papeles Fine Art | **NO** | Se implementa el esquema exacto de `FormatoImpresion` y `TipoPapel`. Usaremos un catálogo semilla con los estándares Fine Art aprobados (30×45, 40×60, 50×75 cm; papeles 100% algodón y baritados Hahnemühle/Canon). Podrás editarlo desde el panel en cualquier momento. |
-| **T-008** | Cliente OAuth de Google Cloud para el panel | **NO** | Para el desarrollo local y pruebas se habilita el acceso vía script de mantenimiento (`scripts/recuperar-acceso.ts`) o autenticación de desarrollo. Se enchufa Google OAuth en cuanto crees las credenciales. |
+| **T-008** | Cliente OAuth de Google Cloud para el panel | **COMPLETADA ✅** | Cliente OAuth configurado en Google Cloud, credenciales registradas en Railway y flujo `/api/oauth/google` + botón "Entrar con Google" en `/admin/login` activo. |
 | **T-014** | Bot de Telegram (`TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`) | **COMPLETADA ✅** | Configurado bot `@WebRodDiaz_bot` con credenciales registradas en Railway producción. |
 | **T-005** | Selección de 12 fotos de lanzamiento | **NO** | En desarrollo y maquetación se usan imágenes de prueba y marcadores de posición (*placeholders*). Las fotos reales se cargarán antes del lanzamiento. |
 | **T-007** | Texto "Sobre mí" y foto de perfil | **NO** | Se siembra contenido de prueba en la colección `Pagina` (`sobre-mi`). |

@@ -138,7 +138,14 @@ export async function GET(request: NextRequest) {
       tokenExpiration,
     })
 
-    const response = NextResponse.redirect(new URL('/admin', request.url))
+    const hostHeader = request.headers.get('x-forwarded-host') || request.headers.get('host') || request.nextUrl.host
+    const hostname = hostHeader.split(':')[0].toLowerCase()
+    const origenPublico =
+      hostname === 'localhost' || hostname === '127.0.0.1'
+        ? request.nextUrl.origin
+        : (process.env.URL_SITIO ? process.env.URL_SITIO.replace(/\/$/, '') : `https://${hostHeader}`)
+
+    const response = NextResponse.redirect(`${origenPublico}/admin`)
 
     // Configurar cookie de autenticación de Payload (payload-token)
     response.cookies.set({

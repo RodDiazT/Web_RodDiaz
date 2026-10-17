@@ -9,6 +9,8 @@ export const Usuario: CollectionConfig = {
   },
   auth: {
     verify: false,
+    useSessions: false,
+    tokenExpiration: 60 * 60 * 24 * 7, // 7 días
     maxLoginAttempts: 5,
     lockTime: 1000 * 60 * 15, // 15 minutos
   },

@@ -25,8 +25,20 @@ const dirname = path.dirname(filename)
 export default buildConfig({
   admin: {
     user: Usuario.slug,
+    importMap: {
+      baseDir: path.resolve(dirname),
+    },
     meta: {
       titleSuffix: '— Rod Díaz',
+    },
+    components: {
+      beforeLogin: ['/componentes/admin/BotonGoogleLogin#BotonGoogleLogin'],
+      beforeDashboard: [
+        '/componentes/admin/TarjetaConsultasNuevas#TarjetaConsultasNuevas',
+        '/componentes/admin/TarjetaConsultasPorMes#TarjetaConsultasPorMes',
+        '/componentes/admin/TarjetaRespaldo#TarjetaRespaldo',
+      ],
+      beforeNavLinks: ['/componentes/admin/ContadorConsultas#ContadorConsultas'],
     },
   },
   collections: [
@@ -54,4 +66,37 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
     },
   }),
+  onInit: async (payload) => {
+    if (process.env.NEXT_PHASE === 'phase-production-build') return
+    try {
+      const existentes = await payload.find({
+        collection: 'usuarios',
+        limit: 1,
+        overrideAccess: true,
+      })
+      if (existentes.totalDocs === 0) {
+        const correos = (process.env.CORREOS_ADMIN || 'rodrigodiaztapia@gmail.com')
+          .split(',')
+          .map((c) => c.trim().toLowerCase())
+          .filter(Boolean)
+        const correoPrincipal = correos[0]
+        if (correoPrincipal) {
+          const crypto = await import('crypto')
+          await payload.create({
+            collection: 'usuarios',
+            data: {
+              email: correoPrincipal,
+              password: crypto.randomBytes(32).toString('hex'),
+              nombre: 'Rod Díaz',
+              proveedorAcceso: 'google',
+            },
+            overrideAccess: true,
+          })
+          console.log(`[Payload] Usuario administrador inicializado para ${correoPrincipal}`)
+        }
+      }
+    } catch {
+      // Ignorar si la base aún no está disponible durante compilación
+    }
+  },
 })

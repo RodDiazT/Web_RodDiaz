@@ -39,7 +39,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.9]
 | T-002 | Crear cuenta gratis en Resend con rodrigodiaztapia@gmail.com y generar clave de API | consulta-copia | descartada (2026-10-07) | 2026-10-07 |
 | T-003 | Crear cuenta gratis de Cloudflare y activar Web Analytics | seo | descartada (2026-10-07) | 2026-10-07 |
 | T-004 | Revisar en la facturación de Railway el consumo actual y fijar en Usage Limits un aviso de USD 25 y un tope de USD 40 | despliegue | hecha (2026-10-16) | 2026-10-07 |
-| T-008 | Crear cliente OAuth de Google Cloud para el inicio de sesión del panel | modelo-contenido-panel | abierta | 2026-10-07 |
+| T-008 | Crear cliente OAuth de Google Cloud para el inicio de sesión del panel | modelo-contenido-panel | hecha (2026-10-17) | 2026-10-07 |
 | T-010 | Verificar el sitio en Google Search Console y enviar el sitemap (al lanzar) | — | abierta | 2026-10-14 |
 | T-012 | Comprar el dominio .cl cuando decidas difundir el sitio (v1.x) | — | abierta | 2026-10-14 |
 | T-014 | Crear bot en Telegram con @BotFather y registrar TELEGRAM_BOT_TOKEN y TELEGRAM_CHAT_ID en Railway | — | hecha (2026-10-16) | 2026-10-14 |
@@ -329,9 +329,10 @@ marco-general/marco-general-proyecto.md        [aprobado 1.9]
       "bloquea": [
         "modelo-contenido-panel"
       ],
-      "estado": "abierta",
+      "estado": "hecha",
       "creada": "2026-10-07",
-      "cerrada": null
+      "cerrada": "2026-10-17",
+      "notas": "Cliente OAuth configurado en Google Cloud y registrado en Railway production."
     },
     {
       "id": "T-009",
