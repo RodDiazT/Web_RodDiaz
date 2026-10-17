@@ -18,6 +18,8 @@ export interface FotoMarco {
   focalX?: number
   focalY?: number
   sizes?: {
+    pequena?: { url?: string }
+    mediana?: { url?: string }
     pequena_avif?: { url?: string }
     pequena_webp?: { url?: string }
     mediana_avif?: { url?: string }
@@ -89,7 +91,7 @@ export function MarcoFoto({
     )
   }
 
-  // Fuentes de imagen optimizadas
+  // Fuentes de imagen optimizadas (compatible con Foto y con Medio auxiliar)
   const srcAvif = [
     foto.sizes?.pequena_avif?.url && `${foto.sizes.pequena_avif.url} 480w`,
     foto.sizes?.mediana_avif?.url && `${foto.sizes.mediana_avif.url} 1200w`,
@@ -98,15 +100,18 @@ export function MarcoFoto({
     .filter(Boolean)
     .join(', ')
 
+  const urlPequenaWebp = foto.sizes?.pequena_webp?.url || foto.sizes?.pequena?.url
+  const urlMedianaWebp = foto.sizes?.mediana_webp?.url || foto.sizes?.mediana?.url
+
   const srcWebp = [
-    foto.sizes?.pequena_webp?.url && `${foto.sizes.pequena_webp.url} 480w`,
-    foto.sizes?.mediana_webp?.url && `${foto.sizes.mediana_webp.url} 1200w`,
+    urlPequenaWebp && `${urlPequenaWebp} 480w`,
+    urlMedianaWebp && `${urlMedianaWebp} 1200w`,
     foto.sizes?.grande_webp?.url && `${foto.sizes.grande_webp.url} 2048w`,
   ]
     .filter(Boolean)
     .join(', ')
 
-  const srcJpg = foto.sizes?.mediana_jpg?.url || foto.url || ''
+  const srcJpg = foto.sizes?.mediana_jpg?.url || foto.sizes?.mediana?.url || foto.url || ''
 
   const aplicarFundido = hidratado && !prioridad && !cargada
 

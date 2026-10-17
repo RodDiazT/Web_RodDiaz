@@ -1,4 +1,5 @@
 .dialogoVisor {
+  display: none;
   position: fixed;
   inset: 0;
   width: 100vw;
@@ -11,11 +12,14 @@
   background-color: var(--color-fondo);
   color: var(--color-texto);
   z-index: var(--capa-visor);
-  display: flex;
   flex-direction: column;
   overflow: hidden;
   user-select: none;
   overscroll-behavior: contain;
+}
+
+.dialogoVisor[open] {
+  display: flex;
 }
 
 .barraSuperior {

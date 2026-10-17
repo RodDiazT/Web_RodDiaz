@@ -7,9 +7,9 @@
 | Ruta | Tipo | Versión | Estado | Producto | Padre | Dependencias |
 |---|---|---|---|---|---|---|
 | `marco-general/marco-general-proyecto.md` | marco | 1.10 | aprobado | v1.0 | — | — |
-| `identidad/sistema-de-diseno.md` | transversal | 1.1 | aprobado | v1.0 | marco-general | marco-general |
+| `identidad/sistema-de-diseno.md` | transversal | 1.2 | aprobado | v1.0 | marco-general | marco-general |
 | `contenido/modelo-contenido-panel.md` | componente | 1.7 | aprobado | v1.0 | marco-general | marco-general |
-| `portafolio/galeria-colecciones.md` | componente | 1.2 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
+| `portafolio/galeria-colecciones.md` | componente | 1.3 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `portafolio/ficha-foto.md` | componente | 1.3 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
 | `consultas/consulta-copia.md` | componente | 1.4 | aprobado | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
 | `paginas/paginas.md` | componente | 1.4 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
@@ -20,9 +20,9 @@
 
 ```
 marco-general/marco-general-proyecto.md        [aprobado 1.10]
-├── identidad/sistema-de-diseno.md             [aprobado 1.1]
+├── identidad/sistema-de-diseno.md             [aprobado 1.2]
 ├── contenido/modelo-contenido-panel.md        [aprobado 1.7]
-├── portafolio/galeria-colecciones.md          [aprobado 1.2]
+├── portafolio/galeria-colecciones.md          [aprobado 1.3]
 ├── portafolio/ficha-foto.md                   [aprobado 1.3]
 ├── consultas/consulta-copia.md                [aprobado 1.4]
 ├── paginas/paginas.md                         [aprobado 1.4]
@@ -66,7 +66,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.10]
 {
   "esquema": "1.1",
   "proyecto": "Rod Díaz (Web_RodDiaz)",
-  "actualizado": "2026-10-17T18:52-03:00",
+  "actualizado": "2026-10-17T19:06-03:00",
   "fases": [
     {
       "id": "v1.0",
@@ -111,9 +111,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.10]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.1",
-      "actualizado": "2026-10-14",
-      "notas": "1.1: evaluación vertical/cuadrada en DisposicionFicha y doble toque 2.5x en Visor."
+      "version": "1.2",
+      "actualizado": "2026-10-17",
+      "notas": "1.2: corrección de visibilidad nativa en <dialog> (display: none por defecto y display: flex en [open] en MenuMovil, Dialogo y Visor) y soporte WebP de Medio en MarcoFoto."
     },
     {
       "id": "modelo-contenido-panel",
@@ -144,9 +144,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.10]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.2",
-      "actualizado": "2026-10-14",
-      "notas": "1.2: compilación sin base (desde despliegue)."
+      "version": "1.3",
+      "actualizado": "2026-10-17",
+      "notas": "1.3: estado vacío con PlantillaEstado en portada (/) y en /fotos sin filtro activo."
     },
     {
       "id": "ficha-foto",

@@ -119,10 +119,18 @@ export default async function PaginaFotos({ searchParams }: PaginaFotosProps) {
         />
       ) : (
         <PlantillaEstado
-          titulo="No hay fotos con esta característica por ahora"
-          texto="Puedes explorar el catálogo completo seleccionando otra categoría."
-          etiquetaAccion="Ver todas las fotos"
-          hrefAccion="/fotos"
+          titulo={
+            caracteristicaFiltro
+              ? 'No hay fotos con esta característica por ahora'
+              : 'Pronto habrá fotografías publicadas'
+          }
+          texto={
+            caracteristicaFiltro
+              ? 'Puedes explorar el catálogo completo seleccionando otra categoría.'
+              : 'Actualmente se están preparando las obras del catálogo.'
+          }
+          etiquetaAccion={caracteristicaFiltro ? 'Ver todas las fotos' : 'Conocer sobre mí'}
+          hrefAccion={caracteristicaFiltro ? '/fotos' : '/sobre-mi'}
         />
       )}
     </div>

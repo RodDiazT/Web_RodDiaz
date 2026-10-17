@@ -1,4 +1,5 @@
 .dialogo {
+  display: none;
   position: fixed;
   inset: 0;
   margin: auto;
@@ -10,11 +11,14 @@
   height: 100%;
   max-width: 100vw;
   max-height: 100dvh;
-  display: flex;
   align-items: center;
   justify-content: center;
   z-index: var(--capa-dialogo);
   overscroll-behavior: contain;
+}
+
+.dialogo[open] {
+  display: flex;
 }
 
 .dialogo::backdrop {

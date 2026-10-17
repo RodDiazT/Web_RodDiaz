@@ -1,4 +1,5 @@
 .menuDialogo {
+  display: none;
   position: fixed;
   inset: 0;
   width: 100vw;
@@ -11,9 +12,12 @@
   background-color: var(--color-fondo);
   color: var(--color-texto);
   z-index: var(--capa-menu);
-  display: flex;
   flex-direction: column;
   overscroll-behavior: contain;
+}
+
+.menuDialogo[open] {
+  display: flex;
 }
 
 .cabecera {

@@ -10,6 +10,7 @@ import { PortadaSitio } from '@/componentes/galeria/PortadaSitio'
 import { RejillaColecciones } from '@/componentes/galeria/RejillaColecciones'
 import { GrillaFotos } from '@/componentes/galeria/GrillaFotos'
 import { Boton } from '@/componentes/base/Boton'
+import { PlantillaEstado } from '@/componentes/base/PlantillaEstado'
 import { metadatosPara } from '@/lib/seo/metadatos'
 import { jsonLdPara } from '@/lib/seo/jsonld'
 import { JsonLd } from '@/componentes/JsonLd'
@@ -42,6 +43,28 @@ export default async function PaginaInicio() {
 
   const mostrarBotonVerTodasColecciones = colecciones.length > 6
   const coleccionesPortada = colecciones.slice(0, 6)
+  const portafolioVacio = !fotoPortada && colecciones.length === 0 && destacadas.length === 0
+
+  if (portafolioVacio) {
+    return (
+      <div
+        style={{
+          maxWidth: 'var(--ancho-max-contenido)',
+          width: '100%',
+          margin: '0 auto',
+          padding: 'var(--esp-8) var(--margen)',
+        }}
+      >
+        <JsonLd datos={jsonLd} />
+        <PlantillaEstado
+          titulo="Portafolio en preparación"
+          texto="Actualmente se están seleccionando las obras y colecciones de lanzamiento. Mientras tanto, puedes conocer la historia detrás de este proyecto."
+          etiquetaAccion="Conocer sobre mí"
+          hrefAccion="/sobre-mi"
+        />
+      </div>
+    )
+  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--esp-9)', paddingBottom: 'var(--esp-9)' }}>

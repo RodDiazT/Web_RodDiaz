@@ -4,9 +4,9 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/portafolio/galeria-colecciones.md` |
 | Tipo | Componente |
-| Versión | 1.2 |
+| Versión | 1.3 |
 | Estado | Aprobado |
-| Fecha | 2026-10-14 |
+| Fecha | 2026-10-17 |
 | Padre | `marco-general/marco-general-proyecto.md` (1.3, que incorpora los cambios del §11) |
 | Dependencias | `identidad/sistema-de-diseno.md` (1.0), `contenido/modelo-contenido-panel.md` (1.1) |
 | Versión del producto | v1.0 |
@@ -464,6 +464,7 @@ Para Claude Code, en el paso 4 del plan del marco (§9.2), después del modelo d
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.3 | 2026-10-17 | Estado vacío explícito con `PlantillaEstado` en portada (`/`) cuando aún no hay obras publicadas, y diferenciación del mensaje vacío en `/fotos` sin filtro de característica activo, dirigiendo hacia `/sobre-mi`. |
 | 1.2 | 2026-10-14 | Cambio menor al aprobar `plataforma/despliegue.md` 1.0: la compilación no consulta la base; las rutas se generan al primer pedido y el calentamiento cubre las principales (§5.3). |
 | 1.1 | 2026-10-14 | Cambio menor al aprobar `portafolio/ficha-foto.md` 1.0: desde una colección con filtro activo, el enlace a la ficha lleva `?coleccion=` y `&caracteristica=` (§5.2.9). |
 | 1.0 | 2026-10-14 | Aprobado por Rod. El marco general pasa a 1.3 y el modelo de contenido a 1.1 con los cambios del §11; nace T-009. |

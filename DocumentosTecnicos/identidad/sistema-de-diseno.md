@@ -4,9 +4,9 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/identidad/sistema-de-diseno.md` |
 | Tipo | Transversal |
-| Versión | 1.1 |
+| Versión | 1.2 |
 | Estado | Aprobado |
-| Fecha | 2026-10-14 |
+| Fecha | 2026-10-17 |
 | Padre | `DocumentosTecnicos/marco-general/marco-general-proyecto.md` |
 | Dependencias | `marco-general` |
 | Versión del producto | v1.0 |
@@ -517,6 +517,7 @@ Para Claude Code, después del paso 2 del plan del marco (§9.2, modelo de conte
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.2 | 2026-10-17 | Corrección de visibilidad nativa en componentes `<dialog>` (`MenuMovil.module.css`, `Dialogo.module.css` y `Visor.module.css`): `display: none` por defecto y `display: flex` restringido al selector `[open]`, evitando que el menú móvil cerrado sobreescriba el estilo de agente de usuario y cubra la pantalla. Soporte de tamaños WebP (`pequena`, `mediana`) de `Medio` en `MarcoFoto.tsx`. |
 | 1.1 | 2026-10-14 | Clarificación de evaluación de orientación vertical en `DisposicionFicha` (`orientacion === 'vertical' || 'cuadrada'`) e incorporación de doble toque (*double-tap zoom*) de 2.5x en el `Visor` para inspección de nitidez Fine Art en pantallas táctiles. |
 | 1.0 | 2026-10-07 | Aprobado por Rod. El marco general pasa a 1.1 con los cambios de §11. |
 | 0.2 | 2026-10-07 | Revisión UX/UI con un agente independiente y con las guías de diseño de interfaces y movimiento. Decisiones de Rod: ficha con columna lateral para verticales y cuadradas; visor a pantalla completa en la v1.0; "Rod Díaz" como nombre único (`nombreSitio`, se elimina `nombreMarca`); chip activo con contorno y ✓; filete activable por foto; favicon con monograma "RD". Se agregan: perfil ICC sRGB incrustado, fundido sin dependencia de JavaScript, patrones de ficha, portada y estado vacío, componentes `Visor`, `NavegacionFotos`, `Retorno`, `TarjetaColeccion`, `Esqueleto`, `PlantillaEstado` y `MenuMovil` sobre `Dialogo`, tokens de capas, encabezado `sticky` con umbrales, Cormorant 500 hasta 48 px, interletrado según tamaño, reglas de móvil (zoom, zonas seguras, `tap-highlight`, `touch-action`, `theme-color`, bloqueo de scroll en iOS) y criterios de aceptación 9 a 21. Se listan los cambios al marco 1.1. |
