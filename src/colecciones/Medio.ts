@@ -25,6 +25,13 @@ export const Medio: CollectionConfig = {
       ({ req, data }) => {
         if (!data) return data
 
+        if (req.file) {
+          const tiposOriginalesPermitidos = ['image/jpeg', 'image/jpg', 'image/png', 'image/svg+xml']
+          if (req.file.mimetype && !tiposOriginalesPermitidos.includes(req.file.mimetype)) {
+            throw new Error('Solo se aceptan archivos JPG, PNG o SVG para medios auxiliares.')
+          }
+        }
+
         if (req.file && req.file.size) {
           const LIMITE_LOGO = 200 * 1024 // 200 KB
           const LIMITE_GENERAL = 20 * 1024 * 1024 // 20 MB
@@ -56,7 +63,7 @@ export const Medio: CollectionConfig = {
   },
   upload: {
     staticDir: './medios/auxiliares',
-    mimeTypes: ['image/jpeg', 'image/png', 'image/svg+xml'],
+    mimeTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/svg+xml', 'image/webp'],
     imageSizes: [
       {
         name: 'pequena',

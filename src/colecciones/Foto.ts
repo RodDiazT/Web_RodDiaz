@@ -30,7 +30,7 @@ export const Foto: CollectionConfig = {
   },
   upload: {
     staticDir: './medios/fotos',
-    mimeTypes: ['image/jpeg', 'image/jpg'],
+    mimeTypes: ['image/jpeg', 'image/jpg', 'image/webp', 'image/avif'],
     focalPoint: true,
     crop: false,
     imageSizes: [
@@ -73,6 +73,32 @@ export const Foto: CollectionConfig = {
     adminThumbnail: 'pequena_webp',
   },
   hooks: {
+    beforeOperation: [
+      async ({ args, operation, req }) => {
+        if ((operation === 'create' || operation === 'update') && req.file && req.file.data) {
+          const bufferOriginal = req.file.data
+          const nombreArchivoOriginal = req.file.name
+
+          // Leer EXIF acotado antes de limpiar metadatos y validar/procesar con Sharp
+          const exif = await leerExifSeguro(bufferOriginal)
+          const procesado = await procesarImagenFoto(bufferOriginal)
+
+          // Reemplazar buffer antes de generateFileData para que el archivo principal
+          // guardado en disco quede a máximo 2048 px, en sRGB y sin EXIF/GPS
+          req.file.data = procesado.bufferPrincipal
+          req.file.size = procesado.bufferPrincipal.length
+          req.file.mimetype = 'image/jpeg'
+
+          req.context = req.context || {}
+          req.context.fotoProcesada = {
+            procesado,
+            exif,
+            nombreArchivoOriginal,
+          }
+        }
+        return args
+      },
+    ],
     beforeValidate: [
       async ({ data, originalDoc }) => {
         if (!data) return data
@@ -133,20 +159,35 @@ export const Foto: CollectionConfig = {
         }
 
         // Procesamiento en la subida de un nuevo archivo
-        if (req.file && req.file.data) {
-          const buffer = req.file.data
-          data.nombreArchivoOriginal = req.file.name
+        const ctxFoto = req.context?.fotoProcesada as
+          | {
+              procesado: Awaited<ReturnType<typeof procesarImagenFoto>>
+              exif: Awaited<ReturnType<typeof leerExifSeguro>>
+              nombreArchivoOriginal: string
+            }
+          | undefined
 
-          // Procesar con sharp: validación, sRGB, ICC, escala max 2048px, dimensiones y color dominante
-          const procesado = await procesarImagenFoto(buffer)
+        if (ctxFoto || (req.file && req.file.data)) {
+          const procesado = ctxFoto
+            ? ctxFoto.procesado
+            : await procesarImagenFoto(req.file!.data)
+          const exif = ctxFoto
+            ? ctxFoto.exif
+            : await leerExifSeguro(req.file!.data)
+          const nombreArchivoOriginal = ctxFoto
+            ? ctxFoto.nombreArchivoOriginal
+            : req.file!.name
+
+          data.nombreArchivoOriginal = nombreArchivoOriginal
           data.ancho = procesado.ancho
           data.alto = procesado.alto
           data.colorDominante = procesado.colorDominante
           data.huella = procesado.huella
 
-          // Reemplazar el buffer y tamaño recibidos con el procesado a tope de 2048 px
-          req.file.data = procesado.bufferPrincipal
-          req.file.size = procesado.bufferPrincipal.length
+          if (!ctxFoto && req.file) {
+            req.file.data = procesado.bufferPrincipal
+            req.file.size = procesado.bufferPrincipal.length
+          }
 
           // Si la proporción no fue ajustada a mano, asignar la calculada
           if (!data.proporcion?.manual) {
@@ -189,7 +230,6 @@ export const Foto: CollectionConfig = {
           }
 
           // Lectura de EXIF acotada
-          const exif = await leerExifSeguro(buffer)
           if (exif.fecha && !data.fecha) {
             data.fecha = exif.fecha
           }
