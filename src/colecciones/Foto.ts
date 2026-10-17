@@ -100,8 +100,34 @@ export const Foto: CollectionConfig = {
       },
     ],
     beforeValidate: [
-      async ({ data, originalDoc }) => {
+      async ({ req, data, originalDoc }) => {
         if (!data) return data
+
+        const ctxFoto = req.context?.fotoProcesada as
+          | {
+              procesado: Awaited<ReturnType<typeof procesarImagenFoto>>
+              exif: Awaited<ReturnType<typeof leerExifSeguro>>
+              nombreArchivoOriginal: string
+            }
+          | undefined
+
+        if (ctxFoto?.exif) {
+          if (ctxFoto.exif.fecha && !data.fecha) {
+            data.fecha = ctxFoto.exif.fecha
+          }
+          if (ctxFoto.exif.datosTecnicos) {
+            data.datosTecnicos = data.datosTecnicos || {}
+            if (!data.datosTecnicos.distanciaFocal && ctxFoto.exif.datosTecnicos.distanciaFocal !== undefined) {
+              data.datosTecnicos.distanciaFocal = ctxFoto.exif.datosTecnicos.distanciaFocal
+            }
+            if (!data.datosTecnicos.apertura && ctxFoto.exif.datosTecnicos.apertura !== undefined) {
+              data.datosTecnicos.apertura = ctxFoto.exif.datosTecnicos.apertura
+            }
+            if (!data.datosTecnicos.velocidad && ctxFoto.exif.datosTecnicos.velocidad !== undefined) {
+              data.datosTecnicos.velocidad = ctxFoto.exif.datosTecnicos.velocidad
+            }
+          }
+        }
 
         const fuePublicada = Boolean(originalDoc?.publicadaEn)
         if (fuePublicada) {
@@ -229,12 +255,21 @@ export const Foto: CollectionConfig = {
             data.posibleDuplicado = null
           }
 
-          // Lectura de EXIF acotada
+          // Lectura de EXIF acotada (rellena cada subcampo si está vacío)
           if (exif.fecha && !data.fecha) {
             data.fecha = exif.fecha
           }
-          if (exif.datosTecnicos && !data.datosTecnicos) {
-            data.datosTecnicos = exif.datosTecnicos
+          if (exif.datosTecnicos) {
+            data.datosTecnicos = data.datosTecnicos || {}
+            if (!data.datosTecnicos.distanciaFocal && exif.datosTecnicos.distanciaFocal !== undefined) {
+              data.datosTecnicos.distanciaFocal = exif.datosTecnicos.distanciaFocal
+            }
+            if (!data.datosTecnicos.apertura && exif.datosTecnicos.apertura !== undefined) {
+              data.datosTecnicos.apertura = exif.datosTecnicos.apertura
+            }
+            if (!data.datosTecnicos.velocidad && exif.datosTecnicos.velocidad !== undefined) {
+              data.datosTecnicos.velocidad = exif.datosTecnicos.velocidad
+            }
           }
         }
 
@@ -275,6 +310,15 @@ export const Foto: CollectionConfig = {
     ],
   },
   fields: [
+    {
+      name: 'detectorExif',
+      type: 'ui',
+      admin: {
+        components: {
+          Field: '/componentes/admin/DetectorExifCliente#DetectorExifCliente',
+        },
+      },
+    },
     {
       name: 'titulo',
       type: 'text',

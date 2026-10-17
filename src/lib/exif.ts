@@ -21,9 +21,40 @@ export interface ExifExtraido {
 }
 
 /**
+ * Convierte un valor numérico o racional EXIF/XMP (ej. 24, "24/1", "1/250", [24, 1]) a número decimal.
+ */
+export function parsearNumeroExif(valor?: unknown): number | undefined {
+  if (valor === undefined || valor === null) return undefined
+  if (typeof valor === 'number') {
+    return isNaN(valor) || !isFinite(valor) ? undefined : valor
+  }
+  if (Array.isArray(valor) && valor.length >= 2) {
+    const num = Number(valor[0])
+    const den = Number(valor[1])
+    if (!isNaN(num) && !isNaN(den) && den !== 0) return num / den
+  }
+  if (typeof valor === 'string') {
+    const limpio = valor.trim()
+    const matchFraccion = limpio.match(/^(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)/)
+    if (matchFraccion) {
+      const num = Number(matchFraccion[1])
+      const den = Number(matchFraccion[2])
+      if (!isNaN(num) && !isNaN(den) && den !== 0) return num / den
+    }
+    const matchNum = limpio.replace(',', '.').match(/(\d+(?:\.\d+)?)/)
+    if (matchNum) {
+      const n = Number(matchNum[1])
+      return isNaN(n) ? undefined : n
+    }
+  }
+  return undefined
+}
+
+/**
  * Normaliza el tiempo de exposición a una representación humana estándar ("1/250 s" o "2 s").
  */
-export function normalizarVelocidad(segundos?: number): string | undefined {
+export function normalizarVelocidad(entrada?: number | string): string | undefined {
+  const segundos = parsearNumeroExif(entrada)
   if (segundos === undefined || segundos === null || isNaN(segundos) || segundos <= 0) {
     return undefined
   }
@@ -41,7 +72,8 @@ export function normalizarVelocidad(segundos?: number): string | undefined {
 /**
  * Normaliza la apertura (f-number) a un número con 1 decimal máximo.
  */
-export function normalizarApertura(apertura?: number): number | undefined {
+export function normalizarApertura(entrada?: number | string): number | undefined {
+  const apertura = parsearNumeroExif(entrada)
   if (apertura === undefined || apertura === null || isNaN(apertura) || apertura <= 0) {
     return undefined
   }
@@ -51,7 +83,8 @@ export function normalizarApertura(apertura?: number): number | undefined {
 /**
  * Normaliza la distancia focal a milímetros enteros.
  */
-export function normalizarDistanciaFocal(focal?: number): number | undefined {
+export function normalizarDistanciaFocal(entrada?: number | string): number | undefined {
+  const focal = parsearNumeroExif(entrada)
   if (focal === undefined || focal === null || isNaN(focal) || focal <= 0) {
     return undefined
   }
@@ -105,13 +138,17 @@ export function normalizarFechaDia(fechaOriginal?: Date | string): string | unde
 /**
  * Lee exclusivamente las 4 etiquetas autorizadas de un buffer o archivo y las normaliza.
  */
-export async function leerExifSeguro(buffer: Buffer): Promise<ExifExtraido> {
+export async function leerExifSeguro(
+  entrada: Buffer | ArrayBuffer | Uint8Array | Blob
+): Promise<ExifExtraido> {
   try {
-    const raw = await exifr.parse(buffer, {
-      pick: ['DateTimeOriginal', 'FocalLength', 'FNumber', 'ExposureTime'],
+    const raw = await exifr.parse(entrada as any, {
+      tiff: true,
+      ifd0: false,
+      exif: ['DateTimeOriginal', 'CreateDate', 'FocalLength', 'FNumber', 'ExposureTime'],
+      xmp: true,
       translateValues: false,
       reviveValues: true,
-      xmp: false,
       icc: false,
       iptc: false,
       jfif: false,
@@ -120,7 +157,8 @@ export async function leerExifSeguro(buffer: Buffer): Promise<ExifExtraido> {
 
     if (!raw) return {}
 
-    const fecha = normalizarFechaDia(raw.DateTimeOriginal)
+    const fechaCruda = raw.DateTimeOriginal || raw.CreateDate || raw.DateCreated
+    const fecha = normalizarFechaDia(fechaCruda)
     const distanciaFocal = normalizarDistanciaFocal(raw.FocalLength)
     const apertura = normalizarApertura(raw.FNumber)
     const velocidad = normalizarVelocidad(raw.ExposureTime)

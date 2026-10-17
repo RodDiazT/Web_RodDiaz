@@ -62,6 +62,14 @@ export default buildConfig({
   globals: [AjustesSitio],
   editor: lexicalEditor(),
   sharp,
+  upload: {
+    limits: {
+      fileSize: 60 * 1024 * 1024, // 60 MB (límite máximo por foto exportada de Lightroom)
+    },
+    requestSizeLimit: 70 * 1024 * 1024, // 70 MB por solicitud multipart
+    responseOnLimit: 'La foto pesa más de 60 MB.',
+    uploadTimeout: 180000, // 3 minutos para fotos de hasta 45 MP
+  },
   secret: process.env.PAYLOAD_SECRET || 'secreto_provisional_build_min_32_caracteres_1234567890',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
