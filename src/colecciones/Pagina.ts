@@ -48,7 +48,7 @@ export const Pagina: CollectionConfig = {
 
         // Validación: una página libre no puede colisionar con rutas del sitio (§4, §5.1)
         if (!esReservadaOriginal && data.slug && esRutaReservada(data.slug)) {
-          if (!originalDoc && esPaginaReservada(data.slug)) {
+          if (!slugOriginal && esPaginaReservada(data.slug)) {
             const yaExiste = await req.payload.find({
               collection: 'paginas',
               where: { slug: { equals: data.slug } },

@@ -4,11 +4,11 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/paginas/paginas.md` |
 | Tipo | Componente |
-| Versión | 1.3 |
+| Versión | 1.4 |
 | Estado | Aprobado |
-| Fecha | 2026-10-14 |
-| Padre | `marco-general/marco-general-proyecto.md` (1.9) |
-| Dependencias | `identidad/sistema-de-diseno.md` (1.1), `contenido/modelo-contenido-panel.md` (1.6), `consultas/consulta-copia.md` (1.4) |
+| Fecha | 2026-10-17 |
+| Padre | `marco-general/marco-general-proyecto.md` (1.10) |
+| Dependencias | `identidad/sistema-de-diseno.md` (1.1), `contenido/modelo-contenido-panel.md` (1.7), `consultas/consulta-copia.md` (1.4) |
 | Versión del producto | v1.0 |
 
 ## Índice
@@ -356,13 +356,14 @@ No hay código previo. Cambios a documentos aprobados que se aplican al aprobar 
 
 **Tareas del dueño:**
 
-- **T-007** (`contenido`, ya existe): escribir el texto de "Sobre mí" y elegir la foto de perfil. Bloquea el lanzamiento, no la implementación.
+- **T-007** (`contenido`, hecha el 2026-10-17): texto biográfico de "Sobre mí" redactado e incorporado en la semilla y en el panel junto al autorretrato en blanco y negro (`Medio` `uso = pagina`), dejando `/sobre-mi` publicada.
 - No nacen tareas nuevas: revisar los Anexos A y B es parte de aprobar este documento.
 
 ## 12. Control de cambios
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.4 | 2026-10-17 | Cierre de T-007: redacción e incorporación del texto biográfico definitivo de Rod Díaz en `src/semilla/paginas.ts` (`contenidoSobreMi`), vinculación del autorretrato en blanco y negro en `/sobre-mi` y publicación de la página. Corrección en `beforeValidate` de `Pagina.ts` (`!slugOriginal` en lugar de `!originalDoc`) para permitir la creación inicial de páginas reservadas en Payload 3 cuando `originalDoc` llega como objeto vacío `{}`. |
 | 1.3 | 2026-10-14 | Alineado con marco 1.9, consulta de copia 1.4 y ficha de foto 1.3: flexibilización de plazo de respuesta a derechos en política de privacidad (Anexo A) para resguardar expediciones fotográficas en terreno ("a la brevedad y dentro de los plazos legales vigentes"); incorporación de pautas de cuidado y preservación Fine Art (manipulación por bordes/guantes, materiales libres de ácido y protección UV) en condiciones de uso (Anexo B). |
 | 1.2 | 2026-10-14 | Cambio menor al aprobar `plataforma/despliegue.md` 1.0: la política de privacidad (Anexo A) indica que los respaldos pueden conservar un dato borrado hasta 45 días. |
 | 1.1 | 2026-10-14 | Cambio menor al aprobar `plataforma/seo.md` 1.0: `og` es ruta reservada y las páginas libres publicadas entran al mapa del sitio. |

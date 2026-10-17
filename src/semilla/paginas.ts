@@ -80,13 +80,16 @@ function envolverLexical(children: any[]) {
 export function contenidoSobreMi() {
   return envolverLexical([
     crearParrafo(
-      'Fotógrafo de naturaleza y expediciones en Chile y Sudamérica. Mi trabajo busca documentar la fuerza y la soledad de paisajes remotos mediante la luz natural y la contemplación silenciosa.'
+      'Vengo de otro mundo: soy ingeniero comercial de formación, pero la cámara me acompaña desde que tenía menos de quince años y salía de viaje con una antigua Canon de rollo de mis padres. Al salir de la universidad volví a buscar esa sensación con una réflex usada. Fue un camino largo y silencioso —el perfeccionismo nunca la hace fácil— hasta sentir que lo que veía y lo que lograba capturar hablaban el mismo idioma.'
     ),
     crearParrafo(
-      'Cada fotografía nace de largas jornadas en terreno, esperando las condiciones justas de atmósfera y viento. Las copias de autor se producen en mi propio taller bajo estándares museográficos Fine Art, con tintas minerales de alta estabilidad y papeles 100% algodón seleccionados meticulosamente para cada obra.'
+      'Toda mi vida he viajado al norte, donde tengo familia, pero con los años el sur se terminó ganando mi corazón. Hoy vivo en la Araucanía, un lugar donde el verde, las montañas, las lagunas y el mar se llevan el premio. No soy de planificar cada toma con compás y calendario: lo mío es salir de trekking e ir con la cámara siempre a mano, atento a lo que el camino quiera regalar. Quizás por eso la naturaleza me ha sorprendido tantas veces de frente —un puma, un cóndor, un carpintero o un martín pescador apareciendo de imprevisto—, obligándome a reaccionar con lo que llevo puesto y a jugar entre el color y el blanco y negro.'
     ),
     crearParrafo(
-      '[Reemplaza este texto con tu trayectoria, visión y motivación fotográfica antes de lanzar a producción].'
+      'Hace unos cinco años imprimí una de mis fotos por primera vez y entendí que ahí terminaba realmente el proceso. Vivimos rodeados de ruido digital y de miles de imágenes que pasan de largo en una pantalla; el papel, en cambio, detiene el tiempo. Hace poco le regalé a una niña el retrato impreso de un caballo al que quería mucho y que ya no está. Ver su emoción al sostener ese recuerdo entre las manos me confirmó por qué hago esto.'
+    ),
+    crearParrafo(
+      'Este sitio reúne esos encuentros y la posibilidad de llevarlos al papel, sin apuro y libres de distracciones.'
     ),
   ])
 }

@@ -12,7 +12,7 @@
 | `portafolio/galeria-colecciones.md` | componente | 1.2 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `portafolio/ficha-foto.md` | componente | 1.3 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
 | `consultas/consulta-copia.md` | componente | 1.4 | aprobado | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
-| `paginas/paginas.md` | componente | 1.3 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
+| `paginas/paginas.md` | componente | 1.4 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `plataforma/seo.md` | transversal | 1.1 | aprobado | v1.0 | marco-general | galeria-colecciones, ficha-foto, paginas |
 | `plataforma/despliegue.md` | transversal | 1.2 | aprobado | v1.0 | marco-general | modelo-contenido-panel |
 
@@ -25,7 +25,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.10]
 ├── portafolio/galeria-colecciones.md          [aprobado 1.2]
 ├── portafolio/ficha-foto.md                   [aprobado 1.3]
 ├── consultas/consulta-copia.md                [aprobado 1.4]
-├── paginas/paginas.md                         [aprobado 1.3]
+├── paginas/paginas.md                         [aprobado 1.4]
 ├── plataforma/seo.md                          [aprobado 1.1]
 └── plataforma/despliegue.md                   [aprobado 1.2]
 ```
@@ -49,7 +49,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.10]
 |---|---|---|---|---|
 | T-005 | Seleccionar al menos 12 fotos de lanzamiento con título, lugar y fecha | despliegue | abierta | 2026-10-07 |
 | T-006 | Definir catálogo inicial de tamaños (cm) y tipos de papel | modelo-contenido-panel | abierta | 2026-10-07 |
-| T-007 | Escribir el texto de Sobre mí y elegir foto de perfil | paginas | abierta | 2026-10-07 |
+| T-007 | Escribir el texto de Sobre mí y elegir foto de perfil | paginas | hecha (2026-10-17) | 2026-10-07 |
 | T-009 | Elegir la foto de portada, marcar al menos 6 destacadas, revisar portada y punto focal de cada colección y fijar fotos (opcional) | despliegue | abierta | 2026-10-14 |
 | T-011 | Escribir la descripción del sitio en Ajustes (máx. 160 caracteres: qué fotografías y dónde) | despliegue | abierta | 2026-10-14 |
 | T-013 | Entregar 3 JPG de prueba exportados desde Lightroom: uno de 45 MP vertical, uno en Adobe RGB y uno con GPS | despliegue | abierta | 2026-10-14 |
@@ -66,7 +66,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.10]
 {
   "esquema": "1.1",
   "proyecto": "Rod Díaz (Web_RodDiaz)",
-  "actualizado": "2026-10-17T18:00-03:00",
+  "actualizado": "2026-10-17T18:52-03:00",
   "fases": [
     {
       "id": "v1.0",
@@ -196,9 +196,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.10]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.3",
-      "actualizado": "2026-10-14",
-      "notas": "1.3: plazo flexible en derechos de datos para expediciones; recomendaciones de conservación y manipulación Fine Art en condiciones."
+      "version": "1.4",
+      "actualizado": "2026-10-17",
+      "notas": "1.4: cierre de T-007 con texto biográfico de Rod Díaz en Sobre mí y autorretrato vinculado; corrección de validación de creación de páginas reservadas en Pagina.ts."
     },
     {
       "id": "seo",
@@ -317,9 +317,10 @@ marco-general/marco-general-proyecto.md        [aprobado 1.10]
       "bloquea": [
         "paginas"
       ],
-      "estado": "abierta",
+      "estado": "hecha",
       "creada": "2026-10-07",
-      "cerrada": null
+      "cerrada": "2026-10-17",
+      "notas": "Texto biográfico redactado y publicado en /sobre-mi junto al autorretrato en blanco y negro (Medio id=1)."
     },
     {
       "id": "T-008",
@@ -411,7 +412,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.10]
 
 | Fecha | Cambio |
 |---|---|
-| 2026-10-17 | Cierre de T-008 (cliente Google OAuth configurado y operativo en `/admin`). Formalización del ambiente actual como entorno permanente de QA/pruebas (`ENTORNO=pruebas`) previo a duplicar al entorno Oficial al aprobar QA. Traducción íntegra del panel Payload al español (`@payloadcms/translations`, etiquetas en español y ocultamiento de botones de contraseña local) y regla de actualización documental obligatoria en cada modificación. Marco 1.10, modelo-contenido-panel 1.7, despliegue 1.2. |
+| 2026-10-17 | Cierre de T-007 (texto biográfico de "Sobre mí" redactado, vinculado al autorretrato en blanco y negro en `Medios auxiliares` y publicado en `/sobre-mi`; corrección en `beforeValidate` de `Pagina.ts` para creación inicial de páginas reservadas). Cierre de T-008 (cliente Google OAuth configurado y operativo en `/admin`). Formalización del ambiente actual como entorno permanente de QA/pruebas (`ENTORNO=pruebas`) previo a duplicar al entorno Oficial al aprobar QA. Traducción íntegra del panel Payload al español (`@payloadcms/translations`, etiquetas en español y ocultamiento de botones de contraseña local) y regla de actualización documental obligatoria en cada modificación. Marco 1.10, modelo-contenido-panel 1.7, paginas 1.4, despliegue 1.2. |
 | 2026-10-14 | Auditoría integral y granular Fine Art / Tech Lead completada y aprobada por Rod. Actualización masiva de documentos: Canon PRO-1100, margen de conservación y ratios 3:2, papeles Fine Art enriquecidos, lienzo Open Graph para fotos verticales, aviso push por bot de Telegram, antispam móvil 1.8 s, snapshots en consultas, optimización de memoria Sharp. Marco 1.9, sistema-de-diseno 1.1, modelo-contenido-panel 1.6, ficha-foto 1.3, consulta-copia 1.4, paginas 1.3, seo 1.1, despliegue 1.1. Nace tarea T-014. |
 | 2026-10-07 | Creación del índice. Marco general en revisión (0.1); 8 documentos identificados; tareas T-001 a T-007. |
 | 2026-10-07 | Marco general 0.2: acceso con Google, aviso por Resend; T-002 redefinida; nueva T-008. |
