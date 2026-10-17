@@ -4,11 +4,11 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/contenido/modelo-contenido-panel.md` |
 | Tipo | Componente |
-| Versión | 1.6 |
+| Versión | 1.8 |
 | Estado | Aprobado |
-| Fecha | 2026-10-14 |
+| Fecha | 2026-10-17 |
 | Padre | `marco-general/marco-general-proyecto.md` |
-| Dependencias | `marco-general/marco-general-proyecto.md` (1.9); considera `identidad/sistema-de-diseno.md` (1.1) para `logo`, `filete` y perfil ICC |
+| Dependencias | `marco-general/marco-general-proyecto.md` (1.10); considera `identidad/sistema-de-diseno.md` (1.2) para `logo`, `filete` y perfil ICC |
 | Versión del producto | v1.0 |
 
 ## Índice
@@ -334,7 +334,7 @@ Solo lectura en el panel, salvo borrar. No se guarda IP, nombre ni foto de la cu
 9. **Jerarquía:** dos niveles como máximo (§4). La validación corre en el servidor (*hook* `beforeValidate`), no solo en la interfaz.
 10. **Acceso:** solo entran los correos de la variable de entorno `CORREOS_ADMIN` (hoy `rodrigodiaztapia@gmail.com`; marco §3). Un correo rechazado genera un `IntentoAcceso` (como máximo uno por correo por hora) y no crea `Usuario`.
 11. **Borrado programado:** la tarea diaria del marco (`tareas/`) también borra los `IntentoAcceso` de más de 90 días.
-12. **Revalidación:** al publicar, despublicar, editar o borrar una `Foto`, `Coleccion`, `Caracteristica`, `FormatoImpresion`, `TipoPapel`, `Pagina` o `AjustesSitio`, se revalidan las rutas públicas afectadas (*hooks* `afterChange` y `afterDelete` con `revalidatePath`/`revalidateTag`), incluidas `/sitemap.xml`, `/robots.txt` y las imágenes `/og/…` por sus etiquetas (`plataforma/seo.md` §5.2.6 y §5.2.9).
+12. **Revalidación:** al publicar, despublicar, editar, recortar o borrar una `Foto`, `Coleccion`, `Caracteristica`, `FormatoImpresion`, `TipoPapel`, `Pagina`, `Medio` o `AjustesSitio`, se revalidan las rutas públicas afectadas (*hooks* `afterChange` y `afterDelete` con `revalidatePath` sobre rutas específicas y sobre `revalidatePath('/', 'layout')` en `revalidarRutasSeguras`, además de `revalidateTag`), incluidas `/sobre-mi`, `/contacto`, `/consulta`, `/colecciones`, `/sitemap.xml`, `/robots.txt` y las imágenes `/og/…` por sus etiquetas (`plataforma/seo.md` §5.2.6 y §5.2.9). En `Foto`, `beforeChange` solo aplica metadatos de nueva subida cuando `beforeOperation` procesó un archivo nuevo (`req.context.datosFotoProcesada`), evitando reprocesar o pisar `huella`/`nombreArchivoOriginal` al ajustar únicamente el punto focal sobre una foto existente.
 
 ### 5.3 Interfaces
 
@@ -514,6 +514,7 @@ Para Claude Code, después del paso 1 del plan del marco (§9.2: base del proyec
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.8 | 2026-10-17 | Blindaje de revalidación de caché y edición de medios/fotos: `revalidarRutasSeguras` ejecuta `revalidatePath('/', 'layout')` además de las rutas específicas; `Medio` incorpora `afterDelete` y revalida `/sobre-mi`, `/contacto` y `/og/medio/:id` al recortar o reemplazar imágenes; `Foto` evita reprocesar el archivo de disco al editar solo el punto focal (`if (ctxFoto)` en `beforeChange`) y amplía su revalidación a `/sobre-mi`, `/colecciones`, `/consulta` y `/og/foto/:slug`; `Caracteristica`, `FormatoImpresion`, `TipoPapel` y `AjustesSitio` incorporan revalidación completa en `afterChange` y `afterDelete`. |
 | 1.7 | 2026-10-17 | Cierre de T-008 e integración en producción/QA del flujo OAuth 2.0 con Google (`/api/oauth/google`, `/api/oauth/google/callback` y `BotonGoogleLogin.tsx`), sincronización automática de esquema y semilla en `onInit`, configuración de idioma español nativo en Payload (`@payloadcms/translations`, `supportedLanguages: { es }`, `fallbackLanguage: 'es'`), etiquetas en español en todos los campos de `Usuario` y `Pagina`, ocultamiento de controles de contraseña local (`#change-password`, `#force-unlock`) en la vista de cuenta, ajuste de `upload.mimeTypes` y `beforeOperation` en `Medio` y `Foto` para validar tamaños derivados WebP/AVIF, límite global `upload.limits.fileSize` de 60 MB en `payload.config.ts`, y componente `DetectorExifCliente.tsx` para precargar en tiempo real en el navegador (además del respaldo en servidor) fecha, distancia focal, apertura, velocidad, nombre de archivo original y proporción al seleccionar el archivo. |
 | 1.6 | 2026-10-14 | Trazabilidad con `nombreArchivoOriginal` en `Foto`; catálogo de `FormatoImpresion` por medidas de hoja en cm con `margenMinimoCm` y asociación manual por foto (sin barrera ±2 %); enriquecimiento de `TipoPapel` (base, acabado, gramaje, libre de ácido); y optimización de memoria con `sharp.concurrency(1)` y AVIF `effort: 3`. |
 | 1.5 | 2026-10-14 | Cambio menor al aprobar `plataforma/despliegue.md` 1.0: tarjeta *Respaldo* en el dashboard (§3.4). |

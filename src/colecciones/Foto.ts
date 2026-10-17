@@ -193,27 +193,16 @@ export const Foto: CollectionConfig = {
             }
           | undefined
 
-        if (ctxFoto || (req.file && req.file.data)) {
-          const procesado = ctxFoto
-            ? ctxFoto.procesado
-            : await procesarImagenFoto(req.file!.data)
-          const exif = ctxFoto
-            ? ctxFoto.exif
-            : await leerExifSeguro(req.file!.data)
-          const nombreArchivoOriginal = ctxFoto
-            ? ctxFoto.nombreArchivoOriginal
-            : req.file!.name
+        if (ctxFoto) {
+          const { procesado, exif, nombreArchivoOriginal } = ctxFoto
 
-          data.nombreArchivoOriginal = nombreArchivoOriginal
+          if (nombreArchivoOriginal && (!originalDoc?.nombreArchivoOriginal || nombreArchivoOriginal !== originalDoc?.filename)) {
+            data.nombreArchivoOriginal = nombreArchivoOriginal
+          }
           data.ancho = procesado.ancho
           data.alto = procesado.alto
           data.colorDominante = procesado.colorDominante
           data.huella = procesado.huella
-
-          if (!ctxFoto && req.file) {
-            req.file.data = procesado.bufferPrincipal
-            req.file.size = procesado.bufferPrincipal.length
-          }
 
           // Si la proporción no fue ajustada a mano, asignar la calculada
           if (!data.proporcion?.manual) {
@@ -278,13 +267,18 @@ export const Foto: CollectionConfig = {
     ],
     afterChange: [
       ({ doc, previousDoc }) => {
-        const rutas = ['/', '/fotos', '/sitemap.xml', '/robots.txt']
-        if (doc?.slug) rutas.push(`/fotos/${doc.slug}`)
+        const rutas = ['/', '/fotos', '/colecciones', '/sobre-mi', '/consulta', '/sitemap.xml', '/robots.txt']
+        if (doc?.slug) {
+          rutas.push(`/fotos/${doc.slug}`)
+          rutas.push(`/og/foto/${doc.slug}`)
+        }
         if (previousDoc?.slug && previousDoc.slug !== doc?.slug) {
           rutas.push(`/fotos/${previousDoc.slug}`)
+          rutas.push(`/og/foto/${previousDoc.slug}`)
         }
         const tags = [
           'fotos',
+          'colecciones',
           'portada',
           doc?.id ? `foto:${doc.id}` : '',
           doc?.slug ? `foto:${doc.slug}` : '',
@@ -296,10 +290,14 @@ export const Foto: CollectionConfig = {
     ],
     afterDelete: [
       ({ doc }) => {
-        const rutas = ['/', '/fotos', '/sitemap.xml', '/robots.txt']
-        if (doc?.slug) rutas.push(`/fotos/${doc.slug}`)
+        const rutas = ['/', '/fotos', '/colecciones', '/sobre-mi', '/consulta', '/sitemap.xml', '/robots.txt']
+        if (doc?.slug) {
+          rutas.push(`/fotos/${doc.slug}`)
+          rutas.push(`/og/foto/${doc.slug}`)
+        }
         const tags = [
           'fotos',
+          'colecciones',
           'portada',
           doc?.id ? `foto:${doc.id}` : '',
           doc?.slug ? `foto:${doc.slug}` : '',

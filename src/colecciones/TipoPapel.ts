@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { revalidarRutasSeguras } from '../lib/revalidacion'
 
 export const TipoPapel: CollectionConfig = {
   slug: 'tipos-papel',
@@ -36,6 +37,16 @@ export const TipoPapel: CollectionConfig = {
             `No se puede eliminar este papel porque está asociado a ${formatosAsociados.totalDocs} formato(s) de impresión. Desactívalo marcando "activo = false" en su lugar.`
           )
         }
+      },
+    ],
+    afterChange: [
+      () => {
+        revalidarRutasSeguras(['/', '/fotos', '/consulta'], ['tipos-papel', 'formatos-impresion', 'fotos'])
+      },
+    ],
+    afterDelete: [
+      () => {
+        revalidarRutasSeguras(['/', '/fotos', '/consulta'], ['tipos-papel', 'formatos-impresion', 'fotos'])
       },
     ],
   },

@@ -7,18 +7,26 @@ import { revalidatePath, revalidateTag } from 'next/cache'
 
 export function revalidarRutasSeguras(rutas: string[], tags: string[] = []): void {
   try {
+    try {
+      revalidatePath('/', 'layout')
+    } catch {
+      // En entornos sin contexto de servidor Next.js (ej. scripts o build), se ignora silenciosamente
+    }
+
     for (const r of rutas) {
+      if (!r) continue
       try {
         revalidatePath(r)
-      } catch (err) {
+      } catch {
         // En entornos sin contexto de servidor Next.js (ej. scripts o build), se ignora silenciosamente
       }
     }
 
     for (const t of tags) {
+      if (!t) continue
       try {
         revalidateTag(t)
-      } catch (err) {
+      } catch {
         // Ignora silenciosamente si no hay contexto Next.js
       }
     }

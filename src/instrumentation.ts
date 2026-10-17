@@ -19,10 +19,12 @@ export async function register() {
       console.log('[Calentamiento] Iniciando calentamiento de rutas principales...')
 
       const rutasBase = [
+        '/api/salud',
         '/',
         '/fotos',
         '/colecciones',
         '/sobre-mi',
+        '/contacto',
       ]
 
       for (const ruta of rutasBase) {

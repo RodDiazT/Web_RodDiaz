@@ -8,26 +8,26 @@
 |---|---|---|---|---|---|---|
 | `marco-general/marco-general-proyecto.md` | marco | 1.10 | aprobado | v1.0 | — | — |
 | `identidad/sistema-de-diseno.md` | transversal | 1.2 | aprobado | v1.0 | marco-general | marco-general |
-| `contenido/modelo-contenido-panel.md` | componente | 1.7 | aprobado | v1.0 | marco-general | marco-general |
+| `contenido/modelo-contenido-panel.md` | componente | 1.8 | aprobado | v1.0 | marco-general | marco-general |
 | `portafolio/galeria-colecciones.md` | componente | 1.3 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `portafolio/ficha-foto.md` | componente | 1.3 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
 | `consultas/consulta-copia.md` | componente | 1.4 | aprobado | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
 | `paginas/paginas.md` | componente | 1.4 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `plataforma/seo.md` | transversal | 1.1 | aprobado | v1.0 | marco-general | galeria-colecciones, ficha-foto, paginas |
-| `plataforma/despliegue.md` | transversal | 1.2 | aprobado | v1.0 | marco-general | modelo-contenido-panel |
+| `plataforma/despliegue.md` | transversal | 1.3 | aprobado | v1.0 | marco-general | modelo-contenido-panel |
 
 ## Árbol
 
 ```
 marco-general/marco-general-proyecto.md        [aprobado 1.10]
 ├── identidad/sistema-de-diseno.md             [aprobado 1.2]
-├── contenido/modelo-contenido-panel.md        [aprobado 1.7]
+├── contenido/modelo-contenido-panel.md        [aprobado 1.8]
 ├── portafolio/galeria-colecciones.md          [aprobado 1.3]
 ├── portafolio/ficha-foto.md                   [aprobado 1.3]
 ├── consultas/consulta-copia.md                [aprobado 1.4]
 ├── paginas/paginas.md                         [aprobado 1.4]
 ├── plataforma/seo.md                          [aprobado 1.1]
-└── plataforma/despliegue.md                   [aprobado 1.2]
+└── plataforma/despliegue.md                   [aprobado 1.3]
 ```
 
 ## Tareas del dueño
@@ -127,9 +127,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.10]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.7",
+      "version": "1.8",
       "actualizado": "2026-10-17",
-      "notas": "1.7: Google OAuth operativo (T-008), i18n español (@payloadcms/translations), etiquetas completas en español y ocultamiento de botones de contraseña local."
+      "notas": "1.8: revalidación integral en todas las colecciones al editar/recortar medios o fotos, y protección de Foto al editar solo focalPoint."
     },
     {
       "id": "galeria-colecciones",
@@ -230,9 +230,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.10]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.2",
+      "version": "1.3",
       "actualizado": "2026-10-17",
-      "notas": "1.2: ambiente permanente de QA (ENTORNO=pruebas) vs entorno Oficial al aprobar QA; sincronización automática de esquema y semilla en onInit."
+      "notas": "1.3: purga automática de caché de compilación estática durante el calentamiento inicial y ambiente permanente de QA."
     }
   ],
   "tareas": [

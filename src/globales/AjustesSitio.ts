@@ -64,7 +64,10 @@ export const AjustesSitio: GlobalConfig = {
     ],
     afterChange: [
       () => {
-        revalidarRutasSeguras(['/', '/sitemap.xml', '/robots.txt'], ['ajustes'])
+        revalidarRutasSeguras(
+          ['/', '/fotos', '/colecciones', '/sobre-mi', '/contacto', '/consulta', '/sitemap.xml', '/robots.txt'],
+          ['ajustes']
+        )
       },
     ],
   },

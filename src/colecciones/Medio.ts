@@ -56,8 +56,28 @@ export const Medio: CollectionConfig = {
     ],
     afterChange: [
       ({ doc }) => {
-        const tags = ['ajustes', 'medios', doc?.id ? `medio:${doc.id}` : ''].filter(Boolean) as string[]
-        revalidarRutasSeguras(['/'], tags)
+        const rutas = [
+          '/',
+          '/sobre-mi',
+          '/contacto',
+          '/sitemap.xml',
+          doc?.id ? `/og/medio/${doc.id}` : '',
+        ].filter(Boolean) as string[]
+        const tags = ['ajustes', 'medios', 'paginas', doc?.id ? `medio:${doc.id}` : ''].filter(Boolean) as string[]
+        revalidarRutasSeguras(rutas, tags)
+      },
+    ],
+    afterDelete: [
+      ({ doc }) => {
+        const rutas = [
+          '/',
+          '/sobre-mi',
+          '/contacto',
+          '/sitemap.xml',
+          doc?.id ? `/og/medio/${doc.id}` : '',
+        ].filter(Boolean) as string[]
+        const tags = ['ajustes', 'medios', 'paginas', doc?.id ? `medio:${doc.id}` : ''].filter(Boolean) as string[]
+        revalidarRutasSeguras(rutas, tags)
       },
     ],
   },

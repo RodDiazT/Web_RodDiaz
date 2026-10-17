@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { revalidarRutasSeguras } from '../lib/revalidacion'
 
 export const FormatoImpresion: CollectionConfig = {
   slug: 'formatos-impresion',
@@ -83,6 +84,16 @@ export const FormatoImpresion: CollectionConfig = {
             `No se puede eliminar este formato porque está ofrecido en ${fotosConFormato.totalDocs} foto(s). Desactívalo marcando "activo = false" en su lugar.`
           )
         }
+      },
+    ],
+    afterChange: [
+      () => {
+        revalidarRutasSeguras(['/', '/fotos', '/consulta'], ['formatos-impresion', 'fotos'])
+      },
+    ],
+    afterDelete: [
+      () => {
+        revalidarRutasSeguras(['/', '/fotos', '/consulta'], ['formatos-impresion', 'fotos'])
       },
     ],
   },

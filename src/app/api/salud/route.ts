@@ -5,11 +5,12 @@ import { sql } from '@payloadcms/db-postgres'
 import fs from 'fs'
 import path from 'path'
 import { entorno } from '@/lib/entorno'
+import { revalidarRutasSeguras } from '@/lib/revalidacion'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const payload = await getPayload({ config })
 
@@ -28,6 +29,16 @@ export async function GET() {
       fs.mkdirSync(rutaMedios, { recursive: true })
     }
     await fs.promises.access(rutaMedios, fs.constants.R_OK)
+
+    // Si la solicitud proviene del calentamiento interno al arrancar el contenedor,
+    // invalidamos el caché generado sin BD durante `next build` antes de calentar las páginas.
+    const ua = request.headers.get('user-agent') || ''
+    if (ua === 'Web_RodDiaz_Warmup/1.0') {
+      revalidarRutasSeguras(
+        ['/', '/fotos', '/colecciones', '/sobre-mi', '/contacto', '/privacidad', '/condiciones', '/consulta'],
+        ['ajustes', 'fotos', 'colecciones', 'paginas', 'medios']
+      )
+    }
 
     // Contrato estricto: 200 { "estado": "ok" } sin revelar versiones ni rutas
     return NextResponse.json(

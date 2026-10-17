@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { generarSlug, actualizarSlugsAnteriores } from '../lib/slug'
+import { revalidarRutasSeguras } from '../lib/revalidacion'
 
 export const Caracteristica: CollectionConfig = {
   slug: 'caracteristicas',
@@ -37,6 +38,22 @@ export const Caracteristica: CollectionConfig = {
           }
         }
         return data
+      },
+    ],
+    afterChange: [
+      ({ doc }) => {
+        revalidarRutasSeguras(
+          ['/', '/fotos', '/colecciones', '/sitemap.xml'],
+          ['caracteristicas', 'fotos', `caracteristica-${doc.slug}`]
+        )
+      },
+    ],
+    afterDelete: [
+      ({ doc }) => {
+        revalidarRutasSeguras(
+          ['/', '/fotos', '/colecciones', '/sitemap.xml'],
+          ['caracteristicas', 'fotos', `caracteristica-${doc.slug}`]
+        )
       },
     ],
   },

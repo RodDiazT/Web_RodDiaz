@@ -63,6 +63,10 @@ export function MarcoFoto({
     }
   }, [])
 
+  useEffect(() => {
+    setErrorCarga(false)
+  }, [foto.url, foto.sizes?.mediana?.url, foto.sizes?.mediana_jpg?.url, foto.sizes?.pequena?.url, foto.sizes?.pequena_webp?.url])
+
   const ratio = proporcion
     ? proporcion.replace(':', ' / ')
     : foto.ancho && foto.alto
