@@ -12,6 +12,9 @@ export const Suscriptor: CollectionConfig = {
     group: 'Consultas',
     description:
       'Personas que marcaron voluntariamente la casilla opcional para recibir novedades de nuevas expediciones y obras.',
+    components: {
+      beforeListTable: ['/componentes/admin/AccionesSuscriptores#AccionesSuscriptores'],
+    },
   },
   access: {
     read: ({ req: { user } }) => Boolean(user),

@@ -11,7 +11,7 @@
 | `contenido/modelo-contenido-panel.md` | componente | 1.8 | aprobado | v1.0 | marco-general | marco-general |
 | `portafolio/galeria-colecciones.md` | componente | 1.3 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `portafolio/ficha-foto.md` | componente | 1.3 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
-| `consultas/consulta-copia.md` | componente | 1.4 | aprobado | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
+| `consultas/consulta-copia.md` | componente | 1.5 | aprobado | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
 | `paginas/paginas.md` | componente | 1.4 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `plataforma/seo.md` | transversal | 1.1 | aprobado | v1.0 | marco-general | galeria-colecciones, ficha-foto, paginas |
 | `plataforma/despliegue.md` | transversal | 1.3 | aprobado | v1.0 | marco-general | modelo-contenido-panel |
@@ -24,7 +24,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.10]
 ├── contenido/modelo-contenido-panel.md        [aprobado 1.8]
 ├── portafolio/galeria-colecciones.md          [aprobado 1.3]
 ├── portafolio/ficha-foto.md                   [aprobado 1.3]
-├── consultas/consulta-copia.md                [aprobado 1.4]
+├── consultas/consulta-copia.md                [aprobado 1.5]
 ├── paginas/paginas.md                         [aprobado 1.4]
 ├── plataforma/seo.md                          [aprobado 1.1]
 └── plataforma/despliegue.md                   [aprobado 1.3]
@@ -179,9 +179,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.10]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.4",
-      "actualizado": "2026-10-14",
-      "notas": "1.4: snapshots en ItemConsulta, aviso push por bot de Telegram, antispam a 1.8 s para autocompletado móvil (T-014)."
+      "version": "1.5",
+      "actualizado": "2026-10-17",
+      "notas": "1.5: conexión dinámica de textoConsentimiento, textoPromociones, plantillaRespuesta y plantillaNovedades desde AjustesSitio."
     },
     {
       "id": "paginas",

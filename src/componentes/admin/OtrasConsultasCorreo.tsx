@@ -5,18 +5,30 @@
  */
 
 import React, { useState, useEffect } from 'react'
+import { useDocumentInfo } from '@payloadcms/ui'
 
 interface OtrasConsultasCorreoProps {
-  correo: string
-  consultaActualId: string | number
+  correo?: string
+  consultaActualId?: string | number
 }
 
-export function OtrasConsultasCorreo({ correo, consultaActualId }: OtrasConsultasCorreoProps) {
+export function OtrasConsultasCorreo({
+  correo: propCorreo,
+  consultaActualId: propId,
+}: OtrasConsultasCorreoProps) {
+  const docInfo = useDocumentInfo()
+  const datosDoc = (docInfo?.initialData || docInfo?.savedDocumentData || {}) as any
+  const correo = propCorreo ?? datosDoc.correo ?? ''
+  const consultaActualId = propId ?? docInfo?.id ?? ''
+
   const [otras, setOtras] = useState<any[]>([])
   const [cargando, setCargando] = useState(true)
 
   useEffect(() => {
-    if (!correo) return
+    if (!correo) {
+      setCargando(false)
+      return
+    }
 
     fetch(`/api/consultas?where[correo][equals]=${encodeURIComponent(correo)}&limit=20`)
       .then((res) => (res.ok ? res.json() : null))

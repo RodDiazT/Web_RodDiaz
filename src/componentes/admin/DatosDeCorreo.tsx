@@ -7,18 +7,25 @@
  */
 
 import React, { useState } from 'react'
+import { useDocumentInfo } from '@payloadcms/ui'
 import { exportarDatosCorreo } from '@/lib/consultas'
 
 interface DatosDeCorreoProps {
-  correo: string
+  correo?: string
 }
 
-export function DatosDeCorreo({ correo }: DatosDeCorreoProps) {
+export function DatosDeCorreo({ correo: propCorreo }: DatosDeCorreoProps) {
+  const docInfo = useDocumentInfo()
+  const datosDoc = (docInfo?.initialData || docInfo?.savedDocumentData || {}) as any
+  const correo = propCorreo ?? datosDoc.correo ?? ''
+
   const [descargando, setDescargando] = useState(false)
   const [eliminando, setEliminando] = useState(false)
   const [confirmacion, setConfirmacion] = useState('')
   const [mostrarDialogoBorrar, setMostrarDialogoBorrar] = useState(false)
   const [mensajeEstado, setMensajeEstado] = useState<string | null>(null)
+
+  if (!correo) return null
 
   // 1. Acceso: Descargar informe .txt (§5.2.9)
   const manejarDescargar = async () => {

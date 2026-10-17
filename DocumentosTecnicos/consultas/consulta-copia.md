@@ -4,11 +4,11 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/consultas/consulta-copia.md` |
 | Tipo | Componente |
-| Versión | 1.4 |
+| Versión | 1.5 |
 | Estado | Aprobado |
-| Fecha | 2026-10-14 |
-| Padre | `marco-general/marco-general-proyecto.md` (1.9) |
-| Dependencias | `contenido/modelo-contenido-panel.md` (1.6), `portafolio/ficha-foto.md` (1.3); usa `identidad/sistema-de-diseno.md` (1.1) |
+| Fecha | 2026-10-17 |
+| Padre | `marco-general/marco-general-proyecto.md` (1.10) |
+| Dependencias | `contenido/modelo-contenido-panel.md` (1.8), `portafolio/ficha-foto.md` (1.3); usa `identidad/sistema-de-diseno.md` (1.2) |
 | Versión del producto | v1.0 |
 
 ## Índice
@@ -546,6 +546,7 @@ No nacen tareas nuevas: los textos tienen valores por defecto. Para lanzar sigue
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.5 | 2026-10-17 | Conexión dinámica de `textoConsentimiento` (con reemplazo de `{politica}`) y `textoPromociones` desde `AjustesSitio` hacia `/consulta` (`FormularioConsulta.tsx`), título dinámico `Consulta · ${nombreSitio}` en `generateMetadata`, y registro de campos UI (`AccionesConsulta`, `OtrasConsultasCorreo`, `DatosDeCorreo` y `AccionesSuscriptores`) en `Consulta.ts` y `Suscriptor.ts` conectados en vivo con `plantillaRespuesta`, `plantillaNovedades` y `correoContacto` de `AjustesSitio`. |
 | 1.4 | 2026-10-14 | Notificación push inmediata vía Bot de Telegram (`TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`) tras guardado exitoso (§5.2.3); tiempo mínimo de antispam ajustado a 1.8 s para compatibilidad con autocompletado nativo (§5.2.5); y persistencia de `nombreFormatoSnapshot` y `nombrePapelSnapshot` en `ItemConsulta` (§5.1). |
 | 1.3 | 2026-10-14 | Cambio menor al aprobar `plataforma/despliegue.md` 1.0: "Borrar todas" registra el resumen del correo en `AjustesSitio.supresionesRecientes`. |
 | 1.2 | 2026-10-14 | Cambio menor al aprobar `plataforma/seo.md` 1.0: `origen` acepta `licencia`. |

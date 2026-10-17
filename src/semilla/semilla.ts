@@ -62,7 +62,7 @@ export async function sembrarDatos(payloadInstance?: BasePayload) {
       redes: [
         {
           red: 'instagram',
-          url: 'https://instagram.com/roddiazt',
+          url: 'https://instagram.com/rod_diazt',
         },
       ],
       textoIntroConsulta:

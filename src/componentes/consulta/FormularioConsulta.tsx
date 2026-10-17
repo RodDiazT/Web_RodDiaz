@@ -32,6 +32,8 @@ interface FormularioConsultaProps {
   origen?: 'ficha' | 'visor' | 'general' | 'licencia'
   textoIntroConsulta: string
   textoConsultaRecibida: string
+  textoConsentimiento?: string
+  textoPromociones?: string
   correoContacto: string
   claveEnvioInicial: string
   emitidoEnInicial: number
@@ -50,6 +52,8 @@ export function FormularioConsulta({
   origen = 'general',
   textoIntroConsulta,
   textoConsultaRecibida,
+  textoConsentimiento = 'Acepto la {politica} y que Rod Díaz me contacte por correo, teléfono u otro medio que indiqué, para responder esta consulta.',
+  textoPromociones = 'Quiero recibir novedades y promociones de Rod Díaz (fotos nuevas, ofertas de copias). Puedo darme de baja cuando quiera.',
   correoContacto,
   claveEnvioInicial,
   emitidoEnInicial,
@@ -424,16 +428,32 @@ export function FormularioConsulta({
                   required
                 />
                 <span>
-                  Acepto la{' '}
-                  <Link
-                    href="/privacidad"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.enlaceLegal}
-                  >
-                    política de privacidad (se abre en una pestaña nueva)
-                  </Link>{' '}
-                  y que Rod Díaz me contacte por correo, teléfono u otro medio que indiqué, para responder esta consulta.
+                  {textoConsentimiento.includes('{politica}') ? (
+                    <>
+                      {textoConsentimiento.split('{politica}')[0]}
+                      <Link
+                        href="/privacidad"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.enlaceLegal}
+                      >
+                        política de privacidad (se abre en una pestaña nueva)
+                      </Link>
+                      {textoConsentimiento.split('{politica}').slice(1).join('{politica}')}
+                    </>
+                  ) : (
+                    <>
+                      {textoConsentimiento}{' '}
+                      <Link
+                        href="/privacidad"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.enlaceLegal}
+                      >
+                        (ver política de privacidad)
+                      </Link>
+                    </>
+                  )}
                 </span>
               </label>
               {(tocado.acepta || erroresServidor.acepta) && (erroresLocales.acepta || erroresServidor.acepta) && (
@@ -453,7 +473,7 @@ export function FormularioConsulta({
                   className={styles.casillaInput}
                 />
                 <span>
-                  Quiero recibir novedades y promociones de Rod Díaz (fotos nuevas, ofertas de copias). Puedo darme de baja cuando quiera. (opcional)
+                  {textoPromociones}
                 </span>
               </label>
             </div>

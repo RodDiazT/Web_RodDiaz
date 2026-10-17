@@ -9,12 +9,16 @@ import { orientarFormato } from '@/lib/ficha'
 
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = {
-  title: 'Consulta — Rod Díaz',
-  robots: {
-    index: false,
-    follow: false,
-  },
+export async function generateMetadata(): Promise<Metadata> {
+  const configGlobal = await ajustes()
+  const nombreSitio = configGlobal?.nombreSitio?.trim() || 'Rod Díaz'
+  return {
+    title: `Consulta · ${nombreSitio}`,
+    robots: {
+      index: false,
+      follow: false,
+    },
+  }
 }
 
 interface PaginaConsultaProps {
@@ -36,6 +40,12 @@ export default async function PaginaConsulta({ searchParams }: PaginaConsultaPro
   const textoConsultaRecibida =
     configGlobal?.textoConsultaRecibida ||
     'Te respondo a {correo} en los próximos días. Si no ves mi respuesta, revisa la carpeta de spam.'
+  const textoConsentimiento =
+    configGlobal?.textoConsentimiento ||
+    'Acepto la {politica} y que Rod Díaz me contacte por correo, teléfono u otro medio que indiqué, para responder esta consulta.'
+  const textoPromociones =
+    configGlobal?.textoPromociones ||
+    'Quiero recibir novedades y promociones de Rod Díaz (fotos nuevas, ofertas de copias). Puedo darme de baja cuando quiera.'
   const correoContacto = configGlobal?.correoContacto || 'rodrigodiaztapia@gmail.com'
 
   let avisoInformativo: string | null = null
@@ -122,6 +132,8 @@ export default async function PaginaConsulta({ searchParams }: PaginaConsultaPro
       origen={origen}
       textoIntroConsulta={textoIntroConsulta}
       textoConsultaRecibida={textoConsultaRecibida}
+      textoConsentimiento={textoConsentimiento}
+      textoPromociones={textoPromociones}
       correoContacto={correoContacto}
       claveEnvioInicial={claveEnvio}
       emitidoEnInicial={emitidoEn}

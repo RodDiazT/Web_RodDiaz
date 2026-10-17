@@ -16,6 +16,37 @@ export const AjustesSitio: GlobalConfig = {
       ({ data }) => {
         if (!data) return data
 
+        // Normalizar redes sociales (permite pegar @usuario, usuario o URL completa)
+        if (Array.isArray(data.redes)) {
+          data.redes = data.redes.map((item: any) => {
+            if (!item || typeof item.url !== 'string') return item
+            const crudo = item.url.trim()
+            if (!crudo) return item
+
+            if (item.red === 'instagram') {
+              // Extraer usuario si escribió @rod_diazt, rod_diazt o https://instagram.com/rod_diazt
+              const sinProtocolo = crudo
+                .replace(/^https?:\/\/(www\.)?instagram\.com\//i, '')
+                .replace(/^instagram\.com\//i, '')
+                .replace(/^@+/, '')
+                .replace(/\/+$/, '')
+                .split(/[/?#]/)[0]
+              if (sinProtocolo) {
+                return {
+                  ...item,
+                  url: `https://instagram.com/${sinProtocolo}`,
+                }
+              }
+            } else if (!/^https?:\/\//i.test(crudo)) {
+              return {
+                ...item,
+                url: `https://${crudo.replace(/^\/+/, '')}`,
+              }
+            }
+            return item
+          })
+        }
+
         if (data.seo) {
           // Extraer y validar verificacionGoogle (§4, §5.1)
           if (data.seo.verificacionGoogle) {

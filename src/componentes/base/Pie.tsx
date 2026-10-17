@@ -16,7 +16,7 @@ interface PieProps {
 export function Pie({
   nombreSitio = 'Rod Díaz',
   textoDerechos = 'Todos los derechos reservados',
-  instagramUrl = 'https://instagram.com/roddiazt',
+  instagramUrl,
   enlacesLegales,
 }: PieProps) {
   const anio = new Date().getFullYear()

@@ -22,6 +22,10 @@ import { StrikethroughFeatureClient as StrikethroughFeatureClient_e70f5e05f09f93
 import { UnderlineFeatureClient as UnderlineFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { BoldFeatureClient as BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
+import { AccionesConsulta as AccionesConsulta_10f6884e6780c4e012e4dcfc887b9a44 } from '../../../componentes/admin/AccionesConsulta'
+import { OtrasConsultasCorreo as OtrasConsultasCorreo_a953002b9f358905f2d4a72d8350b910 } from '../../../componentes/admin/OtrasConsultasCorreo'
+import { DatosDeCorreo as DatosDeCorreo_4f0e4c980f645261f1f48d7f480bdc8b } from '../../../componentes/admin/DatosDeCorreo'
+import { AccionesSuscriptores as AccionesSuscriptores_5a0ef8769423f01d0f53f8927e927bdb } from '../../../componentes/admin/AccionesSuscriptores'
 import { TarjetaConsultasNuevas as TarjetaConsultasNuevas_4b78fd11d5baa1cf052d0d2af1eee3c0 } from '../../../componentes/admin/TarjetaConsultasNuevas'
 import { TarjetaConsultasPorMes as TarjetaConsultasPorMes_62798863b95dc7a1bfedc5e785656778 } from '../../../componentes/admin/TarjetaConsultasPorMes'
 import { TarjetaRespaldo as TarjetaRespaldo_df271f6c0497edfd7b262e921c4441c8 } from '../../../componentes/admin/TarjetaRespaldo'
@@ -55,6 +59,10 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#UnderlineFeatureClient": UnderlineFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#BoldFeatureClient": BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#ItalicFeatureClient": ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  "/componentes/admin/AccionesConsulta#AccionesConsulta": AccionesConsulta_10f6884e6780c4e012e4dcfc887b9a44,
+  "/componentes/admin/OtrasConsultasCorreo#OtrasConsultasCorreo": OtrasConsultasCorreo_a953002b9f358905f2d4a72d8350b910,
+  "/componentes/admin/DatosDeCorreo#DatosDeCorreo": DatosDeCorreo_4f0e4c980f645261f1f48d7f480bdc8b,
+  "/componentes/admin/AccionesSuscriptores#AccionesSuscriptores": AccionesSuscriptores_5a0ef8769423f01d0f53f8927e927bdb,
   "/componentes/admin/TarjetaConsultasNuevas#TarjetaConsultasNuevas": TarjetaConsultasNuevas_4b78fd11d5baa1cf052d0d2af1eee3c0,
   "/componentes/admin/TarjetaConsultasPorMes#TarjetaConsultasPorMes": TarjetaConsultasPorMes_62798863b95dc7a1bfedc5e785656778,
   "/componentes/admin/TarjetaRespaldo#TarjetaRespaldo": TarjetaRespaldo_df271f6c0497edfd7b262e921c4441c8,

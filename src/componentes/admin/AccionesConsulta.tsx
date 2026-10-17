@@ -4,14 +4,15 @@
  * Barra de acciones operativas para responder y gestionar el estado de una consulta (§3.7, §5.2.6).
  */
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useDocumentInfo } from '@payloadcms/ui'
 import { urlRespuestaGmail } from '@/lib/consultas'
 
 interface AccionesConsultaProps {
-  consultaId: string | number
-  nombre: string
-  correo: string
-  estado: string
+  consultaId?: string | number
+  nombre?: string
+  correo?: string
+  estado?: string
   items?: any[]
   plantillaRespuesta?: string | null
   correoRod?: string
@@ -19,22 +20,55 @@ interface AccionesConsultaProps {
 }
 
 export function AccionesConsulta({
-  consultaId,
-  nombre,
-  correo,
+  consultaId: propId,
+  nombre: propNombre,
+  correo: propCorreo,
   estado: estadoInicial,
-  items,
-  plantillaRespuesta,
-  correoRod,
+  items: propItems,
+  plantillaRespuesta: propPlantilla,
+  correoRod: propCorreoRod,
   alCambiarEstado,
 }: AccionesConsultaProps) {
-  const [estado, setEstado] = useState(estadoInicial)
+  const docInfo = useDocumentInfo()
+  const consultaId = propId ?? docInfo?.id
+  const datosDoc = (docInfo?.initialData || docInfo?.savedDocumentData || {}) as any
+
+  const nombre = propNombre ?? datosDoc.nombre ?? ''
+  const correo = propCorreo ?? datosDoc.correo ?? ''
+  const items = propItems ?? datosDoc.items ?? []
+  const [estado, setEstado] = useState(estadoInicial ?? datosDoc.estado ?? 'nueva')
   const [actualizando, setActualizando] = useState(false)
+  const [plantillaGlobal, setPlantillaGlobal] = useState<string | null>(propPlantilla ?? null)
+  const [correoRodGlobal, setCorreoRodGlobal] = useState<string | undefined>(propCorreoRod)
+
+  useEffect(() => {
+    if (datosDoc.estado && !estadoInicial) {
+      setEstado(datosDoc.estado)
+    }
+  }, [datosDoc.estado, estadoInicial])
+
+  useEffect(() => {
+    if (propPlantilla !== undefined && propCorreoRod !== undefined) return
+    fetch('/api/globals/ajustes-sitio')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((aj) => {
+        if (!aj) return
+        if (propPlantilla === undefined && aj.plantillaRespuesta) {
+          setPlantillaGlobal(aj.plantillaRespuesta)
+        }
+        if (propCorreoRod === undefined && aj.correoContacto) {
+          setCorreoRodGlobal(aj.correoContacto)
+        }
+      })
+      .catch(() => {})
+  }, [propPlantilla, propCorreoRod])
+
+  if (!consultaId || !correo) return null
 
   const { urlGmail, urlMailto } = urlRespuestaGmail(
     { nombre, correo, items },
-    plantillaRespuesta,
-    correoRod
+    plantillaGlobal,
+    correoRodGlobal
   )
 
   const actualizarEstado = async (nuevoEstado: string) => {

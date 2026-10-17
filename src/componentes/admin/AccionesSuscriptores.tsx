@@ -5,11 +5,26 @@
  * "Copiar correos" para CCO en Gmail y "Dar de baja".
  */
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 export function AccionesSuscriptores() {
   const [copiado, setCopiado] = useState(false)
   const [copiando, setCopiando] = useState(false)
+  const [plantillaCopiada, setPlantillaCopiada] = useState(false)
+  const [plantillaNovedades, setPlantillaNovedades] = useState<string>(
+    'Recibes este correo porque te suscribiste en Rod Díaz. Si no quieres recibir más, responde BAJA a este correo.'
+  )
+
+  useEffect(() => {
+    fetch('/api/globals/ajustes-sitio')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((aj) => {
+        if (aj?.plantillaNovedades) {
+          setPlantillaNovedades(aj.plantillaNovedades)
+        }
+      })
+      .catch(() => {})
+  }, [])
 
   const manejarCopiarCorreos = async () => {
     setCopiando(true)
@@ -38,6 +53,16 @@ export function AccionesSuscriptores() {
     }
   }
 
+  const manejarCopiarPlantilla = async () => {
+    try {
+      await navigator.clipboard.writeText(plantillaNovedades)
+      setPlantillaCopiada(true)
+      setTimeout(() => setPlantillaCopiada(false), 3000)
+    } catch {
+      // Ignorar si no hay permiso de portapapeles
+    }
+  }
+
   return (
     <div
       style={{
@@ -51,7 +76,7 @@ export function AccionesSuscriptores() {
         margin: '16px 0',
       }}
     >
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
         <button
           type="button"
           disabled={copiando}
@@ -70,9 +95,30 @@ export function AccionesSuscriptores() {
           {copiando ? 'Copiando…' : '📋 Copiar todos los correos para Gmail'}
         </button>
 
+        <button
+          type="button"
+          onClick={manejarCopiarPlantilla}
+          style={{
+            padding: '8px 14px',
+            backgroundColor: 'var(--theme-elevation-200, #333)',
+            color: 'var(--theme-text, #fff)',
+            border: '1px solid var(--theme-elevation-300, #555)',
+            borderRadius: '4px',
+            fontSize: '13px',
+            cursor: 'pointer',
+          }}
+        >
+          📄 Copiar pie de baja (plantilla de Ajustes)
+        </button>
+
         {copiado && (
           <span style={{ fontSize: '12px', color: 'var(--theme-success-500, #38a169)' }}>
             ✓ Correos copiados al portapapeles
+          </span>
+        )}
+        {plantillaCopiada && (
+          <span style={{ fontSize: '12px', color: 'var(--theme-success-500, #38a169)' }}>
+            ✓ Pie de baja copiado al portapapeles
           </span>
         )}
       </div>

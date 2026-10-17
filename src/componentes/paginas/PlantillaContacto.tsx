@@ -53,16 +53,28 @@ export function PlantillaContacto({
         {Array.isArray(redes) && redes.length > 0 && (
           <div className={styles.lineaRedes}>
             {redes.map((item, idx) => {
+              if (!item?.url) return null
               const nombreRed = item.red === 'instagram' ? 'Instagram' : 'Red social'
-              const urlLimpia = item.url.replace(/\/+$/, '')
-              const textoEnlace = urlLimpia.replace(/^https?:\/\/(www\.)?/, '')
-              const usuario = textoEnlace.split('/')[1] || textoEnlace
+              const crudo = item.url.trim()
+              const usuarioLimpio = crudo
+                .replace(/^https?:\/\/(www\.)?instagram\.com\//i, '')
+                .replace(/^https?:\/\/(www\.)?/i, '')
+                .replace(/^instagram\.com\//i, '')
+                .replace(/^@+/, '')
+                .replace(/\/+$/, '')
+              const usuario = usuarioLimpio.split('/')[0] || usuarioLimpio
+              const hrefFinal =
+                item.red === 'instagram'
+                  ? `https://instagram.com/${usuario}`
+                  : /^https?:\/\//i.test(crudo)
+                    ? crudo
+                    : `https://${crudo}`
 
               return (
                 <div key={idx} style={{ marginTop: 'var(--esp-2)' }}>
                   También estoy en {nombreRed}:{' '}
                   <a
-                    href={item.url}
+                    href={hrefFinal}
                     target="_blank"
                     rel="me noopener"
                     className={styles.enlaceRed}

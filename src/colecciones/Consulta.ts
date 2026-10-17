@@ -100,6 +100,15 @@ export const Consulta: CollectionConfig = {
   },
   fields: [
     {
+      name: 'accionesOperativas',
+      type: 'ui',
+      admin: {
+        components: {
+          Field: '/componentes/admin/AccionesConsulta#AccionesConsulta',
+        },
+      },
+    },
+    {
       type: 'row',
       fields: [
         {
@@ -326,6 +335,24 @@ export const Consulta: CollectionConfig = {
       admin: {
         readOnly: true,
         hidden: true,
+      },
+    },
+    {
+      name: 'historialCorreo',
+      type: 'ui',
+      admin: {
+        components: {
+          Field: '/componentes/admin/OtrasConsultasCorreo#OtrasConsultasCorreo',
+        },
+      },
+    },
+    {
+      name: 'derechosTitular',
+      type: 'ui',
+      admin: {
+        components: {
+          Field: '/componentes/admin/DatosDeCorreo#DatosDeCorreo',
+        },
       },
     },
   ],
