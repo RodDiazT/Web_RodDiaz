@@ -12,8 +12,7 @@ import { metadatosPara } from '@/lib/seo/metadatos'
 import { jsonLdPara } from '@/lib/seo/jsonld'
 import { JsonLd } from '@/componentes/JsonLd'
 
-export const dynamic = 'force-static'
-export const revalidate = 3600
+export const dynamic = 'force-dynamic'
 
 interface PaginaFotosProps {
   searchParams: Promise<{ caracteristica?: string; pagina?: string }>

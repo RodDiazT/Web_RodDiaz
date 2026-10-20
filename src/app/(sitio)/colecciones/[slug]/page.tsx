@@ -16,13 +16,7 @@ import { metadatosPara } from '@/lib/seo/metadatos'
 import { jsonLdPara } from '@/lib/seo/jsonld'
 import { JsonLd } from '@/componentes/JsonLd'
 
-export const dynamicParams = true
-export const revalidate = 3600
-
-export async function generateStaticParams() {
-  // Seguro para compilar sin base de datos activa (plataforma/despliegue.md §5.2.6)
-  return []
-}
+export const dynamic = 'force-dynamic'
 
 interface PaginaColeccionProps {
   params: Promise<{ slug: string }>

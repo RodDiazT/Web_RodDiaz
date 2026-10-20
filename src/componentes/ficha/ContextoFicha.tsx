@@ -7,7 +7,7 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import { Retorno } from '@/componentes/base/Retorno'
 import { NavegacionFotos, ItemNavegacionFoto } from '@/componentes/base/NavegacionFotos'
@@ -48,10 +48,25 @@ export function ContextoFicha({
   children,
 }: ContextoFichaProps) {
   const router = useRouter()
-  const searchParams = useSearchParams()
+  const [parametrosUrl, setParametrosUrl] = useState<{
+    coleccion: string | null
+    caracteristica: string | null
+  }>({
+    coleccion: null,
+    caracteristica: null,
+  })
 
-  const coleccionParam = searchParams.get('coleccion')
-  const caracteristicaParam = searchParams.get('caracteristica')
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const sp = new URLSearchParams(window.location.search)
+    setParametrosUrl({
+      coleccion: sp.get('coleccion'),
+      caracteristica: sp.get('caracteristica'),
+    })
+  }, [fotoSlug])
+
+  const coleccionParam = parametrosUrl.coleccion
+  const caracteristicaParam = parametrosUrl.caracteristica
 
   const [retorno, setRetorno] = useState(retornoPorDefecto)
   const [navegacion, setNavegacion] = useState(navegacionPorDefecto)
