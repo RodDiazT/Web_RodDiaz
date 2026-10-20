@@ -41,6 +41,11 @@ export const Suscriptor: CollectionConfig = {
       type: 'date',
       required: true,
       label: 'Fecha y hora del consentimiento explícito (Ley 21.719)',
+      admin: {
+        date: {
+          displayFormat: 'dd/MM/yyyy',
+        },
+      },
     },
     {
       name: 'versionPolitica',

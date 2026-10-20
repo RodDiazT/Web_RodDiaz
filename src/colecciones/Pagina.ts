@@ -203,6 +203,9 @@ export const Pagina: CollectionConfig = {
       label: 'Contenido actualizado el',
       admin: {
         readOnly: true,
+        date: {
+          displayFormat: 'dd/MM/yyyy',
+        },
         description: 'Fecha de la última modificación editorial de título o texto.',
       },
     },

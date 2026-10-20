@@ -79,7 +79,8 @@ export const DetectorExifCliente: React.FC = () => {
 
         if (exif.fecha && !fechaActual) {
           setFecha(exif.fecha)
-          partesResumen.push(`Fecha: ${exif.fecha.slice(0, 10)}`)
+          const [anio, mes, dia] = exif.fecha.slice(0, 10).split('-')
+          partesResumen.push(`Fecha: ${dia && mes && anio ? `${dia}/${mes}/${anio}` : exif.fecha.slice(0, 10)}`)
         }
 
         if (exif.datosTecnicos?.distanciaFocal !== undefined) {

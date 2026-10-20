@@ -60,6 +60,9 @@ export const Usuario: CollectionConfig = {
       label: 'Último acceso',
       admin: {
         readOnly: true,
+        date: {
+          displayFormat: 'dd/MM/yyyy',
+        },
       },
     },
     {

@@ -4,9 +4,9 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/contenido/modelo-contenido-panel.md` |
 | Tipo | Componente |
-| Versión | 1.8 |
+| Versión | 1.9 |
 | Estado | Aprobado |
-| Fecha | 2026-10-17 |
+| Fecha | 2026-10-20 |
 | Padre | `marco-general/marco-general-proyecto.md` |
 | Dependencias | `marco-general/marco-general-proyecto.md` (1.10); considera `identidad/sistema-de-diseno.md` (1.2) para `logo`, `filete` y perfil ICC |
 | Versión del producto | v1.0 |
@@ -514,6 +514,7 @@ Para Claude Code, después del paso 1 del plan del marco (§9.2: base del proyec
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.9 | 2026-10-20 | Estandarización del formato de fecha a `DD/MM/AAAA` (`dd/MM/yyyy`) en todo el panel `/admin`: configuración global `admin.dateFormat: 'dd/MM/yyyy'` en `payload.config.ts`, `admin.date.displayFormat: 'dd/MM/yyyy'` en todos los campos `type: 'date'` (`Foto`, `Consulta`, `Pagina`, `Suscriptor`, `Usuario`, `IntentoAcceso` y `AjustesSitio`), y formateo `DD/MM/AAAA` en el resumen automático de `DetectorExifCliente.tsx`. |
 | 1.8 | 2026-10-17 | Blindaje de revalidación de caché, eliminación de valores hardcodeados y edición de medios/fotos: `revalidarRutasSeguras` ejecuta `revalidatePath('/', 'layout')` además de las rutas específicas; `AjustesSitio` normaliza automáticamente URLs y nombres de usuario de Instagram (`@rod_diazt`, `rod_diazt` o URL completa -> `https://instagram.com/rod_diazt`) en `beforeValidate` y revalida todas las vistas públicas (`/`, `/fotos`, `/colecciones`, `/sobre-mi`, `/contacto`, `/consulta`); `Pie.tsx` elimina el fallback hardcodeado de `instagramUrl` y `semilla.ts` actualiza el usuario oficial a `rod_diazt`; `Medio` incorpora `afterDelete` y revalida `/sobre-mi`, `/contacto` y `/og/medio/:id` al recortar o reemplazar imágenes; `Foto` evita reprocesar el archivo de disco al editar solo el punto focal (`if (ctxFoto)` en `beforeChange`) y amplía su revalidación; `Caracteristica`, `FormatoImpresion` y `TipoPapel` incorporan revalidación completa en `afterChange` y `afterDelete`. |
 | 1.7 | 2026-10-17 | Cierre de T-008 e integración en producción/QA del flujo OAuth 2.0 con Google (`/api/oauth/google`, `/api/oauth/google/callback` y `BotonGoogleLogin.tsx`), sincronización automática de esquema y semilla en `onInit`, configuración de idioma español nativo en Payload (`@payloadcms/translations`, `supportedLanguages: { es }`, `fallbackLanguage: 'es'`), etiquetas en español en todos los campos de `Usuario` y `Pagina`, ocultamiento de controles de contraseña local (`#change-password`, `#force-unlock`) en la vista de cuenta, ajuste de `upload.mimeTypes` y `beforeOperation` en `Medio` y `Foto` para validar tamaños derivados WebP/AVIF, límite global `upload.limits.fileSize` de 60 MB en `payload.config.ts`, y componente `DetectorExifCliente.tsx` para precargar en tiempo real en el navegador (además del respaldo en servidor) fecha, distancia focal, apertura, velocidad, nombre de archivo original y proporción al seleccionar el archivo. |
 | 1.6 | 2026-10-14 | Trazabilidad con `nombreArchivoOriginal` en `Foto`; catálogo de `FormatoImpresion` por medidas de hoja en cm con `margenMinimoCm` y asociación manual por foto (sin barrera ±2 %); enriquecimiento de `TipoPapel` (base, acabado, gramaje, libre de ácido); y optimización de memoria con `sharp.concurrency(1)` y AVIF `effort: 3`. |

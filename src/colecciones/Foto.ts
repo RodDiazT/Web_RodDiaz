@@ -363,6 +363,9 @@ export const Foto: CollectionConfig = {
           label: 'Fecha de la toma (día calendario)',
           admin: {
             width: '50%',
+            date: {
+              displayFormat: 'dd/MM/yyyy',
+            },
             description: 'Precargada de la captura EXIF o ingresada a mano. Obligatoria para publicar.',
           },
         },
@@ -563,6 +566,9 @@ export const Foto: CollectionConfig = {
       type: 'date',
       admin: {
         readOnly: true,
+        date: {
+          displayFormat: 'dd/MM/yyyy',
+        },
         description: 'Fecha y hora en que se publicó por primera vez.',
       },
     },

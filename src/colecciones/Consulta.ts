@@ -258,13 +258,23 @@ export const Consulta: CollectionConfig = {
           name: 'respondidaEn',
           type: 'date',
           label: 'Fecha de respuesta',
-          admin: { width: '33%' },
+          admin: {
+            width: '33%',
+            date: {
+              displayFormat: 'dd/MM/yyyy',
+            },
+          },
         },
         {
           name: 'ultimaActividad',
           type: 'date',
           label: 'Última actividad',
-          admin: { width: '33%' },
+          admin: {
+            width: '33%',
+            date: {
+              displayFormat: 'dd/MM/yyyy',
+            },
+          },
         },
         {
           name: 'eliminarDespuesDe',
@@ -274,6 +284,9 @@ export const Consulta: CollectionConfig = {
           admin: {
             width: '33%',
             readOnly: true,
+            date: {
+              displayFormat: 'dd/MM/yyyy',
+            },
             description: '12 meses desde la última actividad (o 30 días si es marcada como spam).',
           },
         },
@@ -292,7 +305,13 @@ export const Consulta: CollectionConfig = {
           type: 'date',
           required: true,
           label: 'Fecha de consentimiento (Ley 21.719)',
-          admin: { width: '50%', readOnly: true },
+          admin: {
+            width: '50%',
+            readOnly: true,
+            date: {
+              displayFormat: 'dd/MM/yyyy',
+            },
+          },
         },
         {
           name: 'versionPolitica',

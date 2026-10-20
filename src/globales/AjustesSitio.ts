@@ -309,6 +309,11 @@ export const AjustesSitio: GlobalConfig = {
             {
               name: 'ultimoRespaldoEn',
               type: 'date',
+              admin: {
+                date: {
+                  displayFormat: 'dd/MM/yyyy',
+                },
+              },
             },
             {
               name: 'supresionesRecientes',

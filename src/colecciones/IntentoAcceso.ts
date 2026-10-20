@@ -38,6 +38,9 @@ export const IntentoAcceso: CollectionConfig = {
       label: 'Fecha y hora (UTC)',
       admin: {
         readOnly: true,
+        date: {
+          displayFormat: 'dd/MM/yyyy',
+        },
       },
     },
     {
