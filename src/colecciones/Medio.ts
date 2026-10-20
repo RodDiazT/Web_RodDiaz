@@ -1,5 +1,18 @@
 import type { CollectionConfig } from 'payload'
+import { APIError } from 'payload'
+import path from 'path'
+import fs from 'fs'
 import { revalidarRutasSeguras } from '../lib/revalidacion'
+
+const rutaBaseMedios = process.env.RUTA_MEDIOS
+  ? path.resolve(process.env.RUTA_MEDIOS)
+  : path.resolve(process.cwd(), 'medios')
+
+const staticDirAuxiliares = path.resolve(rutaBaseMedios, 'auxiliares')
+
+if (!fs.existsSync(staticDirAuxiliares)) {
+  fs.mkdirSync(staticDirAuxiliares, { recursive: true })
+}
 
 export const Medio: CollectionConfig = {
   slug: 'medios',
@@ -28,7 +41,7 @@ export const Medio: CollectionConfig = {
         if (req.file) {
           const tiposOriginalesPermitidos = ['image/jpeg', 'image/jpg', 'image/png', 'image/svg+xml']
           if (req.file.mimetype && !tiposOriginalesPermitidos.includes(req.file.mimetype)) {
-            throw new Error('Solo se aceptan archivos JPG, PNG o SVG para medios auxiliares.')
+            throw new APIError('Solo se aceptan archivos JPG, PNG o SVG para medios auxiliares.', 400)
           }
         }
 
@@ -38,17 +51,17 @@ export const Medio: CollectionConfig = {
 
           if (data.uso === 'logo') {
             if (req.file.size > LIMITE_LOGO) {
-              throw new Error('El archivo del logotipo no puede superar los 200 KB.')
+              throw new APIError('El archivo del logotipo no puede superar los 200 KB.', 400)
             }
           } else {
             if (req.file.size > LIMITE_GENERAL) {
-              throw new Error('El archivo auxiliar supera el límite máximo de 20 MB.')
+              throw new APIError('El archivo auxiliar supera el límite máximo de 20 MB.', 400)
             }
           }
         }
 
         if (data.uso !== 'logo' && (!data.textoAlternativo || data.textoAlternativo.trim() === '')) {
-          throw new Error('El texto alternativo es obligatorio para imágenes de páginas.')
+          throw new APIError('El texto alternativo es obligatorio para imágenes de páginas.', 400)
         }
 
         return data
@@ -82,7 +95,7 @@ export const Medio: CollectionConfig = {
     ],
   },
   upload: {
-    staticDir: './medios/auxiliares',
+    staticDir: staticDirAuxiliares,
     mimeTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/svg+xml', 'image/webp'],
     imageSizes: [
       {

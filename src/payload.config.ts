@@ -98,6 +98,14 @@ export default buildConfig({
   onInit: async (payload) => {
     if (process.env.NEXT_PHASE === 'phase-production-build') return
     try {
+      // 0. Asegurar directorios de almacenamiento en disco para subida de fotos y medios
+      const rutaBaseMedios = process.env.RUTA_MEDIOS
+        ? path.resolve(process.env.RUTA_MEDIOS)
+        : path.resolve(process.cwd(), 'medios')
+      const fsPromesas = await import('fs/promises')
+      await fsPromesas.mkdir(path.resolve(rutaBaseMedios, 'fotos'), { recursive: true }).catch(() => {})
+      await fsPromesas.mkdir(path.resolve(rutaBaseMedios, 'auxiliares'), { recursive: true }).catch(() => {})
+
       // 1. Asegurar esquema de tablas en PostgreSQL (aditivo y sin prompts interactivos)
       const adapter = payload.db as any
       if (adapter && typeof adapter.requireDrizzleKit === 'function' && adapter.drizzle) {

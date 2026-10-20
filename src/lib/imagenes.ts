@@ -6,6 +6,7 @@
 
 import sharp from 'sharp'
 import crypto from 'crypto'
+import { APIError } from 'payload'
 import { calcularProporcion, ProporcionCalculada } from './proporcion'
 
 // Configuración de Sharp para Railway: sin caché y concurrencia serial para fotos de hasta 45 MP
@@ -28,10 +29,10 @@ export function esJpegValido(buffer: Buffer): boolean {
  */
 export function validarArchivoFoto(buffer: Buffer): void {
   if (buffer.length > LIMITE_TAMANO_BYTES) {
-    throw new Error('La foto pesa más de 60 MB.')
+    throw new APIError('La foto pesa más de 60 MB.', 400)
   }
   if (!esJpegValido(buffer)) {
-    throw new Error('Solo se aceptan fotos JPG. Exporta la foto como JPG desde Lightroom.')
+    throw new APIError('Solo se aceptan fotos JPG. Exporta la foto como JPG desde Lightroom.', 400)
   }
 }
 
@@ -106,7 +107,7 @@ export async function procesarImagenFoto(bufferOriginal: Buffer): Promise<Result
   const altoOrig = metadataOrientada.height || 0
 
   if (!anchoOrig || !altoOrig) {
-    throw new Error('No se pudieron obtener las dimensiones de la imagen orientada.')
+    throw new APIError('No se pudieron obtener las dimensiones de la imagen orientada.', 400)
   }
 
   // 3. Proporción y color dominante

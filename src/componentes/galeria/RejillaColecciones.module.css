@@ -8,6 +8,7 @@
 @media (min-width: 640px) {
   .rejilla {
     grid-template-columns: repeat(2, 1fr);
+    align-items: start;
   }
 }
 
@@ -15,5 +16,6 @@
   .rejilla {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--esp-8);
+    align-items: start;
   }
 }

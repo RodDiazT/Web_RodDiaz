@@ -70,6 +70,19 @@ export const DetectorExifCliente: React.FC = () => {
         return
       }
 
+      const tipoMime = (file.type || '').toLowerCase()
+      const extension = file.name.split('.').pop()?.toLowerCase() || ''
+      const esJpg =
+        tipoMime === 'image/jpeg' ||
+        tipoMime === 'image/jpg' ||
+        extension === 'jpg' ||
+        extension === 'jpeg'
+
+      if (!esJpg) {
+        setErrorArchivo('Solo se aceptan fotos JPG. Exporta la foto como JPG en sRGB desde Lightroom.')
+        return
+      }
+
       setNombreOriginal(file.name)
 
       const partesResumen: string[] = []

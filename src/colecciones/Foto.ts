@@ -1,8 +1,21 @@
 import type { CollectionConfig } from 'payload'
+import { APIError } from 'payload'
+import path from 'path'
+import fs from 'fs'
 import { generarSlug, actualizarSlugsAnteriores } from '../lib/slug'
 import { leerExifSeguro } from '../lib/exif'
 import { procesarImagenFoto } from '../lib/imagenes'
 import { revalidarRutasSeguras } from '../lib/revalidacion'
+
+const rutaBaseMedios = process.env.RUTA_MEDIOS
+  ? path.resolve(process.env.RUTA_MEDIOS)
+  : path.resolve(process.cwd(), 'medios')
+
+const staticDirFotos = path.resolve(rutaBaseMedios, 'fotos')
+
+if (!fs.existsSync(staticDirFotos)) {
+  fs.mkdirSync(staticDirFotos, { recursive: true })
+}
 
 export const Foto: CollectionConfig = {
   slug: 'fotos',
@@ -29,8 +42,8 @@ export const Foto: CollectionConfig = {
     delete: ({ req: { user } }) => Boolean(user),
   },
   upload: {
-    staticDir: './medios/fotos',
-    mimeTypes: ['image/jpeg', 'image/jpg', 'image/webp', 'image/avif'],
+    staticDir: staticDirFotos,
+    mimeTypes: ['image/jpeg', 'image/jpg'],
     focalPoint: true,
     crop: false,
     imageSizes: [
@@ -75,28 +88,40 @@ export const Foto: CollectionConfig = {
   hooks: {
     beforeOperation: [
       async ({ args, operation, req }) => {
-        if ((operation === 'create' || operation === 'update') && req.file && req.file.data) {
-          const bufferOriginal = req.file.data
-          const nombreArchivoOriginal = req.file.name
-
-          // Leer EXIF acotado antes de limpiar metadatos y validar/procesar con Sharp
-          const exif = await leerExifSeguro(bufferOriginal)
-          const procesado = await procesarImagenFoto(bufferOriginal)
-
-          // Reemplazar buffer antes de generateFileData para que el archivo principal
-          // guardado en disco quede a máximo 2048 px, en sRGB y sin EXIF/GPS
-          req.file.data = procesado.bufferPrincipal
-          req.file.size = procesado.bufferPrincipal.length
-          req.file.mimetype = 'image/jpeg'
-
-          req.context = req.context || {}
-          req.context.fotoProcesada = {
-            procesado,
-            exif,
-            nombreArchivoOriginal,
+        try {
+          if (!fs.existsSync(staticDirFotos)) {
+            fs.mkdirSync(staticDirFotos, { recursive: true })
           }
+
+          if ((operation === 'create' || operation === 'update') && req.file && req.file.data) {
+            const bufferOriginal = req.file.data
+            const nombreArchivoOriginal = req.file.name
+
+            // Leer EXIF acotado antes de limpiar metadatos y validar/procesar con Sharp
+            const exif = await leerExifSeguro(bufferOriginal)
+            const procesado = await procesarImagenFoto(bufferOriginal)
+
+            // Reemplazar buffer antes de generateFileData para que el archivo principal
+            // guardado en disco quede a máximo 2048 px, en sRGB y sin EXIF/GPS
+            req.file.data = procesado.bufferPrincipal
+            req.file.size = procesado.bufferPrincipal.length
+            req.file.mimetype = 'image/jpeg'
+
+            req.context = req.context || {}
+            req.context.fotoProcesada = {
+              procesado,
+              exif,
+              nombreArchivoOriginal,
+            }
+          }
+          return args
+        } catch (error: any) {
+          if (error instanceof APIError) {
+            throw error
+          }
+          console.error('[Foto/beforeOperation] Error procesando archivo:', error)
+          throw new APIError(error?.message || 'Error al procesar la fotografía.', 400)
         }
-        return args
       },
     ],
     beforeValidate: [
@@ -173,7 +198,7 @@ export const Foto: CollectionConfig = {
           if (!coleccionFinal) faltantes.push('colección')
 
           if (faltantes.length > 0) {
-            throw new Error(`Para publicar falta: ${faltantes.join(', ')}`)
+            throw new APIError(`Para publicar falta: ${faltantes.join(', ')}`, 400)
           }
         }
 
