@@ -89,6 +89,10 @@ test('datosTecnicosVisibles concatena solo campos con valor', () => {
     '35 mm · f/8 · 1/250 s'
   )
   assert.equal(
+    datosTecnicosVisibles({ distanciaFocal: 44, apertura: 9, velocidad: '1/400 s', iso: 100 }),
+    '44 mm · f/9 · 1/400 s · ISO 100'
+  )
+  assert.equal(
     datosTecnicosVisibles({ apertura: '5.6', velocidad: '1/125 s' }),
     'f/5,6 · 1/125 s'
   )

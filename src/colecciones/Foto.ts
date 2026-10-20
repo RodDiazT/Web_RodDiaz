@@ -126,6 +126,9 @@ export const Foto: CollectionConfig = {
             if (!data.datosTecnicos.velocidad && ctxFoto.exif.datosTecnicos.velocidad !== undefined) {
               data.datosTecnicos.velocidad = ctxFoto.exif.datosTecnicos.velocidad
             }
+            if (!data.datosTecnicos.iso && ctxFoto.exif.datosTecnicos.iso !== undefined) {
+              data.datosTecnicos.iso = ctxFoto.exif.datosTecnicos.iso
+            }
           }
         }
 
@@ -258,6 +261,9 @@ export const Foto: CollectionConfig = {
             }
             if (!data.datosTecnicos.velocidad && exif.datosTecnicos.velocidad !== undefined) {
               data.datosTecnicos.velocidad = exif.datosTecnicos.velocidad
+            }
+            if (!data.datosTecnicos.iso && exif.datosTecnicos.iso !== undefined) {
+              data.datosTecnicos.iso = exif.datosTecnicos.iso
             }
           }
         }
@@ -448,19 +454,25 @@ export const Foto: CollectionConfig = {
               name: 'distanciaFocal',
               type: 'number',
               label: 'Distancia focal (mm)',
-              admin: { width: '33%' },
+              admin: { width: '25%' },
             },
             {
               name: 'apertura',
               type: 'number',
               label: 'Apertura (f/)',
-              admin: { width: '33%' },
+              admin: { width: '25%' },
             },
             {
               name: 'velocidad',
               type: 'text',
               label: 'Velocidad de obturación',
-              admin: { width: '33%', description: 'Ejemplo: 1/250 s, 2 s' },
+              admin: { width: '25%', description: 'Ejemplo: 1/250 s, 2 s' },
+            },
+            {
+              name: 'iso',
+              type: 'number',
+              label: 'Sensibilidad (ISO)',
+              admin: { width: '25%', description: 'Ejemplo: 100, 400, 1600' },
             },
           ],
         },

@@ -34,6 +34,7 @@ export const DetectorExifCliente: React.FC = () => {
   const { setValue: setDistanciaFocal } = useField<number>({ path: 'datosTecnicos.distanciaFocal' })
   const { setValue: setApertura } = useField<number>({ path: 'datosTecnicos.apertura' })
   const { setValue: setVelocidad } = useField<string>({ path: 'datosTecnicos.velocidad' })
+  const { setValue: setIso } = useField<number>({ path: 'datosTecnicos.iso' })
 
   const { value: proporcionManual } = useField<boolean>({ path: 'proporcion.manual' })
   const { setValue: setProporcionEtiqueta } = useField<string>({ path: 'proporcion.etiqueta' })
@@ -97,6 +98,11 @@ export const DetectorExifCliente: React.FC = () => {
           setVelocidad(exif.datosTecnicos.velocidad)
           partesResumen.push(exif.datosTecnicos.velocidad)
         }
+
+        if (exif.datosTecnicos?.iso !== undefined) {
+          setIso(exif.datosTecnicos.iso)
+          partesResumen.push(`ISO ${exif.datosTecnicos.iso}`)
+        }
       } catch (err) {
         console.warn('[EXIF Cliente] Error leyendo EXIF:', err)
       }
@@ -144,6 +150,7 @@ export const DetectorExifCliente: React.FC = () => {
     setApertura,
     setDistanciaFocal,
     setFecha,
+    setIso,
     setNombreOriginal,
     setProporcionEtiqueta,
     setProporcionOrientacion,

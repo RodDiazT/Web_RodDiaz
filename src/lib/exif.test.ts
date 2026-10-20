@@ -4,6 +4,7 @@ import {
   normalizarVelocidad,
   normalizarApertura,
   normalizarDistanciaFocal,
+  normalizarIso,
   normalizarFechaDia,
 } from './exif.ts'
 
@@ -29,6 +30,13 @@ test('normalizarDistanciaFocal redondea a entero', () => {
   assert.strictEqual(normalizarDistanciaFocal(24.3), 24)
   assert.strictEqual(normalizarDistanciaFocal(199.8), 200)
   assert.strictEqual(normalizarDistanciaFocal(undefined), undefined)
+})
+
+test('normalizarIso convierte valores numéricos y arreglos XMP a entero positivo', () => {
+  assert.strictEqual(normalizarIso(100), 100)
+  assert.strictEqual(normalizarIso([400]), 400)
+  assert.strictEqual(normalizarIso('1600'), 1600)
+  assert.strictEqual(normalizarIso(undefined), undefined)
 })
 
 test('normalizarFechaDia fija el mediodía en Chile Continental (15:00 UTC)', () => {

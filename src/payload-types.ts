@@ -224,6 +224,10 @@ export interface Foto {
      * Ejemplo: 1/250 s, 2 s
      */
     velocidad?: string | null;
+    /**
+     * Ejemplo: 100, 400, 1600
+     */
+    iso?: number | null;
   };
   proporcion?: {
     etiqueta?: string | null;
@@ -806,6 +810,7 @@ export interface FotosSelect<T extends boolean = true> {
         distanciaFocal?: T;
         apertura?: T;
         velocidad?: T;
+        iso?: T;
       };
   proporcion?:
     | T

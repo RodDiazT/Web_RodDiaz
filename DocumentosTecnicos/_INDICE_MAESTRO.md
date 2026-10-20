@@ -8,9 +8,9 @@
 |---|---|---|---|---|---|---|
 | `marco-general/marco-general-proyecto.md` | marco | 1.10 | aprobado | v1.0 | — | — |
 | `identidad/sistema-de-diseno.md` | transversal | 1.3 | aprobado | v1.0 | marco-general | marco-general |
-| `contenido/modelo-contenido-panel.md` | componente | 1.9 | aprobado | v1.0 | marco-general | marco-general |
+| `contenido/modelo-contenido-panel.md` | componente | 1.10 | aprobado | v1.0 | marco-general | marco-general |
 | `portafolio/galeria-colecciones.md` | componente | 1.4 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
-| `portafolio/ficha-foto.md` | componente | 1.3 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
+| `portafolio/ficha-foto.md` | componente | 1.4 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
 | `consultas/consulta-copia.md` | componente | 1.5 | aprobado | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
 | `paginas/paginas.md` | componente | 1.4 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `plataforma/seo.md` | transversal | 1.1 | aprobado | v1.0 | marco-general | galeria-colecciones, ficha-foto, paginas |
@@ -21,9 +21,9 @@
 ```
 marco-general/marco-general-proyecto.md        [aprobado 1.10]
 ├── identidad/sistema-de-diseno.md             [aprobado 1.3]
-├── contenido/modelo-contenido-panel.md        [aprobado 1.9]
+├── contenido/modelo-contenido-panel.md        [aprobado 1.10]
 ├── portafolio/galeria-colecciones.md          [aprobado 1.4]
-├── portafolio/ficha-foto.md                   [aprobado 1.3]
+├── portafolio/ficha-foto.md                   [aprobado 1.4]
 ├── consultas/consulta-copia.md                [aprobado 1.5]
 ├── paginas/paginas.md                         [aprobado 1.4]
 ├── plataforma/seo.md                          [aprobado 1.1]

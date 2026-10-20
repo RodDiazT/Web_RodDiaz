@@ -175,13 +175,14 @@ export function fechaVisible(fechaIso?: string | null): { legible: string; datet
 }
 
 /**
- * Formatea los datos técnicos visibles (distancia focal, apertura, velocidad).
- * Omite campos ausentes o no especificados. E.g. "35 mm · f/8 · 1/250 s".
+ * Formatea los datos técnicos visibles (distancia focal, apertura, velocidad, ISO).
+ * Omite campos ausentes o no especificados. E.g. "35 mm · f/8 · 1/250 s · ISO 100".
  */
 export function datosTecnicosVisibles(datos?: {
   distanciaFocal?: string | number | null
   apertura?: string | number | null
   velocidad?: string | null
+  iso?: string | number | null
 }): string | null {
   if (!datos) return null
 
@@ -199,6 +200,11 @@ export function datosTecnicosVisibles(datos?: {
 
   if (datos.velocidad) {
     items.push(String(datos.velocidad).trim())
+  }
+
+  if (datos.iso) {
+    const isoStr = String(datos.iso).trim()
+    items.push(/^iso\b/i.test(isoStr) ? isoStr : `ISO ${isoStr}`)
   }
 
   return items.length > 0 ? items.join(' · ') : null

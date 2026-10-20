@@ -13,6 +13,7 @@ export interface DatosTecnicosNormalizados {
   distanciaFocal?: number
   apertura?: number
   velocidad?: string
+  iso?: number
 }
 
 export interface ExifExtraido {
@@ -92,6 +93,18 @@ export function normalizarDistanciaFocal(entrada?: number | string): number | un
 }
 
 /**
+ * Normaliza la sensibilidad ISO a entero positivo (ej. 100, 400, 1600).
+ */
+export function normalizarIso(entrada?: unknown): number | undefined {
+  const valor = Array.isArray(entrada) && entrada.length > 0 ? entrada[0] : entrada
+  const iso = parsearNumeroExif(valor)
+  if (iso === undefined || iso === null || isNaN(iso) || iso <= 0) {
+    return undefined
+  }
+  return Math.round(iso)
+}
+
+/**
  * Normaliza una fecha a día calendario a las 12:00 hora de Santiago en UTC (15:00 o 16:00 UTC).
  * Así nunca cambiará de día sin importar conversiones de zona horaria (modelo §5.2.3).
  */
@@ -144,7 +157,17 @@ export async function leerExifSeguro(
   try {
     const raw = await exifr.parse(entrada as any, {
       tiff: true,
-      exif: ['DateTimeOriginal', 'CreateDate', 'FocalLength', 'FNumber', 'ExposureTime'],
+      exif: [
+        'DateTimeOriginal',
+        'CreateDate',
+        'FocalLength',
+        'FNumber',
+        'ExposureTime',
+        'ISO',
+        'ISOSpeed',
+        'StandardOutputSensitivity',
+        'RecommendedExposureIndex',
+      ],
       xmp: true,
       translateValues: false,
       reviveValues: true,
@@ -161,11 +184,20 @@ export async function leerExifSeguro(
     const distanciaFocal = normalizarDistanciaFocal(raw.FocalLength)
     const apertura = normalizarApertura(raw.FNumber)
     const velocidad = normalizarVelocidad(raw.ExposureTime)
+    const isoCrudo =
+      raw.ISO ??
+      raw.ISOSpeed ??
+      raw.ISOSpeedRatings ??
+      raw.PhotographicSensitivity ??
+      raw.RecommendedExposureIndex ??
+      raw.StandardOutputSensitivity
+    const iso = normalizarIso(isoCrudo)
 
     const datosTecnicos: DatosTecnicosNormalizados = {}
     if (distanciaFocal !== undefined) datosTecnicos.distanciaFocal = distanciaFocal
     if (apertura !== undefined) datosTecnicos.apertura = apertura
     if (velocidad !== undefined) datosTecnicos.velocidad = velocidad
+    if (iso !== undefined) datosTecnicos.iso = iso
 
     return {
       fecha,
