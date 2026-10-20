@@ -42,7 +42,8 @@
 
   .areaFotoLateral > * {
     max-height: calc(100svh - var(--alto-encabezado) - 96px);
-    width: auto;
+    width: 100%;
+    max-width: min(100%, calc((100svh - var(--alto-encabezado) - 96px) * var(--ratio-foto, 0.667)));
   }
 
   .panelLateral {
@@ -81,7 +82,8 @@
 
   .areaFotoHorizontal > * {
     max-height: calc(100svh - var(--alto-encabezado) - 160px);
-    max-width: 1600px;
+    width: 100%;
+    max-width: min(1600px, calc((100svh - var(--alto-encabezado) - 160px) * var(--ratio-foto, 1.5)));
   }
 
   .franjaPrincipal {

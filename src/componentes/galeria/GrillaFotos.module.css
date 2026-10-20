@@ -8,35 +8,29 @@
 }
 
 .grilla {
-  --alto-fila: 200px;
+  --alto-fila: 220px;
   display: flex;
   flex-wrap: wrap;
-  gap: var(--esp-2);
+  gap: var(--esp-4);
   width: 100%;
 }
 
 @media (min-width: 640px) {
   .grilla {
-    --alto-fila: 260px;
+    --alto-fila: 280px;
   }
 }
 
 @media (min-width: 1024px) {
   .grilla {
-    --alto-fila: 320px;
+    --alto-fila: 340px;
   }
 }
 
 @media (min-width: 1440px) {
   .grilla {
-    --alto-fila: 360px;
+    --alto-fila: 380px;
   }
-}
-
-/* Evita que la última fila se estire de forma desproporcionada (§5.4) */
-.grilla::after {
-  content: '';
-  flex-grow: 999999999;
 }
 
 .item {

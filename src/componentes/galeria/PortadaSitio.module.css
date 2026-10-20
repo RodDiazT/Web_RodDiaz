@@ -43,8 +43,8 @@
 
 .contenedorFoto > * {
   max-height: calc(100svh - var(--alto-encabezado) - 112px);
-  width: auto;
-  max-width: 100%;
+  width: 100%;
+  max-width: min(100%, calc((100svh - var(--alto-encabezado) - 112px) * var(--ratio-portada, 1.5)));
 }
 
 .pieFoto {

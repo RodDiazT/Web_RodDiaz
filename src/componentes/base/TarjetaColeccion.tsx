@@ -33,8 +33,9 @@ export function TarjetaColeccion({
           <MarcoFoto
             foto={coleccion.portada}
             modo="grilla"
-            proporcion="4/5"
+            proporcion="3/2"
             ajustarContenedor
+            sizes="(max-width: 640px) 100vw, (max-width: 1440px) 50vw, 720px"
           />
         ) : (
           <div style={{ width: '100%', height: '100%', backgroundColor: 'var(--color-superficie)' }} />

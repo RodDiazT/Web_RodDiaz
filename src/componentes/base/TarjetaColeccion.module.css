@@ -21,7 +21,7 @@
 
 
 .portadaWrapper {
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 3 / 2;
   width: 100%;
   overflow: hidden;
   background-color: var(--color-superficie);

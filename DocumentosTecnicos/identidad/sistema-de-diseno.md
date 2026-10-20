@@ -4,7 +4,7 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/identidad/sistema-de-diseno.md` |
 | Tipo | Transversal |
-| Versión | 1.3 |
+| Versión | 1.4 |
 | Estado | Aprobado |
 | Fecha | 2026-10-20 |
 | Padre | `DocumentosTecnicos/marco-general/marco-general-proyecto.md` |
@@ -517,6 +517,7 @@ Para Claude Code, después del paso 2 del plan del marco (§9.2, modelo de conte
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.4 | 2026-10-20 | Rediseño de `TarjetaColeccion` a proporción horizontal `3:2` (`aspect-ratio: 3 / 2`) para lucir paisajes y panorámicas sin recorte vertical agresivo, y calibración de ancho exacto por ratio (`--ratio-foto`) en `DisposicionFicha` para evitar franjas laterales de contenedor vacío. |
 | 1.3 | 2026-10-20 | Unificación de contratos de imagen en `MarcoFoto.tsx`: soporte simultáneo de `foto.sizes` y `foto.versiones` (`avif`, `webp`, `jpeg`, `grande_avif`, `grande_webp`) provenientes de `ItemFotoPublica` (`mapearFotoPublica`), evitando que `<picture>` e `<img>` queden con `src=""` en portada, grillas, tarjetas de colección y fichas. |
 | 1.2 | 2026-10-17 | Corrección de visibilidad nativa en componentes `<dialog>` (`MenuMovil.module.css`, `Dialogo.module.css` y `Visor.module.css`): `display: none` por defecto y `display: flex` restringido al selector `[open]`, evitando que el menú móvil cerrado sobreescriba el estilo de agente de usuario y cubra la pantalla. Soporte de tamaños WebP (`pequena`, `mediana`) de `Medio` en `MarcoFoto.tsx`. |
 | 1.1 | 2026-10-14 | Clarificación de evaluación de orientación vertical en `DisposicionFicha` (`orientacion === 'vertical' || 'cuadrada'`) e incorporación de doble toque (*double-tap zoom*) de 2.5x en el `Visor` para inspección de nitidez Fine Art en pantallas táctiles. |

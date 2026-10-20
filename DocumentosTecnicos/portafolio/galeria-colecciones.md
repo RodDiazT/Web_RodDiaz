@@ -4,7 +4,7 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/portafolio/galeria-colecciones.md` |
 | Tipo | Componente |
-| Versión | 1.4 |
+| Versión | 1.5 |
 | Estado | Aprobado |
 | Fecha | 2026-10-20 |
 | Padre | `marco-general/marco-general-proyecto.md` (1.3, que incorpora los cambios del §11) |
@@ -464,6 +464,7 @@ Para Claude Code, en el paso 4 del plan del marco (§9.2), después del modelo d
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.5 | 2026-10-20 | Optimización visual para paisajes y panorámicas extensas: `RejillaColecciones` pasa a 2 columnas amplias en escritorio con tarjetas en proporción horizontal `3:2`; en `GrillaFotos`/`ItemGrilla` las panorámicas (`proporcion >= 2.0`) ocupan el 100 % del ancho de la fila de principio a fin y las filas con pocas fotos crecen naturalmente sin quedar chicas a un costado; `PortadaSitio` calibra su `max-width` según `--ratio-portada`; y se corrige `DYNAMIC_SERVER_USAGE` (Error 500) en `/colecciones/[slug]` y `/fotos`. |
 | 1.4 | 2026-10-20 | Enriquecimiento de `ItemFotoPublica` en `mapearFotoPublica` (`src/lib/contenido.ts`) incluyendo `url`, `proporcion` y `sizes` (respetando `incluirGrande` para no exponer 2048px en grillas) además de `versiones`, garantizando compatibilidad directa con `MarcoFoto`, `Ficha` y `Visor`. |
 | 1.3 | 2026-10-17 | Estado vacío explícito con `PlantillaEstado` en portada (`/`) cuando aún no hay obras publicadas, y diferenciación del mensaje vacío en `/fotos` sin filtro de característica activo, dirigiendo hacia `/sobre-mi`. |
 | 1.2 | 2026-10-14 | Cambio menor al aprobar `plataforma/despliegue.md` 1.0: la compilación no consulta la base; las rutas se generan al primer pedido y el calentamiento cubre las principales (§5.3). |

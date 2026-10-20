@@ -4,7 +4,7 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/portafolio/ficha-foto.md` |
 | Tipo | Componente |
-| Versión | 1.4 |
+| Versión | 1.5 |
 | Estado | Aprobado |
 | Fecha | 2026-10-20 |
 | Padre | `marco-general/marco-general-proyecto.md` (1.9) |
@@ -467,6 +467,7 @@ No nacen tareas nuevas. Para lanzar, siguen abiertas T-005 (fotos de lanzamiento
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.5 | 2026-10-20 | Eliminación de `DYNAMIC_SERVER_USAGE` (Error 500) en `/fotos/[slug]` reemplazando `useSearchParams()` en `ContextoFicha.tsx` por lectura segura en cliente (`window.location.search`) y renderizado dinámico respaldado por `unstable_cache`. |
 | 1.4 | 2026-10-20 | Incorporación de sensibilidad `iso` en `datosTecnicosVisibles` (`src/lib/ficha.ts`) para mostrar la línea técnica completa cuando existe (`"44 mm · f/9 · 1/400 s · ISO 100"`). |
 | 1.3 | 2026-10-14 | Información explícita de margen blanco perimetral de conservación para enmarcado y firma de autor en el desplegable de tamaños (§3.3) y botón directo "Compartir por WhatsApp" como alternativa inmediata en dispositivos móviles y WebViews de Instagram (§3.7). |
 | 1.2 | 2026-10-14 | Cambio menor al aprobar `plataforma/despliegue.md` 1.0: la compilación no consulta la base; las fichas se generan al primer pedido (§5.3). |

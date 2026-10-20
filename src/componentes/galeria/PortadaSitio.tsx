@@ -11,11 +11,15 @@ interface PortadaSitioProps {
 
 export function PortadaSitio({ foto, className = '' }: PortadaSitioProps) {
   const pieFoto = [foto.titulo, foto.lugar].filter(Boolean).join(' · ')
+  const ratio = foto.ancho && foto.alto ? foto.ancho / foto.alto : 1.5
 
   return (
     <section className={`${styles.seccionPortada} ${className}`} aria-label="Fotografía de portada">
       <Link href={foto.href} className={styles.enlacePortada}>
-        <div className={styles.contenedorFoto}>
+        <div
+          className={styles.contenedorFoto}
+          style={{ ['--ratio-portada' as any]: ratio.toFixed(3) }}
+        >
           <MarcoFoto
             foto={foto}
             modo="portada"

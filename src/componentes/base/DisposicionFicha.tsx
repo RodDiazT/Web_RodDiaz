@@ -45,9 +45,12 @@ export function DisposicionFicha({
     orientacion === 'cuadrada' ||
     (Boolean(ancho && alto) && (ancho! / alto!) <= 1.1)
 
+  const ratioFoto = ancho && alto ? ancho / alto : esVerticalOCuadrada ? 0.667 : 1.5
+  const estiloRatio = { ['--ratio-foto' as any]: ratioFoto.toFixed(3) }
+
   if (esVerticalOCuadrada) {
     return (
-      <div className={`${styles.contenedor} ${className}`}>
+      <div className={`${styles.contenedor} ${className}`} style={estiloRatio}>
         <div className={styles.columnaLateral}>
           <div className={styles.areaFotoLateral}>{foto}</div>
 
@@ -80,7 +83,7 @@ export function DisposicionFicha({
 
   // Horizontal o panorámica
   return (
-    <div className={`${styles.contenedor} ${className}`}>
+    <div className={`${styles.contenedor} ${className}`} style={estiloRatio}>
       <div className={styles.franjaInferior}>
         <div className={styles.areaFotoHorizontal}>{foto}</div>
 
