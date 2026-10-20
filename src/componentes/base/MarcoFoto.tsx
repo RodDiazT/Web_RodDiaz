@@ -28,6 +28,13 @@ export interface FotoMarco {
     grande_avif?: { url?: string }
     grande_webp?: { url?: string }
   }
+  versiones?: {
+    avif?: string[]
+    webp?: string[]
+    jpeg?: string
+    grande_avif?: string
+    grande_webp?: string
+  }
 }
 
 interface MarcoFotoProps {
@@ -65,7 +72,14 @@ export function MarcoFoto({
 
   useEffect(() => {
     setErrorCarga(false)
-  }, [foto.url, foto.sizes?.mediana?.url, foto.sizes?.mediana_jpg?.url, foto.sizes?.pequena?.url, foto.sizes?.pequena_webp?.url])
+  }, [
+    foto.url,
+    foto.versiones?.jpeg,
+    foto.sizes?.mediana?.url,
+    foto.sizes?.mediana_jpg?.url,
+    foto.sizes?.pequena?.url,
+    foto.sizes?.pequena_webp?.url,
+  ])
 
   const ratio = proporcion
     ? proporcion.replace(':', ' / ')
@@ -95,27 +109,43 @@ export function MarcoFoto({
     )
   }
 
-  // Fuentes de imagen optimizadas (compatible con Foto y con Medio auxiliar)
+  // Fuentes de imagen optimizadas (compatible con Foto, ItemFotoPublica.versiones y Medio auxiliar)
+  const urlPequenaAvif = foto.sizes?.pequena_avif?.url || foto.versiones?.avif?.[0]
+  const urlMedianaAvif = foto.sizes?.mediana_avif?.url || foto.versiones?.avif?.[1]
+  const urlGrandeAvif =
+    foto.sizes?.grande_avif?.url || foto.versiones?.grande_avif || foto.versiones?.avif?.[2]
+
   const srcAvif = [
-    foto.sizes?.pequena_avif?.url && `${foto.sizes.pequena_avif.url} 480w`,
-    foto.sizes?.mediana_avif?.url && `${foto.sizes.mediana_avif.url} 1200w`,
-    foto.sizes?.grande_avif?.url && `${foto.sizes.grande_avif.url} 2048w`,
+    urlPequenaAvif && `${urlPequenaAvif} 480w`,
+    urlMedianaAvif && `${urlMedianaAvif} 1200w`,
+    urlGrandeAvif && `${urlGrandeAvif} 2048w`,
   ]
     .filter(Boolean)
     .join(', ')
 
-  const urlPequenaWebp = foto.sizes?.pequena_webp?.url || foto.sizes?.pequena?.url
-  const urlMedianaWebp = foto.sizes?.mediana_webp?.url || foto.sizes?.mediana?.url
+  const urlPequenaWebp =
+    foto.sizes?.pequena_webp?.url || foto.sizes?.pequena?.url || foto.versiones?.webp?.[0]
+  const urlMedianaWebp =
+    foto.sizes?.mediana_webp?.url || foto.sizes?.mediana?.url || foto.versiones?.webp?.[1]
+  const urlGrandeWebp =
+    foto.sizes?.grande_webp?.url || foto.versiones?.grande_webp || foto.versiones?.webp?.[2]
 
   const srcWebp = [
     urlPequenaWebp && `${urlPequenaWebp} 480w`,
     urlMedianaWebp && `${urlMedianaWebp} 1200w`,
-    foto.sizes?.grande_webp?.url && `${foto.sizes.grande_webp.url} 2048w`,
+    urlGrandeWebp && `${urlGrandeWebp} 2048w`,
   ]
     .filter(Boolean)
     .join(', ')
 
-  const srcJpg = foto.sizes?.mediana_jpg?.url || foto.sizes?.mediana?.url || foto.url || ''
+  const srcJpg =
+    foto.sizes?.mediana_jpg?.url ||
+    foto.sizes?.mediana?.url ||
+    foto.versiones?.jpeg ||
+    foto.url ||
+    urlMedianaWebp ||
+    urlPequenaWebp ||
+    ''
 
   const aplicarFundido = hidratado && !prioridad && !cargada
 

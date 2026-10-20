@@ -351,6 +351,7 @@ export interface ItemFotoPublica {
   titulo: string
   lugar?: string
   textoAlternativo?: string
+  url?: string
   ancho: number
   alto: number
   colorDominante?: string
@@ -358,6 +359,21 @@ export interface ItemFotoPublica {
   ofreceCopia?: boolean
   focalX?: number
   focalY?: number
+  proporcion?: {
+    etiqueta?: string
+    valor?: number
+    orientacion?: 'horizontal' | 'vertical' | 'cuadrada'
+    manual?: boolean
+  }
+  sizes?: {
+    pequena_avif?: { url?: string }
+    pequena_webp?: { url?: string }
+    mediana_avif?: { url?: string }
+    mediana_webp?: { url?: string }
+    mediana_jpg?: { url?: string }
+    grande_avif?: { url?: string }
+    grande_webp?: { url?: string }
+  }
   versiones: {
     avif?: string[]
     webp?: string[]
@@ -403,23 +419,39 @@ export function mapearFotoPublica(
   }
 
   const ofreceCopia = Array.isArray(doc.formatos) && doc.formatos.length > 0
+  const urlJpeg = sizes.mediana_jpg?.url || doc.url
 
   return {
     slug: doc.slug,
     titulo: doc.titulo,
     lugar: doc.lugar || undefined,
     textoAlternativo: doc.textoAlternativo || doc.titulo,
-    ancho: doc.ancho || 2048,
-    alto: doc.alto || 1365,
+    url: incluirGrande ? doc.url || urlJpeg : urlJpeg,
+    ancho: doc.ancho || doc.width || 2048,
+    alto: doc.alto || doc.height || 1365,
     colorDominante: doc.colorDominante || '#1C1C1C',
     filete: Boolean(doc.filete),
     ofreceCopia,
     focalX: typeof doc.focalX === 'number' ? doc.focalX : 50,
     focalY: typeof doc.focalY === 'number' ? doc.focalY : 50,
+    proporcion: doc.proporcion || undefined,
+    sizes: {
+      pequena_avif: sizes.pequena_avif?.url ? { url: sizes.pequena_avif.url } : undefined,
+      pequena_webp: sizes.pequena_webp?.url ? { url: sizes.pequena_webp.url } : undefined,
+      mediana_avif: sizes.mediana_avif?.url ? { url: sizes.mediana_avif.url } : undefined,
+      mediana_webp: sizes.mediana_webp?.url ? { url: sizes.mediana_webp.url } : undefined,
+      mediana_jpg: sizes.mediana_jpg?.url ? { url: sizes.mediana_jpg.url } : undefined,
+      ...(incluirGrande
+        ? {
+            grande_avif: sizes.grande_avif?.url ? { url: sizes.grande_avif.url } : undefined,
+            grande_webp: sizes.grande_webp?.url ? { url: sizes.grande_webp.url } : undefined,
+          }
+        : {}),
+    },
     versiones: {
       avif: avif.length > 0 ? avif : undefined,
       webp: webp.length > 0 ? webp : undefined,
-      jpeg: sizes.mediana_jpg?.url || doc.url,
+      jpeg: urlJpeg,
       grande_avif: incluirGrande ? sizes.grande_avif?.url : undefined,
       grande_webp: incluirGrande ? sizes.grande_webp?.url : undefined,
     },

@@ -7,9 +7,9 @@
 | Ruta | Tipo | Versión | Estado | Producto | Padre | Dependencias |
 |---|---|---|---|---|---|---|
 | `marco-general/marco-general-proyecto.md` | marco | 1.10 | aprobado | v1.0 | — | — |
-| `identidad/sistema-de-diseno.md` | transversal | 1.2 | aprobado | v1.0 | marco-general | marco-general |
+| `identidad/sistema-de-diseno.md` | transversal | 1.3 | aprobado | v1.0 | marco-general | marco-general |
 | `contenido/modelo-contenido-panel.md` | componente | 1.8 | aprobado | v1.0 | marco-general | marco-general |
-| `portafolio/galeria-colecciones.md` | componente | 1.3 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
+| `portafolio/galeria-colecciones.md` | componente | 1.4 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `portafolio/ficha-foto.md` | componente | 1.3 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
 | `consultas/consulta-copia.md` | componente | 1.5 | aprobado | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
 | `paginas/paginas.md` | componente | 1.4 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
@@ -20,9 +20,9 @@
 
 ```
 marco-general/marco-general-proyecto.md        [aprobado 1.10]
-├── identidad/sistema-de-diseno.md             [aprobado 1.2]
+├── identidad/sistema-de-diseno.md             [aprobado 1.3]
 ├── contenido/modelo-contenido-panel.md        [aprobado 1.8]
-├── portafolio/galeria-colecciones.md          [aprobado 1.3]
+├── portafolio/galeria-colecciones.md          [aprobado 1.4]
 ├── portafolio/ficha-foto.md                   [aprobado 1.3]
 ├── consultas/consulta-copia.md                [aprobado 1.5]
 ├── paginas/paginas.md                         [aprobado 1.4]
@@ -111,9 +111,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.10]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.2",
-      "actualizado": "2026-10-17",
-      "notas": "1.2: corrección de visibilidad nativa en <dialog> (display: none por defecto y display: flex en [open] en MenuMovil, Dialogo y Visor) y soporte WebP de Medio en MarcoFoto."
+      "version": "1.3",
+      "actualizado": "2026-10-20",
+      "notas": "1.3: soporte de foto.versiones y foto.sizes en MarcoFoto para compatibilidad con ItemFotoPublica."
     },
     {
       "id": "modelo-contenido-panel",
@@ -144,9 +144,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.10]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.3",
-      "actualizado": "2026-10-17",
-      "notas": "1.3: estado vacío con PlantillaEstado en portada (/) y en /fotos sin filtro activo."
+      "version": "1.4",
+      "actualizado": "2026-10-20",
+      "notas": "1.4: enriquecimiento de mapearFotoPublica con url, proporcion y sizes además de versiones."
     },
     {
       "id": "ficha-foto",
