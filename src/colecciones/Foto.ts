@@ -43,7 +43,7 @@ export const Foto: CollectionConfig = {
   },
   upload: {
     staticDir: staticDirFotos,
-    mimeTypes: ['image/jpeg', 'image/jpg'],
+    mimeTypes: ['image/jpeg', 'image/jpg', 'image/webp', 'image/avif'],
     focalPoint: true,
     crop: false,
     imageSizes: [
