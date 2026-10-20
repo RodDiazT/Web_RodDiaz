@@ -114,10 +114,23 @@ export async function generarLienzoOg({
     },
   ]
 
-  if (bufferLogo) {
+  let logoEfectivo = bufferLogo
+  if (!logoEfectivo) {
     try {
-      const logoEscalado = await sharp(bufferLogo)
-        .resize({ height: 32, width: 200, fit: 'inside' })
+      const rutaLogoOficial = path.join(
+        process.cwd(),
+        'public/marca/RodDiaz-logo-horizontal-blanco.svg'
+      )
+      logoEfectivo = await fs.readFile(rutaLogoOficial)
+    } catch {
+      logoEfectivo = null
+    }
+  }
+
+  if (logoEfectivo) {
+    try {
+      const logoEscalado = await sharp(logoEfectivo)
+        .resize({ height: 32, width: 240, fit: 'inside' })
         .toBuffer()
 
       const metaLogo = await sharp(logoEscalado).metadata()

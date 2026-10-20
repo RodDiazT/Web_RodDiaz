@@ -4,7 +4,7 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/identidad/sistema-de-diseno.md` |
 | Tipo | Transversal |
-| Versión | 1.4 |
+| Versión | 1.5 |
 | Estado | Aprobado |
 | Fecha | 2026-10-20 |
 | Padre | `DocumentosTecnicos/marco-general/marco-general-proyecto.md` |
@@ -342,7 +342,7 @@ Todos los textos que no sean propios del componente (nombre, enlaces, aviso de d
 
 | Componente | Props principales | Estados y comportamiento |
 |---|---|---|
-| `Marca` | `ajustes` (`nombreSitio`, `logo`) | **Con `logo`:** `<img>` de 28 px de alto en móvil y 32 px en escritorio, hasta 200 px de ancho, con `alt` igual a `nombreSitio`. **Sin logo:** `nombreSitio` en `--titulo-sm`. Enlaza a `/`. **Monograma "RD":** SVG propio en Cormorant 500 `#ECECEC` sobre `#151515`, dibujado aparte a 16 y 32 px con las letras ajustadas. Se publica como `icon.svg`, en ICO de 16/32 px y como `apple-icon` de 180 px. |
+| `Marca` | `ajustes` (`nombreSitio`, `logo`) | **Manual de Marca 2026 (Cerro El Plomo · 5.424 m):** usa por defecto la versión horizontal oficial en color Hueso `#F4F2EE` (`/marca/RodDiaz-logo-horizontal-blanco.svg`) con `height: 28px` en móvil (~198 px de ancho) y `height: 32px` en escritorio (~226 px de ancho, cumpliendo el mínimo de 200 px del manual), o el archivo subido en `AjustesSitio.logo` (con fallback a `nombreSitio` si se activa `usarWordmark`). Enlaza a `/`. **Favicon e íconos:** bajo 64 px la sigla RD deja de leerse, por lo que el favicon usa solo la línea de la silueta del Cerro El Plomo sobre fondo Carbón `#1A1A1A` (`icon.svg`, `favicon.ico` de 32 px y `apple-icon.png` de 180 px). En `/admin`, la pantalla de acceso usa el logotipo principal apilado (`LogoAdmin.tsx`, 220 px de ancho ≥ 160 px mínimo) y la barra de navegación usa el monograma `RD` con la cumbre (`IconoAdmin.tsx`). |
 | `Encabezado` | `ajustes`, `navegacion`, `ocultable` (por defecto `true`; `false` en la ficha) | `position: sticky; top: 0` sobre fondo sólido, con relleno superior `env(safe-area-inset-top)`. **Se oculta** con `translateY(-100%)` al bajar con `scrollY > 80` px. **Vuelve** al subir 24 px seguidos. **Siempre visible** con `scrollY < 80`, con `:focus-within`, con el menú o un diálogo abierto y durante scroll programático: al navegar, al restaurar la posición y con anclas. Escritorio: el enlace activo en `--color-texto` con `aria-current="page"`, el resto en secundario. Móvil: botón "Menú" de 44 px que abre `MenuMovil`. |
 | `MenuMovil` | `navegacion`, `abierto`, `alCerrar` | Construido sobre `Dialogo` a pantalla completa (`100dvh`). Enlaces en `--titulo-md` y "Cerrar" arriba a la derecha. Respeta las zonas seguras. |
 | `Pie` | `ajustes` | "© <año> <aviso de derechos>" y enlaces a Instagram, Contacto, Privacidad y Condiciones, en `--texto-xs` y `--color-texto-terciario`. Relleno inferior `env(safe-area-inset-bottom)`. |
@@ -517,6 +517,7 @@ Para Claude Code, después del paso 2 del plan del marco (§9.2, modelo de conte
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.5 | 2026-10-20 | Aplicación integral del Manual de Marca Rod Díaz 2026 (silueta del Cerro El Plomo, 5.424 m): logotipo horizontal oficial en Hueso `#F4F2EE` (`/marca/RodDiaz-logo-horizontal-blanco.svg`) aplicado por defecto en `Marca.tsx` (28 px alto en móvil / 32 px en escritorio, respetando el mínimo de 200 px de ancho) y sembrado automáticamente en `AjustesSitio.logo`; favicon e íconos de navegador (`src/app/icon.svg`, `favicon.ico`, `apple-icon.png`) con la silueta del Cerro El Plomo para tamaños bajo 64 px; logotipo principal apilado (`LogoAdmin.tsx`) y monograma RD (`IconoAdmin.tsx`) en el panel `/admin`; y catálogo de marca en `guia-estilo/page.tsx`. |
 | 1.4 | 2026-10-20 | Rediseño de `TarjetaColeccion` a proporción horizontal `3:2` (`aspect-ratio: 3 / 2`) para lucir paisajes y panorámicas sin recorte vertical agresivo, y calibración de ancho exacto por ratio (`--ratio-foto`) en `DisposicionFicha` para evitar franjas laterales de contenedor vacío. |
 | 1.3 | 2026-10-20 | Unificación de contratos de imagen en `MarcoFoto.tsx`: soporte simultáneo de `foto.sizes` y `foto.versiones` (`avif`, `webp`, `jpeg`, `grande_avif`, `grande_webp`) provenientes de `ItemFotoPublica` (`mapearFotoPublica`), evitando que `<picture>` e `<img>` queden con `src=""` en portada, grillas, tarjetas de colección y fichas. |
 | 1.2 | 2026-10-17 | Corrección de visibilidad nativa en componentes `<dialog>` (`MenuMovil.module.css`, `Dialogo.module.css` y `Visor.module.css`): `display: none` por defecto y `display: flex` restringido al selector `[open]`, evitando que el menú móvil cerrado sobreescriba el estilo de agente de usuario y cubra la pantalla. Soporte de tamaños WebP (`pequena`, `mediana`) de `Medio` en `MarcoFoto.tsx`. |

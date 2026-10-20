@@ -8,6 +8,7 @@ interface ColeccionItem {
   slug: string
   totalFotos: number
   portada: ItemFotoPublica | null
+  fotosPreview?: ItemFotoPublica[]
 }
 
 interface RejillaColeccionesProps {
@@ -31,6 +32,7 @@ export function RejillaColecciones({
             slug: col.slug,
             totalFotos: col.totalFotos,
             portada: col.portada,
+            fotosPreview: col.fotosPreview,
           }}
         />
       ))}

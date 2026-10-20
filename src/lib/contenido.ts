@@ -534,7 +534,7 @@ export async function fotosDestacadas(limite: number = 12): Promise<ItemFotoPubl
 }
 
 /**
- * Directorio de tarjetas de colecciones madre listadas (con recorte 4:5 y conteo total).
+ * Directorio de tarjetas de colecciones madre listadas (con collage dinámico y conteo total).
  */
 export async function tarjetasColecciones(): Promise<
   Array<{
@@ -542,6 +542,7 @@ export async function tarjetasColecciones(): Promise<
     slug: string
     totalFotos: number
     portada: ItemFotoPublica | null
+    fotosPreview: ItemFotoPublica[]
   }>
 > {
   try {
@@ -566,11 +567,28 @@ export async function tarjetasColecciones(): Promise<
         portadaDoc = fotosCol.docs[0] || null
       }
 
+      const portadaPublica = portadaDoc
+        ? mapearFotoPublica(portadaDoc, { coleccionSlug: madre.slug }, null, false)
+        : null
+
+      const fotosPreview: ItemFotoPublica[] = []
+      if (portadaPublica) {
+        fotosPreview.push(portadaPublica)
+      }
+
+      const idPortadaStr = portadaDoc ? String(portadaDoc.id) : null
+      for (const doc of fotosCol.docs) {
+        if (fotosPreview.length >= 3) break
+        if (idPortadaStr && String(doc.id) === idPortadaStr) continue
+        fotosPreview.push(mapearFotoPublica(doc, { coleccionSlug: madre.slug }, null, false))
+      }
+
       tarjetas.push({
         nombre: madre.nombre,
         slug: madre.slug,
         totalFotos,
-        portada: portadaDoc ? mapearFotoPublica(portadaDoc, { coleccionSlug: madre.slug }, null, false) : null,
+        portada: portadaPublica,
+        fotosPreview,
       })
     }
 

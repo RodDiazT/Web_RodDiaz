@@ -31,6 +31,8 @@ import { TarjetaConsultasPorMes as TarjetaConsultasPorMes_62798863b95dc7a1bfedc5
 import { TarjetaRespaldo as TarjetaRespaldo_df271f6c0497edfd7b262e921c4441c8 } from '../../../componentes/admin/TarjetaRespaldo'
 import { BotonGoogleLogin as BotonGoogleLogin_8dc0c071024ea21d3c641c8cebaea87b } from '../../../componentes/admin/BotonGoogleLogin'
 import { ContadorConsultas as ContadorConsultas_d33ebd1a4720cd4577d3f3785050a413 } from '../../../componentes/admin/ContadorConsultas'
+import { LogoAdmin as LogoAdmin_custom } from '../../../componentes/admin/LogoAdmin'
+import { IconoAdmin as IconoAdmin_custom } from '../../../componentes/admin/IconoAdmin'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 /** @type import('payload').ImportMap */
@@ -68,5 +70,7 @@ export const importMap = {
   "/componentes/admin/TarjetaRespaldo#TarjetaRespaldo": TarjetaRespaldo_df271f6c0497edfd7b262e921c4441c8,
   "/componentes/admin/BotonGoogleLogin#BotonGoogleLogin": BotonGoogleLogin_8dc0c071024ea21d3c641c8cebaea87b,
   "/componentes/admin/ContadorConsultas#ContadorConsultas": ContadorConsultas_d33ebd1a4720cd4577d3f3785050a413,
+  "/componentes/admin/LogoAdmin#LogoAdmin": LogoAdmin_custom,
+  "/componentes/admin/IconoAdmin#IconoAdmin": IconoAdmin_custom,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }

@@ -345,8 +345,8 @@ test('metadatosPara: omisión estricta de canónica en estados no indexables (fo
     ruta: '/fotos/foto-despublicada',
   })
   assert.equal(metaAmable.alternates?.canonical, undefined)
-  assert.equal(metaAmable.robots?.index, false)
-  assert.equal(metaAmable.robots?.follow, true)
+  assert.equal((metaAmable.robots as any)?.index, false)
+  assert.equal((metaAmable.robots as any)?.follow, true)
 
   // 3. Página 404: NO debe llevar canonical
   const meta404 = metadatosPara({
@@ -355,6 +355,6 @@ test('metadatosPara: omisión estricta de canónica en estados no indexables (fo
     ruta: '/ruta-inexistente',
   })
   assert.equal(meta404.alternates?.canonical, undefined)
-  assert.equal(meta404.robots?.index, false)
+  assert.equal((meta404.robots as any)?.index, false)
 })
 

@@ -4,7 +4,7 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/portafolio/galeria-colecciones.md` |
 | Tipo | Componente |
-| Versión | 1.5 |
+| Versión | 1.6 |
 | Estado | Aprobado |
 | Fecha | 2026-10-20 |
 | Padre | `marco-general/marco-general-proyecto.md` (1.3, que incorpora los cambios del §11) |
@@ -97,8 +97,12 @@ Título "Colecciones" (`--titulo-lg`) y una retícula con las tarjetas de **toda
 
 **Tarjetas** (`TarjetaColeccion`):
 
-- La foto de portada va recortada a **4:5**, centrada en el punto focal de esa foto (§5.2.4).
-- Retícula de 3 columnas en escritorio, 2 en tableta y 1 en móvil, con `--esp-6` entre tarjetas.
+- Marco exterior uniforme en proporción **3:2** con retícula de 2 columnas en escritorio y tableta, y 1 columna en móvil (`--esp-6` y `--esp-8`).
+- **Mosaico adaptativo inteligente**:
+  - **Con 1 foto:** si la foto es horizontal, llena el marco 3:2; si es vertical, se presenta en modo `'portada'` (`object-fit: contain`) centrada sobre un fondo de galería con degradado sutil (`--color-superficie`), preservando su altura y composición al 100% sin recortes.
+  - **Con 2 fotos:** portada protagonista a la izquierda (56% de ancho si es vertical, 64% si es horizontal) y foto secundaria a la derecha. La columna vertical del 56% coincide con una proporción ~4:5 nativa a alto completo, evitando recortar elementos clave.
+  - **Con 3 o más fotos:** portada protagonista a la izquierda y columna derecha con 2 fotos secundarias apiladas verticalmente.
+  - Microinteracción de zoom sutil (`scale(1.03)`) en las fotos al pasar el puntero sobre la tarjeta.
 - El conteo suma las fotos visibles de la madre y de todas sus hijas ("1 foto", "12 fotos").
 
 ### 3.3 Vista de una colección (`/colecciones/[slug]`)
@@ -260,7 +264,7 @@ Token nuevo de este componente (en `GrillaFotos.module.css`, a partir de los tok
 1. **Visibilidad.** Toda lista usa `lib/visibilidad.ts` (`modelo-contenido-panel` §5.2.5). Este componente no vuelve a definir qué es visible.
 2. **Orden de `/fotos`:** fijadas por `ordenFijada` ascendente; luego el resto por `publicadaEn` descendente; como desempate final, `id`. Si un filtro está activo, se aplica el mismo orden sobre el subconjunto.
 3. **Orden de una colección:** fotos propias por `Foto.orden`; hijas por `Coleccion.orden` y, dentro de cada hija, fotos por `Foto.orden` (`modelo-contenido-panel` §5.2.5). Las marcas `fijada` y `destacada` no alteran el orden de una colección.
-4. **Recorte de tarjetas.** Solo la foto de una `TarjetaColeccion` se recorta, a 4:5, con `object-fit: cover` y `object-position: <focalX>% <focalY>%`. Ninguna otra vista recorta (marco §5, que se precisa en §11).
+4. **Visualización de tarjetas.** El contenedor de `TarjetaColeccion` mantiene una proporción 3:2 estable. Adentro, se adapta dinámicamente según la cantidad de fotos visibles y la orientación de la portada: si hay 1 foto vertical, se despliega completa con `contain`; si hay 2 o más fotos, se genera un mosaico asimétrico donde la portada vertical ocupa una columna del 56% a alto completo (equivalente al formato vertical 4:5 nativo) y las fotos secundarias se ubican al costado, sin sacrificar encuadres ni proporciones.
 5. **Destacadas en la portada:** hasta 12 fotos visibles con `destacada = true`, por `publicadaEn` descendente.
 6. **Chips en una colección:** se muestran si el conjunto de fotos visibles de la colección (en una madre, propias más hijas) reúne **dos o más** características distintas. En `/fotos` se muestran siempre que exista al menos una característica con fotos visibles.
 7. **Conteo de una tarjeta:** fotos visibles de la colección y, si es madre, de sus hijas publicadas, tengan o no página propia.
@@ -464,6 +468,7 @@ Para Claude Code, en el paso 4 del plan del marco (§9.2), después del modelo d
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.6 | 2026-10-20 | Mosaico adaptativo inteligente en `TarjetaColeccion`: soporte dinámico de 1 a 3+ fotos por tarjeta; previsualización vertical sin recorte mediante `object-fit: contain` con lienzo sutil para colecciones de 1 foto; collage con división 56%/44% para portadas verticales en colecciones de 2 o más fotos (preservando formato 4:5 vertical nativo sin perder montañas ni árboles) y columna secundaria apilada para 3+ fotos; micro-interacción con zoom sutil `scale(1.03)` al pasar el cursor; y entrega de `fotosPreview` en `tarjetasColecciones()` (`src/lib/contenido.ts`). |
 | 1.5 | 2026-10-20 | Optimización visual para paisajes y panorámicas extensas: `RejillaColecciones` pasa a 2 columnas amplias en escritorio con tarjetas en proporción horizontal `3:2`; en `GrillaFotos`/`ItemGrilla` las panorámicas (`proporcion >= 2.0`) ocupan el 100 % del ancho de la fila de principio a fin y las filas con pocas fotos crecen naturalmente sin quedar chicas a un costado; `PortadaSitio` calibra su `max-width` según `--ratio-portada`; y se corrige `DYNAMIC_SERVER_USAGE` (Error 500) en `/colecciones/[slug]` y `/fotos`. |
 | 1.4 | 2026-10-20 | Enriquecimiento de `ItemFotoPublica` en `mapearFotoPublica` (`src/lib/contenido.ts`) incluyendo `url`, `proporcion` y `sizes` (respetando `incluirGrande` para no exponer 2048px en grillas) además de `versiones`, garantizando compatibilidad directa con `MarcoFoto`, `Ficha` y `Visor`. |
 | 1.3 | 2026-10-17 | Estado vacío explícito con `PlantillaEstado` en portada (`/`) cuando aún no hay obras publicadas, y diferenciación del mensaje vacío en `/fotos` sin filtro de característica activo, dirigiendo hacia `/sobre-mi`. |

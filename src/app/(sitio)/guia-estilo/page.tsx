@@ -90,15 +90,51 @@ export default function PaginaGuiaEstilo() {
     <div style={{ maxWidth: '1200px', margin: '0 auto', padding: 'var(--esp-8) var(--margen)', display: 'flex', flexDirection: 'column', gap: 'var(--esp-9)' }}>
       <div>
         <span style={{ font: 'var(--texto-sm)', color: 'var(--color-texto-terciario)' }}>
-          Sistema de Diseño v1.1
+          Sistema de Diseño v1.5 · Manual de Marca 2026
         </span>
         <h1 style={{ font: 'var(--titulo-xl)', margin: 'var(--esp-2) 0' }}>
           Guía de Estilo y Componentes
         </h1>
         <p style={{ font: 'var(--texto-lectura)', color: 'var(--color-texto-secundario)', maxWidth: 'var(--ancho-max-lectura)' }}>
-          Catálogo aislado para verificación de tokens tipográficos, paleta grafito neutra, componentes base, accesibilidad AA y comportamiento táctil.
+          Catálogo aislado para verificación de identidad de marca (silueta del Cerro El Plomo), tokens tipográficos, paleta grafito neutra, componentes base, accesibilidad AA y comportamiento táctil.
         </p>
       </div>
+
+      {/* 0. Identidad de Marca (Manual 2026) */}
+      <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--esp-4)' }}>
+        <h2 style={{ font: 'var(--titulo-sm)', borderBottom: '1px solid var(--color-linea)', paddingBottom: 'var(--esp-2)' }}>
+          0. Sistema de Marca (Cerro El Plomo · 5.424 m)
+        </h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 'var(--esp-5)', alignItems: 'center' }}>
+          <div style={{ backgroundColor: 'var(--color-superficie)', padding: 'var(--esp-6)', borderRadius: 'var(--radio-control)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--esp-3)' }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/marca/RodDiaz-logo-apilado-blanco.svg" alt="Logotipo principal apilado" style={{ width: '200px', height: 'auto' }} />
+            <span style={{ font: 'var(--texto-xs)', color: 'var(--color-texto-terciario)' }}>Versión principal apilada (mín. 160 px)</span>
+          </div>
+          <div style={{ backgroundColor: 'var(--color-superficie)', padding: 'var(--esp-6)', borderRadius: 'var(--radio-control)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--esp-3)' }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/marca/RodDiaz-logo-horizontal-blanco.svg" alt="Logotipo horizontal de encabezado" style={{ height: '32px', width: 'auto' }} />
+            <span style={{ font: 'var(--texto-xs)', color: 'var(--color-texto-terciario)' }}>Versión horizontal web (mín. 200 px)</span>
+          </div>
+          <div style={{ backgroundColor: 'var(--color-superficie)', padding: 'var(--esp-6)', borderRadius: 'var(--radio-control)', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 'var(--esp-5)' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--esp-2)' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/marca/RodDiaz-RD-perfil-oscuro.svg" alt="Monograma RD perfil" style={{ width: '64px', height: '64px' }} />
+              <span style={{ font: 'var(--texto-xs)', color: 'var(--color-texto-terciario)' }}>Perfil RD</span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--esp-2)' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/marca/RodDiaz-RD-icono-oscuro.svg" alt="Monograma RD ícono" style={{ width: '64px', height: '64px' }} />
+              <span style={{ font: 'var(--texto-xs)', color: 'var(--color-texto-terciario)' }}>Ícono RD</span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--esp-2)' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/marca/RodDiaz-favicon-plomo.svg" alt="Favicon Cerro El Plomo" style={{ width: '32px', height: '32px' }} />
+              <span style={{ font: 'var(--texto-xs)', color: 'var(--color-texto-terciario)' }}>Favicon (&lt; 64 px)</span>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* 1. Tipografía */}
       <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--esp-4)' }}>

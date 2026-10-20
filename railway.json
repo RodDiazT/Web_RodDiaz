@@ -21,9 +21,9 @@
     "restartPolicyMaxRetries": 5
   },
   "environments": {
-    "pruebas": {
+    "QA": {
       "deploy": {
-        "sleepApplication": true
+        "sleepApplication": false
       }
     }
   }

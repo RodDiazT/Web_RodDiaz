@@ -4,9 +4,9 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/plataforma/seo.md` |
 | Tipo | Transversal |
-| Versión | 1.1 |
+| Versión | 1.2 |
 | Estado | Aprobado |
-| Fecha | 2026-10-14 |
+| Fecha | 2026-10-20 |
 | Padre | `marco-general/marco-general-proyecto.md` (1.9) |
 | Dependencias | `portafolio/galeria-colecciones.md` (1.2), `portafolio/ficha-foto.md` (1.3), `paginas/paginas.md` (1.2) |
 | Versión del producto | v1.0 |
@@ -534,6 +534,7 @@ No hay código previo. Cambios a documentos aprobados que se aplican **al aproba
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.2 | 2026-10-20 | Incorporación del logotipo horizontal oficial (`public/marca/RodDiaz-logo-horizontal-blanco.svg`) como marca por defecto en la franja inferior de 96 px de `generarLienzoOg` (`src/lib/seo/lienzo-og.ts`), manteniendo soporte para cualquier logotipo personalizado en `AjustesSitio.logo`. |
 | 1.1 | 2026-10-14 | Optimización de lienzos Open Graph para fotos verticales adaptados al recorte cuadrado (630 × 630) de WhatsApp e iMessage (§5.2.6) y unificación de etiquetas de caché con `foto:<id>` y `foto:<slug>`. |
 | 1.0 | 2026-10-14 | Aprobado por Rod. El marco general pasa a 1.7, el modelo de contenido a 1.4, la consulta de copia a 1.2 y páginas a 1.1 con los cambios del §7. Nacen T-010 y T-011. |
 | 0.1 | 2026-10-14 | Borrador inicial. Decisiones de Rod: indexar desde el lanzamiento en el subdominio de Railway con `URL_SITIO` y 301; vista previa 1200 × 630 con la foto completa y la marca; títulos "título, lugar · Rod Díaz"; descripción automática con campo opcional `Foto.seo.descripcion`; etiqueta "Con licencia" con `acquireLicensePage` hacia la consulta (`origen = licencia`); Search Console en v1.0; características de `/fotos` indexables; robots de búsqueda de IA permitidos y de entrenamiento excluidos, lista editable. Requisitos de licencia de Google y clasificación de robots verificados el 2026-10-14. |

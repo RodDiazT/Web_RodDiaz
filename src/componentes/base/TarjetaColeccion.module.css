@@ -19,12 +19,77 @@
   box-shadow: inset 0 0 0 2px var(--color-fondo);
 }
 
-
 .portadaWrapper {
   aspect-ratio: 3 / 2;
   width: 100%;
   overflow: hidden;
   background-color: var(--color-superficie);
+  border-radius: var(--radio-control);
+  position: relative;
+}
+
+.vacio {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-superficie);
+}
+
+.slotFoto {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--color-superficie);
+}
+
+.slotVerticalUnico {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, var(--color-superficie-alta) 0%, var(--color-superficie) 100%);
+}
+
+.marcoFoto {
+  width: 100%;
+  height: 100%;
+}
+
+/* Transición suave de zoom en hover sobre las fotos */
+.slotFoto img {
+  transition: transform var(--dur-normal) var(--curva-salida);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tarjeta:hover .slotFoto img {
+    transform: scale(1.03);
+  }
+}
+
+/* Collage */
+.collage {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  gap: var(--esp-1);
+}
+
+/* Si la portada es vertical: 56% de ancho da ~4:5 ratio a alto completo (sin recorte de montañas) */
+.collageVerticalPortada {
+  grid-template-columns: 56fr 44fr;
+}
+
+/* Si la portada es horizontal: 64% de ancho para destacar su amplitud */
+.collageHorizontalPortada {
+  grid-template-columns: 64fr 36fr;
+}
+
+/* Columna secundaria con 2 fotos apiladas */
+.columnaSecundaria {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: var(--esp-1);
+  height: 100%;
+  overflow: hidden;
 }
 
 .info {

@@ -36,8 +36,23 @@ export default buildConfig({
     },
     meta: {
       titleSuffix: '— Rod Díaz',
+      icons: [
+        {
+          rel: 'icon',
+          type: 'image/svg+xml',
+          url: '/icon.svg',
+        },
+        {
+          rel: 'apple-touch-icon',
+          url: '/apple-icon.png',
+        },
+      ],
     },
     components: {
+      graphics: {
+        Logo: '/componentes/admin/LogoAdmin#LogoAdmin',
+        Icon: '/componentes/admin/IconoAdmin#IconoAdmin',
+      },
       beforeLogin: ['/componentes/admin/BotonGoogleLogin#BotonGoogleLogin'],
       beforeDashboard: [
         '/componentes/admin/TarjetaConsultasNuevas#TarjetaConsultasNuevas',
@@ -135,6 +150,51 @@ export default buildConfig({
       if (paginasExistentes.totalDocs === 0) {
         const { sembrarDatos } = await import('./semilla/semilla.ts')
         await sembrarDatos(payload)
+      }
+
+      // 4. Asegurar que el logotipo institucional horizontal oficial esté cargado en AjustesSitio si no hay uno configurado
+      const ajustesActuales = await payload.findGlobal({
+        slug: 'ajustes-sitio',
+        overrideAccess: true,
+      })
+      if (!ajustesActuales?.logo) {
+        const rutaSvgLogo = path.resolve(process.cwd(), 'public/marca/RodDiaz-logo-horizontal-blanco.svg')
+        const fs = await import('fs/promises')
+        const bufferLogo = await fs.readFile(rutaSvgLogo).catch(() => null)
+        if (bufferLogo) {
+          let medioLogo = await payload.find({
+            collection: 'medios',
+            where: { uso: { equals: 'logo' } },
+            limit: 1,
+            overrideAccess: true,
+          })
+          let logoId = medioLogo.docs[0]?.id
+          if (!logoId) {
+            const creado = await payload.create({
+              collection: 'medios',
+              data: {
+                uso: 'logo',
+                textoAlternativo: 'Rod Díaz',
+              },
+              file: {
+                data: bufferLogo,
+                mimetype: 'image/svg+xml',
+                name: 'RodDiaz-logo-horizontal-blanco.svg',
+                size: bufferLogo.length,
+              },
+              overrideAccess: true,
+            })
+            logoId = creado.id
+          }
+          if (logoId) {
+            await payload.updateGlobal({
+              slug: 'ajustes-sitio',
+              data: { logo: logoId },
+              overrideAccess: true,
+            })
+            console.log('[Payload] Logotipo oficial Rod Díaz vinculado en Ajustes del sitio.')
+          }
+        }
       }
     } catch (err: any) {
       console.warn('[Payload/onInit] Aviso en inicialización:', err?.message || err)

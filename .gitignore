@@ -29,3 +29,7 @@ Thumbs.db
 *.swo
 .vscode/
 .idea/
+
+# Materiales y recursos de diseño locales
+Logo Rod*
+

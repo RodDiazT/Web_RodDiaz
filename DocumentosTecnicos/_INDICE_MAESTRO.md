@@ -7,26 +7,26 @@
 | Ruta | Tipo | Versión | Estado | Producto | Padre | Dependencias |
 |---|---|---|---|---|---|---|
 | `marco-general/marco-general-proyecto.md` | marco | 1.10 | aprobado | v1.0 | — | — |
-| `identidad/sistema-de-diseno.md` | transversal | 1.4 | aprobado | v1.0 | marco-general | marco-general |
+| `identidad/sistema-de-diseno.md` | transversal | 1.5 | aprobado | v1.0 | marco-general | marco-general |
 | `contenido/modelo-contenido-panel.md` | componente | 1.10 | aprobado | v1.0 | marco-general | marco-general |
 | `portafolio/galeria-colecciones.md` | componente | 1.5 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `portafolio/ficha-foto.md` | componente | 1.5 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
 | `consultas/consulta-copia.md` | componente | 1.5 | aprobado | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
 | `paginas/paginas.md` | componente | 1.4 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
-| `plataforma/seo.md` | transversal | 1.1 | aprobado | v1.0 | marco-general | galeria-colecciones, ficha-foto, paginas |
+| `plataforma/seo.md` | transversal | 1.2 | aprobado | v1.0 | marco-general | galeria-colecciones, ficha-foto, paginas |
 | `plataforma/despliegue.md` | transversal | 1.3 | aprobado | v1.0 | marco-general | modelo-contenido-panel |
 
 ## Árbol
 
 ```
 marco-general/marco-general-proyecto.md        [aprobado 1.10]
-├── identidad/sistema-de-diseno.md             [aprobado 1.4]
+├── identidad/sistema-de-diseno.md             [aprobado 1.5]
 ├── contenido/modelo-contenido-panel.md        [aprobado 1.10]
 ├── portafolio/galeria-colecciones.md          [aprobado 1.5]
 ├── portafolio/ficha-foto.md                   [aprobado 1.5]
 ├── consultas/consulta-copia.md                [aprobado 1.5]
 ├── paginas/paginas.md                         [aprobado 1.4]
-├── plataforma/seo.md                          [aprobado 1.1]
+├── plataforma/seo.md                          [aprobado 1.2]
 └── plataforma/despliegue.md                   [aprobado 1.3]
 ```
 
@@ -111,9 +111,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.10]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.3",
+      "version": "1.5",
       "actualizado": "2026-10-20",
-      "notas": "1.3: soporte de foto.versiones y foto.sizes en MarcoFoto para compatibilidad con ItemFotoPublica."
+      "notas": "1.5: aplicación del Manual de Marca 2026 (silueta del Cerro El Plomo, logotipo horizontal en encabezado y Open Graph, apilado y monograma RD en /admin, y favicon oficial)."
     },
     {
       "id": "modelo-contenido-panel",
@@ -214,9 +214,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.10]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.1",
-      "actualizado": "2026-10-14",
-      "notas": "1.1: lienzo Open Graph para fotos verticales con fondo desenfocado; unificación de tags de revalidación."
+      "version": "1.2",
+      "actualizado": "2026-10-20",
+      "notas": "1.2: logotipo horizontal oficial en la franja inferior de los lienzos Open Graph."
     },
     {
       "id": "despliegue",
@@ -412,6 +412,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.10]
 
 | Fecha | Cambio |
 |---|---|
+| 2026-10-20 | Aplicación integral del Manual de Marca Rod Díaz 2026 (silueta del Cerro El Plomo, 5.424 m): logotipo horizontal en Hueso `#F4F2EE` en encabezado (`Marca.tsx`) y lienzos Open Graph (`lienzo-og.ts`), logotipo apilado y monograma RD en `/admin` (`LogoAdmin.tsx`, `IconoAdmin.tsx`), y favicon con la línea del Plomo (`icon.svg`, `favicon.ico`, `apple-icon.png`). Sistema de diseño 1.5, SEO 1.2. |
 | 2026-10-17 | Cierre de T-007 (texto biográfico de "Sobre mí" redactado, vinculado al autorretrato en blanco y negro en `Medios auxiliares` y publicado en `/sobre-mi`; corrección en `beforeValidate` de `Pagina.ts` para creación inicial de páginas reservadas). Cierre de T-008 (cliente Google OAuth configurado y operativo en `/admin`). Formalización del ambiente actual como entorno permanente de QA/pruebas (`ENTORNO=pruebas`) previo a duplicar al entorno Oficial al aprobar QA. Traducción íntegra del panel Payload al español (`@payloadcms/translations`, etiquetas en español y ocultamiento de botones de contraseña local) y regla de actualización documental obligatoria en cada modificación. Marco 1.10, modelo-contenido-panel 1.7, paginas 1.4, despliegue 1.2. |
 | 2026-10-14 | Auditoría integral y granular Fine Art / Tech Lead completada y aprobada por Rod. Actualización masiva de documentos: Canon PRO-1100, margen de conservación y ratios 3:2, papeles Fine Art enriquecidos, lienzo Open Graph para fotos verticales, aviso push por bot de Telegram, antispam móvil 1.8 s, snapshots en consultas, optimización de memoria Sharp. Marco 1.9, sistema-de-diseno 1.1, modelo-contenido-panel 1.6, ficha-foto 1.3, consulta-copia 1.4, paginas 1.3, seo 1.1, despliegue 1.1. Nace tarea T-014. |
 | 2026-10-07 | Creación del índice. Marco general en revisión (0.1); 8 documentos identificados; tareas T-001 a T-007. |
