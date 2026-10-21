@@ -1,0 +1,139 @@
+/**
+ * Estilos para el bloque editorial del Taller Fine Art — Web_RodDiaz (v1.0)
+ * Comunica el valor de autor, materialidad de papeles y proceso de impresión.
+ */
+
+.seccion {
+  width: 100%;
+  max-width: var(--ancho-max-contenido);
+  margin: 0 auto;
+  padding: 0 var(--margen);
+}
+
+.contenedor {
+  background-color: var(--color-superficie);
+  border: 1px solid var(--color-linea);
+  border-radius: var(--radio-control);
+  padding: var(--esp-6) var(--esp-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-7);
+}
+
+@media (min-width: 640px) {
+  .contenedor {
+    padding: var(--esp-7) var(--esp-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .contenedor {
+    padding: var(--esp-8) var(--esp-7);
+    gap: var(--esp-8);
+  }
+}
+
+.cabecera {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto;
+  gap: var(--esp-3);
+}
+
+.kicker {
+  font: var(--texto-xs);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-texto-terciario);
+  font-weight: 500;
+}
+
+.titulo {
+  font: var(--titulo-lg);
+  color: var(--color-texto);
+  margin: 0;
+  line-height: 1.12;
+}
+
+.cita {
+  font-family: var(--font-serif);
+  font-size: clamp(20px, 2.4vw, 26px);
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--color-texto);
+  margin: var(--esp-3) 0 0 0;
+  padding: 0 var(--esp-2);
+  text-wrap: balance;
+}
+
+.citaAutor {
+  display: block;
+  font: var(--texto-xs);
+  font-style: normal;
+  color: var(--color-texto-terciario);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: var(--esp-2);
+}
+
+.grillaPilares {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--esp-4);
+}
+
+@media (min-width: 768px) {
+  .grillaPilares {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--esp-5);
+  }
+}
+
+.tarjetaPilar {
+  background-color: var(--color-fondo);
+  border: 1px solid var(--color-linea);
+  border-radius: var(--radio-control);
+  padding: var(--esp-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+  transition: border-color var(--dur-rapida) var(--curva-salida);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tarjetaPilar:hover {
+    border-color: var(--color-linea-control);
+  }
+}
+
+.numeroPilar {
+  font: var(--texto-xs);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--color-texto-terciario);
+}
+
+.tituloPilar {
+  font: var(--titulo-sm);
+  color: var(--color-texto);
+  margin: 0;
+}
+
+.textoPilar {
+  font: var(--texto-sm);
+  color: var(--color-texto-secundario);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.cierre {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--esp-4);
+  flex-wrap: wrap;
+  padding-top: var(--esp-2);
+}

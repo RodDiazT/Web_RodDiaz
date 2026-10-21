@@ -7,6 +7,7 @@ import {
   ajustes,
 } from '@/lib/contenido'
 import { PortadaSitio } from '@/componentes/galeria/PortadaSitio'
+import { BloqueTaller } from '@/componentes/galeria/BloqueTaller'
 import { RejillaColecciones } from '@/componentes/galeria/RejillaColecciones'
 import { GrillaFotos } from '@/componentes/galeria/GrillaFotos'
 import { Boton } from '@/componentes/base/Boton'
@@ -41,6 +42,7 @@ export default async function PaginaInicio() {
     ruta: '/',
   })
 
+  const nombreSitio = configGlobal?.nombreSitio || 'Rod Díaz'
   const mostrarBotonVerTodasColecciones = colecciones.length > 6
   const coleccionesPortada = colecciones.slice(0, 6)
   const portafolioVacio = !fotoPortada && colecciones.length === 0 && destacadas.length === 0
@@ -69,12 +71,14 @@ export default async function PaginaInicio() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--esp-9)', paddingBottom: 'var(--esp-9)' }}>
       <JsonLd datos={jsonLd} />
-      {/* 1. Foto principal de portada (§3.1) */}
-      {fotoPortada && <PortadaSitio foto={fotoPortada} />}
 
-      {/* 2. Vitrina de Colecciones (§3.1) */}
+      {/* 1. Apertura, Hero Editorial y Foto principal de portada */}
+      {fotoPortada && <PortadaSitio foto={fotoPortada} nombreSitio={nombreSitio} />}
+
+      {/* 2. Vitrina de Colecciones (Capítulos / Series temáticas) */}
       {colecciones.length > 0 && (
         <section
+          id="seccion-colecciones"
           style={{
             maxWidth: 'var(--ancho-max-contenido)',
             width: '100%',
@@ -89,15 +93,42 @@ export default async function PaginaInicio() {
           <div
             style={{
               display: 'flex',
-              alignItems: 'baseline',
+              alignItems: 'flex-end',
               justifyContent: 'space-between',
               borderBottom: '1px solid var(--color-linea)',
-              paddingBottom: 'var(--esp-3)',
+              paddingBottom: 'var(--esp-4)',
+              flexWrap: 'wrap',
+              gap: 'var(--esp-3)',
             }}
           >
-            <h2 id="titulo-colecciones-portada" style={{ font: 'var(--titulo-md)', margin: 0 }}>
-              Colecciones
-            </h2>
+            <div>
+              <p
+                style={{
+                  font: 'var(--texto-xs)',
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  color: 'var(--color-texto-terciario)',
+                  margin: '0 0 var(--esp-1)',
+                  fontWeight: 500,
+                }}
+              >
+                Series fotográficas
+              </p>
+              <h2 id="titulo-colecciones-portada" style={{ font: 'var(--titulo-md)', margin: 0 }}>
+                Colecciones
+              </h2>
+              <p
+                style={{
+                  font: 'var(--texto-sm)',
+                  color: 'var(--color-texto-secundario)',
+                  margin: 'var(--esp-2) 0 0',
+                  maxWidth: '65ch',
+                  lineHeight: 1.5,
+                }}
+              >
+                Cuerpos de obra organizados por geografía y atmósfera. Cada serie reúne expediciones y encuentros a lo largo de los años.
+              </p>
+            </div>
 
             {mostrarBotonVerTodasColecciones && (
               <Boton variante="secundario" href="/colecciones">
@@ -110,7 +141,10 @@ export default async function PaginaInicio() {
         </section>
       )}
 
-      {/* 3. Selección de Fotografías Destacadas (§3.1) */}
+      {/* 3. El Manifiesto del Taller Fine Art (Storytelling de la copia impresa y materialidad) */}
+      <BloqueTaller nombreSitio={nombreSitio} />
+
+      {/* 4. Selección de Fotografías Destacadas (Obras individuales) */}
       {destacadas.length > 0 && (
         <section
           style={{
@@ -124,27 +158,87 @@ export default async function PaginaInicio() {
           }}
           aria-labelledby="titulo-destacadas-portada"
         >
-          <div style={{ borderBottom: '1px solid var(--color-linea)', paddingBottom: 'var(--esp-3)' }}>
-            <h2 id="titulo-destacadas-portada" style={{ font: 'var(--titulo-md)', margin: 0 }}>
-              Destacadas
-            </h2>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'flex-end',
+              justifyContent: 'space-between',
+              borderBottom: '1px solid var(--color-linea)',
+              paddingBottom: 'var(--esp-4)',
+              flexWrap: 'wrap',
+              gap: 'var(--esp-3)',
+            }}
+          >
+            <div>
+              <p
+                style={{
+                  font: 'var(--texto-xs)',
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  color: 'var(--color-texto-terciario)',
+                  margin: '0 0 var(--esp-1)',
+                  fontWeight: 500,
+                }}
+              >
+                Selección curada
+              </p>
+              <h2 id="titulo-destacadas-portada" style={{ font: 'var(--titulo-md)', margin: 0 }}>
+                Fotografías destacadas
+              </h2>
+              <p
+                style={{
+                  font: 'var(--texto-sm)',
+                  color: 'var(--color-texto-secundario)',
+                  margin: 'var(--esp-2) 0 0',
+                  maxWidth: '65ch',
+                  lineHeight: 1.5,
+                }}
+              >
+                Instantes irrepetibles de cordillera, luz y fauna capturados en expediciones de montaña.
+              </p>
+            </div>
+
+            <Boton variante="secundario" href="/fotos">
+              Ver catálogo completo
+            </Boton>
           </div>
 
           <GrillaFotos fotos={destacadas} prioridadPrimeras={2} />
         </section>
       )}
 
-      {/* 4. Cierre de portada (§3.1): Acceso directo a todas las fotos sin botón primario */}
+      {/* 5. Cierre de portada: Invitación al diálogo y consulta */}
       <section
         style={{
+          maxWidth: 'var(--ancho-max-contenido)',
+          width: '100%',
+          margin: '0 auto',
+          padding: 'var(--esp-7) var(--margen) 0',
           display: 'flex',
-          justifyContent: 'center',
-          padding: 'var(--esp-6) var(--margen) 0',
+          flexDirection: 'column',
+          alignItems: 'center',
+          textAlign: 'center',
+          gap: 'var(--esp-5)',
         }}
+        aria-label="Contacto y catálogo completo"
       >
-        <Boton variante="secundario" href="/fotos">
-          Ver todas las fotos
-        </Boton>
+        <div style={{ maxWidth: '640px' }}>
+          <h3 style={{ font: 'var(--titulo-sm)', margin: '0 0 var(--esp-2)', color: 'var(--color-texto)' }}>
+            ¿Buscas una pieza para un espacio particular?
+          </h3>
+          <p style={{ font: 'var(--texto-sm)', color: 'var(--color-texto-secundario)', margin: 0, lineHeight: 1.6 }}>
+            Puedo orientarte personalmente con formatos, proporciones y papeles de algodón que mejor armonicen con tu espacio. Escríbeme sin compromiso para coordinar detalles de impresión y despacho.
+          </p>
+        </div>
+
+        <div style={{ display: 'flex', gap: 'var(--esp-3)', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
+          <Boton variante="secundario" href="/contacto">
+            Escríbeme para consultar
+          </Boton>
+          <Boton variante="enlace" href="/fotos">
+            Explorar todas las fotos →
+          </Boton>
+        </div>
       </section>
     </div>
   )

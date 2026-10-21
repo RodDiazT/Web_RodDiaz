@@ -4,9 +4,9 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/portafolio/galeria-colecciones.md` |
 | Tipo | Componente |
-| Versión | 1.6 |
+| Versión | 1.7 |
 | Estado | Aprobado |
-| Fecha | 2026-10-20 |
+| Fecha | 2026-10-21 |
 | Padre | `marco-general/marco-general-proyecto.md` (1.3, que incorpora los cambios del §11) |
 | Dependencias | `identidad/sistema-de-diseno.md` (1.0), `contenido/modelo-contenido-panel.md` (1.1) |
 | Versión del producto | v1.0 |
@@ -78,16 +78,20 @@ Usa los tokens, patrones y componentes base del sistema de diseño (`TarjetaCole
 ### 3.1 Qué percibe el visitante en los primeros segundos (portada)
 
 1. **Encabezado sobrio** (sistema de diseño §3.1).
-2. **La foto de portada**, completa y con aire, que ocupa casi toda la pantalla (sistema de diseño §5.3.2). Bajo ella, una línea discreta con su título y lugar, en `--texto-sm` secundario. La foto y la línea enlazan a su ficha.
-3. **El inicio de las colecciones asoma** sobre el pliegue (los 64 px del patrón de portada), como invitación a bajar.
+2. **Hero Editorial y Foto de portada con aire perimetral**:
+   - Respiro superior generoso respecto a la línea del encabezado (`var(--esp-7)` en escritorio, `var(--esp-6)` en móvil), evitando colisiones visuales en fotos verticales y panorámicas.
+   - Declaración de autoría inmediata (*«Rod Díaz · Fotografía Fine Art»*), titular de impacto (*«El papel detiene el tiempo.»*) y bajada clara comunicando la mirada fotográfica y la disponibilidad de copias impresas en taller propio en papeles de algodón de museo.
+   - Acciones directas sobrias: *«Explorar colecciones ↓»* y *«Ver catálogo de fotos →»*.
+   - **La fotografía de portada**, enmarcada con proporciones reales (`max-height: min(76svh, 820px)`), con pie de obra (título, lugar) y enlace directo a su ficha técnica y opciones de copia.
 
-Al bajar, la portada sigue así:
+Al bajar, la portada sigue con un arco narrativo claro:
 
 | Bloque | Contenido |
 |---|---|
-| Colecciones | Título "Colecciones" (`--titulo-md`) y las tarjetas de las colecciones madre listadas, en el orden de Rod. Si hay más de 6, se muestran 6 y un `Boton` secundario "Ver todas las colecciones" lleva a `/colecciones`. |
-| Destacadas | Título "Destacadas" y hasta 12 fotos `destacada` visibles en una `GrillaFotos`, de la más reciente publicada a la más antigua. Si no hay destacadas, el bloque no aparece. |
-| Cierre | `Boton` secundario "Ver todas las fotos" → `/fotos`. |
+| Colecciones | Introducción contextual (*«Series fotográficas organizadas por atmósfera y geografía»*), título "Colecciones" (`--titulo-md`) y las tarjetas de las colecciones madre listadas, en el orden de Rod. Si hay más de 6, se muestran 6 y un `Boton` secundario "Ver todas las colecciones" lleva a `/colecciones`. |
+| Taller Fine Art (`BloqueTaller`) | Puente de materialidad y oficio (*«De la luz a la copia de museo»*): cita de autor sobre el valor del papel impreso frente al ruido digital, 3 pilares de artesanía (taller propio, papeles 100% algodón Hahnemühle/Canson, formatos y asesoría) y llamadas a conocer la historia (`/sobre-mi`) o consultar por una obra (`/contacto`). |
+| Destacadas | Introducción curatorial (*«Selección curada: instantes de cordillera, luz y fauna»*), título "Fotografías destacadas" y hasta 12 fotos `destacada` visibles en una `GrillaFotos`, de la más reciente publicada a la más antigua, con acceso directo a ver todo el catálogo. |
+| Cierre | Invitación cálida al diálogo y asesoría en formatos y medidas especiales para espacios de vida, con botones secundarios a contactar o explorar el archivo completo. |
 
 La portada no tiene botón primario: el único relleno claro del sitio vive en la ficha (sistema de diseño O-4).
 
@@ -466,6 +470,7 @@ Para Claude Code, en el paso 4 del plan del marco (§9.2), después del modelo d
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.7 | 2026-10-21 | Rediseño editorial y narrativa integral del Home: respiro vertical superior contra el encabezado (`padding-top` y `max-height` calibrados para fotos verticales/panorámicas); apertura con Hero Editorial tipográfico (*«El papel detiene el tiempo»*) con declaración de autor y llamada directa a explorar colecciones y catálogo; incorporación del bloque de storytelling del taller Fine Art (`BloqueTaller`) con los 3 pilares de materialidad (taller propio, papeles 100% algodón y asesoría); enriquecimiento contextual en cabeceras de Colecciones y Destacadas; y nuevo bloque de cierre cálido invitando a consultar por obras y formatos para espacios. |
 | 1.6 | 2026-10-20 | Proporción real y cero recorte en `TarjetaColeccion`: abandono de proporciones forzadas en favor del ratio nativo exacto de la foto de portada (`ancho / alto`), garantizando que obras verticales (como cordilleras con sendero) y panorámicas extensas se vean al 100% de su composición; las tarjetas panorámicas (`ratio >= 1.85`) se extienden al 100% del ancho (`grid-column: 1 / -1`); cuadrícula fluida de 2 columnas con `align-items: start`; y micro-interacción con zoom sutil `scale(1.025)`. |
 | 1.5 | 2026-10-20 | Optimización visual para paisajes y panorámicas extensas: `RejillaColecciones` pasa a 2 columnas amplias en escritorio con tarjetas en proporción horizontal `3:2`; en `GrillaFotos`/`ItemGrilla` las panorámicas (`proporcion >= 2.0`) ocupan el 100 % del ancho de la fila de principio a fin y las filas con pocas fotos crecen naturalmente sin quedar chicas a un costado; `PortadaSitio` calibra su `max-width` según `--ratio-portada`; y se corrige `DYNAMIC_SERVER_USAGE` (Error 500) en `/colecciones/[slug]` y `/fotos`. |
 | 1.4 | 2026-10-20 | Enriquecimiento de `ItemFotoPublica` en `mapearFotoPublica` (`src/lib/contenido.ts`) incluyendo `url`, `proporcion` y `sizes` (respetando `incluirGrande` para no exponer 2048px en grillas) además de `versiones`, garantizando compatibilidad directa con `MarcoFoto`, `Ficha` y `Visor`. |
