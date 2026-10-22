@@ -867,11 +867,13 @@ export async function vistaColeccion(slug: string) {
       },
       sort: 'orden',
       limit: 50,
+      depth: 2,
     })
 
     const secciones: Array<{
       hija: any
       fotos: ItemFotoPublica[]
+      portada: ItemFotoPublica | null
     }> = []
 
     let totalFotos = fotosPropias.length
@@ -880,16 +882,30 @@ export async function vistaColeccion(slug: string) {
       const fotosHija = await fotosVisibles({ coleccionSlug: hija.slug, limit: 500 })
       if (fotosHija.docs.length > 0) {
         totalFotos += fotosHija.docs.length
+        const fotosMapeadas = fotosHija.docs.map((f) =>
+          mapearFotoPublica(
+            f,
+            { coleccionSlug: coleccion.slug },
+            { slug: hija.slug, nombre: hija.nombre, conPagina: hija.visibleSola !== false },
+            false
+          )
+        )
+
+        let portadaFoto: ItemFotoPublica | null = null
+        if (hija.portada) {
+          const portadaDoc = typeof hija.portada === 'object' ? hija.portada : null
+          if (portadaDoc && portadaDoc.id) {
+            portadaFoto = mapearFotoPublica(portadaDoc, { coleccionSlug: hija.slug }, null, false)
+          }
+        }
+        if (!portadaFoto) {
+          portadaFoto = fotosMapeadas[0] || null
+        }
+
         secciones.push({
           hija,
-          fotos: fotosHija.docs.map((f) =>
-            mapearFotoPublica(
-              f,
-              { coleccionSlug: coleccion.slug },
-              { slug: hija.slug, nombre: hija.nombre, conPagina: hija.visibleSola !== false },
-              false
-            )
-          ),
+          fotos: fotosMapeadas,
+          portada: portadaFoto,
         })
       }
     }

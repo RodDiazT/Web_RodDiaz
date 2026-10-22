@@ -6,7 +6,7 @@
   "packageManager": "pnpm@9.15.9",
   "scripts": {
     "dev": "next dev",
-    "build": "cross-env NODE_OPTIONS=--max-old-space-size=4096 next build",
+    "build": "payload generate:importmap && cross-env NODE_OPTIONS=--max-old-space-size=4096 next build",
     "start": "next start",
     "lint": "next lint",
     "test": "node --test --experimental-strip-types --experimental-specifier-resolution=node \"src/lib/*.test.ts\" \"src/lib/**/*.test.ts\"",

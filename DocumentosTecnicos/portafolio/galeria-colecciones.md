@@ -4,7 +4,7 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/portafolio/galeria-colecciones.md` |
 | Tipo | Componente |
-| Versión | 1.8 |
+| Versión | 1.9 |
 | Estado | Aprobado |
 | Fecha | 2026-10-22 |
 | Padre | `marco-general/marco-general-proyecto.md` (1.3, que incorpora los cambios del §11) |
@@ -116,14 +116,12 @@ Título "Colecciones" (`--titulo-lg`) y una retícula con las tarjetas de **toda
 - Nombre en `--titulo-lg`, `descripcion` en `--texto-lectura` (si existe) y el conteo en `--texto-sm` secundario.
 - Chips de características, solo cuando sirven (§5.2.6).
 
-**Cuerpo de una madre: agrupado por secciones**
+**Cuerpo de una madre: comprimido en tarjetas de portada para sus sub-colecciones**
 
-1. Primero, las fotos propias de la madre en una `GrillaFotos`, sin subtítulo.
-2. Luego, una sección por cada hija `publicada` con fotos visibles, en el orden de Rod:
-   - subtítulo con el nombre de la hija en `--titulo-md`;
-   - si la hija tiene página propia (`visibleSola`), un enlace "Ver colección" en `--texto-sm` junto al subtítulo; si no, el nombre va sin enlace;
-   - su `GrillaFotos`.
-3. Una madre sin fotos propias empieza directo por la primera sección.
+1. Primero, las fotos propias de la madre en una `CargaInfinita` / `GrillaFotos` (si existen).
+2. Luego, las sub-colecciones hijas con fotos visibles se presentan comprimidas como tarjetas editoriales (`RejillaColecciones`), mostrando exactamente UNA foto de portada por cada sub-categoría (respetando la portada definida en Payload con fallback a la primera foto de la serie), junto con su título y total de fotos (ej. "6 fotos", "7 fotos").
+3. Al hacer clic en la tarjeta de una sub-colección, el visitante navega a la URL dedicada de la hija (`/colecciones/[slug]`), donde se despliegan todas sus fotografías en cuadrícula completa con su botón de retorno jerárquico ("← Volver a <madre>").
+4. Una madre sin fotos propias empieza directo por la rejilla de tarjetas de sub-colecciones.
 
 **Cuerpo de una hija:** una sola `GrillaFotos` con sus fotos, en el orden de Rod.
 
@@ -471,6 +469,7 @@ Para Claude Code, en el paso 4 del plan del marco (§9.2), después del modelo d
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.9 | 2026-10-22 | Compresión editorial de sub-colecciones en la vista de colección madre (`/colecciones/[slug]`): en vez de desplegar la grilla completa de todas las fotos de cada hija en cascada, las sub-categorías se muestran comprimidas como tarjetas de portada (`RejillaColecciones`) con UNA foto representativa (portada asignada o primera foto) y el conteo de obras. Al hacer clic, se navega a la URL dedicada de la hija con retorno jerárquico. |
 | 1.8 | 2026-10-22 | Hero Inmersivo de portada a pantalla completa (`min-height: calc(100svh - var(--alto-encabezado))`): la fotografía se despliega en resolución nítida nativa (sin degradación por blur) con velo cinemático oscuro y gradiente para contraste y legibilidad óptima; texto editorial y acciones centradas; pie de obra sutil flotante con acceso a ficha técnica. |
 | 1.7 | 2026-10-21 | Rediseño editorial y narrativa integral del Home: respiro vertical superior contra el encabezado (`padding-top` y `max-height` calibrados para fotos verticales/panorámicas); apertura con Hero Editorial tipográfico (*«El papel detiene el tiempo»*) con declaración de autor y llamada directa a explorar colecciones y catálogo; incorporación del bloque de storytelling del taller Fine Art (`BloqueTaller`) con los 3 pilares de materialidad (taller propio, papeles 100% algodón y asesoría); enriquecimiento contextual en cabeceras de Colecciones y Destacadas; y nuevo bloque de cierre cálido invitando a consultar por obras y formatos para espacios. |
 | 1.6 | 2026-10-20 | Proporción real y cero recorte en `TarjetaColeccion`: abandono de proporciones forzadas en favor del ratio nativo exacto de la foto de portada (`ancho / alto`), garantizando que obras verticales (como cordilleras con sendero) y panorámicas extensas se vean al 100% de su composición; las tarjetas panorámicas (`ratio >= 1.85`) se extienden al 100% del ancho (`grid-column: 1 / -1`); cuadrícula fluida de 2 columnas con `align-items: start`; y micro-interacción con zoom sutil `scale(1.025)`. |

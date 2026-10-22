@@ -10,7 +10,7 @@ import {
 import { CabeceraColeccion } from '@/componentes/galeria/CabeceraColeccion'
 import { FiltroCaracteristicas } from '@/componentes/galeria/FiltroCaracteristicas'
 import { CargaInfinita } from '@/componentes/galeria/CargaInfinita'
-import { SeccionHija } from '@/componentes/galeria/SeccionHija'
+import { RejillaColecciones } from '@/componentes/galeria/RejillaColecciones'
 import { PlantillaEstado } from '@/componentes/base/PlantillaEstado'
 import { metadatosPara } from '@/lib/seo/metadatos'
 import { jsonLdPara } from '@/lib/seo/jsonld'
@@ -190,9 +190,9 @@ export default async function PaginaColeccion({
           />
         )
       ) : (
-        /* Vista de colección madre: agrupada por secciones (§3.3) */
+        /* Vista de colección madre: comprimir sub-colecciones en tarjetas de portada */
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--esp-8)' }}>
-          {/* Fotos propias de la madre */}
+          {/* Fotos propias de la madre si existen */}
           {vista.fotosPropias.length > 0 && (
             <CargaInfinita
               fotosIniciales={vista.fotosPropias}
@@ -202,16 +202,24 @@ export default async function PaginaColeccion({
             />
           )}
 
-          {/* Secciones de hijas con fotos visibles */}
-          {vista.secciones.map((sec) => (
-            <SeccionHija
-              key={sec.hija.slug}
-              nombre={sec.hija.nombre}
-              slug={sec.hija.slug}
-              conPagina={sec.hija.visibleSola !== false}
-              fotos={sec.fotos}
-            />
-          ))}
+          {/* Sub-colecciones hijas comprimidas en tarjetas de portada con 1 foto cada una */}
+          {vista.secciones.length > 0 && (
+            <div>
+              {vista.fotosPropias.length > 0 && (
+                <h2 style={{ font: 'var(--titulo-md)', margin: '0 0 var(--esp-6) 0' }}>
+                  Sub-colecciones
+                </h2>
+              )}
+              <RejillaColecciones
+                colecciones={vista.secciones.map((sec) => ({
+                  nombre: sec.hija.nombre,
+                  slug: sec.hija.slug,
+                  totalFotos: sec.fotos.length,
+                  portada: sec.portada || sec.fotos[0] || null,
+                }))}
+              />
+            </div>
+          )}
 
           {!tieneFotos && (
             <PlantillaEstado

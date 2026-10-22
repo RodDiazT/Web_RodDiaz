@@ -1,3 +1,5 @@
+import { CeldaMiniaturaFoto as CeldaMiniaturaFoto_c7dc6c10c9f2ecdb0ee12e3ac0002638 } from '../../../componentes/admin/CeldaMiniaturaFoto'
+import { CeldaFormatosStock as CeldaFormatosStock_d621265f38a3d469cf95f2a28c62d8ea } from '../../../componentes/admin/CeldaFormatosStock'
 import { DetectorExifCliente as DetectorExifCliente_5b4d801aef26b87ca9c942ea3a309be0 } from '../../../componentes/admin/DetectorExifCliente'
 import { RscEntryLexicalCell as RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
 import { RscEntryLexicalField as RscEntryLexicalField_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
@@ -22,21 +24,24 @@ import { StrikethroughFeatureClient as StrikethroughFeatureClient_e70f5e05f09f93
 import { UnderlineFeatureClient as UnderlineFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { BoldFeatureClient as BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
+import { BarraVistaFotos as BarraVistaFotos_538e9e829af80c5f17709d7a10257acc } from '../../../componentes/admin/BarraVistaFotos'
 import { AccionesConsulta as AccionesConsulta_10f6884e6780c4e012e4dcfc887b9a44 } from '../../../componentes/admin/AccionesConsulta'
 import { OtrasConsultasCorreo as OtrasConsultasCorreo_a953002b9f358905f2d4a72d8350b910 } from '../../../componentes/admin/OtrasConsultasCorreo'
 import { DatosDeCorreo as DatosDeCorreo_4f0e4c980f645261f1f48d7f480bdc8b } from '../../../componentes/admin/DatosDeCorreo'
 import { AccionesSuscriptores as AccionesSuscriptores_5a0ef8769423f01d0f53f8927e927bdb } from '../../../componentes/admin/AccionesSuscriptores'
+import { IconoAdmin as IconoAdmin_de225884e6e8e1741d5b9c6c1e985abd } from '../../../componentes/admin/IconoAdmin'
+import { LogoAdmin as LogoAdmin_b3e39e09b4d3f599a6a8e7af7baf569c } from '../../../componentes/admin/LogoAdmin'
 import { TarjetaConsultasNuevas as TarjetaConsultasNuevas_4b78fd11d5baa1cf052d0d2af1eee3c0 } from '../../../componentes/admin/TarjetaConsultasNuevas'
 import { TarjetaConsultasPorMes as TarjetaConsultasPorMes_62798863b95dc7a1bfedc5e785656778 } from '../../../componentes/admin/TarjetaConsultasPorMes'
 import { TarjetaRespaldo as TarjetaRespaldo_df271f6c0497edfd7b262e921c4441c8 } from '../../../componentes/admin/TarjetaRespaldo'
 import { BotonGoogleLogin as BotonGoogleLogin_8dc0c071024ea21d3c641c8cebaea87b } from '../../../componentes/admin/BotonGoogleLogin'
 import { ContadorConsultas as ContadorConsultas_d33ebd1a4720cd4577d3f3785050a413 } from '../../../componentes/admin/ContadorConsultas'
-import { LogoAdmin as LogoAdmin_custom } from '../../../componentes/admin/LogoAdmin'
-import { IconoAdmin as IconoAdmin_custom } from '../../../componentes/admin/IconoAdmin'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 /** @type import('payload').ImportMap */
 export const importMap = {
+  "/componentes/admin/CeldaMiniaturaFoto#CeldaMiniaturaFoto": CeldaMiniaturaFoto_c7dc6c10c9f2ecdb0ee12e3ac0002638,
+  "/componentes/admin/CeldaFormatosStock#CeldaFormatosStock": CeldaFormatosStock_d621265f38a3d469cf95f2a28c62d8ea,
   "/componentes/admin/DetectorExifCliente#DetectorExifCliente": DetectorExifCliente_5b4d801aef26b87ca9c942ea3a309be0,
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell": RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalField": RscEntryLexicalField_44fe37237e0ebf4470c9990d8cb7b07e,
@@ -61,16 +66,17 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#UnderlineFeatureClient": UnderlineFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#BoldFeatureClient": BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#ItalicFeatureClient": ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  "/componentes/admin/BarraVistaFotos#BarraVistaFotos": BarraVistaFotos_538e9e829af80c5f17709d7a10257acc,
   "/componentes/admin/AccionesConsulta#AccionesConsulta": AccionesConsulta_10f6884e6780c4e012e4dcfc887b9a44,
   "/componentes/admin/OtrasConsultasCorreo#OtrasConsultasCorreo": OtrasConsultasCorreo_a953002b9f358905f2d4a72d8350b910,
   "/componentes/admin/DatosDeCorreo#DatosDeCorreo": DatosDeCorreo_4f0e4c980f645261f1f48d7f480bdc8b,
   "/componentes/admin/AccionesSuscriptores#AccionesSuscriptores": AccionesSuscriptores_5a0ef8769423f01d0f53f8927e927bdb,
+  "/componentes/admin/IconoAdmin#IconoAdmin": IconoAdmin_de225884e6e8e1741d5b9c6c1e985abd,
+  "/componentes/admin/LogoAdmin#LogoAdmin": LogoAdmin_b3e39e09b4d3f599a6a8e7af7baf569c,
   "/componentes/admin/TarjetaConsultasNuevas#TarjetaConsultasNuevas": TarjetaConsultasNuevas_4b78fd11d5baa1cf052d0d2af1eee3c0,
   "/componentes/admin/TarjetaConsultasPorMes#TarjetaConsultasPorMes": TarjetaConsultasPorMes_62798863b95dc7a1bfedc5e785656778,
   "/componentes/admin/TarjetaRespaldo#TarjetaRespaldo": TarjetaRespaldo_df271f6c0497edfd7b262e921c4441c8,
   "/componentes/admin/BotonGoogleLogin#BotonGoogleLogin": BotonGoogleLogin_8dc0c071024ea21d3c641c8cebaea87b,
   "/componentes/admin/ContadorConsultas#ContadorConsultas": ContadorConsultas_d33ebd1a4720cd4577d3f3785050a413,
-  "/componentes/admin/LogoAdmin#LogoAdmin": LogoAdmin_custom,
-  "/componentes/admin/IconoAdmin#IconoAdmin": IconoAdmin_custom,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }
