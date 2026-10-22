@@ -14,7 +14,7 @@
   },
   "deploy": {
     "preDeployCommand": ["pnpm payload migrate"],
-    "startCommand": "pnpm start",
+    "startCommand": "next start",
     "healthcheckPath": "/api/salud",
     "healthcheckTimeout": 120,
     "restartPolicyType": "ON_FAILURE",

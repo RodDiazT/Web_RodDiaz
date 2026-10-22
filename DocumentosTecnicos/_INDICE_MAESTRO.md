@@ -14,7 +14,7 @@
 | `consultas/consulta-copia.md` | componente | 1.5 | aprobado | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
 | `paginas/paginas.md` | componente | 1.4 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `plataforma/seo.md` | transversal | 1.2 | aprobado | v1.0 | marco-general | galeria-colecciones, ficha-foto, paginas |
-| `plataforma/despliegue.md` | transversal | 1.4 | aprobado | v1.0 | marco-general | modelo-contenido-panel |
+| `plataforma/despliegue.md` | transversal | 1.5 | aprobado | v1.0 | marco-general | modelo-contenido-panel |
 
 ## Árbol
 
@@ -27,7 +27,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.10]
 ├── consultas/consulta-copia.md                [aprobado 1.5]
 ├── paginas/paginas.md                         [aprobado 1.4]
 ├── plataforma/seo.md                          [aprobado 1.2]
-└── plataforma/despliegue.md                   [aprobado 1.4]
+└── plataforma/despliegue.md                   [aprobado 1.5]
 ```
 
 ## Tareas del dueño

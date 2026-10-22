@@ -4,7 +4,7 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/plataforma/despliegue.md` |
 | Tipo | Transversal |
-| Versión | 1.4 |
+| Versión | 1.5 |
 | Estado | Aprobado |
 | Fecha | 2026-10-22 |
 | Padre | `marco-general/marco-general-proyecto.md` (1.10) |
@@ -473,6 +473,7 @@ Para Claude Code. Los pasos 1 a 3 se hacen junto con la base del proyecto (marco
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.5 | 2026-10-22 | Estabilización de compilación y apagado de contenedores en Railway: 1) Optimización de memoria en compilación Next.js 15 + Payload 3 (`NODE_OPTIONS=--max-old-space-size=4096`, `webpackMemoryOptimizations: true`, `cpus: 1`) para evitar caídas silenciosas por OOM en el builder de Railway. 2) Cambio de `startCommand` de `pnpm start` a `next start` en `railway.json` para permitir que Next.js capture limpiamente la señal `SIGTERM` y finalice con código 0 durante los reemplazos de contenedor (*rolling deploy*), eliminando las falsas alertas por correo de «deploy crashed» generadas por `pnpm ELIFECYCLE`. |
 | 1.4 | 2026-10-22 | Vinculación y regla de despliegue exclusivo vía Git/GitHub (`via GitHub`): conexión permanente del servicio Railway con el repositorio `RodDiazT/Web_RodDiaz`, vetando despliegues manuales por CLI (`railway up`) para asegurar sincronización 1:1, trazabilidad y automatización continua ante cada `git push` a `main` (§5.2.3 y `CLAUDE.md`). |
 | 1.3 | 2026-10-17 | Invalidación automática de caché de compilación (`revalidarRutasSeguras`) cuando `src/instrumentation.ts` invoca `/api/salud` con `User-Agent: Web_RodDiaz_Warmup/1.0` al arrancar el contenedor, e inclusión de `/contacto` en el calentamiento inicial (§5.2.6). |
 | 1.2 | 2026-10-17 | Cierre de T-008; definición operativa de ambientes: el ambiente activo inicial (`sitio-production-7f52.up.railway.app`, configurado con `ENTORNO=pruebas` y `TAREAS_AUTOMATICAS=false`) se mantiene permanentemente como entorno de QA / pruebas para validar cambios presentes y futuros, y al aprobar el QA se duplicarán los recursos hacia un entorno Oficial separado (`ENTORNO=produccion`) abierto al público. Sincronización automática de esquema PostgreSQL y semilla en `onInit`. |
