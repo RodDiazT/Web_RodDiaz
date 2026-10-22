@@ -25,8 +25,16 @@ export const Foto: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'titulo',
-    defaultColumns: ['titulo', 'coleccion', 'estado', 'fecha', 'faltantes'],
+    defaultColumns: ['miniatura', 'titulo', 'coleccion', 'estado', 'stockCopias', 'fecha', 'faltantes'],
     group: 'Obra',
+    listSearchableFields: ['titulo', 'lugar', 'nombreArchivoOriginal'],
+    pagination: {
+      defaultLimit: 50,
+      limits: [25, 50, 100],
+    },
+    components: {
+      beforeListTable: ['/componentes/admin/BarraVistaFotos#BarraVistaFotos'],
+    },
   },
   access: {
     read: ({ req: { user } }) => {
@@ -339,6 +347,26 @@ export const Foto: CollectionConfig = {
     ],
   },
   fields: [
+    {
+      name: 'miniatura',
+      type: 'ui',
+      label: 'Foto',
+      admin: {
+        components: {
+          Cell: '/componentes/admin/CeldaMiniaturaFoto#CeldaMiniaturaFoto',
+        },
+      },
+    },
+    {
+      name: 'stockCopias',
+      type: 'ui',
+      label: 'Stock copias',
+      admin: {
+        components: {
+          Cell: '/componentes/admin/CeldaFormatosStock#CeldaFormatosStock',
+        },
+      },
+    },
     {
       name: 'detectorExif',
       type: 'ui',

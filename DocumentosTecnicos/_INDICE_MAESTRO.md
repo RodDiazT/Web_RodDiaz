@@ -8,7 +8,7 @@
 |---|---|---|---|---|---|---|
 | `marco-general/marco-general-proyecto.md` | marco | 1.10 | aprobado | v1.0 | — | — |
 | `identidad/sistema-de-diseno.md` | transversal | 1.5 | aprobado | v1.0 | marco-general | marco-general |
-| `contenido/modelo-contenido-panel.md` | componente | 1.10 | aprobado | v1.0 | marco-general | marco-general |
+| `contenido/modelo-contenido-panel.md` | componente | 1.11 | aprobado | v1.0 | marco-general | marco-general |
 | `portafolio/galeria-colecciones.md` | componente | 1.8 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `portafolio/ficha-foto.md` | componente | 1.5 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
 | `consultas/consulta-copia.md` | componente | 1.5 | aprobado | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
@@ -21,7 +21,7 @@
 ```
 marco-general/marco-general-proyecto.md        [aprobado 1.10]
 ├── identidad/sistema-de-diseno.md             [aprobado 1.5]
-├── contenido/modelo-contenido-panel.md        [aprobado 1.10]
+├── contenido/modelo-contenido-panel.md        [aprobado 1.11]
 ├── portafolio/galeria-colecciones.md          [aprobado 1.8]
 ├── portafolio/ficha-foto.md                   [aprobado 1.5]
 ├── consultas/consulta-copia.md                [aprobado 1.5]

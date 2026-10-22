@@ -4,9 +4,9 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/contenido/modelo-contenido-panel.md` |
 | Tipo | Componente |
-| Versión | 1.10 |
+| Versión | 1.11 |
 | Estado | Aprobado |
-| Fecha | 2026-10-20 |
+| Fecha | 2026-10-22 |
 | Padre | `marco-general/marco-general-proyecto.md` |
 | Dependencias | `marco-general/marco-general-proyecto.md` (1.10); considera `identidad/sistema-de-diseno.md` (1.2) para `logo`, `filete` y perfil ICC |
 | Versión del producto | v1.0 |
@@ -514,6 +514,7 @@ Para Claude Code, después del paso 1 del plan del marco (§9.2: base del proyec
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.11 | 2026-10-22 | Gobernanza y curaduría visual del stock de fotografías en el panel `/admin`: 1) Vista Híbrida con alternador Mosaico Visual (tarjetas con fotografía en grande, estado, formatos Fine Art, colección, lugar y trazabilidad RAW de Lightroom) vs Tabla Detallada con persistencia en `localStorage` (`BarraVistaFotos.tsx`). 2) Columna de miniatura fotográfica viva (`CeldaMiniaturaFoto.tsx`) con ratio real y fondo de color dominante. 3) Columna de formatos y badge de vitrina (`CeldaFormatosStock.tsx`). 4) Ampliación de paginación por defecto a 50 fotos por página (`defaultLimit: 50`, selector 25/50/100). 5) Filtros rápidos interactivos por Colección y Estado, y búsqueda ampliada por título, lugar geográfico y nombre de archivo original RAW (`listSearchableFields`). |
 | 1.10 | 2026-10-20 | Incorporación del campo `iso` (`Sensibilidad (ISO)`) en `Foto.datosTecnicos`, lectura automática de etiquetas EXIF/XMP de sensibilidad (`ISO`, `ISOSpeed`, `ISOSpeedRatings`, `PhotographicSensitivity`, `RecommendedExposureIndex`, `StandardOutputSensitivity`) con `normalizarIso` en `src/lib/exif.ts`, y precarga inmediata en `DetectorExifCliente.tsx`. |
 | 1.9 | 2026-10-20 | Estandarización del formato de fecha a `DD/MM/AAAA` (`dd/MM/yyyy`) en todo el panel `/admin`: configuración global `admin.dateFormat: 'dd/MM/yyyy'` en `payload.config.ts`, `admin.date.displayFormat: 'dd/MM/yyyy'` en todos los campos `type: 'date'` (`Foto`, `Consulta`, `Pagina`, `Suscriptor`, `Usuario`, `IntentoAcceso` y `AjustesSitio`), y formateo `DD/MM/AAAA` en el resumen automático de `DetectorExifCliente.tsx`. |
 | 1.8 | 2026-10-17 | Blindaje de revalidación de caché, eliminación de valores hardcodeados y edición de medios/fotos: `revalidarRutasSeguras` ejecuta `revalidatePath('/', 'layout')` además de las rutas específicas; `AjustesSitio` normaliza automáticamente URLs y nombres de usuario de Instagram (`@rod_diazt`, `rod_diazt` o URL completa -> `https://instagram.com/rod_diazt`) en `beforeValidate` y revalida todas las vistas públicas (`/`, `/fotos`, `/colecciones`, `/sobre-mi`, `/contacto`, `/consulta`); `Pie.tsx` elimina el fallback hardcodeado de `instagramUrl` y `semilla.ts` actualiza el usuario oficial a `rod_diazt`; `Medio` incorpora `afterDelete` y revalida `/sobre-mi`, `/contacto` y `/og/medio/:id` al recortar o reemplazar imágenes; `Foto` evita reprocesar el archivo de disco al editar solo el punto focal (`if (ctxFoto)` en `beforeChange`) y amplía su revalidación; `Caracteristica`, `FormatoImpresion` y `TipoPapel` incorporan revalidación completa en `afterChange` y `afterDelete`. |
