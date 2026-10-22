@@ -64,3 +64,27 @@ test('esColeccionMadreListable y esColeccionHijaListable', () => {
   assert.strictEqual(esColeccionHijaListable(hijaOcultaSola, madrePub, true), false)
   assert.strictEqual(esColeccionHijaListable(hijaVisible, madreBorr, true), false)
 })
+
+test('fotos en colecciones en borrador son excluidas de portada y destacadas', () => {
+  const colecciones: Record<string, ColeccionLike> = {
+    colBorrador: { id: 'colBorrador', estado: 'borrador' },
+    colPublicada: { id: 'colPublicada', estado: 'publicada' },
+  }
+  const obtenerCol = (id: string | number) => colecciones[String(id)]
+
+  // Foto destacada pero en colección borrador -> NO visible
+  const fotoEnCatalogoBorrador: FotoLike = {
+    id: 'f10',
+    estado: 'publicada',
+    coleccion: 'colBorrador',
+  }
+  assert.strictEqual(esFotoVisible(fotoEnCatalogoBorrador, obtenerCol), false)
+
+  // Foto destacada en colección publicada -> visible
+  const fotoEnCatalogoPublicado: FotoLike = {
+    id: 'f11',
+    estado: 'publicada',
+    coleccion: 'colPublicada',
+  }
+  assert.strictEqual(esFotoVisible(fotoEnCatalogoPublicado, obtenerCol), true)
+})

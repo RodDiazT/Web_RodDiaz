@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import styles from './PlantillaEstado.module.css'
 import { Boton } from './Boton'

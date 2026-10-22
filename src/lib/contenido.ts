@@ -462,20 +462,28 @@ export function mapearFotoPublica(
 
 /**
  * Consulta la foto de portada principal del sitio (§3.1).
+ * Aplica reglas estrictas de visibilidad: si su colección está en borrador, no se muestra.
  */
 export async function fotoPortadaSitio(): Promise<ItemFotoPublica | null> {
   try {
     const configGlobal = await ajustes()
     const payload = await obtenerPayload()
 
-    // 1. Si hay foto portada definida en AjustesSitio
+    const todasColecciones = await payload.find({
+      collection: 'colecciones',
+      limit: 500,
+    })
+    const colMap = new Map(todasColecciones.docs.map((c) => [String(c.id), c]))
+    const obtenerColeccionPorId = (id: string | number) => colMap.get(String(id))
+
+    // 1. Si hay foto portada definida en AjustesSitio y su colección está publicada
     if (configGlobal?.fotoPortada) {
       const idPortada =
         typeof configGlobal.fotoPortada === 'object'
           ? configGlobal.fotoPortada.id
           : configGlobal.fotoPortada
       const doc = await payload.findByID({ collection: 'fotos', id: idPortada })
-      if (doc && doc.estado === 'publicada') {
+      if (doc && esFotoVisible(doc as any, obtenerColeccionPorId)) {
         return mapearFotoPublica(doc, null, null, true)
       }
     }
@@ -487,11 +495,14 @@ export async function fotoPortadaSitio(): Promise<ItemFotoPublica | null> {
         and: [{ estado: { equals: 'publicada' } }, { destacada: { equals: true } }],
       },
       sort: '-publicadaEn',
-      limit: 1,
+      limit: 50,
     })
 
-    if (destacadas.totalDocs > 0) {
-      return mapearFotoPublica(destacadas.docs[0], null, null, true)
+    const primeraDestacada = destacadas.docs.find((f) =>
+      esFotoVisible(f as any, obtenerColeccionPorId)
+    )
+    if (primeraDestacada) {
+      return mapearFotoPublica(primeraDestacada, null, null, true)
     }
 
     // 3. Foto visible más reciente
@@ -499,11 +510,14 @@ export async function fotoPortadaSitio(): Promise<ItemFotoPublica | null> {
       collection: 'fotos',
       where: { estado: { equals: 'publicada' } },
       sort: '-publicadaEn',
-      limit: 1,
+      limit: 50,
     })
 
-    if (recientes.totalDocs > 0) {
-      return mapearFotoPublica(recientes.docs[0], null, null, true)
+    const primeraReciente = recientes.docs.find((f) =>
+      esFotoVisible(f as any, obtenerColeccionPorId)
+    )
+    if (primeraReciente) {
+      return mapearFotoPublica(primeraReciente, null, null, true)
     }
 
     return null
@@ -514,20 +528,29 @@ export async function fotoPortadaSitio(): Promise<ItemFotoPublica | null> {
 
 /**
  * Fotos destacadas para la portada (hasta 12 visibles, por publicadaEn desc).
+ * Aplica filtro estricto de visibilidad de colección.
  */
 export async function fotosDestacadas(limite: number = 12): Promise<ItemFotoPublica[]> {
   try {
     const payload = await obtenerPayload()
+    const todasColecciones = await payload.find({
+      collection: 'colecciones',
+      limit: 500,
+    })
+    const colMap = new Map(todasColecciones.docs.map((c) => [String(c.id), c]))
+    const obtenerColeccionPorId = (id: string | number) => colMap.get(String(id))
+
     const resultado = await payload.find({
       collection: 'fotos',
       where: {
         and: [{ estado: { equals: 'publicada' } }, { destacada: { equals: true } }],
       },
       sort: '-publicadaEn',
-      limit: limite,
+      limit: Math.max(limite * 3, 50),
     })
 
-    return resultado.docs.map((d) => mapearFotoPublica(d, null, null, false))
+    const visibles = resultado.docs.filter((f) => esFotoVisible(f as any, obtenerColeccionPorId))
+    return visibles.slice(0, limite).map((d) => mapearFotoPublica(d, null, null, false))
   } catch {
     return []
   }
@@ -547,6 +570,13 @@ export async function tarjetasColecciones(): Promise<
 > {
   try {
     const payload = await obtenerPayload()
+    const todasColecciones = await payload.find({
+      collection: 'colecciones',
+      limit: 500,
+    })
+    const colMap = new Map(todasColecciones.docs.map((c) => [String(c.id), c]))
+    const obtenerColeccionPorId = (id: string | number) => colMap.get(String(id))
+
     const madres = await coleccionesListadas()
 
     const tarjetas: any[] = []
@@ -562,8 +592,8 @@ export async function tarjetasColecciones(): Promise<
         portadaDoc = await payload.findByID({ collection: 'fotos', id: idPortada }).catch(() => null)
       }
 
-      // Si no tiene portada o no está publicada, usar la primera visible
-      if (!portadaDoc || portadaDoc.estado !== 'publicada') {
+      // Si no tiene portada, no está publicada o su colección no es visible, usar la primera visible
+      if (!portadaDoc || !esFotoVisible(portadaDoc as any, obtenerColeccionPorId)) {
         portadaDoc = fotosCol.docs[0] || null
       }
 
