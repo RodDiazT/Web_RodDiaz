@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     default: 'Rod Díaz · Fotografía',
     template: '%s',
   },
-  description: 'Portafolio fotográfico y copias Fine Art impresas en taller propio de Rod Díaz.',
+  description: 'Portafolio fotográfico y copias Fine Art de Rod Díaz.',
 }
 
 export const viewport: Viewport = {

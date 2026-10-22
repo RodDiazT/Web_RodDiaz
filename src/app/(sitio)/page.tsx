@@ -7,7 +7,6 @@ import {
   ajustes,
 } from '@/lib/contenido'
 import { PortadaSitio } from '@/componentes/galeria/PortadaSitio'
-import { BloqueTaller } from '@/componentes/galeria/BloqueTaller'
 import { RejillaColecciones } from '@/componentes/galeria/RejillaColecciones'
 import { GrillaFotos } from '@/componentes/galeria/GrillaFotos'
 import { Boton } from '@/componentes/base/Boton'
@@ -141,10 +140,7 @@ export default async function PaginaInicio() {
         </section>
       )}
 
-      {/* 3. El Manifiesto del Taller Fine Art (Storytelling de la copia impresa y materialidad) */}
-      <BloqueTaller nombreSitio={nombreSitio} />
-
-      {/* 4. Selección de Fotografías Destacadas (Obras individuales) */}
+      {/* 3. Selección de Fotografías Destacadas (Obras individuales) */}
       {destacadas.length > 0 && (
         <section
           style={{

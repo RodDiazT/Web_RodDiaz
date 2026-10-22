@@ -48,7 +48,7 @@ export function PortadaSitio({
         <h1 className={styles.tituloHero}>El papel detiene el tiempo.</h1>
         <p className={styles.bajadaHero}>
           Fotografías de paisaje y naturaleza en el sur del mundo y cordilleras remotas.
-          Obras de autor concebidas para cobrar vida en copias impresas en taller propio en papeles de algodón de calidad museo.
+          Obras de autor concebidas para cobrar vida en copias Fine Art sobre papeles de algodón de calidad museo.
         </p>
 
         <div className={styles.accionesHero}>
