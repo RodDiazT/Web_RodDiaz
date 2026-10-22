@@ -4,9 +4,9 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/plataforma/despliegue.md` |
 | Tipo | Transversal |
-| Versión | 1.3 |
+| Versión | 1.4 |
 | Estado | Aprobado |
-| Fecha | 2026-10-17 |
+| Fecha | 2026-10-22 |
 | Padre | `marco-general/marco-general-proyecto.md` (1.10) |
 | Dependencias | `contenido/modelo-contenido-panel.md` (1.8), `plataforma/seo.md` (1.1) |
 | Versión del producto | v1.0 (el dominio propio y la difusión quedan en v1.x) |
@@ -203,7 +203,7 @@ No hay entidades nuevas. El archivo de respaldo no es una entidad: se genera y s
    | Recursos máximos de `sitio` | 2 GB de RAM, 2 vCPU | 1 GB de RAM, 1 vCPU |
 
    Los máximos son topes: se cobra lo que se usa. Los 2 GB en producción cubren el pico de procesar un JPG de 45 MP con `sharp` en serie (modelo de contenido §5.5, criterio 21). En `pruebas` (1 GB de RAM), para evitar saturación de memoria durante la ingesta de fotos de prueba de 45 MP (T-013), se aplica `sharp.concurrency(1)` y AVIF `effort: 3`.
-3. **Disparo de despliegues.** `railway.json` define `watchPatterns` con las rutas de código (`src/**`, `public/**`, `scripts/**`, `package.json`, el *lockfile*, `next.config.*`, `tsconfig.json`, `railway.json`). Un cambio solo en `DocumentosTecnicos/`, `README.md` o `CLAUDE.md` no despliega. Antes de cada push con código, Claude Code compila y corre las pruebas en local.
+3. **Disparo de despliegues (Exclusivo vía Git / GitHub).** El servicio `sitio` en Railway está conectado de forma obligatoria y permanente al repositorio oficial de GitHub `RodDiazT/Web_RodDiaz`. Todos los despliegues en Railway se originan **única y exclusivamente mediante commits en Git (`git push` a `main`, etiquetados en Railway como `via GitHub`)**. Queda expresamente vetado el despliegue manual aislado por terminal (`railway up` / `via CLI`), garantizando trazabilidad absoluta, paridad 1:1 entre el historial de Git y los entornos desplegados, y evitando desincronizaciones silenciosas. Adicionalmente, `railway.json` define `watchPatterns` con las rutas de código (`src/**`, `public/**`, `scripts/**`, `package.json`, el *lockfile*, `next.config.*`, `tsconfig.json`, `railway.json`). Un cambio solo en `DocumentosTecnicos/`, `README.md` o `CLAUDE.md` no dispara despliegue innecesario. Antes de cada push con código, se compila y corren las pruebas unitarias en local.
 4. **Migraciones.** En producción y pruebas la base se modifica solo con migraciones de Payload versionadas en `src/migraciones/`, ejecutadas por el comando previo al despliegue (`payload migrate`). El modo *push* automático de esquema queda solo para desarrollo local. Las migraciones son **aditivas**: una columna se quita en dos promociones (primero deja de usarse, después se borra), para que el *rollback* siempre funcione con la base ya migrada.
 5. **Promoción a producción.** Se despliega en producción el **mismo commit** que está corriendo en pruebas y pasó su revisión, con el visto bueno de Rod en el chat. Se hace con la CLI o la herramienta de Railway ("desplegar commit"). Cada promoción se anota en `_ESTADO_PROYECTO.md` cuando cambia algo visible.
 6. **Compilación sin base y calentamiento.** Durante la compilación (`NEXT_PHASE = phase-production-build`) ninguna página consulta la base: los `generateStaticParams` devuelven una lista vacía y las rutas dinámicas se generan al primer pedido (`dynamicParams = true`) y quedan en caché con las mismas etiquetas de revalidación. Al iniciar el servidor, `instrumentation.ts` espera 5 segundos, invoca primero `/api/salud` con `User-Agent: Web_RodDiaz_Warmup/1.0` (lo que purga cualquier caché estática generada sin base durante `next build`) y luego pide en local `/`, `/fotos`, `/colecciones`, `/sobre-mi`, `/contacto` y las fichas de las fotos destacadas, para que las genere el propio sitio con datos reales de PostgreSQL y no el primer visitante. Si el calentamiento falla, se registra y el sitio sigue.
@@ -473,6 +473,7 @@ Para Claude Code. Los pasos 1 a 3 se hacen junto con la base del proyecto (marco
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.4 | 2026-10-22 | Vinculación y regla de despliegue exclusivo vía Git/GitHub (`via GitHub`): conexión permanente del servicio Railway con el repositorio `RodDiazT/Web_RodDiaz`, vetando despliegues manuales por CLI (`railway up`) para asegurar sincronización 1:1, trazabilidad y automatización continua ante cada `git push` a `main` (§5.2.3 y `CLAUDE.md`). |
 | 1.3 | 2026-10-17 | Invalidación automática de caché de compilación (`revalidarRutasSeguras`) cuando `src/instrumentation.ts` invoca `/api/salud` con `User-Agent: Web_RodDiaz_Warmup/1.0` al arrancar el contenedor, e inclusión de `/contacto` en el calentamiento inicial (§5.2.6). |
 | 1.2 | 2026-10-17 | Cierre de T-008; definición operativa de ambientes: el ambiente activo inicial (`sitio-production-7f52.up.railway.app`, configurado con `ENTORNO=pruebas` y `TAREAS_AUTOMATICAS=false`) se mantiene permanentemente como entorno de QA / pruebas para validar cambios presentes y futuros, y al aprobar el QA se duplicarán los recursos hacia un entorno Oficial separado (`ENTORNO=produccion`) abierto al público. Sincronización automática de esquema PostgreSQL y semilla en `onInit`. |
 | 1.1 | 2026-10-14 | Alineado con marco 1.9, modelo de contenido 1.6 y consulta de copia 1.4: variables opcionales `TELEGRAM_BOT_TOKEN` y `TELEGRAM_CHAT_ID` para avisos push instantáneos de consultas (T-014); nota de límite de memoria `sharp.concurrency(1)` y AVIF `effort: 3` en entorno de pruebas (1 GB RAM) para ingesta de fotos de 45 MP (T-013). |

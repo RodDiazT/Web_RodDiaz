@@ -9,3 +9,4 @@
 7. Nunca publiques originales ni metadatos (EXIF o GPS) de las fotos.
 8. No edites a mano vistas derivadas (tablero, `data.json`).
 9. Cada vez que se realice una modificación, corrección o ajuste en el código o en la configuración (durante el desarrollo, QA o mantenimiento), se deben actualizar de inmediato los documentos técnicos respectivos en `DocumentosTecnicos/` a modo de documentación viva. Nunca expongas claves, tokens ni secretos en los documentos ni en el repositorio.
+10. Los despliegues a Railway se originan **exclusivamente desde GitHub (`git push` a `main`)** mediante la integración nativa de Railway con el repositorio `RodDiazT/Web_RodDiaz`. Queda prohibido desplegar vía CLI (`railway up`) para garantizar trazabilidad y consistencia 1:1 entre Git y los entornos desplegados.

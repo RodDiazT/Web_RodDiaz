@@ -14,7 +14,7 @@
 | `consultas/consulta-copia.md` | componente | 1.5 | aprobado | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
 | `paginas/paginas.md` | componente | 1.4 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `plataforma/seo.md` | transversal | 1.2 | aprobado | v1.0 | marco-general | galeria-colecciones, ficha-foto, paginas |
-| `plataforma/despliegue.md` | transversal | 1.3 | aprobado | v1.0 | marco-general | modelo-contenido-panel |
+| `plataforma/despliegue.md` | transversal | 1.4 | aprobado | v1.0 | marco-general | modelo-contenido-panel |
 
 ## Árbol
 
@@ -27,7 +27,7 @@ marco-general/marco-general-proyecto.md        [aprobado 1.10]
 ├── consultas/consulta-copia.md                [aprobado 1.5]
 ├── paginas/paginas.md                         [aprobado 1.4]
 ├── plataforma/seo.md                          [aprobado 1.2]
-└── plataforma/despliegue.md                   [aprobado 1.3]
+└── plataforma/despliegue.md                   [aprobado 1.4]
 ```
 
 ## Tareas del dueño
@@ -230,9 +230,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.10]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.3",
-      "actualizado": "2026-10-17",
-      "notas": "1.3: purga automática de caché de compilación estática durante el calentamiento inicial y ambiente permanente de QA."
+      "version": "1.4",
+      "actualizado": "2026-10-22",
+      "notas": "1.4: vinculación permanente y regla de despliegue exclusivo vía Git/GitHub (via GitHub) en Railway, vetando deploys por CLI."
     }
   ],
   "tareas": [
