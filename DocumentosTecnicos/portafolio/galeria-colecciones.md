@@ -4,9 +4,9 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/portafolio/galeria-colecciones.md` |
 | Tipo | Componente |
-| Versión | 1.7 |
+| Versión | 1.8 |
 | Estado | Aprobado |
-| Fecha | 2026-10-21 |
+| Fecha | 2026-10-22 |
 | Padre | `marco-general/marco-general-proyecto.md` (1.3, que incorpora los cambios del §11) |
 | Dependencias | `identidad/sistema-de-diseno.md` (1.0), `contenido/modelo-contenido-panel.md` (1.1) |
 | Versión del producto | v1.0 |
@@ -78,11 +78,12 @@ Usa los tokens, patrones y componentes base del sistema de diseño (`TarjetaCole
 ### 3.1 Qué percibe el visitante en los primeros segundos (portada)
 
 1. **Encabezado sobrio** (sistema de diseño §3.1).
-2. **Hero Editorial y Foto de portada con aire perimetral**:
-   - Respiro superior generoso respecto a la línea del encabezado (`var(--esp-7)` en escritorio, `var(--esp-6)` en móvil), evitando colisiones visuales en fotos verticales y panorámicas.
+2. **Hero Inmersivo de portada a pantalla completa**:
+   - Fotografía nítida (100% de calidad, sin blur para preservar la textura y fidelidad Fine Art), ocupando la pantalla completa (`min-height: calc(100svh - var(--alto-encabezado))`).
+   - Velo cinemático oscuro y gradiente radial (`rgba(21, 21, 21, 0.4)` a `0.85`), garantizando contraste tipográfico superior y legibilidad sin oscurecer los detalles del paisaje.
    - Declaración de autoría inmediata (*«Rod Díaz · Fotografía Fine Art»*), titular de impacto (*«El papel detiene el tiempo.»*) y bajada clara comunicando la mirada fotográfica y la disponibilidad de copias impresas en taller propio en papeles de algodón de museo.
    - Acciones directas sobrias: *«Explorar colecciones ↓»* y *«Ver catálogo de fotos →»*.
-   - **La fotografía de portada**, enmarcada con proporciones reales (`max-height: min(76svh, 820px)`), con pie de obra (título, lugar) y enlace directo a su ficha técnica y opciones de copia.
+   - Pie de obra flotante sutil con título, lugar y enlace directo a la ficha técnica de la obra.
 
 Al bajar, la portada sigue con un arco narrativo claro:
 
@@ -470,6 +471,7 @@ Para Claude Code, en el paso 4 del plan del marco (§9.2), después del modelo d
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.8 | 2026-10-22 | Hero Inmersivo de portada a pantalla completa (`min-height: calc(100svh - var(--alto-encabezado))`): la fotografía se despliega en resolución nítida nativa (sin degradación por blur) con velo cinemático oscuro y gradiente para contraste y legibilidad óptima; texto editorial y acciones centradas; pie de obra sutil flotante con acceso a ficha técnica. |
 | 1.7 | 2026-10-21 | Rediseño editorial y narrativa integral del Home: respiro vertical superior contra el encabezado (`padding-top` y `max-height` calibrados para fotos verticales/panorámicas); apertura con Hero Editorial tipográfico (*«El papel detiene el tiempo»*) con declaración de autor y llamada directa a explorar colecciones y catálogo; incorporación del bloque de storytelling del taller Fine Art (`BloqueTaller`) con los 3 pilares de materialidad (taller propio, papeles 100% algodón y asesoría); enriquecimiento contextual en cabeceras de Colecciones y Destacadas; y nuevo bloque de cierre cálido invitando a consultar por obras y formatos para espacios. |
 | 1.6 | 2026-10-20 | Proporción real y cero recorte en `TarjetaColeccion`: abandono de proporciones forzadas en favor del ratio nativo exacto de la foto de portada (`ancho / alto`), garantizando que obras verticales (como cordilleras con sendero) y panorámicas extensas se vean al 100% de su composición; las tarjetas panorámicas (`ratio >= 1.85`) se extienden al 100% del ancho (`grid-column: 1 / -1`); cuadrícula fluida de 2 columnas con `align-items: start`; y micro-interacción con zoom sutil `scale(1.025)`. |
 | 1.5 | 2026-10-20 | Optimización visual para paisajes y panorámicas extensas: `RejillaColecciones` pasa a 2 columnas amplias en escritorio con tarjetas en proporción horizontal `3:2`; en `GrillaFotos`/`ItemGrilla` las panorámicas (`proporcion >= 2.0`) ocupan el 100 % del ancho de la fila de principio a fin y las filas con pocas fotos crecen naturalmente sin quedar chicas a un costado; `PortadaSitio` calibra su `max-width` según `--ratio-portada`; y se corrige `DYNAMIC_SERVER_USAGE` (Error 500) en `/colecciones/[slug]` y `/fotos`. |

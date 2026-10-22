@@ -9,7 +9,7 @@
 | `marco-general/marco-general-proyecto.md` | marco | 1.10 | aprobado | v1.0 | — | — |
 | `identidad/sistema-de-diseno.md` | transversal | 1.5 | aprobado | v1.0 | marco-general | marco-general |
 | `contenido/modelo-contenido-panel.md` | componente | 1.10 | aprobado | v1.0 | marco-general | marco-general |
-| `portafolio/galeria-colecciones.md` | componente | 1.7 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
+| `portafolio/galeria-colecciones.md` | componente | 1.8 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `portafolio/ficha-foto.md` | componente | 1.5 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
 | `consultas/consulta-copia.md` | componente | 1.5 | aprobado | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
 | `paginas/paginas.md` | componente | 1.4 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
@@ -22,7 +22,7 @@
 marco-general/marco-general-proyecto.md        [aprobado 1.10]
 ├── identidad/sistema-de-diseno.md             [aprobado 1.5]
 ├── contenido/modelo-contenido-panel.md        [aprobado 1.10]
-├── portafolio/galeria-colecciones.md          [aprobado 1.7]
+├── portafolio/galeria-colecciones.md          [aprobado 1.8]
 ├── portafolio/ficha-foto.md                   [aprobado 1.5]
 ├── consultas/consulta-copia.md                [aprobado 1.5]
 ├── paginas/paginas.md                         [aprobado 1.4]
@@ -144,9 +144,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.10]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.7",
-      "actualizado": "2026-10-21",
-      "notas": "1.7: rediseño editorial y narrativa integral del Home con Hero Editorial, BloqueTaller de impresión Fine Art y respiro superior."
+      "version": "1.8",
+      "actualizado": "2026-10-22",
+      "notas": "1.8: Hero Inmersivo a pantalla completa con fotografía nítida, velo cinemático y tipografía de autor."
     },
     {
       "id": "ficha-foto",

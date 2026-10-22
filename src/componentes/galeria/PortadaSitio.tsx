@@ -17,57 +17,63 @@ export function PortadaSitio({
   className = '',
 }: PortadaSitioProps) {
   const pieFoto = [foto.titulo, foto.lugar].filter(Boolean).join(' · ')
-  const ratio = foto.ancho && foto.alto ? foto.ancho / foto.alto : 1.5
+  const posX = typeof foto.focalX === 'number' ? `${foto.focalX}%` : 'center'
+  const posY = typeof foto.focalY === 'number' ? `${foto.focalY}%` : 'center'
 
   return (
-    <section className={`${styles.seccionPortada} ${className}`} aria-label="Apertura y fotografía de portada">
-      {/* 1. Hero Editorial (Apertura de autor con storytelling e intención clara) */}
-      <div className={styles.cabeceraHero}>
+    <section
+      className={`${styles.seccionPortada} ${className}`}
+      aria-label="Apertura y fotografía de portada"
+    >
+      {/* 1. Fondo inmersivo: Fotografía a pantalla completa nítida */}
+      <div
+        className={styles.marcoFondo}
+        style={{ ['--posicion-focal' as any]: `${posX} ${posY}` }}
+      >
+        <MarcoFoto
+          foto={foto}
+          modo="portada"
+          prioridad
+          ajustarContenedor
+          sizes="100vw"
+        />
+      </div>
+
+      {/* 2. Velo cinemático oscuro para contraste y legibilidad impecable */}
+      <div className={styles.velo} aria-hidden="true" />
+
+      {/* 3. Contenido editorial centrado */}
+      <div className={styles.contenidoHero}>
         <p className={styles.eyebrow}>{nombreSitio} · Fotografía Fine Art</p>
         <h1 className={styles.tituloHero}>El papel detiene el tiempo.</h1>
         <p className={styles.bajadaHero}>
-          Fotografías de paisaje y naturaleza en el sur del mundo y cordilleras remotas. Obras de autor concebidas para cobrar vida en copias impresas en taller propio en papeles de algodón de calidad museo.
+          Fotografías de paisaje y naturaleza en el sur del mundo y cordilleras remotas.
+          Obras de autor concebidas para cobrar vida en copias impresas en taller propio en papeles de algodón de calidad museo.
         </p>
+
         <div className={styles.accionesHero}>
           <Boton variante="secundario" href="#seccion-colecciones">
             Explorar colecciones ↓
           </Boton>
-          <Boton variante="enlace" href="/fotos">
+          <Boton variante="enlace" href="/fotos" style={{ color: '#FFFFFF' }}>
             Ver catálogo de fotos →
           </Boton>
         </div>
       </div>
 
-      {/* 2. La fotografía protagonista con respiro y marco de autor */}
-      <div className={styles.marcoHero}>
-        <Link
-          href={foto.href}
-          className={styles.enlacePortada}
-          aria-label={`Ver ficha de la fotografía ${foto.titulo}`}
-        >
-          <div
-            className={styles.contenedorFoto}
-            style={{ ['--ratio-portada' as any]: ratio.toFixed(3) }}
+      {/* 4. Pie de obra flotante sutil con acceso a su ficha técnica */}
+      {pieFoto && (
+        <div className={styles.pieHero}>
+          <Link
+            href={foto.href}
+            className={styles.enlaceObra}
+            aria-label={`Ver detalles y ficha de la obra ${foto.titulo}`}
           >
-            <MarcoFoto
-              foto={foto}
-              modo="portada"
-              prioridad
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1400px"
-            />
-          </div>
-
-          <div className={styles.pieFoto}>
-            <div className={styles.infoFoto}>
-              <span className={styles.tituloObra}>{foto.titulo}</span>
-              {foto.lugar && <span className={styles.lugarObra}> · {foto.lugar}</span>}
-            </div>
-            <span className={styles.enlaceFicha}>
-              Ver detalles de la obra & opciones de copia <span aria-hidden="true">→</span>
-            </span>
-          </div>
-        </Link>
-      </div>
+            <span>Obra en portada: {pieFoto}</span>
+            <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+      )}
     </section>
   )
 }
