@@ -7,9 +7,9 @@
 | Ruta | Tipo | Versión | Estado | Producto | Padre | Dependencias |
 |---|---|---|---|---|---|---|
 | `marco-general/marco-general-proyecto.md` | marco | 1.10 | aprobado | v1.0 | — | — |
-| `identidad/sistema-de-diseno.md` | transversal | 1.5 | aprobado | v1.0 | marco-general | marco-general |
+| `identidad/sistema-de-diseno.md` | transversal | 1.6 | aprobado | v1.0 | marco-general | marco-general |
 | `contenido/modelo-contenido-panel.md` | componente | 1.11 | aprobado | v1.0 | marco-general | marco-general |
-| `portafolio/galeria-colecciones.md` | componente | 1.9 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
+| `portafolio/galeria-colecciones.md` | componente | 1.10 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
 | `portafolio/ficha-foto.md` | componente | 1.5 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel, galeria-colecciones |
 | `consultas/consulta-copia.md` | componente | 1.5 | aprobado | v1.0 | marco-general | modelo-contenido-panel, ficha-foto |
 | `paginas/paginas.md` | componente | 1.4 | aprobado | v1.0 | marco-general | sistema-de-diseno, modelo-contenido-panel |
@@ -20,9 +20,9 @@
 
 ```
 marco-general/marco-general-proyecto.md        [aprobado 1.10]
-├── identidad/sistema-de-diseno.md             [aprobado 1.5]
+├── identidad/sistema-de-diseno.md             [aprobado 1.6]
 ├── contenido/modelo-contenido-panel.md        [aprobado 1.11]
-├── portafolio/galeria-colecciones.md          [aprobado 1.9]
+├── portafolio/galeria-colecciones.md          [aprobado 1.10]
 ├── portafolio/ficha-foto.md                   [aprobado 1.5]
 ├── consultas/consulta-copia.md                [aprobado 1.5]
 ├── paginas/paginas.md                         [aprobado 1.4]
@@ -111,9 +111,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.10]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.5",
-      "actualizado": "2026-10-20",
-      "notas": "1.5: aplicación del Manual de Marca 2026 (silueta del Cerro El Plomo, logotipo horizontal en encabezado y Open Graph, apilado y monograma RD en /admin, y favicon oficial)."
+      "version": "1.6",
+      "actualizado": "2026-10-23",
+      "notas": "1.6: estandarización de TarjetaColeccion a proporción uniforme 3:2 con encuadre de verticales por punto focal para equilibrio visual en cuadrículas de todo el sitio."
     },
     {
       "id": "modelo-contenido-panel",
@@ -144,9 +144,9 @@ marco-general/marco-general-proyecto.md        [aprobado 1.10]
       ],
       "fase": "v1.0",
       "estado": "aprobado",
-      "version": "1.9",
-      "actualizado": "2026-10-22",
-      "notas": "1.9: compresión editorial de sub-colecciones en tarjetas de portada dentro de colecciones madre."
+      "version": "1.10",
+      "actualizado": "2026-10-23",
+      "notas": "1.10: proporción uniforme 3:2 en TarjetaColeccion para eliminar el desequilibrio y alinear títulos en cuadrículas de todo el sitio."
     },
     {
       "id": "ficha-foto",

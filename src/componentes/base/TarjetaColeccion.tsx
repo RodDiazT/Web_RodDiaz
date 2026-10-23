@@ -36,10 +36,12 @@ export function TarjetaColeccion({
 
   // Panorámica si la relación de aspecto es >= 1.85 (ej. 16:9 amplio, 2:1, 3:1)
   const esPanoramica = ratioNumero >= 1.85
-  const ratioString =
-    portada?.ancho && portada?.alto
-      ? `${portada.ancho} / ${portada.alto}`
-      : '3 / 2'
+  // Proporción uniforme 3:2 para equilibrar la cuadrícula en toda la web:
+  // tanto obras verticales como horizontales estándar comparten la misma altura simétrica y alineación de títulos.
+  // Las panorámicas a ancho completo conservan su formato cinematográfico nativo.
+  const ratioString = esPanoramica
+    ? `${portada?.ancho} / ${portada?.alto}`
+    : '3 / 2'
 
   return (
     <Link

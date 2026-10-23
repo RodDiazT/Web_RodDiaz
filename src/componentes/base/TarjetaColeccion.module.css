@@ -25,6 +25,7 @@
 }
 
 .portadaWrapper {
+  aspect-ratio: 3 / 2;
   width: 100%;
   overflow: hidden;
   background-color: var(--color-superficie);

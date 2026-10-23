@@ -4,9 +4,9 @@
 |---|---|
 | Ruta | `DocumentosTecnicos/portafolio/galeria-colecciones.md` |
 | Tipo | Componente |
-| Versión | 1.9 |
+| Versión | 1.10 |
 | Estado | Aprobado |
-| Fecha | 2026-10-22 |
+| Fecha | 2026-10-23 |
 | Padre | `marco-general/marco-general-proyecto.md` (1.3, que incorpora los cambios del §11) |
 | Dependencias | `identidad/sistema-de-diseno.md` (1.0), `contenido/modelo-contenido-panel.md` (1.1) |
 | Versión del producto | v1.0 |
@@ -102,9 +102,8 @@ Título "Colecciones" (`--titulo-lg`) y una retícula con las tarjetas de **toda
 
 **Tarjetas** (`TarjetaColeccion`):
 
-- **Proporción real sin recortes**: La tarjeta de cada colección abandona cualquier `aspect-ratio` rígido forzado y adopta la proporción exacta de su foto de portada (`${ancho} / ${alto}`). La fotografía se muestra íntegra, con 0% de recorte (cumbres, árboles y extremos panorámicos completos).
+- **Proporción uniforme 3:2 con punto focal**: Las tarjetas de colecciones estándar (tanto obras verticales como horizontales) adoptan la proporción uniforme `3:2` para garantizar un equilibrio visual impecable, simetría en cuadrículas de 2 columnas y alineación perfecta de títulos y conteos. Las fotografías verticales se encuadran con `object-fit: cover` respetando el punto focal asignado en el panel, preservando la obra íntegra al 100% sin recortes para la vista dedicada de la colección o ficha.
 - **Tratamiento panorámico expansivo**: Si la foto de portada es panorámica (`ratio >= 1.85`), la tarjeta toma automáticamente el ancho total (`grid-column: 1 / -1`), desplegando la obra en formato cinematográfico completo.
-- **Cuadrícula fluida**: En pantalla de escritorio y tableta, las colecciones verticales y horizontales estándar conviven en 2 columnas con `align-items: start`, respetando sus alturas reales.
 - **Micro-interacción**: Zoom sutil (`scale(1.025)`) al pasar el puntero sobre la fotografía y respuesta táctil inmediata (`scale(0.98)`) al presionar.
 - El conteo suma las fotos visibles de la madre y de todas sus hijas ("1 foto", "12 fotos").
 
@@ -265,7 +264,7 @@ Token nuevo de este componente (en `GrillaFotos.module.css`, a partir de los tok
 1. **Visibilidad.** Toda lista usa `lib/visibilidad.ts` (`modelo-contenido-panel` §5.2.5). Este componente no vuelve a definir qué es visible.
 2. **Orden de `/fotos`:** fijadas por `ordenFijada` ascendente; luego el resto por `publicadaEn` descendente; como desempate final, `id`. Si un filtro está activo, se aplica el mismo orden sobre el subconjunto.
 3. **Orden de una colección:** fotos propias por `Foto.orden`; hijas por `Coleccion.orden` y, dentro de cada hija, fotos por `Foto.orden` (`modelo-contenido-panel` §5.2.5). Las marcas `fijada` y `destacada` no alteran el orden de una colección.
-4. **Visualización de tarjetas sin recortes.** `TarjetaColeccion` respeta la proporción nativa de la foto de portada asignada por Rod. Si la foto es panorámica (`ratio >= 1.85`), la tarjeta abarca el ancho completo (`grid-column: 1 / -1`); si es vertical u horizontal estándar, se ubica en la cuadrícula de 2 columnas con alineación superior limpia, garantizando 0% de recorte en cualquier orientación fotográfica.
+4. **Visualización de tarjetas y proporción uniforme.** `TarjetaColeccion` utiliza una proporción uniforme `3:2` para todas las colecciones estándar (tanto obras verticales como horizontales), garantizando un equilibrio visual perfecto, simetría en la cuadrícula de 2 columnas y alineación horizontal de títulos y conteos. Las obras verticales se encuadran en la caja con `object-fit: cover` respetando el punto focal asignado por Rod en el panel. Si la foto de portada es panorámica (`ratio >= 1.85`), la tarjeta toma el ancho completo (`grid-column: 1 / -1`) en formato cinematográfico. En la vista dedicada de cada colección y en su ficha individual, todas las fotografías se despliegan en su proporción nativa exacta con 0% de recorte.
 5. **Destacadas en la portada:** hasta 12 fotos visibles con `destacada = true`, por `publicadaEn` descendente.
 6. **Chips en una colección:** se muestran si el conjunto de fotos visibles de la colección (en una madre, propias más hijas) reúne **dos o más** características distintas. En `/fotos` se muestran siempre que exista al menos una característica con fotos visibles.
 7. **Conteo de una tarjeta:** fotos visibles de la colección y, si es madre, de sus hijas publicadas, tengan o no página propia.
@@ -469,6 +468,7 @@ Para Claude Code, en el paso 4 del plan del marco (§9.2), después del modelo d
 
 | Versión | Fecha | Cambio |
 |---|---|---|
+| 1.10 | 2026-10-23 | Proporción uniforme 3:2 en `TarjetaColeccion` para equilibrar cuadrículas en toda la web: se elimina el desequilibrio y ruptura de línea base cuando conviven fotos verticales y horizontales en cuadrículas de 2 columnas; las obras verticales se encuadran en la caja 3:2 con `object-fit: cover` respetando el punto focal de Payload, garantizando simetría y alineación de títulos. |
 | 1.9 | 2026-10-22 | Compresión editorial de sub-colecciones en la vista de colección madre (`/colecciones/[slug]`): en vez de desplegar la grilla completa de todas las fotos de cada hija en cascada, las sub-categorías se muestran comprimidas como tarjetas de portada (`RejillaColecciones`) con UNA foto representativa (portada asignada o primera foto) y el conteo de obras. Al hacer clic, se navega a la URL dedicada de la hija con retorno jerárquico. |
 | 1.8 | 2026-10-22 | Hero Inmersivo de portada a pantalla completa (`min-height: calc(100svh - var(--alto-encabezado))`): la fotografía se despliega en resolución nítida nativa (sin degradación por blur) con velo cinemático oscuro y gradiente para contraste y legibilidad óptima; texto editorial y acciones centradas; pie de obra sutil flotante con acceso a ficha técnica. |
 | 1.7 | 2026-10-21 | Rediseño editorial y narrativa integral del Home: respiro vertical superior contra el encabezado (`padding-top` y `max-height` calibrados para fotos verticales/panorámicas); apertura con Hero Editorial tipográfico (*«El papel detiene el tiempo»*) con declaración de autor y llamada directa a explorar colecciones y catálogo; incorporación del bloque de storytelling del taller Fine Art (`BloqueTaller`) con los 3 pilares de materialidad (taller propio, papeles 100% algodón y asesoría); enriquecimiento contextual en cabeceras de Colecciones y Destacadas; y nuevo bloque de cierre cálido invitando a consultar por obras y formatos para espacios. |
